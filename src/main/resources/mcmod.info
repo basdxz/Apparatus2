@@ -7,7 +7,7 @@
     "mcversion": "${mcversion}",
     "url": " ",
     "updateUrl": " ",
-    "authorList": "basdxz",
+    "authorList": ["basdxz"],
     "credits": " ",
     "logoFile": "",
     "screenshots": [],
