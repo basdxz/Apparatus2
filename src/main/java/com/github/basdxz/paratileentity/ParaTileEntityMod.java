@@ -1,12 +1,12 @@
-package com.github.basdxz.examplemod;
+package com.github.basdxz.paratileentity;
 
 import net.minecraft.init.Blocks;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 
-@Mod(modid = ExampleMod.MODID, name = ExampleMod.NAME, version = ExampleMod.VERSION)
-public class ExampleMod {
+@Mod(modid = ParaTileEntityMod.MODID, name = ParaTileEntityMod.NAME, version = ParaTileEntityMod.VERSION)
+public class ParaTileEntityMod {
     public static final String MODID = "examplemod";
     public static final String NAME = "Example Mod";
     public static final String VERSION = "@version@";
