@@ -1,6 +1,8 @@
 package com.github.basdxz.paratileentity;
 
-import net.minecraft.init.Blocks;
+import com.github.basdxz.paratileentity.defenition.ParaTile;
+import com.github.basdxz.paratileentity.defenition.ParaTileManager;
+import lombok.val;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -13,11 +15,8 @@ public class ParaTileEntityMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        //Some example code
-        System.out.println("DIRT BLOCK 2 >> " + Blocks.dirt.getUnlocalizedName());
+        val wolliWoo = new ParaTileManager();
 
-        System.out.println(MODID);
-        System.out.println(MODID);
-        System.out.println(MODID);
+        wolliWoo.registerTile(ParaTile.class, 1);
     }
 }

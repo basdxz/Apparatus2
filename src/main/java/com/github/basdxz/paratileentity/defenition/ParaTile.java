@@ -1,6 +1,8 @@
 package com.github.basdxz.paratileentity.defenition;
 
-import lombok.*;
+import lombok.NoArgsConstructor;
 
-public abstract class ParaTile {
+@NoArgsConstructor
+public class ParaTile {
+
 }
