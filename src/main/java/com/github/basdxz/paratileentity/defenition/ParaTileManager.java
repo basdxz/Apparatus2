@@ -26,25 +26,18 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     @Override
-    public void registerTile(@NonNull Class<? extends IParaTile> tileClass, int id) {
-        IParaTile tile;
-
-        try {
-            tile = tileClass.getDeclaredConstructor(IParaTileManager.class).newInstance(this);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("tileClass must have ClassName(IParaTileManager manager) constructor.");
-        }
-
+    public void registerTile(IParaTile tile) {
         if (tileIDBiMap.containsKey(tile))
             throw new IllegalArgumentException("Tile already registered.");
 
-        if (IParaTileManager.isTileIDInvalid(id))
+        if (IParaTileManager.isTileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
 
-        if (tileIDBiMap.containsValue(id))
+        if (tileIDBiMap.containsValue(tile.tileID()))
             throw new IllegalArgumentException("ID already taken.");
 
-        tileIDBiMap.put(tile, id);
+        tileIDBiMap.put(tile, tile.tileID());
+        tile.registerManager(this);
     }
 
     @Override

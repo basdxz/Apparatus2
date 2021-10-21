@@ -17,7 +17,7 @@ public interface IParaTileManager {
 
     Class<? extends ItemBlock> getItemClass();
 
-    void registerTile(@NonNull Class<? extends IParaTile> tileClass, int id);
+    void registerTile(IParaTile tile);
 
     IParaTile getTile(int id);
 
