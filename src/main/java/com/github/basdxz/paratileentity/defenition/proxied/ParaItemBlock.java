@@ -6,5 +6,11 @@ import net.minecraft.item.ItemBlock;
 public class ParaItemBlock extends ItemBlock implements IParaItemBlock {
     public ParaItemBlock(Block block) {
         super(block);
+        init();
+    }
+
+    protected void init() {
+        setMaxDamage(0);
+        setHasSubtypes(true);
     }
 }

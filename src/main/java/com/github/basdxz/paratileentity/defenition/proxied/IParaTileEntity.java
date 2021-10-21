@@ -1,6 +1,6 @@
 package com.github.basdxz.paratileentity.defenition.proxied;
 
-import lombok.*;
+import net.minecraft.block.ITileEntityProvider;
 
-public interface IParaTileEntity {
+public interface IParaTileEntity extends ITileEntityProvider {
 }

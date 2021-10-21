@@ -1,15 +1,32 @@
 package com.github.basdxz.paratileentity.defenition;
 
+import com.github.basdxz.paratileentity.defenition.proxied.*;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.val;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
+public class ParaTileManager implements IParaTileManager {
+    @Getter
+    private final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
 
-public class ParaTileManager {
-    public static final int MAX_TILE_ID = Short.MAX_VALUE;
-    private final BiMap<ParaTile, Integer> tileIDBiMap = HashBiMap.create();
+    protected final BiMap<ParaTile, Integer> tileIDBiMap = HashBiMap.create();
+    @Getter
+    protected final String name;
+    protected final IParaBlock block;
+    protected final IParaTileEntity tileEntity;
 
+    public ParaTileManager(String name) {
+        this.name = name;
+        block = new ParaBlock(this);
+        tileEntity = new ParaTileEntity();
+    }
+
+    @Override
     public void registerTile(@NonNull Class<? extends ParaTile> tileClass, int id) {
         ParaTile tile;
 
@@ -23,7 +40,7 @@ public class ParaTileManager {
         if (tileIDBiMap.containsKey(tile))
             throw new IllegalArgumentException("Tile already registered.");
 
-        if (!isTileIDValid(id))
+        if (!IParaTileManager.isTileIDValid(id))
             throw new IllegalArgumentException("Tile ID out of bounds.");
 
         if (tileIDBiMap.containsValue(id))
@@ -32,7 +49,8 @@ public class ParaTileManager {
         tileIDBiMap.put(tile, id);
     }
 
-    public static boolean isTileIDValid(int id) {
-        return id > 0 && id <= MAX_TILE_ID;
+    @Override
+    public TileEntity createNewTileEntity(World world, int meta) {
+        return tileEntity.createNewTileEntity(world, meta);
     }
 }
