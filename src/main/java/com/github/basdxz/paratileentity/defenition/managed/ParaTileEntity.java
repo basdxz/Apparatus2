@@ -46,7 +46,7 @@ public class ParaTileEntity extends TileEntity implements IParaTileEntity {
             return;
         val block = getBlockType();
         if (block == null)
-            throw new IllegalStateException("Block was null on update, this means I made a mistake.");
+            throw new IllegalStateException("Block was null on update.");
         if (!(block instanceof IParaBlock))
             throw new IllegalStateException("Bound block hasn't implemented IParaBlock");
         manager = ((IParaBlock) block).manager();
