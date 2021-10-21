@@ -19,7 +19,7 @@ public interface IParaTileEntity extends IParaManaged {
 
     int tileID();
 
-    TileEntity createNewTileEntity();
+    TileEntity newTileEntity();
 
     boolean clientSide();
 

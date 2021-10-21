@@ -9,7 +9,7 @@ public class ParaTile_two extends ParaTile {
 
     @Override
     public boolean canUpdate() {
-        return true;
+        return false;
     }
 
     @Override

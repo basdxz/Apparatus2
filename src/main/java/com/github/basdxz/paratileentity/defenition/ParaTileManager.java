@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.github.basdxz.paratileentity.defenition.managed.ParaTileEntity.registerTileEntity;
+
 @Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
     @Getter
@@ -29,7 +31,7 @@ public class ParaTileManager implements IParaTileManager {
     public ParaTileManager(String name) {
         this.name = name;
         paraBlock = new ParaBlock(this);
-        paraTileEntity = new ParaTileEntity(this);
+        paraTileEntity = registerTileEntity(this);
     }
 
     @Override
