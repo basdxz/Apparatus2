@@ -21,6 +21,37 @@ public abstract class ParaTileEntityAbstract extends TileEntity implements IPara
     }
 
     @Override
+    public void tileID(int tileID) {
+        if (IParaTileManager.tileIDInvalid(tileID))
+            throw new IllegalArgumentException("Tile ID out of bounds.");
+        blockMetadata = tileID;
+    }
+
+    @Override
+    public int tileID() {
+        return IParaTileManager.tileIDInvalid(blockMetadata) ? 0 : blockMetadata;
+    }
+
+    @Override
+    public IParaTile paraTile() {
+        return manager.paraTile(tileID());
+    }
+
+    @Override
+    public boolean clientSide() {
+        if (!hasWorldObj())
+            throw new IllegalStateException("Can't check without valid world object.");
+        return worldObj.isRemote;
+    }
+
+    @Override
+    public boolean serverSide() {
+        if (!hasWorldObj())
+            throw new IllegalStateException("Can't check without valid world object.");
+        return !worldObj.isRemote;
+    }
+
+    @Override
     public void updateEntity() {
         proxiedTileEntity().updateEntity();
     }
@@ -52,36 +83,5 @@ public abstract class ParaTileEntityAbstract extends TileEntity implements IPara
     @Override
     public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
         readFromNBT(packet.func_148857_g());
-    }
-
-    @Override
-    public void tileID(int tileID) {
-        if (IParaTileManager.tileIDInvalid(tileID))
-            throw new IllegalArgumentException("Tile ID out of bounds.");
-        blockMetadata = tileID;
-    }
-
-    @Override
-    public int tileID() {
-        return IParaTileManager.tileIDInvalid(blockMetadata) ? 0 : blockMetadata;
-    }
-
-    @Override
-    public IParaTile paraTile() {
-        return manager.paraTile(tileID());
-    }
-
-    @Override
-    public boolean clientSide() {
-        if (!hasWorldObj())
-            throw new IllegalStateException("Can't check without valid world object.");
-        return worldObj.isRemote;
-    }
-
-    @Override
-    public boolean serverSide() {
-        if (!hasWorldObj())
-            throw new IllegalStateException("Can't check without valid world object.");
-        return !worldObj.isRemote;
     }
 }
