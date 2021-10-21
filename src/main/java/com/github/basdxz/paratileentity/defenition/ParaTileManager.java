@@ -6,13 +6,21 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.val;
+import lombok.var;
 import net.minecraft.item.ItemBlock;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ParaTileManager implements IParaTileManager {
     @Getter
     private final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
-
-    protected final BiMap<IParaTile, Integer> tileIDBiMap = HashBiMap.create();
+    protected final List<IParaTile> tileList = Arrays.asList(new IParaTile[MAX_TILE_ID + 1]);
+    //protected final BiMap<IParaTile, Integer> tileIDBiMap = HashBiMap.create();
     @Getter
     protected final String name;
     protected final IParaBlock block;
@@ -26,33 +34,33 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     @Override
-    public void registerTile(IParaTile tile) {
-        if (tileIDBiMap.containsKey(tile))
-            throw new IllegalArgumentException("Tile already registered.");
-
+    public void registerTile(@NonNull IParaTile tile) {
         if (IParaTileManager.isTileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
 
-        if (tileIDBiMap.containsValue(tile.tileID()))
+        if (tileList.get(tile.tileID()) != null)
             throw new IllegalArgumentException("ID already taken.");
 
-        tileIDBiMap.put(tile, tile.tileID());
+        tileList.set(tile.tileID(), tile);
         tile.registerManager(this);
     }
 
     @Override
-    public IParaTile getTile(int id) {
-        if (IParaTileManager.isTileIDInvalid(id))
+    public IParaTile getTile(int tileID) {
+        if (IParaTileManager.isTileIDInvalid(tileID))
             throw new IllegalArgumentException("Tile ID out of bounds.");
 
-        if (!tileIDBiMap.containsValue(id))
+        if (tileList.get(tileID) == null)
             throw new IllegalArgumentException("Tile ID doesn't exist.");
 
-        return tileIDBiMap.inverse().get(id);
+        return tileList.get(tileID);
     }
 
     @Override
     public Iterable<Integer> allTileIDs() {
-        return tileIDBiMap.values();
+        return IntStream.range(0, tileList.size())
+                .filter(i -> tileList.get(i) != null)
+                .boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

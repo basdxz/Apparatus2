@@ -54,7 +54,7 @@ public abstract class ParaTile implements Cloneable, IParaTile {
         try {
             return (ParaTile) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
+            throw new AssertionError("Failed to create ParaTile!");
         }
     }
 }

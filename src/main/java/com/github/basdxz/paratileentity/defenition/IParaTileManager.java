@@ -7,6 +7,7 @@ import net.minecraft.item.ItemBlock;
 
 public interface IParaTileManager {
     int MAX_TILE_ID = Short.MAX_VALUE;
+
     static boolean isTileIDInvalid(int id) {
         return id < 0 || id > MAX_TILE_ID;
     }
