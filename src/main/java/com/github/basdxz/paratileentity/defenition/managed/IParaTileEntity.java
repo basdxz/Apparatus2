@@ -7,21 +7,21 @@ import net.minecraft.tileentity.TileEntity;
 public interface IParaTileEntity extends IParaManaged {
     int DEFAULT_TILE_ENTITY_PACKET_FLAG = 0;
 
-    default IProxiedTileEntity getProxiedTileEntity() {
-        return getTile();
+    default IProxiedTileEntity proxiedTileEntity() {
+        return paraTile();
     }
 
-    default IParaTile getTile() {
-        return getManager().getTile(getTileID());
+    default IParaTile paraTile() {
+        return manager().paraTile(tileID());
     }
 
-    void setTileID(int tileID);
+    void tileID(int tileID);
 
-    int getTileID();
+    int tileID();
 
     TileEntity createNewTileEntity();
 
-    boolean isClientSide();
+    boolean clientSide();
 
-    boolean isServerSide();
+    boolean serverSide();
 }

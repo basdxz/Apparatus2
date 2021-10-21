@@ -5,7 +5,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import lombok.val;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,14 +19,15 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+@Getter
+@Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock {
-    @Getter
     protected final IParaTileManager manager;
 
     public ParaBlock(IParaTileManager manager) {
         super(Material.rock);
         this.manager = manager;
-        init(manager.getItemClass(), manager.getName());
+        init(manager.itemClass(), manager.name());
     }
 
     protected void init(Class<? extends ItemBlock> itemClass, String name) {
@@ -33,8 +36,13 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     }
 
     @Override
+    public Block block() {
+        return this;
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return manager.getTileEntity().createNewTileEntity();
+        return manager.paraTileEntity().createNewTileEntity();
     }
 
     @SuppressWarnings("unchecked") // Unavoidable due to Minecraft providing a raw list.
@@ -50,6 +58,6 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
         val tTileEntity = world.getTileEntity(posX, posY, posZ);
         if (!(tTileEntity instanceof IParaTileEntity))
             throw new IllegalStateException("Block bound TileEntity must implement IParaTileEntity.");
-        return ((IParaTileEntity) tTileEntity).getTileID();
+        return ((IParaTileEntity) tTileEntity).tileID();
     }
 }

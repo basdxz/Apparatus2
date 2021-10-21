@@ -8,13 +8,13 @@ public interface IParaItemBlock extends IParaManaged {
     int BLOCK_UPDATE_FLAG = 1;
     int SEND_TO_CLIENT_FLAG = 2;
 
-    default IProxiedItemBlock getProxiedItemBlock(ItemStack itemStack) {
-        return getTile(itemStack);
+    default IProxiedItemBlock proxiedItemBlock(ItemStack itemStack) {
+        return paraTile(itemStack);
     }
 
-    default IParaTile getTile(ItemStack itemStack) {
-        return getManager().getTile(getTileID(itemStack));
+    default IParaTile paraTile(ItemStack itemStack) {
+        return manager().paraTile(tileID(itemStack));
     }
 
-    int getTileID(ItemStack itemStack);
+    int tileID(ItemStack itemStack);
 }

@@ -4,6 +4,7 @@ import com.github.basdxz.paratileentity.defenition.managed.*;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.Accessors;
 import net.minecraft.item.ItemBlock;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
     @Getter
     private final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
@@ -19,19 +21,20 @@ public class ParaTileManager implements IParaTileManager {
     protected final List<IParaTile> tileList = Arrays.asList(new IParaTile[MAX_TILE_ID + 1]);
     @Getter
     protected final String name;
-    protected final IParaBlock block;
     @Getter
-    protected final IParaTileEntity tileEntity;
+    protected final IParaBlock paraBlock;
+    @Getter
+    protected final IParaTileEntity paraTileEntity;
 
     public ParaTileManager(String name) {
         this.name = name;
-        block = new ParaBlock(this);
-        tileEntity = new ParaTileEntity(this);
+        paraBlock = new ParaBlock(this);
+        paraTileEntity = new ParaTileEntity(this);
     }
 
     @Override
     public void registerTile(@NonNull IParaTile tile) {
-        if (IParaTileManager.isTileIDInvalid(tile.tileID()))
+        if (IParaTileManager.tileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
 
         if (tileList.get(tile.tileID()) != null)
@@ -42,8 +45,8 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     @Override
-    public IParaTile getTile(int tileID) {
-        if (IParaTileManager.isTileIDInvalid(tileID))
+    public IParaTile paraTile(int tileID) {
+        if (IParaTileManager.tileIDInvalid(tileID))
             throw new IllegalArgumentException("Tile ID out of bounds.");
 
         if (tileList.get(tileID) == null)
