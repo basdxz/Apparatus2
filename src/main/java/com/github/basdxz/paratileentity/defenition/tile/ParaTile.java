@@ -10,7 +10,7 @@ public abstract class ParaTile implements Cloneable, IParaTile {
     protected final int tileID;
     protected IParaTileManager manager;
 
-    // region Modified Lombok @SuperBuilder
+    // region Modified Lombok @SuperBuilder with manager parameter excluded
     protected ParaTile(ParaTileBuilder<?, ?> b) {
         this.tileID = b.tileID;
     }
