@@ -5,7 +5,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.val;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -31,10 +30,9 @@ public class ParaTileManager implements IParaTileManager {
         ParaTile tile;
 
         try {
-            val constructor = tileClass.getDeclaredConstructor();
-            tile = constructor.newInstance();
+            tile = tileClass.getDeclaredConstructor(IParaTileManager.class).newInstance(this);
         } catch (Exception e) {
-            throw new IllegalArgumentException("ParaTile must declare no args constructor.");
+            throw new IllegalArgumentException("ParaTile must have ParaTile(IParaTileManager manager) constructor.");
         }
 
         if (tileIDBiMap.containsKey(tile))

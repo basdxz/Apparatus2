@@ -1,8 +1,8 @@
 package com.github.basdxz.paratileentity.defenition;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@NoArgsConstructor
+@AllArgsConstructor
 public class ParaTile {
-
+    protected final IParaTileManager manager;
 }
