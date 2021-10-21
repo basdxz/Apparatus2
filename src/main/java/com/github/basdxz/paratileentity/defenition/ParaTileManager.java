@@ -57,7 +57,8 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public Iterable<Integer> allTileIDs() {
-        return IntStream.range(0, tileList.size())
+        return IntStream
+                .range(0, tileList.size())
                 .filter(i -> tileList.get(i) != null)
                 .boxed()
                 .collect(Collectors.toCollection(ArrayList::new));

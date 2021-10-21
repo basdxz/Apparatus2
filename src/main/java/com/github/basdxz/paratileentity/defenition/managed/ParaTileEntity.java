@@ -13,12 +13,14 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
+
 @Getter
 @Accessors(fluent = true)
 @NoArgsConstructor // Needed for Server-Side TE init
 public class ParaTileEntity extends TileEntity implements IParaTileEntity {
     static {
-        GameRegistry.registerTileEntity(ParaTileEntity.class, "ParaTileEntity");
+        GameRegistry.registerTileEntity(ParaTileEntity.class, MODID + ":ParaTileEntity");
     }
 
     protected IParaTileManager manager;
@@ -30,7 +32,6 @@ public class ParaTileEntity extends TileEntity implements IParaTileEntity {
 
     @Override
     public void updateEntity() {
-        super.updateEntity();
         proxiedTileEntity().updateEntity();
     }
 
@@ -99,11 +100,15 @@ public class ParaTileEntity extends TileEntity implements IParaTileEntity {
 
     @Override
     public boolean clientSide() {
+        if (!hasWorldObj())
+            throw new IllegalStateException("Can't check without valid world object.");
         return worldObj.isRemote;
     }
 
     @Override
     public boolean serverSide() {
+        if (!hasWorldObj())
+            throw new IllegalStateException("Can't check without valid world object.");
         return !worldObj.isRemote;
     }
 }
