@@ -37,6 +37,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
         return manager.getTileEntity().createNewTileEntity();
     }
 
+    @SuppressWarnings("unchecked") // Unavoidable due to Minecraft providing a raw list.
     @SideOnly(Side.CLIENT)
     @Override
     public void getSubBlocks(Item block, CreativeTabs creativeTabs, List subBlocks) {

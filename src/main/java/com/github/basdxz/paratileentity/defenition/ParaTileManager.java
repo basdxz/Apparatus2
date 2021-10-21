@@ -2,12 +2,8 @@ package com.github.basdxz.paratileentity.defenition;
 
 import com.github.basdxz.paratileentity.defenition.managed.*;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.val;
-import lombok.var;
 import net.minecraft.item.ItemBlock;
 
 import java.util.ArrayList;
@@ -19,8 +15,8 @@ import java.util.stream.IntStream;
 public class ParaTileManager implements IParaTileManager {
     @Getter
     private final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
+
     protected final List<IParaTile> tileList = Arrays.asList(new IParaTile[MAX_TILE_ID + 1]);
-    //protected final BiMap<IParaTile, Integer> tileIDBiMap = HashBiMap.create();
     @Getter
     protected final String name;
     protected final IParaBlock block;
