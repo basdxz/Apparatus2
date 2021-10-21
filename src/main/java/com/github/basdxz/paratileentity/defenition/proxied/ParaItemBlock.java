@@ -1,7 +1,6 @@
 package com.github.basdxz.paratileentity.defenition.proxied;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
-import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;

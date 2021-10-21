@@ -21,11 +21,7 @@ public class ParaTileEntity extends TileEntity implements IParaTileEntity {
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (manager != null) {
-            System.out.println(manager.getName());
-        } else {
-            System.out.println("No ParaTileManager??");
-        }
+        System.out.println(manager.getName());
     }
 
     @Override
@@ -35,12 +31,14 @@ public class ParaTileEntity extends TileEntity implements IParaTileEntity {
     }
 
     protected void registerManager() {
-        if(manager == null) {
-            val block = getBlockType();
-            if (!(block instanceof IParaBlock))
-                throw new IllegalStateException("Bound block hasn't implemented IParaItemBlock");
-            manager = ((IParaBlock)block).getManager();
-        }
+        if (manager != null)
+            return;
+        val block = getBlockType();
+        if (block == null)
+            throw new IllegalStateException("Block was null on update, this means I made a mistake.");
+        if (!(block instanceof IParaBlock))
+            throw new IllegalStateException("Bound block hasn't implemented IParaBlock");
+        manager = ((IParaBlock) block).getManager();
     }
 
     @Override
