@@ -22,7 +22,7 @@ public class ParaTileManager implements IParaTileManager {
     public ParaTileManager(String name) {
         this.name = name;
         block = new ParaBlock(this);
-        tileEntity = new ParaTileEntity();
+        tileEntity = new ParaTileEntity(this);
     }
 
     @Override
@@ -49,6 +49,6 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return tileEntity.createNewTileEntity(world, meta);
+        return tileEntity.createNewTileEntity();
     }
 }

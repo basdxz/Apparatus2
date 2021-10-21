@@ -16,10 +16,7 @@ public class ParaTileEntityMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        ParaTileEntity.register();
-
-        val wolliWoo = new ParaTileManager("test");
-
-        wolliWoo.registerTile(ParaTile.class, 1);
+        val manager = new ParaTileManager("ACoolParaTile");
+        manager.registerTile(ParaTile.class, 1);
     }
 }
