@@ -1,0 +1,54 @@
+package com.github.basdxz.paratileentity.defenition.managed;
+
+import com.github.basdxz.paratileentity.defenition.IParaTileManager;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import lombok.Getter;
+import lombok.val;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
+import java.util.List;
+
+public class ParaBlock extends BlockContainer implements IParaBlock {
+    @Getter
+    protected final IParaTileManager manager;
+
+    public ParaBlock(IParaTileManager manager) {
+        super(Material.rock);
+        this.manager = manager;
+        init(manager.getItemClass(), manager.getName());
+    }
+
+    protected void init(Class<? extends ItemBlock> itemClass, String name) {
+        setBlockName(name);
+        GameRegistry.registerBlock(this, itemClass, getUnlocalizedName());
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int meta) {
+        return manager.getTileEntity().createNewTileEntity();
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void getSubBlocks(Item block, CreativeTabs creativeTabs, List subBlocks) {
+        for (val tileID : manager.allTileIDs())
+            subBlocks.add(new ItemStack(block, 1, tileID));
+    }
+
+    @Override
+    public int getDamageValue(World world, int posX, int posY, int posZ) {
+        val tTileEntity = world.getTileEntity(posX, posY, posZ);
+        if (!(tTileEntity instanceof IParaTileEntity))
+            throw new IllegalStateException("Block bound TileEntity must implement IParaTileEntity.");
+        return ((IParaTileEntity) tTileEntity).getTileID();
+    }
+}

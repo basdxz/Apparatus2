@@ -1,8 +1,8 @@
 package com.github.basdxz.paratileentity;
 
-import com.github.basdxz.paratileentity.defenition.ParaTile;
+import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import com.github.basdxz.paratileentity.defenition.ParaTileManager;
-import com.github.basdxz.paratileentity.defenition.proxied.ParaTileEntity;
+import com.github.basdxz.paratileentity.defenition.tile.ParaTile_two;
 import lombok.val;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -17,6 +17,7 @@ public class ParaTileEntityMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         val manager = new ParaTileManager("ACoolParaTile");
-        manager.registerTile(ParaTile.class, 1);
+        manager.registerTile(ParaTile.class, 0);
+        manager.registerTile(ParaTile_two.class, 1);
     }
 }
