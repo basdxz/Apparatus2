@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Accessors(fluent = true)
-public abstract class ParaTile implements Cloneable, IParaTile {
+public abstract class ParaTile implements IParaTile {
     protected final int tileID;
     protected IParaTileManager manager;
 
@@ -50,11 +50,11 @@ public abstract class ParaTile implements Cloneable, IParaTile {
     }
 
     @Override
-    public ParaTile clone() {
+    public IParaTile clone() {
         try {
-            return (ParaTile) super.clone();
+            return (IParaTile) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError("Failed to create ParaTile!");
+            throw new AssertionError("Failed to create IParaTile!");
         }
     }
 }
