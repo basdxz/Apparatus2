@@ -3,6 +3,7 @@ package com.github.basdxz.paratileentity.defenition.tile;
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import net.minecraft.client.renderer.texture.IIconRegister;
 
 @Getter
 @Accessors(fluent = true)
@@ -47,6 +48,10 @@ public abstract class ParaTile implements IParaTile {
         if (this.manager != null)
             throw new IllegalStateException("Manager already registered.");
         this.manager = manager;
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister) {
     }
 
     @Override

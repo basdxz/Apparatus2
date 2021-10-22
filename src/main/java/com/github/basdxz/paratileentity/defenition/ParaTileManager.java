@@ -8,11 +8,12 @@ import lombok.experimental.Accessors;
 import lombok.val;
 import net.minecraft.item.ItemBlock;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 @Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
@@ -54,7 +55,6 @@ public class ParaTileManager implements IParaTileManager {
     public void registerTile(@NonNull IParaTile tile) {
         if (IParaTileManager.tileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
-
         if (tileList.get(tile.tileID()) != null)
             throw new IllegalArgumentException("ID already taken.");
 
@@ -66,11 +66,18 @@ public class ParaTileManager implements IParaTileManager {
     public IParaTile paraTile(int tileID) {
         if (IParaTileManager.tileIDInvalid(tileID))
             throw new IllegalArgumentException("Tile ID out of bounds.");
-
         if (tileList.get(tileID) == null)
             throw new IllegalArgumentException("Tile ID doesn't exist.");
 
         return tileList.get(tileID);
+    }
+
+    @Override
+    public Iterable<IParaTile> tileList() {
+        return tileList
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override

@@ -10,6 +10,4 @@ public interface IParaTile extends Cloneable, IProxiedBlock, IProxiedItemBlock, 
     void registerManager(IParaTileManager manager);
 
     IParaTile clone();
-
-    boolean singleton();
 }

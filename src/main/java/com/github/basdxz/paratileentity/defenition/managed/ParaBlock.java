@@ -10,6 +10,7 @@ import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -54,6 +55,12 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     public void getSubBlocks(Item block, CreativeTabs creativeTabs, List subBlocks) {
         for (val tileID : manager.allTileIDs())
             subBlocks.add(new ItemStack(block, 1, tileID));
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        for (val tile : manager.tileList())
+            tile.registerBlockIcons(iconRegister);
     }
 
     @Override

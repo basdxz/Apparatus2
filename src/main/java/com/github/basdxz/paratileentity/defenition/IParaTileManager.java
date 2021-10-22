@@ -24,5 +24,7 @@ public interface IParaTileManager {
 
     IParaTile paraTile(int id);
 
+    Iterable<IParaTile> tileList();
+
     Iterable<Integer> allTileIDs();
 }
