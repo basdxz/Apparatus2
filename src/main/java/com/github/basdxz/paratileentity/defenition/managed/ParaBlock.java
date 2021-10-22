@@ -16,7 +16,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -61,6 +64,21 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     public void registerBlockIcons(IIconRegister iconRegister) {
         for (val tile : manager.tileList())
             tile.registerBlockIcons(iconRegister);
+    }
+
+    @Override
+    public IIcon getIcon(IBlockAccess blockAccess, int posX, int posY, int posZ, int side) {
+        val tile = blockAccess.getTileEntity(posX, posY, posZ);
+        if (!(tile instanceof IParaTileEntity))
+            throw new RuntimeException("Bound TileEntity must be instance of IParaTileEntity.");
+        val paraTile = ((IParaTileEntity) tile).paraTile();
+
+        return paraTile.getIcon(ForgeDirection.getOrientation(side));
+    }
+
+    @Override
+    public IIcon getIcon(int side, int tileID) {
+        return manager.paraTile(tileID).getIcon(ForgeDirection.getOrientation(side));
     }
 
     @Override
