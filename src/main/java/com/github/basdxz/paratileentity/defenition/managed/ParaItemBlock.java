@@ -44,14 +44,8 @@ public class ParaItemBlock extends ItemBlock implements IParaItemBlock {
         val tileID = tileID(itemStack);
 
         if (!world.setBlock(posX, posY, posZ, this.field_150939_a, tileID,
-                BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG)) {
+                BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
             return false;
-        }
-
-        val tileEntity = world.getTileEntity(posX, posY, posZ);;
-        if (!(tileEntity instanceof IParaTileEntity))
-            throw new IllegalStateException("Block bound TileEntity must implement IParaTileEntity.");
-        ((IParaTileEntity)tileEntity).tileID(tileID);
 
         if (world.getBlock(posX, posY, posZ) == this.field_150939_a) {
             this.field_150939_a.onBlockPlacedBy(world, posX, posY, posZ, player, itemStack);

@@ -3,6 +3,7 @@ package com.github.basdxz.paratileentity.defenition.managed;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IProxiedTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public interface IParaTileEntity extends IParaManaged {
     int DEFAULT_TILE_ENTITY_PACKET_FLAG = 0;
@@ -19,7 +20,7 @@ public interface IParaTileEntity extends IParaManaged {
 
     int tileID();
 
-    TileEntity newTileEntity();
+    TileEntity newTileEntity(World world, int tileID);
 
     boolean clientSide();
 

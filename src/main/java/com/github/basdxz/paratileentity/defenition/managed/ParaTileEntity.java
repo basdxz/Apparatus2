@@ -4,7 +4,9 @@ import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import lombok.val;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
@@ -29,7 +31,10 @@ public final class ParaTileEntity extends ParaTileEntityAbstract {
     }
 
     @Override
-    public TileEntity newTileEntity() {
-        return new ParaTileEntity();
+    public TileEntity newTileEntity(World world, int tileID) {
+        val paraTileEntity = new ParaTileEntity();
+        paraTileEntity.setWorldObj(world);
+        paraTileEntity.tileID(tileID);
+        return paraTileEntity;
     }
 }

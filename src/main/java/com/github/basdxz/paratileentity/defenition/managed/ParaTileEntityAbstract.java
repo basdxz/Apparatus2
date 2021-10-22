@@ -3,8 +3,8 @@ package com.github.basdxz.paratileentity.defenition.managed;
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import lombok.val;
+import lombok.experimental.Accessors;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -29,7 +29,9 @@ public abstract class ParaTileEntityAbstract extends TileEntity implements IPara
 
     @Override
     public int tileID() {
-        return IParaTileManager.tileIDInvalid(blockMetadata) ? 0 : blockMetadata;
+        if (IParaTileManager.tileIDInvalid(blockMetadata))
+            blockMetadata = 0;
+        return blockMetadata;
     }
 
     @Override
@@ -39,15 +41,11 @@ public abstract class ParaTileEntityAbstract extends TileEntity implements IPara
 
     @Override
     public boolean clientSide() {
-        if (!hasWorldObj())
-            throw new IllegalStateException("Can't check without valid world object.");
         return worldObj.isRemote;
     }
 
     @Override
     public boolean serverSide() {
-        if (!hasWorldObj())
-            throw new IllegalStateException("Can't check without valid world object.");
         return !worldObj.isRemote;
     }
 
@@ -69,8 +67,8 @@ public abstract class ParaTileEntityAbstract extends TileEntity implements IPara
 
     @Override
     public void writeToNBT(NBTTagCompound aNBT) {
-        aNBT.setInteger("tileID", blockMetadata);
         super.writeToNBT(aNBT);
+        aNBT.setInteger("tileID", blockMetadata);
     }
 
     @Override
