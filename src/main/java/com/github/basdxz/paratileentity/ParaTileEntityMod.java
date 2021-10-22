@@ -16,7 +16,7 @@ public class ParaTileEntityMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        val manager = new ParaTileManager("ACoolParaTile");
+        val manager = new ParaTileManager("test_tile");
         manager.registerTile(ParaTile_one.builder().tileID(0).build());
         manager.registerTile(ParaTile_two.builder().tileID(1).tier(0).build());
         manager.registerTile(ParaTile_two.builder().tileID(2).tier(1).build());

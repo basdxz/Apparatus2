@@ -19,6 +19,8 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
+
 @Getter
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock {
@@ -31,7 +33,8 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     }
 
     protected void init(Class<? extends ItemBlock> itemClass, String name) {
-        setBlockName(name);
+        setBlockName(MODID + "." + name);
+        setBlockTextureName(MODID + ":" + name);
         GameRegistry.registerBlock(this, itemClass, getUnlocalizedName());
     }
 

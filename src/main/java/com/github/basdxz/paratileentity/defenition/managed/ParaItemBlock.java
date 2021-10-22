@@ -34,7 +34,7 @@ public class ParaItemBlock extends ItemBlock implements IParaItemBlock {
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
-        return manager.name();
+        return super.getUnlocalizedName(itemStack) + "." + tileID(itemStack);
     }
 
     @Override
