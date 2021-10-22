@@ -34,10 +34,24 @@ public abstract class ParaTile implements IParaTile {
     // endregion
 
     @Override
+    public IParaTile clone() {
+        try {
+            return (IParaTile) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Failed to create IParaTile!");
+        }
+    }
+
+    @Override
     public void registerManager(IParaTileManager manager) {
         if (this.manager != null)
             throw new IllegalStateException("Manager already registered.");
         this.manager = manager;
+    }
+
+    @Override
+    public boolean singleton() {
+        return false;
     }
 
     @Override
@@ -47,14 +61,5 @@ public abstract class ParaTile implements IParaTile {
 
     @Override
     public void updateEntity() {
-    }
-
-    @Override
-    public IParaTile clone() {
-        try {
-            return (IParaTile) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError("Failed to create IParaTile!");
-        }
     }
 }

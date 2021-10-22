@@ -8,4 +8,8 @@ public interface IParaTile extends Cloneable, IProxiedBlock, IProxiedItemBlock, 
     IParaTileManager manager();
 
     void registerManager(IParaTileManager manager);
+
+    IParaTile clone();
+
+    boolean singleton();
 }

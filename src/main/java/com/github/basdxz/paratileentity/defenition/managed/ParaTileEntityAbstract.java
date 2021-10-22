@@ -16,6 +16,8 @@ import net.minecraft.tileentity.TileEntity;
 public abstract class ParaTileEntityAbstract extends TileEntity implements IParaTileEntity {
     private final IParaTileManager manager;
 
+    private IParaTile paraTile;
+
     protected ParaTileEntityAbstract(IParaTileManager manager) {
         this.manager = manager;
     }
@@ -35,11 +37,6 @@ public abstract class ParaTileEntityAbstract extends TileEntity implements IPara
     }
 
     @Override
-    public IParaTile paraTile() {
-        return manager.paraTile(tileID());
-    }
-
-    @Override
     public boolean clientSide() {
         return worldObj.isRemote;
     }
@@ -56,7 +53,17 @@ public abstract class ParaTileEntityAbstract extends TileEntity implements IPara
 
     @Override
     public boolean canUpdate() {
+        initParaTile();
         return proxiedTileEntity().canUpdate();
+    }
+
+    protected void initParaTile() {
+        if (paraTile != null)
+            return;
+        paraTile = manager.paraTile(tileID());
+        if (paraTile.singleton())
+            return;
+        paraTile = paraTile.clone();
     }
 
     @Override
