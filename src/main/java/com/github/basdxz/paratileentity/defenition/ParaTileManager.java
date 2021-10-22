@@ -5,6 +5,7 @@ import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
+import lombok.val;
 import net.minecraft.item.ItemBlock;
 
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static com.github.basdxz.paratileentity.defenition.managed.ParaTileEntity.registerTileEntity;
 
 @Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
@@ -31,7 +30,24 @@ public class ParaTileManager implements IParaTileManager {
     public ParaTileManager(String name) {
         this.name = name;
         paraBlock = new ParaBlock(this);
-        paraTileEntity = registerTileEntity(this);
+        paraTileEntity = newParaTileEntity();
+    }
+
+    public IParaTileEntity newParaTileEntity() {
+        val thiz = this;
+        val tile = new ParaTileEntity() {
+            @Override
+            protected Class<? extends ParaTileEntity> registerBaseClass() {
+                return getClass();
+            }
+
+            @Override
+            protected IParaTileManager registerManager() {
+                return thiz;
+            }
+        };
+        tile.registerTileEntity();
+        return tile;
     }
 
     @Override
