@@ -4,8 +4,11 @@ import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
 
 @Getter
 @Accessors(fluent = true)
@@ -59,6 +62,13 @@ public abstract class ParaTile implements IParaTile {
     @Override
     public IIcon getIcon(ForgeDirection side) {
         return null;
+    }
+
+    @Override
+    public ArrayList<ItemStack> getDrops() {
+        ArrayList<ItemStack> itemDropList = new ArrayList<>();
+        itemDropList.add(new ItemStack(manager.paraBlock().block(), 1, tileID));
+        return itemDropList;
     }
 
     @Override

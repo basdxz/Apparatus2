@@ -1,6 +1,7 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
+import com.github.basdxz.paratileentity.defenition.tile.IProxiedBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,6 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
@@ -29,6 +31,12 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock {
     protected final IParaTileManager manager;
+    protected final ThreadLocal<IProxiedBlock> tempProxiedBlock = new ThreadLocal<>();
+
+    @Override
+    public boolean isToolEffective(String type, int tileID) {
+        return true;
+    }
 
     public ParaBlock(IParaTileManager manager) {
         super(Material.rock);
@@ -68,24 +76,37 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
 
     @Override
     public IIcon getIcon(IBlockAccess blockAccess, int posX, int posY, int posZ, int side) {
-        val tile = blockAccess.getTileEntity(posX, posY, posZ);
-        if (!(tile instanceof IParaTileEntity))
-            throw new RuntimeException("Bound TileEntity must be instance of IParaTileEntity.");
-        val paraTile = ((IParaTileEntity) tile).paraTile();
-
-        return paraTile.getIcon(ForgeDirection.getOrientation(side));
+        return proxiedBlock(blockAccess, posX, posY, posZ).getIcon(ForgeDirection.getOrientation(side));
     }
 
     @Override
     public IIcon getIcon(int side, int tileID) {
-        return manager.paraTile(tileID).getIcon(ForgeDirection.getOrientation(side));
+        return proxiedBlock(tileID).getIcon(ForgeDirection.getOrientation(side));
+    }
+
+    @Override
+    public void breakBlock(World world, int posX, int posY, int posZ, Block block, int tileID) {
+        tempProxiedBlock(world, posX, posY, posZ);
+        super.breakBlock(world, posX, posY, posZ, block, tileID);
+    }
+
+    protected void tempProxiedBlock(IBlockAccess blockAccess, int posX, int posY, int posZ) {
+        tempProxiedBlock.set(proxiedBlock(blockAccess, posX, posY, posZ));
+    }
+
+    @Override
+    public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {
+        return tempProxiedBlock().getDrops();
+    }
+
+    protected IProxiedBlock tempProxiedBlock() {
+        val tempProxiedBlock = this.tempProxiedBlock.get();
+        this.tempProxiedBlock.remove();
+        return tempProxiedBlock;
     }
 
     @Override
     public int getDamageValue(World world, int posX, int posY, int posZ) {
-        val tTileEntity = world.getTileEntity(posX, posY, posZ);
-        if (!(tTileEntity instanceof IParaTileEntity))
-            throw new IllegalStateException("Block bound TileEntity must implement IParaTileEntity.");
-        return ((IParaTileEntity) tTileEntity).tileID();
+        return tileID(world, posX, posY, posZ);
     }
 }
