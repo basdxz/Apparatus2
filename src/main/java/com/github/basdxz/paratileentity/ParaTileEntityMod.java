@@ -1,9 +1,6 @@
 package com.github.basdxz.paratileentity;
 
-import com.github.basdxz.paratileentity.instance.ObamaCasing;
-import com.github.basdxz.paratileentity.instance.ParaTileEntity;
-import com.github.basdxz.paratileentity.instance.ParaTile_two;
-import com.github.basdxz.paratileentity.instance.TurbinePart;
+import com.github.basdxz.paratileentity.instance.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -33,5 +30,7 @@ public class ParaTileEntityMod {
         MANAGER.registerTile(ObamaCasing.builder().tileID(8).casingID(7).build());
 
         MANAGER.registerTile(TurbinePart.builder().tileID(9).maxDurability(500).maxSpeed(20).build());
+
+        MANAGER.registerTile(SidedExample.builder().tileID(10).build());
     }
 }

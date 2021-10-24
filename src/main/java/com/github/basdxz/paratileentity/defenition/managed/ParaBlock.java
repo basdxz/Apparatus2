@@ -13,7 +13,8 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -31,12 +32,6 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 @Getter
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock {
-
-    @Override
-    public void harvestBlock(World p_149636_1_, EntityPlayer p_149636_2_, int p_149636_3_, int p_149636_4_, int p_149636_5_, int p_149636_6_) {
-        super.harvestBlock(p_149636_1_, p_149636_2_, p_149636_3_, p_149636_4_, p_149636_5_, p_149636_6_);
-    }
-
     protected final IParaTileManager manager;
     protected final ThreadLocal<IProxiedBlock> tempProxiedBlock = new ThreadLocal<>();
 
@@ -81,6 +76,16 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     }
 
     @Override
+    public void onBlockPlacedBy(World world, int posX, int posY, int posZ, EntityLivingBase entityLivingBase, ItemStack itemStack) {
+        proxiedBlock(world, posX, posY, posZ).onBlockPlacedBy(entityLivingBase, itemStack);
+    }
+
+    @Override
+    public void onPostBlockPlaced(World world, int posX, int posY, int posZ, int tileID) {
+        proxiedBlock(world, posX, posY, posZ).onPostBlockPlaced();
+    }
+
+    @Override
     public IIcon getIcon(IBlockAccess blockAccess, int posX, int posY, int posZ, int side) {
         return proxiedBlock(blockAccess, posX, posY, posZ).getIcon(ForgeDirection.getOrientation(side));
     }
@@ -88,6 +93,16 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     @Override
     public IIcon getIcon(int side, int tileID) {
         return proxiedBlock(tileID).getIcon(ForgeDirection.getOrientation(side));
+    }
+
+    @Override
+    public float getExplosionResistance(Entity p_149638_1_) {
+        return super.getExplosionResistance(p_149638_1_);
+    }
+
+    @Override
+    public Material getMaterial() {
+        return super.getMaterial();
     }
 
     @Override
@@ -101,8 +116,8 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {
-        return tempProxiedBlock().getDrops();
+    public ArrayList<ItemStack> getDrops(World world, int posX, int posY, int posZ, int tileID, int fortune) {
+        return tempProxiedBlock().getDrops(fortune);
     }
 
     protected IProxiedBlock tempProxiedBlock() {

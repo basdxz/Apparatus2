@@ -18,7 +18,7 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 public class ObamaCasing extends ParaTile {
     private static IIcon[] icons = new IIcon[8];
 
-    private final int casingID;// just goes from 0-7 as proof-of-concept, string names will follow.
+    private final int casingID; // just goes from 0-7 as proof-of-concept, string names will follow.
 
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {

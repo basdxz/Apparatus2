@@ -91,23 +91,15 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
             paraTile.writeToNBT(nbtTagCompound);
     }
 
-    protected void writeTileIDToNBT(NBTTagCompound nbtTagCompound) {
-        nbtTagCompound.setInteger("tileID", blockMetadata);
-    }
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
-        readTileFromToNBT(nbtTagCompound);
+        readTileIDFromToNBT(nbtTagCompound);
         initParaTile();
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }
-
-    protected void readTileFromToNBT(NBTTagCompound nbtTagCompound) {
-        blockMetadata = nbtTagCompound.getInteger("tileID");
-    }
-
 
     @Override
     public Packet getDescriptionPacket() {

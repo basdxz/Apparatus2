@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -69,6 +70,14 @@ public abstract class ParaTile implements IParaTile {
     }
 
     @Override
+    public void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack) {
+    }
+
+    @Override
+    public void onPostBlockPlaced() {
+    }
+
+    @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
     }
 
@@ -78,7 +87,7 @@ public abstract class ParaTile implements IParaTile {
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops() {
+    public ArrayList<ItemStack> getDrops(int fortune) {
         ArrayList<ItemStack> itemDropList = new ArrayList<>();
         val paraTileItemStack = newItemStack();
         writeNBTToItemStack(paraTileItemStack);
@@ -92,7 +101,8 @@ public abstract class ParaTile implements IParaTile {
     }
 
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip,
+                               boolean advanced) {
         toolTip.add(itemStack.stackTagCompound.toString());
     }
 
@@ -110,7 +120,6 @@ public abstract class ParaTile implements IParaTile {
         }
         return true;
     }
-
 
     @Override
     public boolean singleton() {
