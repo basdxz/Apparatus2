@@ -8,6 +8,8 @@ import net.minecraft.world.World;
 public interface IParaTileEntity extends IParaManaged {
     int DEFAULT_TILE_ENTITY_PACKET_FLAG = 0;
 
+    IParaTileEntity registerTileEntity(String name);
+
     default IProxiedTileEntity proxiedTileEntity() {
         return paraTile();
     }
@@ -21,6 +23,8 @@ public interface IParaTileEntity extends IParaManaged {
     int tileID();
 
     TileEntity newTileEntity(World world, int tileID);
+
+    void setWorldObj(World world);
 
     boolean clientSide();
 

@@ -25,6 +25,8 @@ public interface IParaBlock extends IParaManaged {
 
     default IParaTile paraTile(IBlockAccess blockAccess, int posX, int posY, int posZ) {
         val tileEntity = blockAccess.getTileEntity(posX, posY, posZ);
+        if (tileEntity == null)
+            throw new IllegalStateException("TileEntity must not be null.");
         if (!(tileEntity instanceof IParaTileEntity))
             throw new IllegalStateException("Block bound TileEntity must implement IParaTileEntity.");
         return ((IParaTileEntity) tileEntity).paraTile();

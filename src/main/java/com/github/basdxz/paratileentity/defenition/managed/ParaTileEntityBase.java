@@ -17,23 +17,13 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
 @Getter
 @Accessors(fluent = true)
-public abstract class ParaTileEntity extends TileEntity implements IParaTileEntity {
-    private final Class<? extends ParaTileEntity> baseClass;
-    private final IParaTileManager manager;
-
+public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
     private IParaTile paraTile;
 
-    protected ParaTileEntity() {
-        this.baseClass = registerBaseClass();
-        this.manager = registerManager();
-    }
-
-    protected abstract Class<? extends ParaTileEntity> registerBaseClass();
-
-    protected abstract IParaTileManager registerManager();
-
-    public void registerTileEntity() {
-        GameRegistry.registerTileEntity(baseClass, MODID + ":" + manager.name() + "_ParaTileEntity");
+    @Override
+    public IParaTileEntity registerTileEntity(String name) {
+        GameRegistry.registerTileEntity(getClass(), MODID + ":" + name + "_ParaTileEntity");
+        return this;
     }
 
     @Override
@@ -53,16 +43,7 @@ public abstract class ParaTileEntity extends TileEntity implements IParaTileEnti
     @Override
     public TileEntity newTileEntity(World world, int tileID) {
         try {
-            val paraTileEntity = new ParaTileEntity() {
-                @Override
-                protected Class<? extends ParaTileEntity> registerBaseClass() {
-                    return baseClass;
-                }
-                @Override
-                protected IParaTileManager registerManager() {
-                    return manager;
-                }
-            };
+            val paraTileEntity = getClass().getDeclaredConstructor().newInstance();
             paraTileEntity.setWorldObj(world);
             paraTileEntity.tileID(tileID);
             return paraTileEntity;
@@ -92,35 +73,23 @@ public abstract class ParaTileEntity extends TileEntity implements IParaTileEnti
         return proxiedTileEntity().canUpdate();
     }
 
-    protected void initParaTile() {
-        if (paraTile != null)
-            return;
-        paraTile = manager.paraTile(tileID());
-        if (paraTile.singleton())
-            return;
-        paraTile = paraTile.clone();
+    @Override
+    public void writeToNBT(NBTTagCompound nbtTagCompound) {
+        super.writeToNBT(nbtTagCompound);
+        nbtTagCompound.setInteger("tileID", blockMetadata);
+
+        if (!paraTile.singleton())
+            System.out.println("pog");
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound aNBT) {
-        String tileEntityName = (String) jailbreak().classToNameMap.get(baseClass);
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+        super.readFromNBT(nbtTagCompound);
+        blockMetadata = nbtTagCompound.getInteger("tileID");
 
-        if (tileEntityName == null)
-            throw new RuntimeException(baseClass + " is missing a mapping! This is a bug!");
-
-        aNBT.setString("id", tileEntityName);
-        aNBT.setInteger("x", this.xCoord);
-        aNBT.setInteger("y", this.yCoord);
-        aNBT.setInteger("z", this.zCoord);
-        aNBT.setInteger("tileID", blockMetadata);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound aNBT) {
-        xCoord = aNBT.getInteger("x");
-        yCoord = aNBT.getInteger("y");
-        zCoord = aNBT.getInteger("z");
-        blockMetadata = aNBT.getInteger("tileID");
+        initParaTile();
+        if (!paraTile.singleton())
+            System.out.println("pog 2");
     }
 
     @Override
@@ -133,5 +102,14 @@ public abstract class ParaTileEntity extends TileEntity implements IParaTileEnti
     @Override
     public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
         readFromNBT(packet.func_148857_g());
+    }
+
+    protected void initParaTile() {
+        if (paraTile != null)
+            return;
+        paraTile = manager().paraTile(tileID());
+        if (paraTile.singleton())
+            return;
+        paraTile = paraTile.clone();
     }
 }

@@ -1,11 +1,13 @@
 package com.github.basdxz.paratileentity.defenition;
 
-import com.github.basdxz.paratileentity.defenition.managed.*;
+import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
+import com.github.basdxz.paratileentity.defenition.managed.ParaBlock;
+import com.github.basdxz.paratileentity.defenition.managed.ParaItemBlock;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
-import lombok.val;
 import net.minecraft.item.ItemBlock;
 
 import java.util.*;
@@ -28,27 +30,10 @@ public class ParaTileManager implements IParaTileManager {
     @Getter
     protected final IParaTileEntity paraTileEntity;
 
-    public ParaTileManager(String name) {
+    public ParaTileManager(String name, IParaTileEntity paraTileEntity) {
         this.name = name;
+        this.paraTileEntity = paraTileEntity.registerTileEntity(name);
         paraBlock = new ParaBlock(this);
-        paraTileEntity = newParaTileEntity();
-    }
-
-    public IParaTileEntity newParaTileEntity() {
-        val thiz = this;
-        val tile = new ParaTileEntity() {
-            @Override
-            protected Class<? extends ParaTileEntity> registerBaseClass() {
-                return getClass();
-            }
-
-            @Override
-            protected IParaTileManager registerManager() {
-                return thiz;
-            }
-        };
-        tile.registerTileEntity();
-        return tile;
     }
 
     @Override
