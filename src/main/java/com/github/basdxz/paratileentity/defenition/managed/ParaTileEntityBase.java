@@ -27,10 +27,11 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     @Override
-    public void tileID(int tileID) {
+    public IParaTileEntity tileID(int tileID) {
         if (IParaTileManager.tileIDInvalid(tileID))
             throw new IllegalArgumentException("Tile ID out of bounds.");
         blockMetadata = tileID;
+        return this;
     }
 
     @Override

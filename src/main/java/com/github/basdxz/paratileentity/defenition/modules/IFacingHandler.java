@@ -19,7 +19,7 @@ public interface IFacingHandler {
 
     ForgeDirection facing();
 
-    void facing(ForgeDirection facing);
+    IFacingHandler facing(ForgeDirection facing);
 
     /*
         Can easily be replaced by something like return Stream.of(NORTH, SOUTH, WEST, EAST).collect(Collectors.toSet());

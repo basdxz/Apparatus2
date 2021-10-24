@@ -11,10 +11,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide.SERVER;
 
-@SuppressWarnings("DefaultAnnotationParam") // chain is not false by default as I use fluent, might change it?
 @Setter
 @Getter
-@Accessors(fluent = true, chain = false)
+@Accessors(fluent = true)
 @SuperBuilder
 public class TurbinePart extends ParaTile implements ITurbinePart {
     private final int maxDurability;

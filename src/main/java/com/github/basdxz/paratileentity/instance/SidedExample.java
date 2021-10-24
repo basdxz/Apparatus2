@@ -18,10 +18,9 @@ import java.util.List;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
-@SuppressWarnings("DefaultAnnotationParam") // chain is not false by default as I use fluent, might change it?
 @Getter
 @Setter
-@Accessors(fluent = true, chain = false)
+@Accessors(fluent = true)
 @SuperBuilder
 public class SidedExample extends ParaTile implements IFacingHandler {
     public ForgeDirection facing;

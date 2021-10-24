@@ -28,7 +28,7 @@ public interface IParaTileEntity extends IParaManaged {
         tileID(nbtTagCompound.getInteger(TILE_ID_NBT_TAG));
     }
 
-    void tileID(int tileID);
+    IParaTileEntity tileID(int tileID);
 
     int tileID();
 

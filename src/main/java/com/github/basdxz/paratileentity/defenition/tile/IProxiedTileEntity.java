@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide;
 
 public interface IProxiedTileEntity {
-    void tileEntity(IParaTileEntity tileEntity);
+    IProxiedTileEntity tileEntity(IParaTileEntity tileEntity);
 
     IParaTileEntity tileEntity();
 

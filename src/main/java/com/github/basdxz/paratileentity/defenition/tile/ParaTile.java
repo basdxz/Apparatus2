@@ -21,9 +21,8 @@ import java.util.List;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.BLOCK_UPDATE_FLAG;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.SEND_TO_CLIENT_FLAG;
 
-@SuppressWarnings("DefaultAnnotationParam") // chain is not false by default as I use fluent, might change it?
 @Getter
-@Accessors(fluent = true, chain = false)
+@Accessors(fluent = true)
 public abstract class ParaTile implements IParaTile {
     protected final int tileID;
     protected IParaTileManager manager;

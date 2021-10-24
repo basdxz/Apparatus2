@@ -7,7 +7,7 @@ public interface ITurbinePart {
 
     int maxDurability();
 
-    void durability(int durability);
+    ITurbinePart durability(int durability);
 
     int durability();
 }
