@@ -31,4 +31,9 @@ public class ParaTile_one extends ParaTile {
     public void updateEntity() {
         System.out.println("HELLOW from ParaTile!!");
     }
+
+    @Override
+    public boolean singleton() {
+        return false;
+    }
 }

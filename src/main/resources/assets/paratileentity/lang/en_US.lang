@@ -1,0 +1,9 @@
+tile.paratileentity.test_tile.abrasion_casing.name=Abrasion Casing
+tile.paratileentity.test_tile.impact_casing.name=Advanced Abrasion Casing
+tile.paratileentity.test_tile.impact_2_casing.name=Fancy Abrasion Casing
+tile.paratileentity.test_tile.impact_32_casing.name=Fancy Abrasion Casing
+tile.paratileentity.test_tile.titanium_thermal_casing.name=Titanium Casing
+tile.paratileentity.test_tile.titanium_thermal_32_casing.name=Fancy Titanium Casing
+tile.paratileentity.test_tile.watertight_casing.name=Watertight Casing
+tile.paratileentity.test_tile.watertight_32_casing.name=Fancy Watertight Casing
+tile.paratileentity.test_tile.unknown_casing.name=Unknown Casing

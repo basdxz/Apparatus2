@@ -72,8 +72,13 @@ public abstract class ParaTile implements IParaTile {
     }
 
     @Override
+    public String getUnlocalizedName(ItemStack itemStack) {
+        return manager.paraBlock().getUnlocalizedName();
+    }
+
+    @Override
     public boolean singleton() {
-        return false;
+        return true;
     }
 
     @Override

@@ -51,4 +51,9 @@ public class ParaTile_two extends ParaTile {
         System.out.println("HELLOW from ParaTile 2!!");
         System.out.println("tier: " + tier);
     }
+
+    @Override
+    public boolean singleton() {
+        return false;
+    }
 }

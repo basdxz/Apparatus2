@@ -13,6 +13,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -30,16 +31,17 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 @Getter
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock {
+
+    @Override
+    public void harvestBlock(World p_149636_1_, EntityPlayer p_149636_2_, int p_149636_3_, int p_149636_4_, int p_149636_5_, int p_149636_6_) {
+        super.harvestBlock(p_149636_1_, p_149636_2_, p_149636_3_, p_149636_4_, p_149636_5_, p_149636_6_);
+    }
+
     protected final IParaTileManager manager;
     protected final ThreadLocal<IProxiedBlock> tempProxiedBlock = new ThreadLocal<>();
 
-    @Override
-    public boolean isToolEffective(String type, int tileID) {
-        return true;
-    }
-
     public ParaBlock(IParaTileManager manager) {
-        super(Material.rock);
+        super(Material.anvil);
         this.manager = manager;
         init(manager.itemClass(), manager.name());
     }
@@ -47,6 +49,10 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     protected void init(Class<? extends ItemBlock> itemClass, String name) {
         setBlockName(MODID + "." + name);
         setBlockTextureName(MODID + ":" + name);
+        setHardness(1.0F);
+        setResistance(10.0F);
+        setStepSound(soundTypeMetal);
+        setHarvestLevel("wrench", 2);
         GameRegistry.registerBlock(this, itemClass, getUnlocalizedName());
     }
 

@@ -9,6 +9,8 @@ import net.minecraft.world.IBlockAccess;
 public interface IParaBlock extends IParaManaged {
     Block block();
 
+    String getUnlocalizedName();
+
     default IProxiedBlock proxiedBlock(IBlockAccess blockAccess, int posX, int posY, int posZ) {
         return paraTile(blockAccess, posX, posY, posZ);
     }
