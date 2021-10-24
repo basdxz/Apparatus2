@@ -8,14 +8,27 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
-public interface IProxiedBlock {
-    void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack);
+public interface IProxiedBlock extends IProxiedComponent {
+    default void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack) {
+    }
 
-    void onPostBlockPlaced();
+    default void onPostBlockPlaced() {
+    }
 
-    void registerBlockIcons(IIconRegister iconRegister);
+    default void registerBlockIcons(IIconRegister iconRegister) {
+    }
 
-    IIcon getIcon(ForgeDirection side);
+    default IIcon getIcon(ForgeDirection side) {
+        return null;
+    }
 
-    ArrayList<ItemStack> getDrops(int fortune);
+    default ArrayList<ItemStack> getDrops(int fortune) {
+        ArrayList<ItemStack> itemDropList = new ArrayList<>();
+        itemDropList.add(newItemStack());
+        return itemDropList;
+    }
+
+    default ItemStack newItemStack() {
+        return new ItemStack(manager().paraBlock().block(), 1, tileID());
+    }
 }

@@ -3,7 +3,13 @@ package com.github.basdxz.paratileentity.defenition.tile;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.List;
+
 public interface IItemNBTHandler {
+    default void addNBTInformation(ItemStack itemStack, List<String> toolTip) {
+        toolTip.add(itemStack.stackTagCompound.toString());
+    }
+
     default ItemStack writeNbtNewItemStack(ItemStack itemStack) {
         return writeNBTToItemStack(itemStack);
     }

@@ -6,20 +6,27 @@ import net.minecraft.world.World;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide;
 
-public interface IProxiedTileEntity {
+public interface IProxiedTileEntity extends IProxiedComponent {
     IProxiedTileEntity tileEntity(IParaTileEntity tileEntity);
 
     IParaTileEntity tileEntity();
 
-    boolean singleton();
+    default boolean singleton() {
+        return true;
+    }
 
-    boolean canUpdate();
+    default boolean canUpdate() {
+        return false;
+    }
 
-    void updateEntity();
+    default void updateEntity() {
+    }
 
-    void writeToNBT(NBTTagCompound nbtTagCompound);
+    default void writeToNBT(NBTTagCompound nbtTagCompound) {
+    }
 
-    void readFromNBT(NBTTagCompound nbtTagCompound);
+    default void readFromNBT(NBTTagCompound nbtTagCompound) {
+    }
 
     default TileEntitySide side() {
         return tileEntity().side();
