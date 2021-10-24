@@ -63,7 +63,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
 
     @Override
     public TileEntity createNewTileEntity(World world, int tileID) {
-        return manager.paraTileEntity().newTileEntity(world, tileID);
+        return manager.createNewTileEntity(world, tileID);
     }
 
     @SuppressWarnings("unchecked") // Unavoidable due to Minecraft providing a raw list.

@@ -41,7 +41,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     @Override
-    public TileEntity newTileEntity(World world, int tileID) {
+    public TileEntity createNewTileEntity(World world, int tileID) {
         try {
             val paraTileEntity = getClass().getDeclaredConstructor().newInstance();
             paraTileEntity.setWorldObj(world);
@@ -53,13 +53,23 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     @Override
-    public boolean clientSide() {
-        return worldObj.isRemote;
+    public World worldObj() {
+        return worldObj;
     }
 
     @Override
-    public boolean serverSide() {
-        return !worldObj.isRemote;
+    public int posX() {
+        return xCoord;
+    }
+
+    @Override
+    public int posY() {
+        return yCoord;
+    }
+
+    @Override
+    public int posZ() {
+        return zCoord;
     }
 
     @Override
@@ -76,21 +86,28 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
         super.writeToNBT(nbtTagCompound);
-        nbtTagCompound.setInteger("tileID", blockMetadata);
-
+        writeTileIDToNBT(nbtTagCompound);
         if (!paraTile.singleton())
-            System.out.println("pog");
+            paraTile.writeToNBT(nbtTagCompound);
+    }
+
+    protected void writeTileIDToNBT(NBTTagCompound nbtTagCompound) {
+        nbtTagCompound.setInteger("tileID", blockMetadata);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
-        blockMetadata = nbtTagCompound.getInteger("tileID");
-
+        readTileFromToNBT(nbtTagCompound);
         initParaTile();
         if (!paraTile.singleton())
-            System.out.println("pog 2");
+            paraTile.readFromNBT(nbtTagCompound);
     }
+
+    protected void readTileFromToNBT(NBTTagCompound nbtTagCompound) {
+        blockMetadata = nbtTagCompound.getInteger("tileID");
+    }
+
 
     @Override
     public Packet getDescriptionPacket() {
@@ -107,9 +124,17 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     protected void initParaTile() {
         if (paraTile != null)
             return;
-        paraTile = manager().paraTile(tileID());
-        if (paraTile.singleton())
-            return;
-        paraTile = paraTile.clone();
+        val baseParaTile = manager().paraTile(tileID());
+        if (baseParaTile.singleton()) {
+            paraTile = baseParaTile;
+        } else {
+            /*
+                Allows the clone() method to have access to this TileEntity as well as the cloned class
+                But prevents leaving a reference to **this** TileEntity, preventing unexpected use.
+             */
+            baseParaTile.tileEntity(this);
+            paraTile = baseParaTile.clone();
+            //baseParaTile.tileEntity(null);
+        }
     }
 }

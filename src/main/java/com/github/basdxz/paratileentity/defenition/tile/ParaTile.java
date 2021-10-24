@@ -1,22 +1,28 @@
 package com.github.basdxz.paratileentity.defenition.tile;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
+import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("DefaultAnnotationParam") // chain is not false by default as I use fluent, might change it?
 @Getter
-@Accessors(fluent = true)
+@Accessors(fluent = true, chain = false)
 public abstract class ParaTile implements IParaTile {
     protected final int tileID;
     protected IParaTileManager manager;
+    @Setter
+    protected IParaTileEntity tileEntity;
 
     // region Modified Lombok @SuperBuilder with manager parameter excluded
     protected ParaTile(ParaTileBuilder<?, ?> b) {
@@ -94,5 +100,13 @@ public abstract class ParaTile implements IParaTile {
 
     @Override
     public void updateEntity() {
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbtTagCompound) {
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
     }
 }

@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,13 +29,17 @@ public class ParaTileManager implements IParaTileManager {
     protected final String name;
     @Getter
     protected final IParaBlock paraBlock;
-    @Getter
     protected final IParaTileEntity paraTileEntity;
 
     public ParaTileManager(String name, IParaTileEntity paraTileEntity) {
         this.name = name;
         this.paraTileEntity = paraTileEntity.registerTileEntity(name);
         paraBlock = new ParaBlock(this);
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int tileID) {
+        return paraTileEntity.createNewTileEntity(world, tileID);
     }
 
     @Override

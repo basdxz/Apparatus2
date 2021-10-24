@@ -2,7 +2,7 @@ package com.github.basdxz.paratileentity;
 
 import com.github.basdxz.paratileentity.instance.ObamaCasing;
 import com.github.basdxz.paratileentity.instance.ParaTileEntity;
-import com.github.basdxz.paratileentity.instance.ParaTile_one;
+import com.github.basdxz.paratileentity.instance.ParaTile_two;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -18,7 +18,7 @@ public class ParaTileEntityMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         ParaTileEntity.registerParaTileEntity();
-        MANAGER.registerTile(ParaTile_one.builder().tileID(0).build());
+        MANAGER.registerTile(ParaTile_two.builder().tileID(0).build());
         MANAGER.registerTile(ObamaCasing.builder().tileID(1).casingID(0).build());
         MANAGER.registerTile(ObamaCasing.builder().tileID(2).casingID(1).build());
         MANAGER.registerTile(ObamaCasing.builder().tileID(3).casingID(2).build());

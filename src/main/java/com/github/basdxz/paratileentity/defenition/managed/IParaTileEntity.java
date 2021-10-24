@@ -22,11 +22,13 @@ public interface IParaTileEntity extends IParaManaged {
 
     int tileID();
 
-    TileEntity newTileEntity(World world, int tileID);
+    TileEntity createNewTileEntity(World world, int tileID);
 
-    void setWorldObj(World world);
+    World worldObj();
 
-    boolean clientSide();
+    int posX();
 
-    boolean serverSide();
+    int posY();
+
+    int posZ();
 }
