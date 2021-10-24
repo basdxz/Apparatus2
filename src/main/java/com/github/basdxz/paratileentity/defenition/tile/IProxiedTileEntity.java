@@ -4,6 +4,8 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide;
+
 public interface IProxiedTileEntity {
     void tileEntity(IParaTileEntity tileEntity);
 
@@ -19,16 +21,8 @@ public interface IProxiedTileEntity {
 
     void readFromNBT(NBTTagCompound nbtTagCompound);
 
-    default boolean clientSide() {
-        return worldObj().isRemote;
-    }
-
-    default boolean serverSide() {
-        if (worldObj() == null) {
-            System.out.println("wogi");
-            return true;
-        }
-        return !worldObj().isRemote;
+    default TileEntitySide side() {
+        return tileEntity().side();
     }
 
     default World worldObj() {

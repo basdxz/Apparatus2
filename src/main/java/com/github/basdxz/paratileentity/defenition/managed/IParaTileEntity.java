@@ -24,6 +24,10 @@ public interface IParaTileEntity extends IParaManaged {
 
     TileEntity createNewTileEntity(World world, int tileID);
 
+    default TileEntitySide side() {
+        return TileEntitySide.side(worldObj());
+    }
+
     World worldObj();
 
     int posX();
@@ -31,4 +35,16 @@ public interface IParaTileEntity extends IParaManaged {
     int posY();
 
     int posZ();
+
+    enum TileEntitySide {
+        UNKNOWN, CLIENT, SERVER;
+
+        public static TileEntitySide side(World world) {
+            if (world == null)
+                return UNKNOWN;
+            if (world.isRemote)
+                return CLIENT;
+            return SERVER;
+        }
+    }
 }

@@ -5,15 +5,20 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.github.basdxz.paratileentity.ParaTileEntityMod.BLOCK_UPDATE_FLAG;
+import static com.github.basdxz.paratileentity.ParaTileEntityMod.SEND_TO_CLIENT_FLAG;
 
 @SuppressWarnings("DefaultAnnotationParam") // chain is not false by default as I use fluent, might change it?
 @Getter
@@ -75,7 +80,9 @@ public abstract class ParaTile implements IParaTile {
     @Override
     public ArrayList<ItemStack> getDrops() {
         ArrayList<ItemStack> itemDropList = new ArrayList<>();
-        itemDropList.add(new ItemStack(manager.paraBlock().block(), 1, tileID));
+        val paraTileItemStack = newItemStack();
+        writeNBTToItemStack(paraTileItemStack);
+        itemDropList.add(paraTileItemStack);
         return itemDropList;
     }
 
@@ -86,7 +93,24 @@ public abstract class ParaTile implements IParaTile {
 
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
+        toolTip.add(itemStack.stackTagCompound.toString());
     }
+
+    @Override
+    public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world,
+                                int posX, int posY, int posZ, int side, float hitX, float hitY, float hitZ) {
+        if (!world.setBlock(posX, posY, posZ, manager().paraBlock().block(), tileID,
+                BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG)) {
+            return false;
+        }
+        if (world.getBlock(posX, posY, posZ) == manager().paraBlock()) {
+            ((IParaTileEntity) world.getTileEntity(posX, posY, posZ)).paraTile().readNBTFromItemStack(itemStack);
+            manager().paraBlock().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
+            manager().paraBlock().block().onPostBlockPlaced(world, posX, posY, posZ, tileID);
+        }
+        return true;
+    }
+
 
     @Override
     public boolean singleton() {
@@ -108,5 +132,20 @@ public abstract class ParaTile implements IParaTile {
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
+    }
+
+    @Override
+    public void writeNBTToItemStack(ItemStack itemStack) {
+        if (singleton())
+            return;
+        if (itemStack.stackTagCompound == null)
+            itemStack.stackTagCompound = new NBTTagCompound();
+        writeToNBT(itemStack.stackTagCompound);
+    }
+
+    @Override
+    public void readNBTFromItemStack(ItemStack itemStack) {
+        if (!singleton() && (itemStack.stackTagCompound != null))
+            readFromNBT(itemStack.stackTagCompound);
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
+import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide.SERVER;
 
 @SuperBuilder
 public class ParaTile_two extends ParaTile {
@@ -33,7 +34,7 @@ public class ParaTile_two extends ParaTile {
     @Override
     public IParaTile clone() {
         val para = (ParaTile_two) super.clone();
-        if (serverSide()) {
+        if (side() == SERVER) {
             Random rand = new Random();
             para.randomNumber = rand.nextInt(200);
         }
@@ -47,7 +48,6 @@ public class ParaTile_two extends ParaTile {
 
     @Override
     public void updateEntity() {
-        serverSide();
         System.out.println("random: " + randomNumber);
     }
 

@@ -134,7 +134,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
              */
             baseParaTile.tileEntity(this);
             paraTile = baseParaTile.clone();
-            //baseParaTile.tileEntity(null);
+            baseParaTile.tileEntity(null);
         }
     }
 }

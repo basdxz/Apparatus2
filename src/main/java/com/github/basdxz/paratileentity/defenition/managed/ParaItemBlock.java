@@ -3,7 +3,6 @@ package com.github.basdxz.paratileentity.defenition.managed;
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import lombok.Getter;
 import lombok.experimental.Accessors;
-import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -47,25 +46,9 @@ public class ParaItemBlock extends ItemBlock implements IParaItemBlock {
     }
 
     @Override
-    public boolean placeBlockAt(ItemStack itemStack, EntityPlayer player,
+    public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer,
                                 World world, int posX, int posY, int posZ, int side,
-                                float hitX, float hitY, float hitZ, int aMeta) {
-        val tileID = tileID(itemStack);
-
-        if (!world.setBlock(posX, posY, posZ, this.field_150939_a, tileID,
-                BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
-            return false;
-
-        if (world.getBlock(posX, posY, posZ) == this.field_150939_a) {
-            this.field_150939_a.onBlockPlacedBy(world, posX, posY, posZ, player, itemStack);
-            this.field_150939_a.onPostBlockPlaced(world, posX, posY, posZ, tileID);
-        }
-
-        return true;
-    }
-
-    @Override
-    public int tileID(ItemStack itemStack) {
-        return getDamage(itemStack);
+                                float hitX, float hitY, float hitZ, int invalidMetaData) {
+        return proxiedItemBlock(itemStack).placeBlockAt(itemStack, entityPlayer, world, posX, posY, posZ, side, hitX, hitY, hitZ);
     }
 }

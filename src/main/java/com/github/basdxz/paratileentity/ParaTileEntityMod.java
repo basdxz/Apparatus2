@@ -15,6 +15,9 @@ public class ParaTileEntityMod {
     public static final String NAME = "ParaTileEntity";
     public static final String VERSION = "@GRADLE_VERSION_TOKEN@";
 
+    public static final int BLOCK_UPDATE_FLAG = 1;
+    public static final int SEND_TO_CLIENT_FLAG = 2;
+
     @EventHandler
     public void init(FMLInitializationEvent event) {
         ParaTileEntity.registerParaTileEntity();
