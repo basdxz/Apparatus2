@@ -3,9 +3,14 @@ package com.github.basdxz.paratileentity.instance;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.List;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
@@ -60,5 +65,11 @@ public class ObamaCasing extends ParaTile {
             default:
                 return "unknown";
         }
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
+        toolTip.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC +
+                StatCollector.translateToLocal(getUnlocalizedName(itemStack) + ".desc"));
     }
 }

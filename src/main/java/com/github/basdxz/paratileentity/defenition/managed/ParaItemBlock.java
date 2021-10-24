@@ -10,6 +10,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 @Getter
 @Accessors(fluent = true)
 public class ParaItemBlock extends ItemBlock implements IParaItemBlock {
@@ -35,6 +37,13 @@ public class ParaItemBlock extends ItemBlock implements IParaItemBlock {
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
         return proxiedItemBlock(itemStack).getUnlocalizedName(itemStack);
+    }
+
+    // F3 + H Enables Showing Advanced
+    @SuppressWarnings("unchecked")  // Unavoidable due to Minecraft providing a raw list.
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List toolTip, boolean advanced) {
+        proxiedItemBlock(itemStack).addInformation(itemStack, entityPlayer, toolTip, advanced);
     }
 
     @Override

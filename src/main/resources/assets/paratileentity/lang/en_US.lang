@@ -1,9 +1,19 @@
 tile.paratileentity.test_tile.abrasion_casing.name=Abrasion Casing
-tile.paratileentity.test_tile.impact_casing.name=Advanced Abrasion Casing
-tile.paratileentity.test_tile.impact_2_casing.name=Fancy Abrasion Casing
-tile.paratileentity.test_tile.impact_32_casing.name=Fancy Abrasion Casing
-tile.paratileentity.test_tile.titanium_thermal_casing.name=Titanium Casing
-tile.paratileentity.test_tile.titanium_thermal_32_casing.name=Fancy Titanium Casing
+tile.paratileentity.test_tile.impact_casing.name=Impact Casing
+tile.paratileentity.test_tile.impact_2_casing.name=Advanced Impact Casing
+tile.paratileentity.test_tile.impact_32_casing.name=Fancy Impact Casing
+tile.paratileentity.test_tile.titanium_thermal_casing.name=Titanium Thermal Casing
+tile.paratileentity.test_tile.titanium_thermal_32_casing.name=Fancy Titanium Thermal Casing
 tile.paratileentity.test_tile.watertight_casing.name=Watertight Casing
 tile.paratileentity.test_tile.watertight_32_casing.name=Fancy Watertight Casing
 tile.paratileentity.test_tile.unknown_casing.name=Unknown Casing
+
+tile.paratileentity.test_tile.abrasion_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.impact_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.impact_2_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.impact_32_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.titanium_thermal_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.titanium_thermal_32_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.watertight_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.watertight_32_casing.desc=resistant as fricc
+tile.paratileentity.test_tile.unknown_casing.desc=broken as fricc

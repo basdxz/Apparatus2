@@ -4,11 +4,13 @@ import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Accessors(fluent = true)
@@ -74,6 +76,10 @@ public abstract class ParaTile implements IParaTile {
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
         return manager.paraBlock().getUnlocalizedName();
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
     }
 
     @Override
