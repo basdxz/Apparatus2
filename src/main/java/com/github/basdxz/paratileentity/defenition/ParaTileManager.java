@@ -50,7 +50,7 @@ public class ParaTileManager implements IParaTileManager {
             throw new IllegalArgumentException("ID already taken.");
 
         tileList.set(tile.tileID(), tile);
-        tile.registerManager(this);
+        tile.manager(this);
     }
 
     @Override

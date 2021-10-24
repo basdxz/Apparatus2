@@ -10,13 +10,9 @@ public interface IParaTile extends Cloneable, IProxiedBlock, IProxiedItemBlock, 
 
     int tileID();
 
+    IParaTile manager(IParaTileManager manager);
+
     IParaTileManager manager();
 
-    void registerManager(IParaTileManager manager);
-
     IParaTile clone();
-
-    void writeNBTToItemStack(ItemStack itemStack);
-
-    void readNBTFromItemStack(ItemStack itemStack);
 }

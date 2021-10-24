@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.instance;
 
+import com.github.basdxz.paratileentity.defenition.tile.IItemNBTHandler;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import lombok.val;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide.SERVER;
@@ -15,7 +18,7 @@ import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntit
 @Getter
 @Accessors(fluent = true)
 @SuperBuilder
-public class TurbinePart extends ParaTile implements ITurbinePart {
+public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandler {
     private final int maxDurability;
     private final int maxSpeed;
     private int durability;
@@ -31,6 +34,16 @@ public class TurbinePart extends ParaTile implements ITurbinePart {
     @Override
     public boolean singleton() {
         return false;
+    }
+
+    @Override
+    public ItemStack newItemStack() {
+        return writeNbtNewItemStack(super.newItemStack());
+    }
+
+    @Override
+    public void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack) {
+        readNBTOnBlockPlacedBy(itemStack);
     }
 
     @Override

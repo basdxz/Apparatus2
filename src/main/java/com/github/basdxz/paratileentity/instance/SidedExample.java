@@ -1,6 +1,6 @@
 package com.github.basdxz.paratileentity.instance;
 
-import com.github.basdxz.paratileentity.defenition.modules.IFacingHandler;
+import com.github.basdxz.paratileentity.defenition.tile.IFacingHandler;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import lombok.Getter;
 import lombok.Setter;

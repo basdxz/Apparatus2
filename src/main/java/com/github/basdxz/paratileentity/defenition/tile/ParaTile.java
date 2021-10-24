@@ -5,7 +5,7 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import lombok.val;
+import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,36 +21,14 @@ import java.util.List;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.BLOCK_UPDATE_FLAG;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.SEND_TO_CLIENT_FLAG;
 
+@Setter
 @Getter
 @Accessors(fluent = true)
+@SuperBuilder
 public abstract class ParaTile implements IParaTile {
     protected final int tileID;
     protected IParaTileManager manager;
-    @Setter
     protected IParaTileEntity tileEntity;
-
-    // region Modified Lombok @SuperBuilder with manager parameter excluded
-    protected ParaTile(ParaTileBuilder<?, ?> b) {
-        this.tileID = b.tileID;
-    }
-
-    public static abstract class ParaTileBuilder<C extends ParaTile, B extends ParaTileBuilder<C, B>> {
-        private int tileID;
-
-        public B tileID(int tileID) {
-            this.tileID = tileID;
-            return self();
-        }
-
-        protected abstract B self();
-
-        public abstract C build();
-
-        public String toString() {
-            return "ParaTile.ParaTileBuilder(tileID=" + this.tileID + ")";
-        }
-    }
-    // endregion
 
     @Override
     public IParaTile clone() {
@@ -59,13 +37,6 @@ public abstract class ParaTile implements IParaTile {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError("Failed to create IParaTile!");
         }
-    }
-
-    @Override
-    public void registerManager(IParaTileManager manager) {
-        if (this.manager != null)
-            throw new IllegalStateException("Manager already registered.");
-        this.manager = manager;
     }
 
     @Override
@@ -88,9 +59,7 @@ public abstract class ParaTile implements IParaTile {
     @Override
     public ArrayList<ItemStack> getDrops(int fortune) {
         ArrayList<ItemStack> itemDropList = new ArrayList<>();
-        val paraTileItemStack = newItemStack();
-        writeNBTToItemStack(paraTileItemStack);
-        itemDropList.add(paraTileItemStack);
+        itemDropList.add(newItemStack());
         return itemDropList;
     }
 
@@ -113,7 +82,6 @@ public abstract class ParaTile implements IParaTile {
             return false;
         }
         if (world.getBlock(posX, posY, posZ) == manager().paraBlock()) {
-            ((IParaTileEntity) world.getTileEntity(posX, posY, posZ)).paraTile().readNBTFromItemStack(itemStack);
             manager().paraBlock().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
             manager().paraBlock().block().onPostBlockPlaced(world, posX, posY, posZ, tileID);
         }
@@ -142,18 +110,5 @@ public abstract class ParaTile implements IParaTile {
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
     }
 
-    @Override
-    public void writeNBTToItemStack(ItemStack itemStack) {
-        if (singleton())
-            return;
-        if (itemStack.stackTagCompound == null)
-            itemStack.stackTagCompound = new NBTTagCompound();
-        writeToNBT(itemStack.stackTagCompound);
-    }
 
-    @Override
-    public void readNBTFromItemStack(ItemStack itemStack) {
-        if (!singleton() && (itemStack.stackTagCompound != null))
-            readFromNBT(itemStack.stackTagCompound);
-    }
 }

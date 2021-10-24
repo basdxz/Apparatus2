@@ -1,4 +1,4 @@
-package com.github.basdxz.paratileentity.defenition.modules;
+package com.github.basdxz.paratileentity.defenition.tile;
 
 import lombok.val;
 import net.minecraft.entity.EntityLivingBase;
