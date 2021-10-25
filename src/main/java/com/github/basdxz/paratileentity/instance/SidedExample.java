@@ -52,6 +52,19 @@ public class SidedExample extends ParaTile implements IFacingHandler {
         return false;
     }
 
+    //@Override
+    //public boolean canUpdate() {
+    //    return true;
+    //}
+//
+    //@Override
+    //public void updateEntity() {
+    //    if(side() == CLIENT) {
+    //        facingOnBlockPlacedBy(Minecraft.getMinecraft().thePlayer);
+    //        worldObj().markBlockForUpdate(posX(), posY(), posZ());
+    //    }
+    //}
+
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
         writeFacingToNBT(nbtTagCompound);
