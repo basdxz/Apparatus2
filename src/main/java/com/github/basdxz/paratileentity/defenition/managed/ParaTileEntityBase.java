@@ -13,6 +13,9 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+/*
+    TODO: Setup and configure a TileEntitySpecialRenderer dedicated for rendering custom stuff on frame.
+ */
 @Getter
 @Accessors(fluent = true)
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {

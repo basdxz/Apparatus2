@@ -12,6 +12,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
+/*
+   Copy across "Proxied" functions into their own interface.
+   List all Block functions and make a separate list of ones that don't have [World, posX, posY, posZ]
+   Implement and pass through the functions with defaults provided here.
+ */
 public interface IProxiedBlock extends IProxiedComponent {
     default void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack) {
     }

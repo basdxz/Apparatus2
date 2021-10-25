@@ -11,10 +11,18 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+/*
+    TODO: Implement missed methods, particularly ones with no itemStack/meta settings
+ */
 @Getter
 @Accessors(fluent = true)
 public class ParaItemBlock extends ItemBlock implements IParaItemBlock {
     protected final IParaTileManager manager;
+
+    //@Override
+    //public FontRenderer getFontRenderer(ItemStack stack) {
+    //    return Minecraft.getMinecraft().standardGalacticFontRenderer;
+    //}
 
     public ParaItemBlock(Block block) {
         super(block);

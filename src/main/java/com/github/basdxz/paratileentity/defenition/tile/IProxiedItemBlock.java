@@ -6,6 +6,10 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+/*
+   TODO: Copy across "Proxied" functions into their own interface.
+   TODO: List all ItemBlock functions then Implement and pass through the functions with defaults provided here.
+ */
 public interface IProxiedItemBlock extends IProxiedComponent {
     int BLOCK_UPDATE_FLAG = 1;
     int SEND_TO_CLIENT_FLAG = 2;
