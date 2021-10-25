@@ -28,10 +28,10 @@ public interface IProxiedBlock extends IProxiedComponent {
     }
 
     default IIcon getIcon(ForgeDirection side) {
-        return getMissingIcon();
+        return missingIcon();
     }
 
-    static IIcon getMissingIcon() {
+    static IIcon missingIcon() {
         return ((TextureMap) Minecraft
                 .getMinecraft()
                 .getTextureManager()
