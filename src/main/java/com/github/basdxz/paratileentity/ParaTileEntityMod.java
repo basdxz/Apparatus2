@@ -29,5 +29,6 @@ public class ParaTileEntityMod {
         MANAGER.registerTile(TurbinePart.builder().tileID(9).maxDurability(500).maxSpeed(20).build());
 
         MANAGER.registerTile(SidedExample.builder().tileID(10).build());
+        MANAGER.registerTile(ClickableBlockTest.builder().tileID(11).build());
     }
 }

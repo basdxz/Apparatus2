@@ -1,6 +1,7 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
+import com.github.basdxz.paratileentity.defenition.chisel.CarvableHelperExtended;
 import com.github.basdxz.paratileentity.defenition.tile.IProxiedBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -14,6 +15,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -76,6 +78,16 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         for (val tile : manager.tileList())
             tile.registerBlockIcons(iconRegister);
         CarvableHelperExtended.INSTANCE.registerBlockIcons(manager().paraBlock().block(), iconRegister);
+    }
+
+    @Override
+    public void onBlockClicked(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer) {
+        proxiedBlock(world, posX, posY, posZ).onBlockClicked(world, posX, posY, posZ, entityPlayer);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
+        return proxiedBlock(world, posX, posY, posZ).onBlockActivated(world, posX, posY, posZ, entityPlayer, side, hitX, hitY, hitZ);
     }
 
     @Override

@@ -1,6 +1,5 @@
-package com.github.basdxz.paratileentity.defenition.tile;
+package com.github.basdxz.paratileentity.defenition.chisel;
 
-import com.github.basdxz.paratileentity.defenition.managed.CarvableHelperExtended;
 import net.minecraft.util.IIcon;
 import team.chisel.ctmlib.ISubmapManager;
 

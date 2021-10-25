@@ -29,4 +29,8 @@ public interface IProxiedItemBlock extends IProxiedComponent {
         }
         return true;
     }
+
+    default ItemStack newItemStack() {
+        return new ItemStack(manager().paraBlock().block(), 1, tileID());
+    }
 }

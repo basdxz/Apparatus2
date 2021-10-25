@@ -4,8 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -38,7 +40,14 @@ public interface IProxiedBlock extends IProxiedComponent {
         return itemDropList;
     }
 
-    default ItemStack newItemStack() {
-        return new ItemStack(manager().paraBlock().block(), 1, tileID());
+    default void onBlockClicked(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer) {
+    }
+
+    default boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
+        return false;
+    }
+
+    default void updateBlock() {
+        worldObj().markBlockForUpdate(posX(), posY(), posZ());
     }
 }

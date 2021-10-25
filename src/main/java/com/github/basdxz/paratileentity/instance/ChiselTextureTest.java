@@ -1,6 +1,6 @@
 package com.github.basdxz.paratileentity.instance;
 
-import com.github.basdxz.paratileentity.defenition.tile.IChiselRendering;
+import com.github.basdxz.paratileentity.defenition.chisel.IChiselRendering;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;

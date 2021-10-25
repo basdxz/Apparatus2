@@ -1,4 +1,4 @@
-package com.github.basdxz.paratileentity.defenition.managed;
+package com.github.basdxz.paratileentity.defenition.chisel;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -24,7 +24,7 @@ import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 public class CarvableHelperExtended {
     public static final CarvableHelperExtended INSTANCE = new CarvableHelperExtended();
 
-    public ArrayList<IVariationInfo> infoList = new ArrayList<IVariationInfo>();
+    public ArrayList<IVariationInfo> infoList = new ArrayList<>();
     IVariationInfo[] infoMap = new IVariationInfo[MAX_TILE_ID + 1];
 
     public void addVariation(int tileID, ISubmapManager submapManager) {
@@ -68,11 +68,7 @@ public class CarvableHelperExtended {
         if (metadata < 0 || metadata > infoMap.length)
             metadata = 0;
 
-        IVariationInfo info = infoMap[metadata];
-        if (info == null)
-            return null;
-
-        return info;
+        return infoMap[metadata];
     }
 
     public IIcon getIcon(int side, int metadata) {
