@@ -1,7 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import net.minecraftforge.gradle.user.UserExtension
-import java.io.*
 
 buildscript {
     repositories {
@@ -110,6 +109,9 @@ dependencies {
     runtimeOnly("codechicken:CodeChickenLib:$codechickenlibVersion:dev")
     runtimeOnly("codechicken:CodeChickenCore:$codechickencoreVersion:dev")
     runtimeOnly("codechicken:NotEnoughItems:$neiVersion:dev")
+
+    compile("com.github.GTMEGA:CTMLib:17cd6ebc23:deobf")
+    compile("com.github.GTMEGA:Chisel:e673e83c97:deobf")
 }
 sourceSets.main {
     java {

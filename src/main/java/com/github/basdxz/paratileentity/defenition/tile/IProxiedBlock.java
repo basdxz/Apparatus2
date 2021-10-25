@@ -1,6 +1,8 @@
 package com.github.basdxz.paratileentity.defenition.tile;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -19,7 +21,15 @@ public interface IProxiedBlock extends IProxiedComponent {
     }
 
     default IIcon getIcon(ForgeDirection side) {
-        return null;
+        return getMissingIcon();
+    }
+
+    static IIcon getMissingIcon() {
+        return ((TextureMap) Minecraft
+                .getMinecraft()
+                .getTextureManager()
+                .getTexture(TextureMap.locationBlocksTexture))
+                .getAtlasSprite("missingno");
     }
 
     default ArrayList<ItemStack> getDrops(int fortune) {

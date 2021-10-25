@@ -13,7 +13,6 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -23,6 +22,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import team.chisel.api.ICarvable;
+import team.chisel.api.carving.IVariationInfo;
+import team.chisel.api.rendering.ClientUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,7 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
 @Getter
 @Accessors(fluent = true)
-public class ParaBlock extends BlockContainer implements IParaBlock {
+public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     protected final IParaTileManager manager;
     protected final ThreadLocal<IProxiedBlock> tempProxiedBlock = new ThreadLocal<>();
 
@@ -73,6 +75,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     public void registerBlockIcons(IIconRegister iconRegister) {
         for (val tile : manager.tileList())
             tile.registerBlockIcons(iconRegister);
+        CarvableHelperExtended.INSTANCE.registerBlockIcons(manager().paraBlock().block(), iconRegister);
     }
 
     @Override
@@ -93,16 +96,6 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     @Override
     public IIcon getIcon(int side, int tileID) {
         return proxiedBlock(tileID).getIcon(ForgeDirection.getOrientation(side));
-    }
-
-    @Override
-    public float getExplosionResistance(Entity p_149638_1_) {
-        return super.getExplosionResistance(p_149638_1_);
-    }
-
-    @Override
-    public Material getMaterial() {
-        return super.getMaterial();
     }
 
     @Override
@@ -130,4 +123,21 @@ public class ParaBlock extends BlockContainer implements IParaBlock {
     public int getDamageValue(World world, int posX, int posY, int posZ) {
         return tileID(world, posX, posY, posZ);
     }
+
+    // region CHISEL
+    @Override
+    public int getRenderType() {
+        return ClientUtils.renderCTMId;
+    }
+
+    @Override
+    public IVariationInfo getManager(IBlockAccess blockAccess, int posX, int posY, int posZ, int tileID) {
+        return CarvableHelperExtended.INSTANCE.getVariation(tileID);
+    }
+
+    @Override
+    public IVariationInfo getManager(int tileID) {
+        return CarvableHelperExtended.INSTANCE.getVariation(tileID);
+    }
+    //endregion
 }
