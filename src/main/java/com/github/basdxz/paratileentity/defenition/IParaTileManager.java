@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.defenition;
 
+import com.github.basdxz.paratileentity.defenition.chisel.CarvableHelperExtended;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import net.minecraft.item.ItemBlock;
@@ -14,6 +15,10 @@ public interface IParaTileManager {
     }
 
     String name();
+
+    String modid();
+
+    CarvableHelperExtended carvingHelper();
 
     IParaBlock paraBlock();
 

@@ -13,16 +13,14 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
-
 @Getter
 @Accessors(fluent = true)
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
     private IParaTile paraTile;
 
     @Override
-    public IParaTileEntity registerTileEntity(String name) {
-        GameRegistry.registerTileEntity(getClass(), MODID + ":" + name + "_ParaTileEntity");
+    public IParaTileEntity registerTileEntity(String modid, String name) {
+        GameRegistry.registerTileEntity(getClass(), modid + ":" + name + "_ParaTileEntity");
         return this;
     }
 

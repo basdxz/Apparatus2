@@ -1,7 +1,6 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
-import com.github.basdxz.paratileentity.defenition.chisel.CarvableHelperExtended;
 import com.github.basdxz.paratileentity.defenition.tile.IProxiedBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -31,8 +30,6 @@ import team.chisel.api.rendering.ClientUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
-
 @Getter
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
@@ -46,8 +43,8 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     }
 
     protected void init(Class<? extends ItemBlock> itemClass, String name) {
-        setBlockName(MODID + "." + name);
-        setBlockTextureName(MODID + ":" + name);
+        setBlockName(manager.modid() + "." + name);
+        setBlockTextureName(manager.modid() + ":" + name);
         setHardness(1.0F);
         setResistance(10.0F);
         setStepSound(soundTypeMetal);
@@ -77,7 +74,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     public void registerBlockIcons(IIconRegister iconRegister) {
         for (val tile : manager.tileList())
             tile.registerBlockIcons(iconRegister);
-        CarvableHelperExtended.INSTANCE.registerBlockIcons(manager().paraBlock().block(), iconRegister);
+        manager.carvingHelper().registerBlockIcons(manager().paraBlock().block(), iconRegister);
     }
 
     @Override
@@ -144,12 +141,12 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
 
     @Override
     public IVariationInfo getManager(IBlockAccess blockAccess, int posX, int posY, int posZ, int tileID) {
-        return CarvableHelperExtended.INSTANCE.getVariation(tileID);
+        return manager.carvingHelper().getVariation(tileID);
     }
 
     @Override
     public IVariationInfo getManager(int tileID) {
-        return CarvableHelperExtended.INSTANCE.getVariation(tileID);
+        return manager.carvingHelper().getVariation(tileID);
     }
     //endregion
 }

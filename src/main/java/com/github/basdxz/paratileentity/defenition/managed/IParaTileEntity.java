@@ -10,7 +10,7 @@ public interface IParaTileEntity extends IParaManaged {
     int DEFAULT_TILE_ENTITY_PACKET_FLAG = 0;
     String TILE_ID_NBT_TAG = "tileID";
 
-    IParaTileEntity registerTileEntity(String name);
+    IParaTileEntity registerTileEntity(String modid, String name);
 
     default IProxiedTileEntity proxiedTileEntity() {
         return paraTile();

@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.defenition.chisel;
 
+import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,15 +18,17 @@ import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.ArrayList;
 
-import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 import static com.github.basdxz.paratileentity.defenition.IParaTileManager.MAX_TILE_ID;
 import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 
 public class CarvableHelperExtended {
-    public static final CarvableHelperExtended INSTANCE = new CarvableHelperExtended();
+    private final IParaTileManager manager;
+    private final ArrayList<IVariationInfo> infoList = new ArrayList<>();
+    private final IVariationInfo[] infoMap = new IVariationInfo[MAX_TILE_ID + 1];
 
-    public ArrayList<IVariationInfo> infoList = new ArrayList<>();
-    IVariationInfo[] infoMap = new IVariationInfo[MAX_TILE_ID + 1];
+    public CarvableHelperExtended(IParaTileManager manager) {
+        this.manager = manager;
+    }
 
     public void addVariation(int tileID, ISubmapManager submapManager) {
         if (infoList.size() >= infoMap.length)
@@ -33,9 +36,9 @@ public class CarvableHelperExtended {
 
         IVariationInfo info;
         if (FMLCommonHandler.instance().getSide().isClient())
-            info = getClientInfo(MODID, null, "", tileID, null, 0, submapManager, tileID);
+            info = getClientInfo(manager.modid(), null, "", tileID, null, 0, submapManager, tileID);
         else
-            info = getServerInfo(MODID, null, "", tileID, null, 0, submapManager, tileID);
+            info = getServerInfo(manager.modid(), null, "", tileID, null, 0, submapManager, tileID);
 
         infoList.add(info);
         infoMap[tileID] = info;
@@ -90,7 +93,7 @@ public class CarvableHelperExtended {
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(Block block, IIconRegister register) {
         for (IVariationInfo info : infoList) {
-            info.registerIcons(MODID, block, register);
+            info.registerIcons(manager.modid(), block, register);
         }
     }
 }

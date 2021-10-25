@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.defenition;
 
+import com.github.basdxz.paratileentity.defenition.chisel.CarvableHelperExtended;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.defenition.managed.ParaBlock;
@@ -28,13 +29,20 @@ public class ParaTileManager implements IParaTileManager {
     @Getter
     protected final String name;
     @Getter
+    protected final String modid;
+    @Getter
     protected final IParaBlock paraBlock;
     protected final IParaTileEntity paraTileEntity;
 
-    public ParaTileManager(String name, IParaTileEntity paraTileEntity) {
+    @Getter
+    protected final CarvableHelperExtended carvingHelper;
+
+    public ParaTileManager(String modid, String name, IParaTileEntity paraTileEntity) {
+        this.modid = modid;
         this.name = name;
-        this.paraTileEntity = paraTileEntity.registerTileEntity(name);
+        this.paraTileEntity = paraTileEntity.registerTileEntity(modid, name);
         paraBlock = new ParaBlock(this);
+        carvingHelper = new CarvableHelperExtended(this);
     }
 
     @Override
