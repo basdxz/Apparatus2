@@ -17,7 +17,7 @@ public class ParaTileEntityMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         if ((boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment")) {
-            ParaTileEntity.registerParaTileEntity();
+            ParaTileEntity.load();
             MANAGER.registerTile(ChiselTextureTest.builder().tileID(0).build());
             MANAGER.registerTile(ObamaCasing.builder().tileID(1).casingID(0).build());
             MANAGER.registerTile(ObamaCasing.builder().tileID(2).casingID(1).build());

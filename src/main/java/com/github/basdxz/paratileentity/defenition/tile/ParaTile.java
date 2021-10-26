@@ -17,6 +17,13 @@ public abstract class ParaTile implements IParaTile {
     protected IParaTileEntity tileEntity;
 
     @Override
+    public void init(IParaTileManager manager) {
+        if (manager == null)
+            throw new IllegalStateException("Already initialised!");
+        this.manager = manager;
+    }
+
+    @Override
     public IParaTile clone() {
         try {
             return (IParaTile) super.clone();

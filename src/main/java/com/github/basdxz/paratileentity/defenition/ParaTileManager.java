@@ -6,6 +6,7 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.defenition.managed.ParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.ParaItemBlock;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
+import com.github.basdxz.paratileentity.instance.ChiselTextureTest;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
@@ -17,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
@@ -45,6 +47,11 @@ public class ParaTileManager implements IParaTileManager {
         carvingHelper = new CarvableHelperExtended(this);
     }
 
+    //TODO: Register a blank error tile entity at ID 0 and hide it from NEI (keep NEI optional)
+    protected void registerNullParaTile() {
+        MANAGER.registerTile(ChiselTextureTest.builder().tileID(0).build());
+    }
+
     @Override
     public TileEntity createNewTileEntity(World world, int tileID) {
         return paraTileEntity.createNewTileEntity(world, tileID);
@@ -58,7 +65,7 @@ public class ParaTileManager implements IParaTileManager {
             throw new IllegalArgumentException("ID already taken.");
 
         tileList.set(tile.tileID(), tile);
-        tile.manager(this);
+        tile.init(this);
     }
 
     @Override

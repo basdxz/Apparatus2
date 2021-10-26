@@ -17,7 +17,7 @@ public final class ParaTileEntity extends ParaTileEntityBase {
     /*
         Intended to be run during FMLInitializationEvent.
      */
-    public static void registerParaTileEntity() {
+    public static void load() {
         if (MANAGER != null)
             throw new IllegalStateException("Manager already registered!");
         // ATTENTION: If you copied this class, make sure to change this line to have your modid, your name and your class.
