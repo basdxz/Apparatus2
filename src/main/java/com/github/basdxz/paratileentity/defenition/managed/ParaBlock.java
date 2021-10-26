@@ -54,11 +54,6 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "tile.";
-    }
-
-    @Override
     public Block block() {
         return this;
     }
