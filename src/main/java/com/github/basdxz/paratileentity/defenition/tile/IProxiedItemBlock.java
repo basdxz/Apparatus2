@@ -15,7 +15,8 @@ public interface IProxiedItemBlock extends IProxiedComponent {
     int SEND_TO_CLIENT_FLAG = 2;
 
     default String getUnlocalizedName(ItemStack itemStack) {
-        return manager().paraBlock().getUnlocalizedName();
+        return "tile.";
+        //return manager().paraBlock().getUnlocalizedName();
     }
 
     default void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {

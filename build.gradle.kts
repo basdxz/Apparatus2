@@ -101,7 +101,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
     implementation("systems.manifold:manifold-javadoc-agent:$manifoldVersion")
-    shadowImplementation("systems.manifold:manifold-ext-rt:$manifoldVersion")
+    implementation("systems.manifold:manifold-ext-rt:$manifoldVersion")
     annotationProcessor("systems.manifold:manifold-ext:$manifoldVersion")
 
     // Optional libraries for testing
@@ -124,7 +124,7 @@ sourceSets.main {
 tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.compilerArgs.add("-Xplugin:Manifold")
+        options.compilerArgs.add("-Xplugin:Manifold no-bootstrap")
         options.compilerArgs.add("-Xlint:deprecation")
         options.compilerArgs.add("-Xlint:unchecked")
     }

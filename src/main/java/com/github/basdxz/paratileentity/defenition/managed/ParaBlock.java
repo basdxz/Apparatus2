@@ -49,7 +49,13 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         setResistance(10.0F);
         setStepSound(soundTypeMetal);
         setHarvestLevel("wrench", 2);
+        setCreativeTab(CreativeTabs.tabBlock);
         GameRegistry.registerBlock(this, itemClass, getUnlocalizedName());
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return "tile.";
     }
 
     @Override
