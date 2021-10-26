@@ -19,7 +19,6 @@ import team.chisel.ctmlib.ISubmapManager;
 import java.util.ArrayList;
 
 import static com.github.basdxz.paratileentity.defenition.IParaTileManager.MAX_TILE_ID;
-import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 
 public class CarvableHelperExtended {
     private final IParaTileManager manager;
@@ -45,7 +44,7 @@ public class CarvableHelperExtended {
     }
 
     private IVariationInfo getClientInfo(String modid, String texture, String description, int metadata, Block block, int blockMeta, ISubmapManager customManager, int order) {
-        ICarvingVariation var = CarvingUtils.getDefaultVariationFor(MANAGER.paraBlock().block(), metadata, order);
+        ICarvingVariation var = CarvingUtils.getDefaultVariationFor(manager.paraBlock().block(), metadata, order);
         TextureType type = TextureType.getTypeFor(null, modid, texture);
         if (type == TextureType.CUSTOM && customManager == null && block == null) {
             throw new IllegalArgumentException(String.format("Could not find texture %s, and no custom texture manager was provided.", texture));
@@ -63,7 +62,7 @@ public class CarvableHelperExtended {
     }
 
     private IVariationInfo getServerInfo(String modid, String texture, String description, int metadata, Block block, int blockMeta, ISubmapManager customManager, int order) {
-        ICarvingVariation var = CarvingUtils.getDefaultVariationFor(MANAGER.paraBlock().block(), metadata, order);
+        ICarvingVariation var = CarvingUtils.getDefaultVariationFor(manager.paraBlock().block(), metadata, order);
         return new VariationInfoBase(var, description, null);
     }
 
