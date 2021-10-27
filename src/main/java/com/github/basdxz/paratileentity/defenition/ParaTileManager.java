@@ -60,7 +60,7 @@ public class ParaTileManager implements IParaTileManager {
             val managerField = tileEntityClass.getDeclaredField("MANAGER");
             managerField.setAccessible(true);
             managerField.set(null, this);
-            bufferTile(registerNullParaTile());
+            bufferTile.set(registerNullParaTile());
             return tileEntityClass.getDeclaredConstructor().newInstance().registerTileEntity(modid, name);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new IllegalStateException("Class extending IParaTileEntity must have a MANAGER field.");
@@ -125,8 +125,8 @@ public class ParaTileManager implements IParaTileManager {
     @Override
     public void bufferTile(IParaTile tile) {
         System.out.println("Written tile!");
-        if (bufferTile.get() != nullParaTile)
-            System.out.println("Buffer Filled!");
+        if (bufferTile.get() != nullParaTile.get())
+            System.out.println("WARNING: Buffer Written twice!");
         bufferTile.set(tile);
     }
 
@@ -134,9 +134,11 @@ public class ParaTileManager implements IParaTileManager {
     public IParaTile bufferTile() {
         System.out.println("Read tile!");
         val bufferTile = this.bufferTile.get();
-        if (bufferTile == nullParaTile)
-            System.out.println("Buffer Points to Default!");
-        this.bufferTile.remove();
+        if (bufferTile == nullParaTile.get()) {
+            System.out.println("WARNING: Buffer Read twice!");
+        } else {
+            this.bufferTile.set(nullParaTile.get());
+        }
         return bufferTile;
     }
 }

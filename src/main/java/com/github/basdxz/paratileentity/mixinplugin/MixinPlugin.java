@@ -30,7 +30,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
     @Override
     public List<String> getMixins() {
         return Lists.newArrayList(
-                "WorldMixin"
+                "WorldMixin",
+                "AnvilChunkLoaderMixin"
         );
     }
 
