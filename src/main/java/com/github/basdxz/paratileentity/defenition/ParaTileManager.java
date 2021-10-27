@@ -68,6 +68,7 @@ public class ParaTileManager implements IParaTileManager {
         tile.init(this);
     }
 
+    //TODO make null ID's refer to ID 0
     @Override
     public IParaTile paraTile(int tileID) {
         if (IParaTileManager.tileIDInvalid(tileID))
