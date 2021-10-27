@@ -7,7 +7,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 
 import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 
-@Mod(modid = ParaTileEntityMod.MODID, name = ParaTileEntityMod.NAME, version = ParaTileEntityMod.VERSION, dependencies = "required-after:chisel;")
+@Mod(modid = ParaTileEntityMod.MODID, name = ParaTileEntityMod.NAME, version = ParaTileEntityMod.VERSION,
+        dependencies = "required-after:chisel;" +
+                "required-after:spongemixins@[1.1.0,);")
 public class ParaTileEntityMod {
     public static final String MODID = "paratileentity";
     public static final String NAME = "ParaTileEntity";

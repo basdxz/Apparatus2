@@ -78,6 +78,7 @@ repositories {
     maven("http://chickenbones.net/maven/") { name = "CodeChicken Maven" }
     maven("http://www.ryanliptak.com/maven/") { name = "appleCore Maven" }
     maven("https://jitpack.io") { name = "JitPack Maven" }
+    maven("https://repo.spongepowered.org/repository/maven-public") { name = "Sponge Maven" }
 }
 // Allows JitPack dependencies to be updated more frequently by checking more often.
 configurations.all {
@@ -110,8 +111,24 @@ dependencies {
     runtimeOnly("codechicken:CodeChickenCore:$codechickencoreVersion:dev")
     runtimeOnly("codechicken:NotEnoughItems:$neiVersion:dev")
 
+    // Chisel stuff for renders
     compile("com.github.GTMEGA:CTMLib:17cd6ebc23:deobf")
     compile("com.github.GTMEGA:Chisel:e673e83c97:deobf")
+
+    // Mixin stuff
+    annotationProcessor("org.ow2.asm:asm-debug-all:5.0.3")
+    annotationProcessor("com.google.guava:guava:24.1.1-jre")
+    annotationProcessor("com.google.code.gson:gson:2.8.6")
+    annotationProcessor("org.spongepowered:mixin:0.8-SNAPSHOT") // using 0.8 to workaround a issue in 0.7 which fails mixin application
+    compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+        // Mixin includes a lot of dependencies that are too up-to-date
+        exclude(module = "launchwrapper")
+        exclude(module = "guava")
+        exclude(module = "gson")
+        exclude(module = "commons-io")
+        exclude(module = "log4j-core")
+    }
+    compile("com.github.GTNewHorizons:SpongeMixins:1.3.3:dev")
 }
 sourceSets.main {
     java {
@@ -121,13 +138,33 @@ sourceSets.main {
     // Uncomment this if you get missing textures when debugging.
     // output.setResourcesDir(output.classesDirs.asPath)
 }
+val mixinConfigJson = "mixins.$projectModId.json"
+val mixingConfigRefMap = "mixins.$projectModId.refmap.json"
+lateinit var srgFile: String
+lateinit var refMapFile: String
+lateinit var mixinSrgFile: String
 tasks {
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        options.compilerArgs.add("-Xplugin:Manifold no-bootstrap")
-        options.compilerArgs.add("-Xlint:deprecation")
-        options.compilerArgs.add("-Xlint:unchecked")
+    val relocateShadowJar = register<ConfigureShadowRelocation>("relocateShadowJar")
+    val shadowJarTask = named<ShadowJar>("shadowJar") {
+        // Exports the temporary directory, I want a better way to do this.
+        refMapFile = temporaryDir.toString() + File.separator + mixingConfigRefMap
+        from(refMapFile)
+        manifest {
+            attributes.put("TweakClass", "org.spongepowered.asm.launch.MixinTweaker")
+            attributes.put("MixinConfigs", mixinConfigJson)
+            attributes.put("FMLCorePluginContainsFMLMod", true)
+            attributes.put("ForceLoadAsMod", true)
+        }
+
+        // Only shadows used classes
+        minimize()
+        // Loads shadow implementations
+        configurations = listOf(shadowImplementation)
+        // Enable package relocation in resulting shadow jar to prevent class overlap
+        relocateShadowJar.get().apply { prefix = "$projectGroup.shadow"; target = this@named }
+        dependsOn(relocateShadowJar)
     }
+
     withType<Jar> {
         // Mark as outdated if versions change
         inputs.properties.plusAssign("version" to project.version)
@@ -142,16 +179,26 @@ tasks {
             )
         }
     }
-    val relocateShadowJar = register<ConfigureShadowRelocation>("relocateShadowJar")
-    val shadowJarTask = named<ShadowJar>("shadowJar") {
-        // Only shadows used classes
-        minimize()
-        // Loads shadow implementations
-        configurations = listOf(shadowImplementation)
-        // Enable package relocation in resulting shadow jar to prevent class overlap
-        relocateShadowJar.get().apply { prefix = "$projectGroup.shadow"; target = this@named }
-        dependsOn(relocateShadowJar)
+
+    withType<net.minecraftforge.gradle.tasks.user.reobf.ReobfTask> {
+        // srg to pass along as compiler args
+        srgFile = getSrg().toString()
+        // Exports the temporary directory again, I want a better way to do this.
+        mixinSrgFile = temporaryDir.toString() + File.separator + "mixins.srg"
+        // Link in the mixin Srg file
+        addExtraSrgFile(mixinSrgFile)
     }
+
+    compileJava {
+        options.encoding = "UTF-8"
+        options.compilerArgs.add("-Xplugin:Manifold no-bootstrap")
+        options.compilerArgs.add("-Xlint:deprecation")
+        options.compilerArgs.add("-Xlint:unchecked")
+        options.compilerArgs.add("-AreobfSrgFile=$srgFile")
+        options.compilerArgs.add("-AoutRefMapFile=$refMapFile")
+        options.compilerArgs.add("-AoutSrgFile=$mixinSrgFile")
+    }
+
     // Makes shadowJarTask run in place of the jar task
     jar {
         dependsOn(shadowJarTask)
@@ -174,5 +221,26 @@ tasks {
         archives(sourcesJar)
         archives(javadocJar)
         archives(devJar)
+    }
+
+    named<JavaExec>("runClient") {
+        args(
+            "--tweakClass", "org.spongepowered.asm.launch.MixinTweaker",
+            // Having mixin in the same jar as normal mode makes FML ignore it.
+            // It should be fine in production, however I suppose it's not properly read here.
+            // The only option which worked for me was adding it as a mod explicitly via next argument:
+            "--mods=../build/libs/$projectModId-$version.jar",
+            "--username", "basdxz"
+        )
+    }
+
+    named<JavaExec>("runServer") {
+        args(
+            "--tweakClass", "org.spongepowered.asm.launch.MixinTweaker",
+            // Having mixin in the same jar as normal mode makes FML ignore it.
+            // It should be fine in production, however I suppose it's not properly read here.
+            // The only option which worked for me was adding it as a mod explicitly via next argument:
+            "--mods=../build/libs/$projectModId-$version.jar"
+        )
     }
 }
