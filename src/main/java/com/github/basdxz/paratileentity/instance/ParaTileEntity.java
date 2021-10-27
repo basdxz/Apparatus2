@@ -12,6 +12,7 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
  */
 @NoArgsConstructor
 public final class ParaTileEntity extends ParaTileEntityBase {
+    // Keep this field name, it is registered via ParaTileManager
     public static IParaTileManager MANAGER;
 
     /*
@@ -21,7 +22,7 @@ public final class ParaTileEntity extends ParaTileEntityBase {
         if (MANAGER != null)
             throw new IllegalStateException("Manager already registered!");
         // ATTENTION: If you copied this class, make sure to change this line to have your modid, your name and your class.
-        MANAGER = new ParaTileManager(MODID, "test_tile", new ParaTileEntity());
+        new ParaTileManager(MODID, "test_tile", ParaTileEntity.class);
     }
 
     @Override

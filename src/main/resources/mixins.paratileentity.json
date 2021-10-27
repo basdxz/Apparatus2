@@ -5,5 +5,8 @@
   "plugin": "com.github.basdxz.paratileentity.mixinplugin.MixinPlugin",
   "refmap": "mixins.paratileentity.refmap.json",
   "target": "@env(DEFAULT)",
-  "compatibilityLevel": "JAVA_8"
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "WorldMixin"
+  ]
 }

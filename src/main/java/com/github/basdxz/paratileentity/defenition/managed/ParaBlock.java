@@ -1,7 +1,6 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
-import com.github.basdxz.paratileentity.defenition.tile.IProxiedBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +33,6 @@ import java.util.List;
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     protected final IParaTileManager manager;
-    protected final ThreadLocal<IProxiedBlock> tempProxiedBlock = new ThreadLocal<>();
 
     public ParaBlock(IParaTileManager manager) {
         super(Material.anvil);
@@ -110,23 +108,13 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
 
     @Override
     public void breakBlock(World world, int posX, int posY, int posZ, Block block, int tileID) {
-        tempProxiedBlock(world, posX, posY, posZ);
+        manager().bufferTile(paraTile(world, posX, posY, posZ));
         super.breakBlock(world, posX, posY, posZ, block, tileID);
-    }
-
-    protected void tempProxiedBlock(IBlockAccess blockAccess, int posX, int posY, int posZ) {
-        tempProxiedBlock.set(proxiedBlock(blockAccess, posX, posY, posZ));
     }
 
     @Override
     public ArrayList<ItemStack> getDrops(World world, int posX, int posY, int posZ, int tileID, int fortune) {
-        return tempProxiedBlock().getDrops(fortune);
-    }
-
-    protected IProxiedBlock tempProxiedBlock() {
-        val tempProxiedBlock = this.tempProxiedBlock.get();
-        this.tempProxiedBlock.remove();
-        return tempProxiedBlock;
+        return manager().bufferTile().getDrops(fortune);
     }
 
     @Override

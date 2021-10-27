@@ -10,22 +10,30 @@ import com.github.basdxz.paratileentity.instance.ChiselTextureTest;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
+import lombok.val;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 @Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
     @Getter
-    private final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
+    protected final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
+    protected final ThreadLocal<IParaTile> nullParaTile = new ThreadLocal<>();
+    protected final ThreadLocal<IParaTile> bufferTile = new ThreadLocal<IParaTile>() {
+        @Override
+        protected IParaTile initialValue() {
+            return super.initialValue();
+        }
+    };
 
     protected final List<IParaTile> tileList = Arrays.asList(new IParaTile[MAX_TILE_ID + 1]);
     @Getter
@@ -39,17 +47,31 @@ public class ParaTileManager implements IParaTileManager {
     @Getter
     protected final CarvableHelperExtended carvingHelper;
 
-    public ParaTileManager(String modid, String name, IParaTileEntity paraTileEntity) {
+    public ParaTileManager(String modid, String name, Class<? extends IParaTileEntity> tileEntityClass) {
         this.modid = modid;
         this.name = name;
-        this.paraTileEntity = paraTileEntity.registerTileEntity(modid, name);
+        this.paraTileEntity = registerTileEntity(tileEntityClass);
         paraBlock = new ParaBlock(this);
         carvingHelper = new CarvableHelperExtended(this);
     }
 
-    //TODO: Register a blank error tile entity at ID 0 and hide it from NEI (keep NEI optional)
-    protected void registerNullParaTile() {
-        MANAGER.registerTile(ChiselTextureTest.builder().tileID(0).build());
+    protected IParaTileEntity registerTileEntity(Class<? extends IParaTileEntity> tileEntityClass) {
+        try {
+            val managerField = tileEntityClass.getDeclaredField("MANAGER");
+            managerField.setAccessible(true);
+            managerField.set(null, this);
+            bufferTile(registerNullParaTile());
+            return tileEntityClass.getDeclaredConstructor().newInstance().registerTileEntity(modid, name);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalStateException("Class extending IParaTileEntity must have a MANAGER field.");
+        } catch (InvocationTargetException | InstantiationException | NoSuchMethodException e) {
+            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor. (early)");
+        }
+    }
+
+    protected IParaTile registerNullParaTile() {
+        nullParaTile.set(registerTile(ChiselTextureTest.builder().tileID(0).build()));
+        return nullParaTile.get();
     }
 
     @Override
@@ -58,23 +80,27 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     @Override
-    public void registerTile(@NonNull IParaTile tile) {
+    public IParaTile registerTile(@NonNull IParaTile tile) {
         if (IParaTileManager.tileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
         if (tileList.get(tile.tileID()) != null)
-            throw new IllegalArgumentException("ID already taken.");
+            if (tile.tileID() == 0)
+                throw new IllegalArgumentException("ID 0 is used for null block.");
+            else
+                throw new IllegalArgumentException("ID already taken.");
 
         tileList.set(tile.tileID(), tile);
         tile.init(this);
+        return tile;
     }
 
     //TODO make null ID's refer to ID 0
     @Override
     public IParaTile paraTile(int tileID) {
         if (IParaTileManager.tileIDInvalid(tileID))
-            throw new IllegalArgumentException("Tile ID out of bounds.");
+            throw new IllegalArgumentException("Tile ID " + tileID + " is out of bounds.");
         if (tileList.get(tileID) == null)
-            throw new IllegalArgumentException("Tile ID doesn't exist.");
+            throw new IllegalArgumentException("Tile ID " + tileID + " doesn't exist.");
 
         return tileList.get(tileID);
     }
@@ -94,5 +120,23 @@ public class ParaTileManager implements IParaTileManager {
                 .filter(i -> tileList.get(i) != null)
                 .boxed()
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public void bufferTile(IParaTile tile) {
+        System.out.println("Written tile!");
+        if (bufferTile.get() != nullParaTile)
+            System.out.println("Buffer Filled!");
+        bufferTile.set(tile);
+    }
+
+    @Override
+    public IParaTile bufferTile() {
+        System.out.println("Read tile!");
+        val bufferTile = this.bufferTile.get();
+        if (bufferTile == nullParaTile)
+            System.out.println("Buffer Points to Default!");
+        this.bufferTile.remove();
+        return bufferTile;
     }
 }

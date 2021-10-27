@@ -26,11 +26,15 @@ public interface IParaTileManager {
 
     TileEntity createNewTileEntity(World world, int tileID);
 
-    void registerTile(IParaTile tile);
+    IParaTile registerTile(IParaTile tile);
 
     IParaTile paraTile(int id);
 
     Iterable<IParaTile> tileList();
 
     Iterable<Integer> allTileIDs();
+
+    void bufferTile(IParaTile tile);
+
+    IParaTile bufferTile();
 }

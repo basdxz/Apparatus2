@@ -29,10 +29,9 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public List<String> getMixins() {
-        List<String> mixins = Lists.newArrayList(
-                "BlockMixin"
+        return Lists.newArrayList(
+                "WorldMixin"
         );
-        return mixins;
     }
 
     @Override

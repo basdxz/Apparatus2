@@ -13,6 +13,8 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import java.lang.reflect.InvocationTargetException;
+
 /*
     TODO: Setup and configure a TileEntitySpecialRenderer dedicated for rendering custom stuff on frame.
  */
@@ -20,6 +22,31 @@ import net.minecraft.world.World;
 @Accessors(fluent = true)
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
     private IParaTile paraTile;
+
+    public ParaTileEntityBase() {
+        init();
+    }
+
+    protected void init() {
+        paraTile = manager().bufferTile();
+    }
+
+    protected void initParaTileOLD() {
+        if (paraTile != null)
+            return;
+        val baseParaTile = manager().paraTile(tileID());
+        if (baseParaTile.singleton()) {
+            paraTile = baseParaTile;
+        } else {
+            /*
+                Allows the clone() method to have access to this TileEntity as well as the cloned class
+                But prevents leaving a reference to **this** TileEntity, preventing unexpected use.
+             */
+            baseParaTile.tileEntity(this);
+            paraTile = baseParaTile.clone();
+            baseParaTile.tileEntity(null);
+        }
+    }
 
     @Override
     public IParaTileEntity registerTileEntity(String modid, String name) {
@@ -49,7 +76,19 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
             paraTileEntity.setWorldObj(world);
             paraTileEntity.tileID(tileID);
             return paraTileEntity;
-        } catch (Exception e) {
+            //} catch () {
+            //throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
+        } catch (InvocationTargetException e) {
+            e.getCause().printStackTrace();
+            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
             throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
         }
     }
@@ -81,7 +120,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public boolean canUpdate() {
-        initParaTile();
+        initParaTileOLD();
         return proxiedTileEntity().canUpdate();
     }
 
@@ -98,7 +137,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
         readTileIDFromToNBT(nbtTagCompound);
-        initParaTile();
+        initParaTileOLD();
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }
@@ -113,22 +152,5 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
         readFromNBT(packet.func_148857_g());
-    }
-
-    protected void initParaTile() {
-        if (paraTile != null)
-            return;
-        val baseParaTile = manager().paraTile(tileID());
-        if (baseParaTile.singleton()) {
-            paraTile = baseParaTile;
-        } else {
-            /*
-                Allows the clone() method to have access to this TileEntity as well as the cloned class
-                But prevents leaving a reference to **this** TileEntity, preventing unexpected use.
-             */
-            baseParaTile.tileEntity(this);
-            paraTile = baseParaTile.clone();
-            baseParaTile.tileEntity(null);
-        }
     }
 }
