@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
 public class WorldMixin {
-
     @Shadow
     @Final
     public WorldProvider provider;
@@ -25,10 +24,12 @@ public class WorldMixin {
         Then another time for sync and a fourth time for another sync it seems.
 
         So four in total then.
+
+        We care about the first two if they are para blocks and don't have loaded tile entities
      */
     @Inject(method = "setBlock(IIILnet/minecraft/block/Block;II)Z", at = @At("HEAD"), require = 1)
     public void setBlock(int posX, int posY, int posZ, Block block, int meta, int flag, CallbackInfoReturnable<Boolean> cir) {
-        if (block instanceof IParaBlock)
+        if (block instanceof IParaBlock && provider.worldObj.getTileEntity(posX, posY, posZ) == null)
             bufferTile((IParaBlock) block, meta);
     }
 

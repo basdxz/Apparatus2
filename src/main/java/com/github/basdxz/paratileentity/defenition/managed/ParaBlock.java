@@ -107,12 +107,6 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     }
 
     @Override
-    public void breakBlock(World world, int posX, int posY, int posZ, Block block, int tileID) {
-        manager().bufferTile(paraTile(world, posX, posY, posZ));
-        super.breakBlock(world, posX, posY, posZ, block, tileID);
-    }
-
-    @Override
     public ArrayList<ItemStack> getDrops(World world, int posX, int posY, int posZ, int tileID, int fortune) {
         return manager().bufferTile().getDrops(fortune);
     }

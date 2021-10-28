@@ -27,10 +27,6 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         init();
     }
 
-    protected void init() {
-        paraTile = manager().bufferTile();
-    }
-
     protected void initParaTileOLD() {
         if (paraTile != null)
             return;
@@ -152,5 +148,9 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
         readFromNBT(packet.func_148857_g());
+    }
+
+    protected void init() {
+        paraTile = manager().bufferTile();
     }
 }

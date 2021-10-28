@@ -31,7 +31,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
     public List<String> getMixins() {
         return Lists.newArrayList(
                 "WorldMixin",
-                "AnvilChunkLoaderMixin"
+                "AnvilChunkLoaderMixin",
+                "ItemInWorldManagerMixin"
         );
     }
 
