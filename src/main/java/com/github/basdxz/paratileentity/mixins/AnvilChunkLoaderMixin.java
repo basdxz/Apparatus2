@@ -25,10 +25,10 @@ public class AnvilChunkLoaderMixin {
                             "(Lnet/minecraft/nbt/NBTTagCompound;)Lnet/minecraft/tileentity/TileEntity;",
                     shift = At.Shift.BEFORE),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    public void loadEntities(World world, NBTTagCompound nbt1, Chunk chunk, CallbackInfo ci,
-                             NBTTagList nbt2, NBTTagList nbt3, int i1, NBTTagCompound nbt4) {
-        if (nbt4.getString("id").contains("ParaTileEntity"))
-            bufferTile(chunk, nbt4);
+    public void loadEntities(World world, NBTTagCompound nbt, Chunk chunk, CallbackInfo ci,
+                             NBTTagList nbt1, NBTTagList nbt2, int i, NBTTagCompound nbt3) {
+        if (nbt3.getString("id").contains("ParaTileEntity"))
+            bufferTile(chunk, nbt3);
     }
 
     /*
