@@ -19,6 +19,9 @@ public class ItemInWorldManagerMixin {
     @Shadow
     public World theWorld;
 
+    /*
+        Injects before the player tries to break a block and is not in creative mode.
+     */
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",
@@ -38,6 +41,11 @@ public class ItemInWorldManagerMixin {
         paraBlock.manager().bufferTile(paraBlock.paraTile(blockAccess, posX, posY, posZ));
     }
 
+    /*
+        Injects after the return of removeBlock has been written to flag1.
+        This we can then test to see if the harvestBlock method is executed.
+        Because if it is not, we want to purge the block buffer to prevent potential overflow.
+     */
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",

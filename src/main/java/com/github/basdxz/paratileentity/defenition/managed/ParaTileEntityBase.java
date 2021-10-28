@@ -27,21 +27,32 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         init();
     }
 
+    protected void init() {
+        paraTile = manager().bufferTile();
+        safeClone();
+    }
+
     protected void initParaTileOLD() {
         if (paraTile != null)
             return;
-        val baseParaTile = manager().paraTile(tileID());
-        if (baseParaTile.singleton()) {
-            paraTile = baseParaTile;
-        } else {
-            /*
-                Allows the clone() method to have access to this TileEntity as well as the cloned class
-                But prevents leaving a reference to **this** TileEntity, preventing unexpected use.
-             */
-            baseParaTile.tileEntity(this);
-            paraTile = baseParaTile.clone();
-            baseParaTile.tileEntity(null);
-        }
+        paraTile = manager().paraTile(tileID());
+        safeClone();
+    }
+
+    /*
+        Only clones non-singleton ParaTiles.
+
+        Also allows the clone() method to have access to this TileEntity as well as the cloned class
+        But prevents leaving a reference to **this** TileEntity, preventing unexpected use.
+     */
+    protected void safeClone() {
+        if (paraTile.singleton())
+            return;
+
+        paraTile.tileEntity(this);
+        val clonedParaTile = paraTile.clone();
+        paraTile.tileEntity(null);
+        paraTile = clonedParaTile;
     }
 
     @Override
@@ -148,9 +159,5 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
         readFromNBT(packet.func_148857_g());
-    }
-
-    protected void init() {
-        paraTile = manager().bufferTile();
     }
 }

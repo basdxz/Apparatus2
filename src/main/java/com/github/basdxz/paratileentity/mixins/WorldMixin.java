@@ -25,7 +25,7 @@ public class WorldMixin {
 
         So four in total then.
 
-        We care about the first two if they are para blocks and don't have loaded tile entities
+        We care about the first two if they are para blocks and don't have loaded tile entities.
      */
     @Inject(method = "setBlock(IIILnet/minecraft/block/Block;II)Z", at = @At("HEAD"), require = 1)
     public void setBlock(int posX, int posY, int posZ, Block block, int meta, int flag, CallbackInfoReturnable<Boolean> cir) {
