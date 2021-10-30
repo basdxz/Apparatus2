@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Chunk.class)
-public abstract class ChunkMixin {
+public class ChunkMixin {
     private static Block cachedBlock;
 
     /*

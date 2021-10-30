@@ -13,7 +13,6 @@ import lombok.experimental.Accessors;
 import lombok.val;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -75,8 +74,8 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int tileID) {
-        return paraTileEntity.createNewTileEntity(world, tileID);
+    public TileEntity createNewTileEntity() {
+        return paraTileEntity.createNewTileEntity();
     }
 
     @Override

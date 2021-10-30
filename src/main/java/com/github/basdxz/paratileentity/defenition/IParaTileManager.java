@@ -5,7 +5,6 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public interface IParaTileManager {
     int MAX_TILE_ID = Short.MAX_VALUE;
@@ -24,7 +23,7 @@ public interface IParaTileManager {
 
     Class<? extends ItemBlock> itemClass();
 
-    TileEntity createNewTileEntity(World world, int tileID);
+    TileEntity createNewTileEntity();
 
     IParaTile registerTile(IParaTile tile);
 

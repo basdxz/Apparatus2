@@ -11,5 +11,8 @@
     "ChunkMixin",
     "ItemInWorldManagerMixin",
     "WorldMixin"
+  ],
+  "client": [
+    "NetHandlerPlayClientMixin"
   ]
 }

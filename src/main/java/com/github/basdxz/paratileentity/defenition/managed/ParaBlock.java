@@ -58,7 +58,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
 
     @Override
     public TileEntity createNewTileEntity(World world, int tileID) {
-        return manager.createNewTileEntity(world, tileID);
+        return manager.createNewTileEntity();
     }
 
     @SuppressWarnings("unchecked") // Unavoidable due to Minecraft providing a raw list.

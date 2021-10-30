@@ -7,17 +7,24 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public interface IParaTileEntity extends IParaManaged {
+    String TILE_ENTITY_ID_POST_FIX = "ParaTileEntity";
     int DEFAULT_TILE_ENTITY_PACKET_FLAG = 0;
-    String TILE_ID_NBT_TAG = "tileID";
+
+    String TILE_ENTITY_ID_STR_NBT_TAG = "id";
+    String TILE_ENTITY_X_POS_INT_NBT_TAG = "x";
+    String TILE_ENTITY_Y_POS_INT_NBT_TAG = "y";
+    String TILE_ENTITY_Z_POS_INT_NBT_TAG = "z";
+    String TILE_ID_INT_NBT_TAG = "tileID";
 
     IParaTileEntity registerTileEntity(String modid, String name);
 
-    default void writeTileIDToNBT(NBTTagCompound nbtTagCompound) {
-        nbtTagCompound.setInteger(TILE_ID_NBT_TAG, tileID());
+    static boolean isNBTFromParaTileEntity(NBTTagCompound nbtTagCompound) {
+        return nbtTagCompound.getString(TILE_ENTITY_ID_STR_NBT_TAG)
+                .contains(TILE_ENTITY_ID_POST_FIX);
     }
 
-    default void readTileIDFromToNBT(NBTTagCompound nbtTagCompound) {
-        tileID(nbtTagCompound.getInteger(TILE_ID_NBT_TAG));
+    default void writeTileIDToNBT(NBTTagCompound nbtTagCompound) {
+        nbtTagCompound.setInteger(TILE_ID_INT_NBT_TAG, tileID());
     }
 
     default IProxiedTileEntity proxiedTileEntity() {
@@ -26,11 +33,14 @@ public interface IParaTileEntity extends IParaManaged {
 
     IParaTile paraTile();
 
+    //fixme ID load nonsense fix
     IParaTileEntity tileID(int tileID);
 
-    int tileID();
+    default int tileID() {
+        return paraTile().tileID();
+    }
 
-    TileEntity createNewTileEntity(World world, int tileID);
+    TileEntity createNewTileEntity();
 
     @Deprecated //TODO Replace with more robust worldObj loading.
     default TileEntitySide side() {

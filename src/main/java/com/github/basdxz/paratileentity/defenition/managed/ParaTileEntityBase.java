@@ -21,22 +21,14 @@ import java.lang.reflect.InvocationTargetException;
 @Getter
 @Accessors(fluent = true)
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
-    private IParaTile paraTile;
+    protected final IParaTile paraTile;
 
     public ParaTileEntityBase() {
-        init();
+        paraTile = init();
     }
 
-    protected void init() {
-        paraTile = manager().bufferTile();
-        safeClone();
-    }
-
-    protected void initParaTileOLD() {
-        if (paraTile != null)
-            return;
-        paraTile = manager().paraTile(tileID());
-        safeClone();
+    protected IParaTile init() {
+        return safeClone(manager().bufferTile());
     }
 
     /*
@@ -45,22 +37,23 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         Also allows the clone() method to have access to this TileEntity as well as the cloned class
         But prevents leaving a reference to **this** TileEntity, preventing unexpected use.
      */
-    protected void safeClone() {
+    protected IParaTile safeClone(IParaTile paraTile) {
         if (paraTile.singleton())
-            return;
+            return paraTile;
 
         paraTile.tileEntity(this);
         val clonedParaTile = paraTile.clone();
         paraTile.tileEntity(null);
-        paraTile = clonedParaTile;
+        return clonedParaTile;
     }
 
     @Override
     public IParaTileEntity registerTileEntity(String modid, String name) {
-        GameRegistry.registerTileEntity(getClass(), modid + ":" + name + "_ParaTileEntity");
+        GameRegistry.registerTileEntity(getClass(), modid + ":" + name + "_" + TILE_ENTITY_ID_POST_FIX);
         return this;
     }
 
+    //fixme ID load nonsense fix
     @Override
     public IParaTileEntity tileID(int tileID) {
         if (IParaTileManager.tileIDInvalid(tileID))
@@ -69,20 +62,11 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         return this;
     }
 
+    //fixme ID load nonsense fix (Basically tileID and world should be 100% ignored. We'll load them better later.
     @Override
-    public int tileID() {
-        if (IParaTileManager.tileIDInvalid(blockMetadata))
-            blockMetadata = 0;
-        return blockMetadata;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World world, int tileID) {
+    public TileEntity createNewTileEntity() {
         try {
-            val paraTileEntity = getClass().getDeclaredConstructor().newInstance();
-            paraTileEntity.setWorldObj(world);
-            paraTileEntity.tileID(tileID);
-            return paraTileEntity;
+            return getClass().getDeclaredConstructor().newInstance();
             //} catch () {
             //throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
         } catch (InvocationTargetException e) {
@@ -105,21 +89,25 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         return worldObj;
     }
 
+    //fixme add pos set
     @Override
     public int posX() {
         return xCoord;
     }
 
+    //fixme add pos set
     @Override
     public int posY() {
         return yCoord;
     }
 
+    //fixme add pos set
     @Override
     public int posZ() {
         return zCoord;
     }
 
+    //fixme add pos set
     @Override
     public void updateEntity() {
         proxiedTileEntity().updateEntity();
@@ -127,7 +115,6 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public boolean canUpdate() {
-        initParaTileOLD();
         return proxiedTileEntity().canUpdate();
     }
 
@@ -143,8 +130,6 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
-        readTileIDFromToNBT(nbtTagCompound);
-        initParaTileOLD();
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }
