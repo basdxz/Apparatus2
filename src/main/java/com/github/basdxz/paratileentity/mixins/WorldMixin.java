@@ -20,14 +20,16 @@ public class WorldMixin {
 
         We care about the first two if they are para blocks and don't have loaded tile entities.
      */
-    @Inject(method = "setBlock(IIILnet/minecraft/block/Block;II)Z", at = @At("HEAD"), require = 1)
+    @Inject(method = "setBlock(IIILnet/minecraft/block/Block;II)Z",
+            at = @At("HEAD"),
+            require = 1)
     public void setBlock(int posX, int posY, int posZ, Block block, int meta, int flag, CallbackInfoReturnable<Boolean> cir) {
         if (block instanceof IParaBlock && thiz().getTileEntity(posX, posY, posZ) == null)
             bufferTile((IParaBlock) block, meta);
     }
 
     /*
-        Mostly safe this reference
+        Mostly safe 'this' reference back to the actual World instance.
      */
     private World thiz() {
         return (World) (Object) this;

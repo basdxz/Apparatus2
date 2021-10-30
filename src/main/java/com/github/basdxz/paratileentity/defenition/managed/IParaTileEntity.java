@@ -33,9 +33,6 @@ public interface IParaTileEntity extends IParaManaged {
 
     IParaTile paraTile();
 
-    //fixme ID load nonsense fix
-    IParaTileEntity tileID(int tileID);
-
     default int tileID() {
         return paraTile().tileID();
     }

@@ -27,7 +27,8 @@ public class AnvilChunkLoaderMixin {
                     target = "Lnet/minecraft/tileentity/TileEntity;createAndLoadEntity " +
                             "(Lnet/minecraft/nbt/NBTTagCompound;)Lnet/minecraft/tileentity/TileEntity;",
                     shift = At.Shift.BEFORE),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+            require = 1)
     public void loadEntities(World world, NBTTagCompound nbt, Chunk chunk, CallbackInfo ci,
                              NBTTagList nbt1, NBTTagList nbt2, int i, NBTTagCompound nbt3) {
         if (isNBTFromParaTileEntity(nbt3))
@@ -37,17 +38,16 @@ public class AnvilChunkLoaderMixin {
     /*
         Tosses a reference ParaTile into the managers buffer.
      */
-    private static void bufferTile(Chunk chunk, NBTTagCompound nbtFocus) {
-        val posX = nbtFocus.getInteger(TILE_ENTITY_X_POS_INT_NBT_TAG);
-        val posY = nbtFocus.getInteger(TILE_ENTITY_Y_POS_INT_NBT_TAG);
-        val posZ = nbtFocus.getInteger(TILE_ENTITY_Z_POS_INT_NBT_TAG);
-        val tileID = nbtFocus.getInteger(TILE_ID_INT_NBT_TAG);
+    private static void bufferTile(Chunk chunk, NBTTagCompound nbtTagCompound) {
+        val posX = nbtTagCompound.getInteger(TILE_ENTITY_X_POS_INT_NBT_TAG);
+        val posY = nbtTagCompound.getInteger(TILE_ENTITY_Y_POS_INT_NBT_TAG);
+        val posZ = nbtTagCompound.getInteger(TILE_ENTITY_Z_POS_INT_NBT_TAG);
+        val tileID = nbtTagCompound.getInteger(TILE_ID_INT_NBT_TAG);
 
         val block = chunk.getBlock(
                 ChunkBlockUtils.worldToChunkBlockPos(posX),
                 posY,
                 ChunkBlockUtils.worldToChunkBlockPos(posZ));
-
         if (!(block instanceof IParaBlock))
             return;
 
@@ -56,6 +56,4 @@ public class AnvilChunkLoaderMixin {
 
         System.out.println("Preloaded ParaTile from NBT: " + tileID);
     }
-
-
 }

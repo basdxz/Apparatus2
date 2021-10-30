@@ -1,6 +1,5 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
-import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
@@ -53,34 +52,15 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         return this;
     }
 
-    //fixme ID load nonsense fix
-    @Override
-    public IParaTileEntity tileID(int tileID) {
-        if (IParaTileManager.tileIDInvalid(tileID))
-            throw new IllegalArgumentException("Tile ID out of bounds.");
-        blockMetadata = tileID;
-        return this;
-    }
-
-    //fixme ID load nonsense fix (Basically tileID and world should be 100% ignored. We'll load them better later.
     @Override
     public TileEntity createNewTileEntity() {
         try {
             return getClass().getDeclaredConstructor().newInstance();
-            //} catch () {
-            //throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new IllegalStateException("Class extending ParaTileEntityBase requires no args constructor.");
         } catch (InvocationTargetException e) {
             e.getCause().printStackTrace();
-            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
+            throw new IllegalStateException("Something went wrong with creating a new instance, refer to stacktrace.");
         }
     }
 
@@ -126,7 +106,6 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
             paraTile.writeToNBT(nbtTagCompound);
     }
 
-
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
@@ -145,4 +124,13 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
         readFromNBT(packet.func_148857_g());
     }
+
+
+    //TODO: Decide if it should return tileID() or just a constant 0.
+    @Override
+    public int getBlockMetadata() {
+        return tileID();
+    }
+
+
 }

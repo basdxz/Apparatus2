@@ -123,8 +123,8 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     }
 
     @Override
-    public IVariationInfo getManager(IBlockAccess blockAccess, int posX, int posY, int posZ, int tileID) {
-        return manager.carvingHelper().getVariation(tileID);
+    public IVariationInfo getManager(IBlockAccess blockAccess, int posX, int posY, int posZ, int blockMeta) {
+        return manager.carvingHelper().getVariation(tileID(blockAccess, posX, posY, posZ));
     }
 
     @Override

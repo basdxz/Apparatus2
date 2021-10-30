@@ -27,9 +27,9 @@ public class ItemInWorldManagerMixin {
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",
-                    remap = false,//todo verify
                     shift = At.Shift.BEFORE),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+            require = 1)
     public void tryHarvestBlockPreRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                               BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
                                               boolean flag, ItemStack itemstack, boolean flag1) {
@@ -54,10 +54,10 @@ public class ItemInWorldManagerMixin {
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",
-                    remap = false,//todo verify
                     shift = At.Shift.BY,
                     by = 2), // Pushes after the result is stored so our comparison is valid
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+            require = 1)
     public void tryHarvestBlockPostRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                                BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
                                                boolean flag, ItemStack itemstack, boolean flag1) {

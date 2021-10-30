@@ -33,7 +33,8 @@ public class NetHandlerPlayClientMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/multiplayer/WorldClient;getTileEntity " +
                             "(III)Lnet/minecraft/tileentity/TileEntity;",
-                    shift = At.Shift.BEFORE))
+                    shift = At.Shift.BEFORE),
+            require = 1)
     private void handleUpdateTileEntity(S35PacketUpdateTileEntity tileEntityUpdatePacket, CallbackInfo ci) {
         if (isNBTFromParaTileEntity(tileEntityUpdatePacket.func_148857_g()))
             bufferTile(gameController.theWorld,
@@ -66,9 +67,7 @@ public class NetHandlerPlayClientMixin {
         Gets a TileEntity from world, returning null if it doesn't exist.
     */
     private static TileEntity getTileEntity(World world, int posX, int posY, int posZ) {
-        val chunk = world.getChunkFromChunkCoords(
-                ChunkBlockUtils.worldToChunkPos(posX),
-                ChunkBlockUtils.worldToChunkPos(posZ));
+        val chunk = world.getChunkFromBlockCoords(posX, posZ);
         if (chunk != null)
             return (TileEntity) chunk.chunkTileEntityMap.get(
                     new ChunkPosition(

@@ -20,7 +20,8 @@ public class ChunkMixin {
     @Inject(method = "func_150807_a(IIILnet/minecraft/block/Block;I)Z",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;setExtBlockMetadata (IIII)V",
-                    shift = At.Shift.BEFORE))
+                    shift = At.Shift.BEFORE),
+            require = 1)
     private void func_150807_a(int posX, int posY, int posZ, Block block, int flag, CallbackInfoReturnable<Boolean> cir) {
         cachedBlock = block;
     }
@@ -30,7 +31,8 @@ public class ChunkMixin {
      */
     @Redirect(method = "func_150807_a(IIILnet/minecraft/block/Block;I)Z",
             at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;setExtBlockMetadata (IIII)V"))
+                    target = "Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;setExtBlockMetadata (IIII)V"),
+            require = 1)
     private void setExtBlockMetadataRedirect(ExtendedBlockStorage instance, int p_76654_1_, int p_76654_2_, int p_76654_3_, int p_76654_4_) {
         instance.setExtBlockMetadata(p_76654_1_, p_76654_2_, p_76654_3_, (cachedBlock instanceof IParaBlock) ? 0 : p_76654_4_);
     }
