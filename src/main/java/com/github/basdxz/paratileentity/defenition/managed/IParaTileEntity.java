@@ -12,14 +12,6 @@ public interface IParaTileEntity extends IParaManaged {
 
     IParaTileEntity registerTileEntity(String modid, String name);
 
-    default IProxiedTileEntity proxiedTileEntity() {
-        return paraTile();
-    }
-
-    default IParaTile paraTile() {
-        return manager().paraTile(tileID());
-    }
-
     default void writeTileIDToNBT(NBTTagCompound nbtTagCompound) {
         nbtTagCompound.setInteger(TILE_ID_NBT_TAG, tileID());
     }
@@ -28,12 +20,19 @@ public interface IParaTileEntity extends IParaManaged {
         tileID(nbtTagCompound.getInteger(TILE_ID_NBT_TAG));
     }
 
+    default IProxiedTileEntity proxiedTileEntity() {
+        return paraTile();
+    }
+
+    IParaTile paraTile();
+
     IParaTileEntity tileID(int tileID);
 
     int tileID();
 
     TileEntity createNewTileEntity(World world, int tileID);
 
+    @Deprecated //TODO Replace with more robust worldObj loading.
     default TileEntitySide side() {
         return TileEntitySide.side(worldObj());
     }
@@ -46,6 +45,7 @@ public interface IParaTileEntity extends IParaManaged {
 
     int posZ();
 
+    @Deprecated //TODO Replace with more robust worldObj loading.
     enum TileEntitySide {
         UNKNOWN, CLIENT, SERVER;
 

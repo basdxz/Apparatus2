@@ -65,6 +65,7 @@ public class ClickableBlockTest extends ParaTile implements IActivityHandler, IC
     @Override
     public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
         updateActivity(!active());
+        System.out.println(active() ? "tick!" : "tock");
         return true;
     }
 }

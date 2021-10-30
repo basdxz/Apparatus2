@@ -6,7 +6,7 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.defenition.managed.ParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.ParaItemBlock;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
-import com.github.basdxz.paratileentity.instance.ChiselTextureTest;
+import com.github.basdxz.paratileentity.instance.SidedExample;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
@@ -70,7 +70,7 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     protected IParaTile registerNullParaTile() {
-        nullParaTile.set(registerTile(ChiselTextureTest.builder().tileID(0).build()));
+        nullParaTile.set(registerTile(SidedExample.builder().tileID(0).build()));
         return nullParaTile.get();
     }
 
@@ -87,7 +87,7 @@ public class ParaTileManager implements IParaTileManager {
             if (tile.tileID() == 0)
                 throw new IllegalArgumentException("ID 0 is used for null block.");
             else
-                throw new IllegalArgumentException("ID already taken.");
+                throw new IllegalArgumentException("ID " + tile.tileID() + " already taken.");
 
         tileList.set(tile.tileID(), tile);
         tile.init(this);
@@ -100,7 +100,8 @@ public class ParaTileManager implements IParaTileManager {
         if (IParaTileManager.tileIDInvalid(tileID))
             throw new IllegalArgumentException("Tile ID " + tileID + " is out of bounds.");
         if (tileList.get(tileID) == null)
-            throw new IllegalArgumentException("Tile ID " + tileID + " doesn't exist.");
+            return nullParaTile.get();
+        //throw new IllegalArgumentException("Tile ID " + tileID + " doesn't exist.");
 
         return tileList.get(tileID);
     }
@@ -124,7 +125,7 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public void bufferTile(IParaTile tile) {
-        System.out.println("Written tile!");
+        System.out.println("Written tile! " + tile.tileID());
         if (bufferTile.get() != nullParaTile.get())
             System.out.println("WARNING: Buffer Written twice!");
         bufferTile.set(tile);
@@ -132,7 +133,7 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public IParaTile bufferTile() {
-        System.out.println("Read tile!");
+        System.out.println("Read tile! " + this.bufferTile.get().tileID());
         val bufferTile = this.bufferTile.get();
         if (bufferTile == nullParaTile.get()) {
             System.out.println("WARNING: Buffer Read twice!");

@@ -3,20 +3,13 @@ package com.github.basdxz.paratileentity.mixins;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
 public class WorldMixin {
-    @Shadow
-    @Final
-    public WorldProvider provider;
-
     /*
         Injects as close to a TileEntity being slapped down as we physically can.
 
@@ -29,8 +22,15 @@ public class WorldMixin {
      */
     @Inject(method = "setBlock(IIILnet/minecraft/block/Block;II)Z", at = @At("HEAD"), require = 1)
     public void setBlock(int posX, int posY, int posZ, Block block, int meta, int flag, CallbackInfoReturnable<Boolean> cir) {
-        if (block instanceof IParaBlock && provider.worldObj.getTileEntity(posX, posY, posZ) == null)
+        if (block instanceof IParaBlock && thiz().getTileEntity(posX, posY, posZ) == null)
             bufferTile((IParaBlock) block, meta);
+    }
+
+    /*
+        Mostly safe this reference
+     */
+    private World thiz() {
+        return (World) (Object) this;
     }
 
     /*

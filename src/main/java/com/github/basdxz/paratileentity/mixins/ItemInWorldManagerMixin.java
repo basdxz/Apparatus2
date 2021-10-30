@@ -20,11 +20,14 @@ public class ItemInWorldManagerMixin {
     public World theWorld;
 
     /*
+        Runs server-side only.
+
         Injects before the player tries to break a block and is not in creative mode.
      */
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",
+                    remap = false,//todo verify
                     shift = At.Shift.BEFORE),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     public void tryHarvestBlockPreRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
@@ -42,6 +45,8 @@ public class ItemInWorldManagerMixin {
     }
 
     /*
+        Runs server-side only.
+
         Injects after the return of removeBlock has been written to flag1.
         This we can then test to see if the harvestBlock method is executed.
         Because if it is not, we want to purge the block buffer to prevent potential overflow.
@@ -49,6 +54,7 @@ public class ItemInWorldManagerMixin {
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",
+                    remap = false,//todo verify
                     shift = At.Shift.BY,
                     by = 2), // Pushes after the result is stored so our comparison is valid
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
@@ -70,6 +76,7 @@ public class ItemInWorldManagerMixin {
         Removes a reference ParaTile from the managers buffer.
      */
     private static void purgeBufferTile(IParaBlock paraBlock) {
+        System.out.println("ITEM PURGED");
         paraBlock.manager().bufferTile();
     }
 }
