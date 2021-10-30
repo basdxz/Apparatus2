@@ -25,6 +25,9 @@ public abstract class CTMMixin {
     private int cachedPosY;
     private int cachedPosZ;
 
+    /*
+        Injects right before the connection map is built, caching the block and pos if it's ours.
+     */
     @Inject(method = "buildConnectionMap(Lnet/minecraft/world/IBlockAccess;IIIILnet/minecraft/block/Block;I)V",
             at = @At("HEAD"),
             remap = false,
@@ -39,6 +42,9 @@ public abstract class CTMMixin {
         }
     }
 
+    /*
+        Injects right before block connection is checked, re-directing the connection check if it's ours.
+     */
     @Inject(method = "isConnected(Lnet/minecraft/world/IBlockAccess;" +
             "IIILnet/minecraftforge/common/util/ForgeDirection;Lnet/minecraft/block/Block;I)Z",
             at = @At("HEAD"),
@@ -53,6 +59,9 @@ public abstract class CTMMixin {
         }
     }
 
+    /*
+        Performs the connection check but using our own logic and comparing tileIDs instead of blockMetas
+     */
     private boolean isParaTileConnected(IBlockAccess blockAccess, int posX, int posY, int posZ,
                                         ForgeDirection direction) {
         if (!disableObscuredFaceCheck.or(disableObscuredFaceCheckConfig)) {
