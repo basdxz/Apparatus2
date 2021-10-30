@@ -33,13 +33,13 @@ public class AnvilChunkLoaderMixin {
     public void loadEntities(World world, NBTTagCompound nbt, Chunk chunk, CallbackInfo ci,
                              NBTTagList nbt1, NBTTagList nbt2, int i, NBTTagCompound nbt3) {
         if (isNBTFromParaTileEntity(nbt3))
-            bufferTile(chunk, nbt3);
+            bufferTile(world, chunk, nbt3);
     }
 
     /*
         Tosses a reference ParaTile into the managers buffer.
      */
-    private static void bufferTile(Chunk chunk, NBTTagCompound nbtTagCompound) {
+    private static void bufferTile(World world, Chunk chunk, NBTTagCompound nbtTagCompound) {
         val posX = nbtTagCompound.getInteger(TILE_ENTITY_X_POS_INT_NBT_TAG);
         val posY = nbtTagCompound.getInteger(TILE_ENTITY_Y_POS_INT_NBT_TAG);
         val posZ = nbtTagCompound.getInteger(TILE_ENTITY_Z_POS_INT_NBT_TAG);
@@ -53,7 +53,7 @@ public class AnvilChunkLoaderMixin {
             return;
 
         val paraBlock = (IParaBlock) block;
-        paraBlock.manager().bufferedTile(null, 0, 0, 0, tileID);
+        paraBlock.manager().bufferedTile(world, posX, posY, posZ, tileID);
 
         ParaTileEntityMod.debug("Preloaded ParaTile from NBT: " + tileID);
     }

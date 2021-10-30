@@ -50,9 +50,9 @@ public class ParaTileManager implements IParaTileManager {
         this.name = name;
         nullTile = bufferedNullTile();
         tileBuffer = tileBuffer();
-        this.paraTileEntity = registerTileEntity(tileEntityClass);
         paraBlock = new ParaBlock(this);
         carvingHelper = new CarvableHelperExtended(this);
+        this.paraTileEntity = registerTileEntity(tileEntityClass);
     }
 
     protected IBufferedParaTile bufferedNullTile() {

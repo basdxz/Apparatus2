@@ -24,6 +24,8 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     protected final IParaTile paraTile;
 
     public ParaTileEntityBase() {
+        blockMetadata = getBlockMetadata();
+        blockType = getBlockType();
         paraTile = initBufferedParaTile();
     }
 
@@ -152,13 +154,14 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         readFromNBT(packet.func_148857_g());
     }
 
-    @Override
-    public int getBlockMetadata() {
-        return tileID();
-    }
 
     @Override
     public void updateContainingBlockInfo() {
+    }
+
+    @Override
+    public int getBlockMetadata() {
+        return 0;
     }
 
     @Override

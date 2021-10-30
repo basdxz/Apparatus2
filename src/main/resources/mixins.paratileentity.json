@@ -9,6 +9,7 @@
   "mixins": [
     "AnvilChunkLoaderMixin",
     "ChunkMixin",
+    "CTMMixin",
     "ItemInWorldManagerMixin",
     "WorldMixin"
   ],

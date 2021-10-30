@@ -60,7 +60,7 @@ public class NetHandlerPlayClientMixin {
         val tileID = nbtFocus.getInteger(TILE_ID_INT_NBT_TAG);
         ((IParaBlock) block).manager().bufferedTile(world, posX, posY, posZ, tileID);
 
-        ParaTileEntityMod.info("Preloaded ParaTile from NBT: " + tileID);
+        ParaTileEntityMod.debug("Preloaded ParaTile from NBT: " + tileID);
     }
 
     /*

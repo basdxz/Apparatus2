@@ -34,7 +34,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "AnvilChunkLoaderMixin",
                 "ItemInWorldManagerMixin",
                 "ChunkMixin",
-                "NetHandlerPlayClientMixin"
+                "NetHandlerPlayClientMixin",
+                "CTMMixin"
         );
     }
 

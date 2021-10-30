@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Chunk.class)
 public class ChunkMixin {
-    private static Block cachedBlock;
+    private Block cachedBlock;
 
     /*
         Caches the block before it has a chance to be set in a chunk.

@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface IItemNBTHandler {
     default void addNBTInformation(ItemStack itemStack, List<String> toolTip) {
-        toolTip.add(itemStack.stackTagCompound.toString());
+        if (itemStack.stackTagCompound != null)
+            toolTip.add(itemStack.stackTagCompound.toString());
     }
 
     default ItemStack writeNbtNewItemStack(ItemStack itemStack) {
