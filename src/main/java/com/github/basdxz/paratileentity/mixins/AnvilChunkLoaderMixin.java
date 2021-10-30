@@ -2,7 +2,7 @@ package com.github.basdxz.paratileentity.mixins;
 
 import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
-import com.github.basdxz.paratileentity.util.ChunkBlockUtils;
+import com.github.basdxz.paratileentity.util.Utils;
 import lombok.val;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -46,9 +46,9 @@ public class AnvilChunkLoaderMixin {
         val tileID = nbtTagCompound.getInteger(TILE_ID_INT_NBT_TAG);
 
         val block = chunk.getBlock(
-                ChunkBlockUtils.worldToChunkBlockPos(posX),
+                Utils.worldToChunkBlockPos(posX),
                 posY,
-                ChunkBlockUtils.worldToChunkBlockPos(posZ));
+                Utils.worldToChunkBlockPos(posZ));
         if (!(block instanceof IParaBlock))
             return;
 

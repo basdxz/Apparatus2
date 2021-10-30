@@ -113,7 +113,7 @@ dependencies {
 
     // Chisel stuff for renders
     compile("com.github.GTMEGA:CTMLib:17cd6ebc23:deobf")
-    compile("com.github.GTMEGA:Chisel:e673e83c97:deobf")
+    compile("com.github.GTMEGA:Chisel:f7ccbf43b7:deobf")
 
     // Mixin stuff
     annotationProcessor("org.ow2.asm:asm-debug-all:5.0.3")

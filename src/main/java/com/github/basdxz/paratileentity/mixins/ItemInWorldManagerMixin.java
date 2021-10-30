@@ -29,7 +29,6 @@ public class ItemInWorldManagerMixin {
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",
                     shift = At.Shift.BEFORE),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
-            remap = false,
             require = 1)
     public void tryHarvestBlockPreRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                               BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
@@ -58,7 +57,6 @@ public class ItemInWorldManagerMixin {
                     shift = At.Shift.BY,
                     by = 2), // Pushes after the result is stored so our comparison is valid
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
-            remap = false,
             require = 1)
     public void tryHarvestBlockPostRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                                BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,

@@ -4,7 +4,6 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.google.common.base.Optional;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.spongepowered.asm.mixin.Mixin;
@@ -61,7 +60,7 @@ public abstract class CTMMixin {
             int posY2 = posY + direction.offsetY;
             int posZ2 = posZ + direction.offsetZ;
 
-            if (!(blockAccess.getBlock(posX2, posY2, posZ2) == Blocks.air))
+            if (!(blockAccess.isAirBlock(posX2, posY2, posZ2)))
                 return false;
         }
 

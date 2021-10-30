@@ -3,7 +3,7 @@ package com.github.basdxz.paratileentity.mixins;
 import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
-import com.github.basdxz.paratileentity.util.ChunkBlockUtils;
+import com.github.basdxz.paratileentity.util.Utils;
 import lombok.val;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -71,9 +71,9 @@ public class NetHandlerPlayClientMixin {
         if (chunk != null)
             return (TileEntity) chunk.chunkTileEntityMap.get(
                     new ChunkPosition(
-                            ChunkBlockUtils.worldToChunkBlockPos(posX),
+                            Utils.worldToChunkBlockPos(posX),
                             posY,
-                            ChunkBlockUtils.worldToChunkBlockPos(posZ)));
+                            Utils.worldToChunkBlockPos(posZ)));
         return null;
     }
 }

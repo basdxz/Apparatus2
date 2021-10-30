@@ -154,7 +154,6 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         readFromNBT(packet.func_148857_g());
     }
 
-
     @Override
     public void updateContainingBlockInfo() {
     }
