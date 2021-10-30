@@ -5,6 +5,8 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.defenition.managed.ParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.ParaItemBlock;
+import com.github.basdxz.paratileentity.defenition.tile.BufferedParaTile;
+import com.github.basdxz.paratileentity.defenition.tile.IBufferedParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import com.github.basdxz.paratileentity.instance.SidedExample;
 import lombok.Getter;
@@ -19,6 +21,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.github.basdxz.paratileentity.ParaTileEntityMod.debug;
+import static com.github.basdxz.paratileentity.ParaTileEntityMod.warn;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
@@ -26,13 +30,8 @@ import static java.util.stream.Collectors.toList;
 public class ParaTileManager implements IParaTileManager {
     @Getter
     protected final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
-    protected final ThreadLocal<IParaTile> nullParaTile = new ThreadLocal<>();
-    protected final ThreadLocal<IParaTile> bufferTile = new ThreadLocal<IParaTile>() {
-        @Override
-        protected IParaTile initialValue() {
-            return super.initialValue();
-        }
-    };
+    protected final IBufferedParaTile nullTile;
+    protected final ThreadLocal<IBufferedParaTile> tileBuffer;
 
     protected final List<IParaTile> tileList = Arrays.asList(new IParaTile[MAX_TILE_ID + 1]);
     @Getter
@@ -49,9 +48,20 @@ public class ParaTileManager implements IParaTileManager {
     public ParaTileManager(String modid, String name, Class<? extends IParaTileEntity> tileEntityClass) {
         this.modid = modid;
         this.name = name;
+        nullTile = bufferedNullTile();
+        tileBuffer = tileBuffer();
         this.paraTileEntity = registerTileEntity(tileEntityClass);
         paraBlock = new ParaBlock(this);
         carvingHelper = new CarvableHelperExtended(this);
+    }
+
+    protected IBufferedParaTile bufferedNullTile() {
+        return new BufferedParaTile(null, 0, 0, 0,
+                registerTile(SidedExample.builder().tileID(0).build()));
+    }
+
+    protected ThreadLocal<IBufferedParaTile> tileBuffer() {
+        return ThreadLocal.withInitial(() -> nullTile);
     }
 
     protected IParaTileEntity registerTileEntity(Class<? extends IParaTileEntity> tileEntityClass) {
@@ -59,18 +69,13 @@ public class ParaTileManager implements IParaTileManager {
             val managerField = tileEntityClass.getDeclaredField("MANAGER");
             managerField.setAccessible(true);
             managerField.set(null, this);
-            bufferTile.set(registerNullParaTile());
             return tileEntityClass.getDeclaredConstructor().newInstance().registerTileEntity(modid, name);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new IllegalStateException("Class extending IParaTileEntity must have a MANAGER field.");
         } catch (InvocationTargetException | InstantiationException | NoSuchMethodException e) {
-            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor. (early)");
+            e.getCause().printStackTrace();
+            throw new IllegalStateException("Class extending IParaTileEntity didn't implement a no argument constructor.");
         }
-    }
-
-    protected IParaTile registerNullParaTile() {
-        nullParaTile.set(registerTile(SidedExample.builder().tileID(0).build()));
-        return nullParaTile.get();
     }
 
     @Override
@@ -93,14 +98,12 @@ public class ParaTileManager implements IParaTileManager {
         return tile;
     }
 
-    //TODO make null ID's refer to ID 0
     @Override
     public IParaTile paraTile(int tileID) {
         if (IParaTileManager.tileIDInvalid(tileID))
             throw new IllegalArgumentException("Tile ID " + tileID + " is out of bounds.");
         if (tileList.get(tileID) == null)
-            return nullParaTile.get();
-        //throw new IllegalArgumentException("Tile ID " + tileID + " doesn't exist.");
+            return nullTile.paraTile();
 
         return tileList.get(tileID);
     }
@@ -123,22 +126,20 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     @Override
-    public void bufferTile(IParaTile tile) {
-        System.out.println("Written tile! " + tile.tileID());
-        if (bufferTile.get() != nullParaTile.get())
-            System.out.println("WARNING: Buffer Written twice!");
-        bufferTile.set(tile);
+    public void bufferedTile(IBufferedParaTile bufferedTile) {
+        debug("Written tile! " + bufferedTile.tileID());
+        if (tileBuffer.get() != nullTile)
+            warn("WARNING: Buffer Written twice!");
+        tileBuffer.set(bufferedTile);
     }
 
     @Override
-    public IParaTile bufferTile() {
-        System.out.println("Read tile! " + this.bufferTile.get().tileID());
-        val bufferTile = this.bufferTile.get();
-        if (bufferTile == nullParaTile.get()) {
-            System.out.println("WARNING: Buffer Read twice!");
-        } else {
-            this.bufferTile.set(nullParaTile.get());
-        }
+    public IBufferedParaTile bufferedTile() {
+        val bufferTile = tileBuffer.get();
+        debug("Read tile! " + bufferTile.tileID());
+        if (paraTileEntity != null && bufferTile == nullTile)
+            warn("WARNING: Buffer Read twice!");
+        tileBuffer.remove();
         return bufferTile;
     }
 }

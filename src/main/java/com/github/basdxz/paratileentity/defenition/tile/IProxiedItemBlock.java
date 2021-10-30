@@ -23,18 +23,18 @@ public interface IProxiedItemBlock extends IProxiedComponent {
 
     default boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world,
                                  int posX, int posY, int posZ, int side, float hitX, float hitY, float hitZ) {
-        if (!world.setBlock(posX, posY, posZ, manager().paraBlock().block(), tileID(),
+        if (!world.setBlock(posX, posY, posZ, manager().block(), tileID(),
                 BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG)) {
             return false;
         }
-        if (world.getBlock(posX, posY, posZ) == manager().paraBlock()) {
-            manager().paraBlock().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
-            manager().paraBlock().block().onPostBlockPlaced(world, posX, posY, posZ, tileID());
+        if (world.getBlock(posX, posY, posZ) == manager().block()) {
+            manager().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
+            manager().block().onPostBlockPlaced(world, posX, posY, posZ, tileID());
         }
         return true;
     }
 
     default ItemStack newItemStack() {
-        return new ItemStack(manager().paraBlock().block(), 1, tileID());
+        return new ItemStack(manager().block(), 1, tileID());
     }
 }

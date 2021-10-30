@@ -73,7 +73,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     public void registerBlockIcons(IIconRegister iconRegister) {
         for (val tile : manager.tileList())
             tile.registerBlockIcons(iconRegister);
-        manager.carvingHelper().registerBlockIcons(manager().paraBlock().block(), iconRegister);
+        manager.carvingHelper().registerBlockIcons(manager().block(), iconRegister);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
 
     @Override
     public ArrayList<ItemStack> getDrops(World world, int posX, int posY, int posZ, int tileID, int fortune) {
-        return manager().bufferTile().getDrops(fortune);
+        return manager().bufferedTile().paraTile().getDrops(fortune);
     }
 
     @Override

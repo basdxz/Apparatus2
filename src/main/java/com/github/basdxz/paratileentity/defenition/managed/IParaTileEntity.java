@@ -39,29 +39,19 @@ public interface IParaTileEntity extends IParaManaged {
 
     TileEntity createNewTileEntity();
 
-    @Deprecated //TODO Replace with more robust worldObj loading.
-    default TileEntitySide side() {
-        return TileEntitySide.side(worldObj());
-    }
+    IParaTileEntity worldObj(World worldObj);
 
     World worldObj();
 
+    IParaTileEntity posX(int posX);
+
     int posX();
+
+    IParaTileEntity posY(int posY);
 
     int posY();
 
+    IParaTileEntity posZ(int posZ);
+
     int posZ();
-
-    @Deprecated //TODO Replace with more robust worldObj loading.
-    enum TileEntitySide {
-        UNKNOWN, CLIENT, SERVER;
-
-        public static TileEntitySide side(World world) {
-            if (world == null)
-                return UNKNOWN;
-            if (world.isRemote)
-                return CLIENT;
-            return SERVER;
-        }
-    }
 }

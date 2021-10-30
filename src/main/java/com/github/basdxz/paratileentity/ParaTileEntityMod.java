@@ -4,6 +4,8 @@ import com.github.basdxz.paratileentity.instance.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 
@@ -14,6 +16,7 @@ public class ParaTileEntityMod {
     public static final String MODID = "paratileentity";
     public static final String NAME = "ParaTileEntity";
     public static final String VERSION = "@GRADLE_VERSION_TOKEN@";
+    public static final Logger LOGGER = LogManager.getLogger(MODID);
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -32,5 +35,25 @@ public class ParaTileEntityMod {
         //MANAGER.registerTile(ObamaCasing.builder().tileID(12).casingID(0).build());
 
         MANAGER.registerTile(ClickableBlockTest.builder().tileID(220).build());
+    }
+
+    public static void debug(String message) {
+        LOGGER.debug(formatMessage(message));
+    }
+
+    public static void info(String message) {
+        LOGGER.info(formatMessage(message));
+    }
+
+    public static void warn(String message) {
+        LOGGER.warn(formatMessage(message));
+    }
+
+    public static void error(String message) {
+        LOGGER.error(formatMessage(message));
+    }
+
+    private static String formatMessage(String message) {
+        return "[" + NAME + "] " + message;
     }
 }

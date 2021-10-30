@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.mixins;
 
+import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.util.ChunkBlockUtils;
@@ -57,10 +58,9 @@ public class NetHandlerPlayClientMixin {
             return;
 
         val tileID = nbtFocus.getInteger(TILE_ID_INT_NBT_TAG);
-        val manager = ((IParaBlock) block).manager();
-        manager.bufferTile(manager.paraTile(tileID));
+        ((IParaBlock) block).manager().bufferedTile(world, posX, posY, posZ, tileID);
 
-        System.out.println("Preloaded ParaTile from NBT: " + tileID);
+        ParaTileEntityMod.info("Preloaded ParaTile from NBT: " + tileID);
     }
 
     /*

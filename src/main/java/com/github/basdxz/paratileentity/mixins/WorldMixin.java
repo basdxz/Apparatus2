@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.mixins;
 
+import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
@@ -25,7 +26,7 @@ public class WorldMixin {
             require = 1)
     public void setBlock(int posX, int posY, int posZ, Block block, int meta, int flag, CallbackInfoReturnable<Boolean> cir) {
         if (block instanceof IParaBlock && thiz().getTileEntity(posX, posY, posZ) == null)
-            bufferTile((IParaBlock) block, meta);
+            bufferTile(thiz(), posX, posY, posZ, ((IParaBlock) block).manager(), meta);
     }
 
     /*
@@ -38,7 +39,7 @@ public class WorldMixin {
     /*
         Tosses a reference ParaTile into the managers buffer.
      */
-    private static void bufferTile(IParaBlock paraBlock, int tileID) {
-        paraBlock.manager().bufferTile(paraBlock.manager().paraTile(tileID));
+    private static void bufferTile(World world, int posX, int posY, int posZ, IParaTileManager manager, int tileID) {
+        manager.bufferedTile(world, posX, posY, posZ, tileID);
     }
 }

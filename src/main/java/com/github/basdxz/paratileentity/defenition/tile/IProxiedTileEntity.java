@@ -4,8 +4,6 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide;
-
 /*
    TODO: Copy across "Proxied" functions into their own interface.
    TODO: List all TileEntity functions then Implement and pass through the functions with defaults provided here.
@@ -32,8 +30,13 @@ public interface IProxiedTileEntity extends IProxiedComponent {
     default void readFromNBT(NBTTagCompound nbtTagCompound) {
     }
 
-    default TileEntitySide side() {
-        return tileEntity().side();
+    default boolean serverSide() {
+        return !worldObj().isRemote;
+    }
+
+
+    default boolean clientSide() {
+        return worldObj().isRemote;
     }
 
     default World worldObj() {

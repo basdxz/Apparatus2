@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.instance;
 
+import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -29,7 +30,7 @@ public class ParaTile_one extends ParaTile {
 
     @Override
     public void updateEntity() {
-        System.out.println("HELLOW from ParaTile!!");
+        ParaTileEntityMod.debug("HELLOW from ParaTile!!");
     }
 
     @Override

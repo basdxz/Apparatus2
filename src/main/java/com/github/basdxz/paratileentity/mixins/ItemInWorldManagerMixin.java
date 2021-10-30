@@ -1,10 +1,10 @@
 package com.github.basdxz.paratileentity.mixins;
 
+import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.ItemInWorldManager;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +29,7 @@ public class ItemInWorldManagerMixin {
                     target = "Lnet/minecraft/server/management/ItemInWorldManager;removeBlock (IIIZ)Z",
                     shift = At.Shift.BEFORE),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+            remap = false,
             require = 1)
     public void tryHarvestBlockPreRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                               BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
@@ -40,8 +41,8 @@ public class ItemInWorldManagerMixin {
     /*
         Tosses a reference ParaTile into the managers buffer.
      */
-    private static void bufferTile(IParaBlock paraBlock, IBlockAccess blockAccess, int posX, int posY, int posZ) {
-        paraBlock.manager().bufferTile(paraBlock.paraTile(blockAccess, posX, posY, posZ));
+    private static void bufferTile(IParaBlock paraBlock, World world, int posX, int posY, int posZ) {
+        paraBlock.manager().bufferedTile(paraBlock.paraTile(world, posX, posY, posZ));
     }
 
     /*
@@ -57,6 +58,7 @@ public class ItemInWorldManagerMixin {
                     shift = At.Shift.BY,
                     by = 2), // Pushes after the result is stored so our comparison is valid
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+            remap = false,
             require = 1)
     public void tryHarvestBlockPostRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                                BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
@@ -76,7 +78,7 @@ public class ItemInWorldManagerMixin {
         Removes a reference ParaTile from the managers buffer.
      */
     private static void purgeBufferTile(IParaBlock paraBlock) {
-        System.out.println("ITEM PURGED");
-        paraBlock.manager().bufferTile();
+        ParaTileEntityMod.debug("ITEM PURGED");
+        paraBlock.manager().bufferedTile();
     }
 }

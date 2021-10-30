@@ -9,10 +9,11 @@ import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import lombok.val;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TileEntitySide.SERVER;
+import java.util.List;
 
 @Setter
 @Getter
@@ -26,7 +27,7 @@ public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandl
     @Override
     public IParaTile clone() {
         val para = (TurbinePart) super.clone();
-        if (side() == SERVER)
+        if (serverSide())
             durability = maxDurability;
         return para;
     }
@@ -34,6 +35,11 @@ public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandl
     @Override
     public boolean singleton() {
         return false;
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
+        addNBTInformation(itemStack, toolTip);
     }
 
     @Override

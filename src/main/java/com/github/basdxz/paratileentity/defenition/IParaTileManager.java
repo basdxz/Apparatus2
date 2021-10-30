@@ -2,9 +2,13 @@ package com.github.basdxz.paratileentity.defenition;
 
 import com.github.basdxz.paratileentity.defenition.chisel.CarvableHelperExtended;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.defenition.tile.BufferedParaTile;
+import com.github.basdxz.paratileentity.defenition.tile.IBufferedParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public interface IParaTileManager {
     int MAX_TILE_ID = Short.MAX_VALUE;
@@ -18,6 +22,10 @@ public interface IParaTileManager {
     String modid();
 
     CarvableHelperExtended carvingHelper();
+
+    default Block block() {
+        return paraBlock().block();
+    }
 
     IParaBlock paraBlock();
 
@@ -33,7 +41,15 @@ public interface IParaTileManager {
 
     Iterable<Integer> allTileIDs();
 
-    void bufferTile(IParaTile tile);
+    default void bufferedTile(World world, int posX, int posY, int posZ, int tileID) {
+        bufferedTile(new BufferedParaTile(world, posX, posY, posZ, paraTile(tileID)));
+    }
 
-    IParaTile bufferTile();
+    default void bufferedTile(IParaTile paraTile) {
+        bufferedTile(new BufferedParaTile(paraTile));
+    }
+
+    void bufferedTile(IBufferedParaTile bufferedTile);
+
+    IBufferedParaTile bufferedTile();
 }

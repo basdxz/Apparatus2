@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
 
 public interface IParaBlock extends IParaManaged {
+    // TODO Pass the actual block to the manager with a delegate
     Block block();
 
     String getUnlocalizedName();

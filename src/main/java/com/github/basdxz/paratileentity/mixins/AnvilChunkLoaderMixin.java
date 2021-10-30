@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.mixins;
 
+import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.util.ChunkBlockUtils;
 import lombok.val;
@@ -52,8 +53,8 @@ public class AnvilChunkLoaderMixin {
             return;
 
         val paraBlock = (IParaBlock) block;
-        paraBlock.manager().bufferTile(paraBlock.manager().paraTile(tileID));
+        paraBlock.manager().bufferedTile(null, 0, 0, 0, tileID);
 
-        System.out.println("Preloaded ParaTile from NBT: " + tileID);
+        ParaTileEntityMod.debug("Preloaded ParaTile from NBT: " + tileID);
     }
 }

@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.instance;
 
+import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.chisel.IChiselRendering;
 import com.github.basdxz.paratileentity.defenition.chisel.SubmapActivityMultiManager;
 import com.github.basdxz.paratileentity.defenition.tile.IActivityHandler;
@@ -65,7 +66,7 @@ public class ClickableBlockTest extends ParaTile implements IActivityHandler, IC
     @Override
     public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
         updateActivity(!active());
-        System.out.println(active() ? "tick!" : "tock");
+        ParaTileEntityMod.info(active() ? "tick!" : "tock");
         return true;
     }
 }

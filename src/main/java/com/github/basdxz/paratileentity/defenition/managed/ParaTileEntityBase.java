@@ -5,6 +5,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.val;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -23,11 +24,16 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     protected final IParaTile paraTile;
 
     public ParaTileEntityBase() {
-        paraTile = init();
+        paraTile = initBufferedParaTile();
     }
 
-    protected IParaTile init() {
-        return safeClone(manager().bufferTile());
+    protected IParaTile initBufferedParaTile() {
+        val bufferedTile = manager().bufferedTile();
+        worldObj(bufferedTile.world())
+                .posX(bufferedTile.posX())
+                .posY(bufferedTile.posY())
+                .posZ(bufferedTile.posZ());
+        return safeClone(bufferedTile.paraTile());
     }
 
     /*
@@ -64,30 +70,51 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         }
     }
 
+
+    @Override
+    public IParaTileEntity worldObj(World worldObj) {
+        this.worldObj = worldObj;
+        return this;
+    }
+
     @Override
     public World worldObj() {
         return worldObj;
     }
 
-    //fixme add pos set
+    @Override
+    public IParaTileEntity posX(int posX) {
+        xCoord = posX;
+        return this;
+    }
+
     @Override
     public int posX() {
         return xCoord;
     }
 
-    //fixme add pos set
+    @Override
+    public IParaTileEntity posY(int posY) {
+        yCoord = posY;
+        return this;
+    }
+
     @Override
     public int posY() {
         return yCoord;
     }
 
-    //fixme add pos set
+    @Override
+    public IParaTileEntity posZ(int posZ) {
+        zCoord = posZ;
+        return this;
+    }
+
     @Override
     public int posZ() {
         return zCoord;
     }
 
-    //fixme add pos set
     @Override
     public void updateEntity() {
         proxiedTileEntity().updateEntity();
@@ -125,12 +152,17 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         readFromNBT(packet.func_148857_g());
     }
 
-
-    //TODO: Decide if it should return tileID() or just a constant 0.
     @Override
     public int getBlockMetadata() {
         return tileID();
     }
 
+    @Override
+    public void updateContainingBlockInfo() {
+    }
 
+    @Override
+    public Block getBlockType() {
+        return manager().block();
+    }
 }
