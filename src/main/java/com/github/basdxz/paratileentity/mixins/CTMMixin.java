@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import team.chisel.api.ICarvable;
 import team.chisel.ctmlib.CTM;
 
 import static team.chisel.ctmlib.CTM.disableObscuredFaceCheckConfig;
@@ -69,7 +70,7 @@ public abstract class CTMMixin {
             int posY2 = posY + direction.offsetY;
             int posZ2 = posZ + direction.offsetZ;
 
-            if (!(blockAccess.isAirBlock(posX2, posY2, posZ2)))
+            if (blockAccess.getBlock(posX2, posY2, posZ2) instanceof ICarvable)
                 return false;
         }
 
