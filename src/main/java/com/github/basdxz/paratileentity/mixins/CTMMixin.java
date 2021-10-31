@@ -18,7 +18,7 @@ import team.chisel.ctmlib.CTM;
 import static team.chisel.ctmlib.CTM.disableObscuredFaceCheckConfig;
 
 @Mixin(CTM.class)
-public abstract class CTMMixin {
+public class CTMMixin {
     @Shadow
     public Optional<Boolean> disableObscuredFaceCheck;
     private IParaBlock cachedParaBlock;

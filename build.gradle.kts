@@ -79,6 +79,7 @@ repositories {
     maven("http://www.ryanliptak.com/maven/") { name = "appleCore Maven" }
     maven("https://jitpack.io") { name = "JitPack Maven" }
     maven("https://repo.spongepowered.org/repository/maven-public") { name = "Sponge Maven" }
+    mavenCentral()
 }
 // Allows JitPack dependencies to be updated more frequently by checking more often.
 configurations.all {
@@ -116,9 +117,9 @@ dependencies {
     compile("com.github.GTMEGA:Chisel:f7ccbf43b7:deobf")
 
     // Mixin stuff
-    annotationProcessor("org.ow2.asm:asm-debug-all:5.0.3")
-    annotationProcessor("com.google.guava:guava:24.1.1-jre")
-    annotationProcessor("com.google.code.gson:gson:2.8.6")
+    annotationProcessor("org.ow2.asm:asm-debug-all:5.2")
+    annotationProcessor("com.google.guava:guava:31.0.1-jre")
+    annotationProcessor("com.google.code.gson:gson:2.8.8")
     annotationProcessor("org.spongepowered:mixin:0.8-SNAPSHOT") // using 0.8 to workaround a issue in 0.7 which fails mixin application
     compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
         // Mixin includes a lot of dependencies that are too up-to-date
@@ -149,12 +150,7 @@ tasks {
         // Exports the temporary directory, I want a better way to do this.
         refMapFile = temporaryDir.toString() + File.separator + mixingConfigRefMap
         from(refMapFile)
-        manifest {
-            attributes.put("TweakClass", "org.spongepowered.asm.launch.MixinTweaker")
-            attributes.put("MixinConfigs", mixinConfigJson)
-            attributes.put("FMLCorePluginContainsFMLMod", true)
-            attributes.put("ForceLoadAsMod", true)
-        }
+
 
         // Only shadows used classes
         minimize()
@@ -166,6 +162,13 @@ tasks {
     }
 
     withType<Jar> {
+        manifest {
+            attributes["TweakClass"] = "org.spongepowered.asm.launch.MixinTweaker"
+            attributes["MixinConfigs"] = mixinConfigJson
+            attributes["FMLCorePluginContainsFMLMod"] = true
+            attributes["ForceLoadAsMod"] = true
+        }
+
         // Mark as outdated if versions change
         inputs.properties.plusAssign("version" to project.version)
         inputs.properties.plusAssign("mcversion" to projectMinecraftVersion)
@@ -182,7 +185,7 @@ tasks {
 
     withType<net.minecraftforge.gradle.tasks.user.reobf.ReobfTask> {
         // srg to pass along as compiler args
-        srgFile = getSrg().toString()
+        srgFile = srg.toString()
         // Exports the temporary directory again, I want a better way to do this.
         mixinSrgFile = temporaryDir.toString() + File.separator + "mixins.srg"
         // Link in the mixin Srg file

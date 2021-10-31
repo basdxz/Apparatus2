@@ -48,7 +48,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         );
     }
 
-    public boolean loadJar(final String jarName) {
+    public static boolean loadJar(final String jarName) {
         try {
             File jar = MinecraftURLClassPath.getJarInModPath(jarName);
             if (jar == null) {
