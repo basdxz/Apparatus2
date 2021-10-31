@@ -34,6 +34,8 @@ public class ParaTileEntityMod {
         //MANAGER.registerTile(ObamaCasing.builder().tileID(12).casingID(0).build());
 
         MANAGER.registerTile(ClickableBlockTest.builder().tileID(220).build());
+
+        MANAGER.registerTile(ClickableBlockTest.builder().tileID(Short.MAX_VALUE).build());
     }
 
     public static void debug(String message, Object... params) {
