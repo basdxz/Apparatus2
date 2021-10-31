@@ -1,5 +1,6 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
+import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
@@ -72,7 +73,6 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         }
     }
 
-
     @Override
     public IParaTileEntity worldObj(World worldObj) {
         this.worldObj = worldObj;
@@ -135,9 +135,17 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
             paraTile.writeToNBT(nbtTagCompound);
     }
 
+    // Fixed MP Block place sync, but I'd like a cleaner fix
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
+        val tileIDFromNBT = readTileIDFromNBT(nbtTagCompound);
+        if (tileID() != tileIDFromNBT) {
+            ParaTileEntityMod.error("Paratile Desync, should reconstruct & rebind!");
+            manager().bufferedTile(worldObj(), posX(), posY(), posZ(), tileIDFromNBT);
+            worldObj().setTileEntity(posX(), posY(), posZ(), createNewTileEntity());
+            paraTile().updateBlock();
+        }
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }

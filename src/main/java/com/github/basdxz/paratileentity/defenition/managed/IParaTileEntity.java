@@ -27,6 +27,10 @@ public interface IParaTileEntity extends IParaManaged {
         nbtTagCompound.setInteger(TILE_ID_INT_NBT_TAG, tileID());
     }
 
+    default int readTileIDFromNBT(NBTTagCompound nbtTagCompound) {
+        return nbtTagCompound.getInteger(TILE_ID_INT_NBT_TAG);
+    }
+
     default IProxiedTileEntity proxiedTileEntity() {
         return paraTile();
     }
