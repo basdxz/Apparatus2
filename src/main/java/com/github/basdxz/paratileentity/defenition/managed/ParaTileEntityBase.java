@@ -141,10 +141,12 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         super.readFromNBT(nbtTagCompound);
         val tileIDFromNBT = readTileIDFromNBT(nbtTagCompound);
         if (tileID() != tileIDFromNBT) {
-            ParaTileEntityMod.error("Paratile Desync, should reconstruct & rebind!");
+            ParaTileEntityMod.debug("Paratile Desync, should reconstruct & rebind!");
             manager().bufferedTile(worldObj(), posX(), posY(), posZ(), tileIDFromNBT);
-            worldObj().setTileEntity(posX(), posY(), posZ(), createNewTileEntity());
+            val tileEntity = createNewTileEntity();
+            worldObj().setTileEntity(posX(), posY(), posZ(), tileEntity);
             paraTile().updateBlock();
+            tileEntity.readFromNBT(nbtTagCompound);
         }
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
