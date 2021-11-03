@@ -145,7 +145,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
             manager().bufferedTile(worldObj(), posX(), posY(), posZ(), tileIDFromNBT);
             val tileEntity = createNewTileEntity();
             worldObj().setTileEntity(posX(), posY(), posZ(), tileEntity);
-            paraTile().updateBlock();
+            ((IParaTileEntity) tileEntity).paraTile().updateBlock();
             tileEntity.readFromNBT(nbtTagCompound);
         }
         if (!paraTile.singleton())
