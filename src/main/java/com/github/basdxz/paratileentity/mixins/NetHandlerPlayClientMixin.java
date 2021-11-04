@@ -4,13 +4,13 @@ import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.util.Utils;
+import lombok.SneakyThrows;
 import lombok.val;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -48,18 +48,26 @@ public class NetHandlerPlayClientMixin {
     /*
         Tosses a reference ParaTile into the managers buffer.
     */
+    @SneakyThrows
     private static void bufferTile(World world, int posX, int posY, int posZ, NBTTagCompound nbtFocus) {
         val block = world.getBlock(posX, posY, posZ);
         if (!(block instanceof IParaBlock))
             return;
 
         val tileEntity = getTileEntity(world, posX, posY, posZ);
-        if (tileEntity instanceof IParaTileEntity && !tileEntity.isInvalid())
-            return;
-
         val tileID = nbtFocus.getInteger(TILE_ID_INT_NBT_TAG);
-        ((IParaBlock) block).manager().bufferedTile(world, posX, posY, posZ, tileID);
 
+        if (tileEntity instanceof IParaTileEntity) {
+            return;
+            //if (tileID == ((IParaTileEntity) tileEntity).tileID()) {
+            //    System.out.println("Trolley?>??");
+            //    return;
+            //} else {
+            //    world.setBlock(posX, posY, posZ, block, tileID, 3);
+            //}
+        }
+
+        ((IParaBlock) block).manager().bufferedTile(world, posX, posY, posZ, tileID);
         ParaTileEntityMod.debug("Preloaded ParaTile from NBT: " + tileID);
     }
 
@@ -69,11 +77,10 @@ public class NetHandlerPlayClientMixin {
     private static TileEntity getTileEntity(World world, int posX, int posY, int posZ) {
         val chunk = world.getChunkFromBlockCoords(posX, posZ);
         if (chunk != null)
-            return (TileEntity) chunk.chunkTileEntityMap.get(
-                    new ChunkPosition(
-                            Utils.worldToChunkBlockPos(posX),
-                            posY,
-                            Utils.worldToChunkBlockPos(posZ)));
+            return chunk.getTileEntityUnsafe(
+                    Utils.worldToChunkBlockPos(posX),
+                    posY,
+                    Utils.worldToChunkBlockPos(posZ));
         return null;
     }
 }

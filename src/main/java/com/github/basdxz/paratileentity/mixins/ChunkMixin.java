@@ -1,6 +1,8 @@
 package com.github.basdxz.paratileentity.mixins;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
+import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -16,14 +18,28 @@ public class ChunkMixin {
 
     /*
         Caches the block before it has a chance to be set in a chunk.
-     */
+    */
     @Inject(method = "func_150807_a(IIILnet/minecraft/block/Block;I)Z",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;setExtBlockMetadata (IIII)V",
-                    shift = At.Shift.BEFORE),
+            at = @At("HEAD"),
             require = 1)
-    private void func_150807_a(int posX, int posY, int posZ, Block block, int flag, CallbackInfoReturnable<Boolean> cir) {
+    private void func_150807_a(int posX, int posY, int posZ, Block block, int blockMeta, CallbackInfoReturnable<Boolean> cir) {
         cachedBlock = block;
+    }
+
+    /*
+        Redirects the meta setting of blocks if they are IParaBlocks to be 0.
+    */
+    @Redirect(method = "func_150807_a(IIILnet/minecraft/block/Block;I)Z",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/world/chunk/Chunk;getBlockMetadata (III)I"),
+            require = 1)
+    private int getBlockMetadataRedirect(Chunk instance, int posX, int posY, int posZ) {
+        if (cachedBlock instanceof IParaBlock) {
+            val tileEntity = instance.getTileEntityUnsafe(posX, posY, posZ);
+            if (tileEntity instanceof IParaTileEntity)
+                return ((IParaTileEntity) tileEntity).tileID();
+        }
+        return instance.getBlockMetadata(posX, posY, posZ);
     }
 
     /*
@@ -33,7 +49,7 @@ public class ChunkMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;setExtBlockMetadata (IIII)V"),
             require = 1)
-    private void setExtBlockMetadataRedirect(ExtendedBlockStorage instance, int p_76654_1_, int p_76654_2_, int p_76654_3_, int p_76654_4_) {
-        instance.setExtBlockMetadata(p_76654_1_, p_76654_2_, p_76654_3_, (cachedBlock instanceof IParaBlock) ? 0 : p_76654_4_);
+    private void setExtBlockMetadataRedirect(ExtendedBlockStorage instance, int posX, int posY, int posZ, int blockMeta) {
+        instance.setExtBlockMetadata(posX, posY, posZ, (cachedBlock instanceof IParaBlock) ? 0 : blockMeta);
     }
 }

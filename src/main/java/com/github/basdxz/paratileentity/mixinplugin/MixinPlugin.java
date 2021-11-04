@@ -42,7 +42,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "ItemInWorldManagerMixin",
                 "ChunkMixin",
                 "NetHandlerPlayClientMixin",
-                "CTMMixin"
+                "CTMMixin",
+                "S23PacketBlockChangeMixin"
         );
     }
 

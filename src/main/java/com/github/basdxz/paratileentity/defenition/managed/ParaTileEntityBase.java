@@ -1,6 +1,5 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
-import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
@@ -139,15 +138,15 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
-        val tileIDFromNBT = readTileIDFromNBT(nbtTagCompound);
-        if (tileID() != tileIDFromNBT) {
-            ParaTileEntityMod.debug("Paratile Desync, should reconstruct & rebind!");
-            manager().bufferedTile(worldObj(), posX(), posY(), posZ(), tileIDFromNBT);
-            val tileEntity = createNewTileEntity();
-            worldObj().setTileEntity(posX(), posY(), posZ(), tileEntity);
-            ((IParaTileEntity) tileEntity).paraTile().updateBlock();
-            tileEntity.readFromNBT(nbtTagCompound);
-        }
+        //val tileIDFromNBT = readTileIDFromNBT(nbtTagCompound);
+        //if (tileID() != tileIDFromNBT) {
+        //    ParaTileEntityMod.debug("Paratile Desync, should reconstruct & rebind!");
+        //    manager().bufferedTile(worldObj(), posX(), posY(), posZ(), tileIDFromNBT);
+        //    val tileEntity = createNewTileEntity();
+        //    worldObj().setTileEntity(posX(), posY(), posZ(), tileEntity);
+        //    ((IParaTileEntity) tileEntity).paraTile().updateBlock();
+        //    tileEntity.readFromNBT(nbtTagCompound);
+        //}
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }
