@@ -20,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TILE_ID_INT_NBT_TAG;
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.isNBTFromParaTileEntity;
+import static com.github.basdxz.paratileentity.defenition.tile.IProxiedItemBlock.BLOCK_UPDATE_FLAG;
+import static com.github.basdxz.paratileentity.defenition.tile.IProxiedItemBlock.SEND_TO_CLIENT_FLAG;
 
 @Mixin(NetHandlerPlayClient.class)
 public class NetHandlerPlayClientMixin {
@@ -58,13 +60,9 @@ public class NetHandlerPlayClientMixin {
         val tileID = nbtFocus.getInteger(TILE_ID_INT_NBT_TAG);
 
         if (tileEntity instanceof IParaTileEntity) {
+            if (tileID != ((IParaTileEntity) tileEntity).tileID())
+                world.setBlock(posX, posY, posZ, block, tileID, BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG);
             return;
-            //if (tileID == ((IParaTileEntity) tileEntity).tileID()) {
-            //    System.out.println("Trolley?>??");
-            //    return;
-            //} else {
-            //    world.setBlock(posX, posY, posZ, block, tileID, 3);
-            //}
         }
 
         ((IParaBlock) block).manager().bufferedTile(world, posX, posY, posZ, tileID);
