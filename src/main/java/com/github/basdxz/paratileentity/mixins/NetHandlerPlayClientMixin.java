@@ -4,7 +4,6 @@ import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.util.Utils;
-import lombok.SneakyThrows;
 import lombok.val;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -49,7 +48,6 @@ public class NetHandlerPlayClientMixin {
     /*
         Tosses a reference ParaTile into the managers buffer.
     */
-    @SneakyThrows
     private static void bufferTile(World world, int posX, int posY, int posZ, NBTTagCompound nbtFocus) {
         val block = world.getBlock(posX, posY, posZ);
         if (!(block instanceof IParaBlock))
@@ -59,6 +57,7 @@ public class NetHandlerPlayClientMixin {
         val tileID = nbtFocus.getInteger(TILE_ID_INT_NBT_TAG);
 
         if (tileEntity instanceof IParaTileEntity) {
+            // This will mostly happen with mutli block packet updates
             if (tileID != ((IParaTileEntity) tileEntity).tileID())
                 world.setBlock(posX, posY, posZ, block, tileID, BLOCK_UPDATE_FLAG);
             return;

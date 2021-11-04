@@ -23,6 +23,7 @@ public class ParaTileEntityMod {
         if (!Utils.isDevelopmentEnvironment())
             return;
         ParaTileEntity.load();
+
         MANAGER.registerTile(ObamaCasing.builder().tileID(1).casingID(0).build());
         MANAGER.registerTile(ObamaCasing.builder().tileID(2).casingID(1).build());
         MANAGER.registerTile(ObamaCasing.builder().tileID(3).casingID(2).build());

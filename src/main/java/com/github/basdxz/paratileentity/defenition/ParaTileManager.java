@@ -55,9 +55,10 @@ public class ParaTileManager implements IParaTileManager {
         this.paraTileEntity = registerTileEntity(tileEntityClass);
     }
 
+    // TODO avoid null world somehow, it crashes shit ;c
     protected IBufferedParaTile bufferedNullTile() {
         return new BufferedParaTile(null, 0, 0, 0,
-                registerTile(SidedExample.builder().tileID(0).build()));
+                registerTile(SidedExample.builder().tileID(NULL_TILE_ID).build()));
     }
 
     protected ThreadLocal<IBufferedParaTile> tileBuffer() {
@@ -128,7 +129,7 @@ public class ParaTileManager implements IParaTileManager {
     @Override
     public void bufferedTile(IBufferedParaTile bufferedTile) {
         debug("Written tile! " + bufferedTile.tileID());
-        if (tileBuffer.get() != nullTile)
+        if (!bufferedTileNull())
             warn("WARNING: Buffer Written twice!");
         tileBuffer.set(bufferedTile);
     }
@@ -137,9 +138,14 @@ public class ParaTileManager implements IParaTileManager {
     public IBufferedParaTile bufferedTile() {
         val bufferTile = tileBuffer.get();
         debug("Read tile! " + bufferTile.tileID());
-        if (paraTileEntity != null && bufferTile == nullTile)
+        if (bufferedTileNull())
             warn("WARNING: Buffer Read twice!");
         tileBuffer.remove();
         return bufferTile;
+    }
+
+    @Override
+    public boolean bufferedTileNull() {
+        return tileBuffer.get() == nullTile;
     }
 }

@@ -132,4 +132,10 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return manager.carvingHelper().getVariation(tileID);
     }
     //endregion
+
+    @Override
+    public void breakBlock(World world, int posX, int posY, int posZ, Block block, int metaBlock) {
+        paraTile(world, posX, posY, posZ).breakBlock();
+        super.breakBlock(world, posX, posY, posZ, block, metaBlock);
+    }
 }

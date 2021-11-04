@@ -43,7 +43,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "ChunkMixin",
                 "NetHandlerPlayClientMixin",
                 "CTMMixin",
-                "S23PacketBlockChangeMixin"
+                "S23PacketBlockChangeMixin",
+                "EffectRendererMixin",
+                "EntityDiggingFXMixin",
+                "PlayerControllerMPMixin"
         );
     }
 

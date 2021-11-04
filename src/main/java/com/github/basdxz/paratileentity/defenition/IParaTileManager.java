@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 
 public interface IParaTileManager {
     int MAX_TILE_ID = Short.MAX_VALUE;
+    int NULL_TILE_ID = 0;
 
     static boolean tileIDInvalid(int id) {
         return id < 0 || id > MAX_TILE_ID;
@@ -52,4 +53,6 @@ public interface IParaTileManager {
     void bufferedTile(IBufferedParaTile bufferedTile);
 
     IBufferedParaTile bufferedTile();
+
+    boolean bufferedTileNull();
 }

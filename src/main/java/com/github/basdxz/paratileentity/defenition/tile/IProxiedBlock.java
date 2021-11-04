@@ -39,6 +39,10 @@ public interface IProxiedBlock extends IProxiedComponent {
                 .getAtlasSprite("missingno");
     }
 
+    //TODO interface proper?
+    default void breakBlock() {
+    }
+
     default ArrayList<ItemStack> getDrops(int fortune) {
         ArrayList<ItemStack> itemDropList = new ArrayList<>();
         itemDropList.add(newItemStack());
