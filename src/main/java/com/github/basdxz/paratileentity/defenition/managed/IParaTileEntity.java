@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+// TODO implement 'isTileValid' type function that checks the tile id
 public interface IParaTileEntity extends IParaManaged {
     String TILE_ENTITY_ID_POST_FIX = "ParaTileEntity";
     int DEFAULT_TILE_ENTITY_PACKET_FLAG = 0;
