@@ -3,6 +3,7 @@ package com.github.basdxz.paratileentity.defenition.tile;
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
@@ -17,8 +18,8 @@ public abstract class ParaTile implements IParaTile {
     protected IParaTileEntity tileEntity;
 
     @Override
-    public void init(IParaTileManager manager) {
-        if (manager == null)
+    public void init(@NonNull IParaTileManager manager) {
+        if (this.manager != null)
             throw new IllegalStateException("Already initialised!");
         this.manager = manager;
     }
