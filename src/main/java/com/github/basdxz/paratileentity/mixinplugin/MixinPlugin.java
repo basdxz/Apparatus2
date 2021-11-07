@@ -46,7 +46,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "S23PacketBlockChangeMixin",
                 "EffectRendererMixin",
                 "EntityDiggingFXMixin",
-                "PlayerControllerMPMixin"
+                "PlayerControllerMPMixin",
+                "ItemOffsetToolMixin"
         );
     }
 

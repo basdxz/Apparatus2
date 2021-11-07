@@ -113,7 +113,7 @@ dependencies {
     runtimeOnly("codechicken:NotEnoughItems:$neiVersion:dev")
 
     // Chisel stuff for renders
-    compile("com.github.GTMEGA:Chisel:2.9.10-GTMEGA:deobf")
+    compile("com.github.GTMEGA:Chisel:2.9.11-GTMEGA:deobf")
     compile("com.github.GTMEGA:CTMLib:17cd6ebc23:deobf")
 
     // Mixin stuff
