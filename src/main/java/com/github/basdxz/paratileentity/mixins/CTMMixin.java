@@ -2,7 +2,9 @@ package com.github.basdxz.paratileentity.mixins;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
+import com.github.basdxz.paratileentity.defenition.tile.IConnectionGroupHandler;
 import com.google.common.base.Optional;
+import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -77,7 +79,17 @@ public class CTMMixin {
         if (!(blockAccess.getTileEntity(posX, posY, posZ) instanceof IParaTileEntity))
             return false;
 
-        return cachedParaBlock.tileID(blockAccess, cachedPosX, cachedPosY, cachedPosZ) ==
-                cachedParaBlock.tileID(blockAccess, posX, posY, posZ);
+        val cachedParaTile = cachedParaBlock.paraTile(blockAccess, cachedPosX, cachedPosY, cachedPosZ);
+        val paraTile = cachedParaBlock.paraTile(blockAccess, posX, posY, posZ);
+
+        // todo proper paratile equals function
+        if (cachedParaTile.tileID() == paraTile.tileID() && cachedParaTile.manager() == paraTile.manager())
+            return true;
+
+        if (!(cachedParaTile instanceof IConnectionGroupHandler && paraTile instanceof IConnectionGroupHandler))
+            return false;
+
+        return ((IConnectionGroupHandler) cachedParaTile).connectionGroup()
+                .equals(((IConnectionGroupHandler) paraTile).connectionGroup());
     }
 }
