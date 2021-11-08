@@ -1,6 +1,6 @@
-package com.github.basdxz.paratileentity.mixins;
+package com.github.basdxz.paratileentity.mixins.minecraft;
 
-import com.github.basdxz.paratileentity.ParaTileEntityMod;
+import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -14,15 +14,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+// Server-Side
 @Mixin(ItemInWorldManager.class)
 public class ItemInWorldManagerMixin {
     @Shadow
     public World theWorld;
 
     /*
-        Runs server-side only.
+        Buffers an IParaTile before the block is about to be removed during harvesting.
 
-        Injects before the player tries to break a block and is not in creative mode.
+        Used for letting the IParaTile handle the block drops.
      */
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
@@ -34,22 +35,13 @@ public class ItemInWorldManagerMixin {
                                               BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
                                               boolean flag, ItemStack itemstack, boolean flag1) {
         if (block instanceof IParaBlock)
-            bufferTile((IParaBlock) block, theWorld, posX, posY, posZ);
+            ((IParaBlock) block).manager().bufferedTile(((IParaBlock) block).paraTile(theWorld, posX, posY, posZ));
     }
 
     /*
-        Tosses a reference ParaTile into the managers buffer.
-     */
-    private static void bufferTile(IParaBlock paraBlock, World world, int posX, int posY, int posZ) {
-        paraBlock.manager().bufferedTile(paraBlock.paraTile(world, posX, posY, posZ));
-    }
+        Purges the buffered ParaTile if the block wouldn't have been dropped, avoiding errors.
 
-    /*
-        Runs server-side only.
-
-        Injects after the return of removeBlock has been written to flag1.
-        This we can then test to see if the harvestBlock method is executed.
-        Because if it is not, we want to purge the block buffer to prevent potential overflow.
+        fixme: Adjust config to avoid error in console on load (maxShiftBy)
      */
     @Inject(method = "tryHarvestBlock",
             at = @At(value = "INVOKE",
@@ -62,21 +54,20 @@ public class ItemInWorldManagerMixin {
                                                BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
                                                boolean flag, ItemStack itemstack, boolean flag1) {
         if (block instanceof IParaBlock && failedHarvesting(flag, flag1))
-            purgeBufferTile((IParaBlock) block);
+            purgeBufferTile(((IParaBlock) block).manager());
     }
 
     /*
-        Checks if the harvest had failed (main block dropped or not)
+        Checks if the harvest had failed, resulting in the block itself not being dropped.
      */
     private static boolean failedHarvesting(boolean flag, boolean flag1) {
         return !(flag && flag1);
     }
 
     /*
-        Removes a reference ParaTile from the managers buffer.
+        Removes a reference ParaTile from the managers buffer by calling the buffer and ignoring the output.
      */
-    private static void purgeBufferTile(IParaBlock paraBlock) {
-        ParaTileEntityMod.debug("ITEM PURGED");
-        paraBlock.manager().bufferedTile();
+    private static void purgeBufferTile(IParaTileManager manager) {
+        manager.bufferedTile();
     }
 }

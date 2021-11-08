@@ -1,6 +1,5 @@
-package com.github.basdxz.paratileentity.mixins;
+package com.github.basdxz.paratileentity.mixins.minecraft;
 
-import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.util.Utils;
 import lombok.val;
@@ -17,11 +16,12 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.*;
 
+// Server-Side
 @Mixin(AnvilChunkLoader.class)
 public class AnvilChunkLoaderMixin {
 
     /*
-        Injects right before a tile entity would-be read from NBT to make sure our data is ready to be loaded just in time.
+        Used to buffer an IParaTile before it is initialised in world as it is being loaded from NBT.
      */
     @Inject(method = "loadEntities",
             at = @At(value = "INVOKE",
@@ -31,13 +31,13 @@ public class AnvilChunkLoaderMixin {
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             require = 1)
     public void loadEntities(World world, NBTTagCompound nbt, Chunk chunk, CallbackInfo ci,
-                             NBTTagList nbt1, NBTTagList nbt2, int i, NBTTagCompound nbt3) {
-        if (isNBTFromParaTileEntity(nbt3))
-            bufferTile(world, chunk, nbt3);
+                             NBTTagList nbt1, NBTTagList nbt2, int i, NBTTagCompound nbtFocus) {
+        if (isNBTFromParaTileEntity(nbtFocus))
+            bufferTile(world, chunk, nbtFocus);
     }
 
     /*
-        Tosses a reference ParaTile into the managers buffer.
+        Buffers a given IParaTile instance from given NBT.
      */
     private static void bufferTile(World world, Chunk chunk, NBTTagCompound nbtTagCompound) {
         val posX = nbtTagCompound.getInteger(TILE_ENTITY_X_POS_INT_NBT_TAG);
@@ -46,15 +46,13 @@ public class AnvilChunkLoaderMixin {
         val tileID = nbtTagCompound.getInteger(TILE_ID_INT_NBT_TAG);
 
         val block = chunk.getBlock(
-                Utils.worldToChunkBlockPos(posX),
+                Utils.worldToChunkBlockPosXZ(posX),
                 posY,
-                Utils.worldToChunkBlockPos(posZ));
+                Utils.worldToChunkBlockPosXZ(posZ));
         if (!(block instanceof IParaBlock))
             return;
 
         val paraBlock = (IParaBlock) block;
         paraBlock.manager().bufferedTile(world, posX, posY, posZ, tileID);
-
-        ParaTileEntityMod.debug("Preloaded ParaTile from NBT: " + tileID);
     }
 }

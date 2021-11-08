@@ -9,8 +9,6 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.basdxz.paratileentity.ParaTileEntityMod.info;
-
 //TODO Clean up mixin configs and packages
 public class MixinPlugin implements IMixinConfigPlugin {
     @Override
@@ -34,20 +32,20 @@ public class MixinPlugin implements IMixinConfigPlugin {
     @Override
     public List<String> getMixins() {
         if (!Utils.isDevelopmentEnvironment())
-            info("AND THE RETURN VALUE IS: " + Utils.loadJar("Chisel"));
+            Utils.loadJar("Chisel");
 
         return Lists.newArrayList(
-                "WorldMixin",
-                "AnvilChunkLoaderMixin",
-                "ItemInWorldManagerMixin",
-                "ChunkMixin",
-                "NetHandlerPlayClientMixin",
-                "CTMMixin",
-                "S23PacketBlockChangeMixin",
-                "EffectRendererMixin",
-                "EntityDiggingFXMixin",
-                "PlayerControllerMPMixin",
-                "ItemOffsetToolMixin"
+                "minecraft.WorldMixin",
+                "minecraft.AnvilChunkLoaderMixin",
+                "minecraft.ItemInWorldManagerMixin",
+                "minecraft.ChunkMixin",
+                "minecraft.NetHandlerPlayClientMixin",
+                "minecraft.S23PacketBlockChangeMixin",
+                "minecraft.EffectRendererMixin",
+                "minecraft.EntityDiggingFXMixin",
+                "minecraft.PlayerControllerMPMixin",
+                "chisel.CTMMixin",
+                "chisel.ItemOffsetToolMixin"
         );
     }
 

@@ -1,8 +1,8 @@
-package com.github.basdxz.paratileentity.mixins;
+package com.github.basdxz.paratileentity.mixins.chisel;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
-import com.github.basdxz.paratileentity.defenition.tile.IConnectionGroupHandler;
+import com.github.basdxz.paratileentity.defenition.tile.ICTMGroupHandler;
 import com.google.common.base.Optional;
 import lombok.val;
 import net.minecraft.block.Block;
@@ -19,6 +19,7 @@ import team.chisel.ctmlib.CTM;
 
 import static team.chisel.ctmlib.CTM.disableObscuredFaceCheckConfig;
 
+// Client-Side
 @Mixin(CTM.class)
 public class CTMMixin {
     @Shadow
@@ -29,7 +30,7 @@ public class CTMMixin {
     private int cachedPosZ;
 
     /*
-        Injects right before the connection map is built, caching the block and pos if it's ours.
+        Caches IParaBlocks on each buildConnectionMap call.
      */
     @Inject(method = "buildConnectionMap(Lnet/minecraft/world/IBlockAccess;IIIILnet/minecraft/block/Block;I)V",
             at = @At("HEAD"),
@@ -46,7 +47,9 @@ public class CTMMixin {
     }
 
     /*
-        Injects right before block connection is checked, re-directing the connection check if it's ours.
+        Redirects and returns connection tests against IParaBlocks.
+
+        The given block is the one to compare against, not our own block.
      */
     @Inject(method = "isConnected(Lnet/minecraft/world/IBlockAccess;" +
             "IIILnet/minecraftforge/common/util/ForgeDirection;Lnet/minecraft/block/Block;I)Z",
@@ -63,7 +66,9 @@ public class CTMMixin {
     }
 
     /*
-        Performs the connection check but using our own logic and comparing tileIDs instead of blockMetas
+        Performs the connection check but using our own logic and comparing tileIDs instead of blockMetas.
+
+        Also implements a CTMGroup check to allow IParaTiles of different ids and managers to connect to each other.
      */
     private boolean isParaTileConnected(IBlockAccess blockAccess, int posX, int posY, int posZ,
                                         ForgeDirection direction) {
@@ -86,10 +91,10 @@ public class CTMMixin {
         if (cachedParaTile.tileID() == paraTile.tileID() && cachedParaTile.manager() == paraTile.manager())
             return true;
 
-        if (!(cachedParaTile instanceof IConnectionGroupHandler && paraTile instanceof IConnectionGroupHandler))
+        if (!(cachedParaTile instanceof ICTMGroupHandler && paraTile instanceof ICTMGroupHandler))
             return false;
 
-        return ((IConnectionGroupHandler) cachedParaTile).connectionGroup()
-                .equals(((IConnectionGroupHandler) paraTile).connectionGroup());
+        return ((ICTMGroupHandler) cachedParaTile).CTMGroup()
+                .equals(((ICTMGroupHandler) paraTile).CTMGroup());
     }
 }

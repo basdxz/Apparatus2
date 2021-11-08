@@ -1,6 +1,5 @@
-package com.github.basdxz.paratileentity.mixins;
+package com.github.basdxz.paratileentity.mixins.minecraft;
 
-import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.util.Utils;
@@ -9,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,14 +19,14 @@ import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntit
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.isNBTFromParaTileEntity;
 import static com.github.basdxz.paratileentity.defenition.tile.IProxiedItemBlock.BLOCK_UPDATE_FLAG;
 
+// Client-Side
 @Mixin(NetHandlerPlayClient.class)
 public class NetHandlerPlayClientMixin {
     @Shadow
     private Minecraft gameController;
 
     /*
-        Injects right before a tile entity would-be synced from the server to
-        make sure our data is ready to be loaded just in time.
+        Buffer the IParaTile when we get a TileEntity update packet from the server relating to an IParaTileEntity.
      */
     @Inject(method = "handleUpdateTileEntity(Lnet/minecraft/network/play/server/S35PacketUpdateTileEntity;)V",
             at = @At(value = "INVOKE",
@@ -46,37 +44,23 @@ public class NetHandlerPlayClientMixin {
     }
 
     /*
-        Tosses a reference ParaTile into the managers buffer.
+        Stores an IParaTile in the buffer
     */
     private static void bufferTile(World world, int posX, int posY, int posZ, NBTTagCompound nbtFocus) {
         val block = world.getBlock(posX, posY, posZ);
         if (!(block instanceof IParaBlock))
             return;
 
-        val tileEntity = getTileEntity(world, posX, posY, posZ);
+        val tileEntity = Utils.getTileEntityIfExists(world, posX, posY, posZ);
         val tileID = nbtFocus.getInteger(TILE_ID_INT_NBT_TAG);
 
-        if (tileEntity instanceof IParaTileEntity) {
-            // This will mostly happen with mutli block packet updates
-            if (tileID != ((IParaTileEntity) tileEntity).tileID())
+        if (tileEntity.isPresent() && tileEntity.get() instanceof IParaTileEntity) {
+            // This has mostly happened in testing with mutliblock packet updates
+            if (tileID != ((IParaTileEntity) tileEntity.get()).tileID())
                 world.setBlock(posX, posY, posZ, block, tileID, BLOCK_UPDATE_FLAG);
             return;
         }
 
         ((IParaBlock) block).manager().bufferedTile(world, posX, posY, posZ, tileID);
-        ParaTileEntityMod.debug("Preloaded ParaTile from NBT: " + tileID);
-    }
-
-    /*
-        Gets a TileEntity from world, returning null if it doesn't exist.
-    */
-    private static TileEntity getTileEntity(World world, int posX, int posY, int posZ) {
-        val chunk = world.getChunkFromBlockCoords(posX, posZ);
-        if (chunk != null)
-            return chunk.getTileEntityUnsafe(
-                    Utils.worldToChunkBlockPos(posX),
-                    posY,
-                    Utils.worldToChunkBlockPos(posZ));
-        return null;
     }
 }
