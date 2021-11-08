@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 import lombok.val;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
 
@@ -63,13 +64,15 @@ public class Utils {
 
     /*
         A common redirect used in many of the IParaTile mixins by replacing the block meta with the tileID.
+
+        Falls back on the default getter if the block is a valid target.
      */
-    public int getBlockMetadataRedirect(World instance, int posX, int posY, int posZ) {
-        if (instance.getBlock(posX, posY, posZ) instanceof IParaBlock) {
-            val tileEntity = instance.getTileEntity(posX, posY, posZ);
+    public int getBlockMetadataRedirect(IBlockAccess blockAccess, int posX, int posY, int posZ) {
+        if (blockAccess.getBlock(posX, posY, posZ) instanceof IParaBlock) {
+            val tileEntity = blockAccess.getTileEntity(posX, posY, posZ);
             if (tileEntity instanceof IParaTileEntity)
                 return ((IParaTileEntity) tileEntity).tileID();
         }
-        return instance.getBlockMetadata(posX, posY, posZ);
+        return blockAccess.getBlockMetadata(posX, posY, posZ);
     }
 }

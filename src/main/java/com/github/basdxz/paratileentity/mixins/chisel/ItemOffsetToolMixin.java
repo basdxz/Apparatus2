@@ -13,6 +13,8 @@ public class ItemOffsetToolMixin {
 
     /*
         Replaces block meta with IParaTile tileID if block is an instance of IParaBlock.
+
+        Used to make the canOffset check point at the right id inside the variant manager.
      */
     @Redirect(method = "Lteam/chisel/item/ItemOffsetTool;canOffset " +
             "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;IIII)Z",

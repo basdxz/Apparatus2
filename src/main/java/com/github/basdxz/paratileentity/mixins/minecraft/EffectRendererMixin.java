@@ -13,6 +13,8 @@ public class EffectRendererMixin {
 
     /*
         Replaces block meta with IParaTile tileID if block is an instance of IParaBlock.
+
+        Used to replace the block hit particles when a block is being mined.
      */
     @Redirect(method = "addBlockHitEffects(IIII)V",
             at = @At(value = "INVOKE",
