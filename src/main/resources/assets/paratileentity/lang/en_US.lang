@@ -17,3 +17,5 @@ tile.paratileentity.test_tile.titanium_thermal_32_casing.desc=resistant as fricc
 tile.paratileentity.test_tile.watertight_casing.desc=resistant as fricc
 tile.paratileentity.test_tile.watertight_32_casing.desc=resistant as fricc
 tile.paratileentity.test_tile.unknown_casing.desc=broken as fricc
+
+tile.paratileentity.test_tile.nulltile.name=Null Tile

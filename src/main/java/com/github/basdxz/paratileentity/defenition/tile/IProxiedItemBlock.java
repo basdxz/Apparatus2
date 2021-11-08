@@ -34,7 +34,7 @@ public interface IProxiedItemBlock extends IProxiedComponent {
         return true;
     }
 
-    default ItemStack newItemStack() {
-        return new ItemStack(manager().block(), 1, tileID());
+    default ItemStack newItemStack(int count) {
+        return new ItemStack(manager().block(), count, tileID());
     }
 }

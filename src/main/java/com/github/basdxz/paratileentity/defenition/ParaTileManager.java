@@ -8,7 +8,7 @@ import com.github.basdxz.paratileentity.defenition.managed.ParaItemBlock;
 import com.github.basdxz.paratileentity.defenition.tile.BufferedParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IBufferedParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
-import com.github.basdxz.paratileentity.instance.SidedExample;
+import com.github.basdxz.paratileentity.instance.NullTile;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
@@ -48,17 +48,21 @@ public class ParaTileManager implements IParaTileManager {
     public ParaTileManager(String modid, String name, Class<? extends IParaTileEntity> tileEntityClass) {
         this.modid = modid;
         this.name = name;
+        paraBlock = new ParaBlock(this);
         nullTile = bufferedNullTile();
         tileBuffer = tileBuffer();
-        paraBlock = new ParaBlock(this);
         carvingHelper = new CarvableHelperExtended(this);
         this.paraTileEntity = registerTileEntity(tileEntityClass);
     }
 
-    // TODO avoid null world somehow, it crashes shit ;c
     protected IBufferedParaTile bufferedNullTile() {
-        return new BufferedParaTile(null, 0, 0, 0,
-                registerTile(SidedExample.builder().tileID(NULL_TILE_ID).build()));
+        return new BufferedParaTile(null, 0, 0, 0, initNullTile());
+    }
+
+    protected IParaTile initNullTile() {
+        val nullTile = NullTile.builder().tileID(NULL_TILE_ID).build();
+        registerTile(nullTile);
+        return nullTile;
     }
 
     protected ThreadLocal<IBufferedParaTile> tileBuffer() {

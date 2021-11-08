@@ -17,5 +17,9 @@ public interface IProxiedComponent {
 
     int posZ();
 
-    ItemStack newItemStack();
+    default ItemStack newItemStack() {
+        return newItemStack(1);
+    }
+
+    ItemStack newItemStack(int count);
 }
