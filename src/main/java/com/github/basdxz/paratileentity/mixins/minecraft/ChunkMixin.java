@@ -11,9 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
 
 // Client-Side and Server-Side
 @Mixin(Chunk.class)
@@ -29,31 +26,6 @@ public class ChunkMixin {
     private void setBlock(int posX, int posY, int posZ, Block block, int blockMeta,
                           CallbackInfoReturnable<Boolean> cir) {
         cachedBlock = block;
-    }
-
-    /*
-        Cancels the setBlock method if it would otherwise set an existing tile to a null tile.
-
-        Only exists to fix multiblock update packets replacing good existing tile with null tiles.
-     */
-    @Inject(method = "func_150807_a(IIILnet/minecraft/block/Block;I)Z",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;getLightOpacity (Lnet/minecraft/world/IBlockAccess;III)I"),
-            cancellable = true,
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
-            require = 1)
-    private void setBlockEarlyCancel(int posX, int posY, int posZ, Block block, int blockMeta,
-                                     CallbackInfoReturnable<Boolean> cir, int i1, int j1, Block oldBlock, int oldMeta,
-                                     ExtendedBlockStorage extendedblockstorage, boolean flag, int l1, int i2) {
-        if (!(block instanceof IParaBlock) || blockMeta != NULL_TILE_ID)
-            return;
-        if (!(oldBlock instanceof IParaBlock) || oldMeta == NULL_TILE_ID)
-            return;
-
-        if (((IParaBlock) block).manager() == ((IParaBlock) oldBlock).manager()) {
-            cir.setReturnValue(false);
-            cir.cancel();
-        }
     }
 
     /*

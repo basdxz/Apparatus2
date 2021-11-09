@@ -169,7 +169,6 @@ tasks {
             attributes["MixinConfigs"] = mixinConfigJson
             attributes["FMLCorePluginContainsFMLMod"] = true
             attributes["ForceLoadAsMod"] = true
-            attributes["FMLAT"] = "paratileentity_at.cfg"
         }
 
         // Mark as outdated if versions change

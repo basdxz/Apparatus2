@@ -21,6 +21,6 @@ public class NetworkDispatcher extends PacketDispatcher {
 
     @Override
     public void registerPackets() {
-        registerMessage(MultiParaTileChangeMessage.ClientHandler.class, MultiParaTileChangeMessage.MultiParaTileChangeData.class);
+        //registerMessage(MultiParaTileChangeMessage.ClientHandler.class, MultiParaTileChangeMessage.MultiParaTileChangeData.class);
     }
 }

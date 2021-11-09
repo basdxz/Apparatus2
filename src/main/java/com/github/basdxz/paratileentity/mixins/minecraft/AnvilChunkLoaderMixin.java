@@ -21,6 +21,8 @@ import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntit
 public class AnvilChunkLoaderMixin {
 
     /*
+        MBU_FIX
+
         Used to buffer an IParaTile before it is initialised in world as it is being loaded from NBT.
      */
     @Inject(method = "loadEntities",

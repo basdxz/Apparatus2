@@ -11,23 +11,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
-
 // Client-Side and Server-Side
 @Mixin(World.class)
 public class WorldMixin {
 
     /*
         Buffers a ParaTile a new IParaTileEntity is about to be created.
-
-        A meta 0 will be called on a multi block update much more frequently than someone placing down a null tile.
      */
     @Inject(method = "setBlock(IIILnet/minecraft/block/Block;II)Z",
             at = @At("HEAD"),
             require = 1)
     public void setBlock(int posX, int posY, int posZ, Block block, int meta, int flag,
                          CallbackInfoReturnable<Boolean> cir) {
-        if (meta == NULL_TILE_ID || !(block instanceof IParaBlock))
+        if (!(block instanceof IParaBlock))
             return;
 
         val tileEntity = Utils.getTileEntityIfExists(thiz(), posX, posY, posZ);

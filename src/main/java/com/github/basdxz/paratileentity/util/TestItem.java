@@ -22,7 +22,9 @@ public class TestItem extends ItemShears {
             val posZ = (int) entityPlayer.posZ;
             for (int i = 0; i < 60; i++) {
                 for (int j = 0; j < 60; j++) {
-                    world.setBlock(posX + i, posY, posZ + j, MANAGER.block(), 220, 3);
+                    for (int k = 0; k < 120; k = k + 2) {
+                        world.setBlock(posX + i, posY + k, posZ + j, MANAGER.block(), 220, 3);
+                    }
                 }
             }
         }
