@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.minecraft.entity.player.EntityPlayer;
 
+import static com.github.basdxz.paratileentity.network.MultiParaTileChange.bufferedMultiParaTileChange;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,10 +30,7 @@ public class MultiParaTileChangeMessage implements IMessage {
     public static class ClientHandler extends AbstractClientMessageHandler<MultiParaTileChangeData> {
         @Override
         public IMessage handleClientMessage(EntityPlayer player, MultiParaTileChangeData message, MessageContext ctx) {
-            //bufferedMultiParaTileChange(message.getMessage());
-            for (Integer integer : message.getMessage().paraTileIDs()) {
-                System.out.println(integer);
-            }
+            bufferedMultiParaTileChange(message.getMessage());
             return null;
         }
     }

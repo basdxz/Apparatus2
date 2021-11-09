@@ -4,7 +4,9 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.util.Utils;
 import lombok.val;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -13,17 +15,24 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TILE_ID_INT_NBT_TAG;
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.isNBTFromParaTileEntity;
 import static com.github.basdxz.paratileentity.defenition.tile.IProxiedItemBlock.BLOCK_UPDATE_FLAG;
+import static com.github.basdxz.paratileentity.network.MultiParaTileChange.bufferedMultiParaTileChange;
+import static com.github.basdxz.paratileentity.network.MultiParaTileChange.bufferedPacketNotNull;
 
 // Client-Side
 @Mixin(NetHandlerPlayClient.class)
 public class NetHandlerPlayClientMixin {
     @Shadow
     private Minecraft gameController;
+    private final List<Integer> paraTileIDs = new ArrayList<>();
 
     /*
         Buffer the IParaTile when we get a TileEntity update packet from the server relating to an IParaTileEntity.
@@ -62,5 +71,21 @@ public class NetHandlerPlayClientMixin {
         }
 
         ((IParaBlock) block).manager().bufferedTile(world, posX, posY, posZ, tileID);
+    }
+
+    @Redirect(method = "handleMultiBlockChange(Lnet/minecraft/network/play/server/S22PacketMultiBlockChange;)V",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/client/multiplayer/WorldClient;func_147492_c " +
+                            "(IIILnet/minecraft/block/Block;I)Z"),
+            require = 1)
+    private boolean handleMultiBlockChangeMetaRedirect(WorldClient instance, int posX, int posY, int posZ, Block block,
+                                                       int blockMeta) {
+        if (block instanceof IParaBlock) {
+            if (bufferedPacketNotNull())
+                paraTileIDs.addAll(bufferedMultiParaTileChange().paraTileIDs());
+            blockMeta = paraTileIDs.get(0);
+            paraTileIDs.remove(0);
+        }
+        return instance.func_147492_c(posX, posY, posZ, block, blockMeta);
     }
 }
