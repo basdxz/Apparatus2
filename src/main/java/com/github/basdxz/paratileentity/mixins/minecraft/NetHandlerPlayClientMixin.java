@@ -2,6 +2,7 @@ package com.github.basdxz.paratileentity.mixins.minecraft;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
+import com.github.basdxz.paratileentity.network.Pos3;
 import com.github.basdxz.paratileentity.util.Utils;
 import lombok.val;
 import net.minecraft.block.Block;
@@ -18,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.TILE_ID_INT_NBT_TAG;
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.isNBTFromParaTileEntity;
@@ -32,7 +33,7 @@ import static com.github.basdxz.paratileentity.network.MultiParaTileChange.buffe
 public class NetHandlerPlayClientMixin {
     @Shadow
     private Minecraft gameController;
-    private final List<Integer> paraTileIDs = new ArrayList<>();
+    private final Map<Pos3, Integer> paraTileIDs = new HashMap<>();
 
     /*
         Buffer the IParaTile when we get a TileEntity update packet from the server relating to an IParaTileEntity.
@@ -82,9 +83,13 @@ public class NetHandlerPlayClientMixin {
                                                        int blockMeta) {
         if (block instanceof IParaBlock) {
             if (bufferedPacketNotNull())
-                paraTileIDs.addAll(bufferedMultiParaTileChange().paraTileIDs());
-            blockMeta = paraTileIDs.get(0);
-            paraTileIDs.remove(0);
+                paraTileIDs.putAll(bufferedMultiParaTileChange().paraTileIDs());
+
+            val pos = new Pos3(posX, posY, posZ);
+            if (paraTileIDs.containsKey(pos)) {
+                blockMeta = paraTileIDs.get(pos);
+                paraTileIDs.remove(pos);
+            }
         }
         return instance.func_147492_c(posX, posY, posZ, block, blockMeta);
     }

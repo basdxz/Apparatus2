@@ -3,6 +3,7 @@ package com.github.basdxz.paratileentity.mixins.minecraft;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.network.MultiParaTileChange;
+import com.github.basdxz.paratileentity.network.Pos3;
 import com.github.basdxz.paratileentity.util.Utils;
 import lombok.val;
 import net.minecraft.block.Block;
@@ -14,13 +15,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 // Server-Side
 @Mixin(S22PacketMultiBlockChange.class)
 public class S22PacketMultiBlockChangeMixin {
-    private final List<Integer> paraTileIDs = new ArrayList<>();
+    protected final Map<Pos3, Integer> paraTileIDs = new HashMap<>();
 
     @Redirect(method = "<init>(I[SLnet/minecraft/world/chunk/Chunk;)V",
             at = @At(value = "INVOKE",
@@ -31,7 +32,7 @@ public class S22PacketMultiBlockChangeMixin {
         if (block instanceof IParaBlock) {
             val tileEntity = Utils.getTileEntityIfExists(instance, posX, posY, posZ);
             if (tileEntity.isPresent() && (tileEntity.get() instanceof IParaTileEntity))
-                paraTileIDs.add(((IParaTileEntity) tileEntity.get()).tileID());
+                paraTileIDs.put(new Pos3(posX, posY, posZ), ((IParaTileEntity) tileEntity.get()).tileID());
         }
         return block;
     }
@@ -43,7 +44,7 @@ public class S22PacketMultiBlockChangeMixin {
     private void getBlockPostPayloadCreation(int i1, short[] j1, Chunk k, CallbackInfo ci) {
         if (paraTileIDs.isEmpty())
             return;
-        MultiParaTileChange.bufferedMultiParaTileChange(new ArrayList<>(paraTileIDs));
+        MultiParaTileChange.bufferedMultiParaTileChange(new HashMap<>(paraTileIDs));
         paraTileIDs.clear();
     }
 }
