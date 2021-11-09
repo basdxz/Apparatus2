@@ -36,12 +36,16 @@ public class PlayerInstanceMixin {
                     shift = AFTER),
             require = 1)
     private void sendChunkUpdatePreSendingBlockChangePacket(CallbackInfo ci) {
+        System.out.println("Time to sent the pre update packet!");
+
         if (bufferedPacketNotNull())
             sendToAllPlayersWatchingChunk(
+                    playersWatchingChunk,
+                    chunkLocation,
                     new MultiParaTileChangeMessage.MultiParaTileChangeData(bufferedMultiParaTileChange()));
     }
 
-    private void sendToAllPlayersWatchingChunk(IMessage message) {
+    private static void sendToAllPlayersWatchingChunk(List playersWatchingChunk, ChunkCoordIntPair chunkLocation, IMessage message) {
         if (playersWatchingChunk == null) {
             System.out.println("playersWatchingChunk is null!!");
             return;
