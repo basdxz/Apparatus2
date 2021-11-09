@@ -1,6 +1,7 @@
 package com.github.basdxz.paratileentity;
 
 import com.github.basdxz.paratileentity.instance.*;
+import com.github.basdxz.paratileentity.network.NetworkDispatcher;
 import com.github.basdxz.paratileentity.util.Utils;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -38,6 +39,8 @@ public class ParaTileEntityMod {
         MANAGER.registerTile(ObamaCasing.builder().tileID(12).casingID(0).build());
         MANAGER.registerTile(ClickableBlockTest.builder().tileID(220).build());
         MANAGER.registerTile(ClickableBlockTest.builder().tileID(Short.MAX_VALUE).build());
+
+        NetworkDispatcher.load();
     }
 
     public static void debug(String message, Object... params) {

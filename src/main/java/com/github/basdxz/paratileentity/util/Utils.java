@@ -2,12 +2,14 @@ package com.github.basdxz.paratileentity.util;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
 
 import java.io.File;
@@ -44,15 +46,22 @@ public class Utils {
     /*
         Gets a TileEntity from world without creating it if it doesn't exist.
     */
-    public Optional<TileEntity> getTileEntityIfExists(World world, int posX, int posY, int posZ) {
+    public Optional<TileEntity> getTileEntityIfExists(@NonNull final World world, int posX, int posY, int posZ) {
         Optional<TileEntity> tileEntity = Optional.empty();
         val chunk = world.getChunkFromBlockCoords(posX, posZ);
         if (chunk != null)
-            tileEntity = Optional.ofNullable(chunk.getTileEntityUnsafe(
+            tileEntity = getTileEntityIfExists(chunk,
                     Utils.worldToChunkBlockPosXZ(posX),
                     posY,
-                    Utils.worldToChunkBlockPosXZ(posZ)));
+                    Utils.worldToChunkBlockPosXZ(posZ));
         return tileEntity;
+    }
+
+    /*
+        Gets a TileEntity from world without creating it if it doesn't exist.
+    */
+    public Optional<TileEntity> getTileEntityIfExists(@NonNull final Chunk chunk, int posX, int posY, int posZ) {
+        return Optional.ofNullable(chunk.getTileEntityUnsafe(posX, posY, posZ));
     }
 
     /*

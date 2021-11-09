@@ -98,6 +98,7 @@ dependencies {
     val codechickencoreVersion: String by project
     val neiVersion: String by project
     val wailaVersion: String by project
+    val yamcoreVersion: String by project
 
     // Java extensions
     compileOnly("org.projectlombok:lombok:$lombokVersion")
@@ -130,6 +131,7 @@ dependencies {
         exclude(module = "log4j-core")
     }
     compile("com.github.GTNewHorizons:SpongeMixins:1.3.3:dev")
+    compile("eu.usrv:YAMCore:$yamcoreVersion:deobf")
 }
 sourceSets.main {
     java {
