@@ -43,6 +43,8 @@ public class PlayerInstanceMixin {
 
     private void sendToAllPlayersWatchingChunk(IMessage message) {
         for (Object obj : playersWatchingChunk) {
+            if (!(obj instanceof EntityPlayerMP))
+                return;
             val entityPlayerMP = (EntityPlayerMP) obj;
             if (!entityPlayerMP.loadedChunks.contains(chunkLocation))
                 NetworkDispatcher.INSTANCE.sendTo(message, entityPlayerMP);
