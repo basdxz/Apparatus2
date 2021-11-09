@@ -28,6 +28,8 @@ import static java.util.stream.Collectors.toList;
 
 @Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
+    protected final boolean doneLoading;
+
     @Getter
     protected final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
     protected final IBufferedParaTile nullTile;
@@ -53,6 +55,7 @@ public class ParaTileManager implements IParaTileManager {
         tileBuffer = tileBuffer();
         carvingHelper = new CarvableHelperExtended(this);
         this.paraTileEntity = registerTileEntity(tileEntityClass);
+        doneLoading = true;
     }
 
     protected IBufferedParaTile bufferedNullTile() {
@@ -142,7 +145,7 @@ public class ParaTileManager implements IParaTileManager {
     public IBufferedParaTile bufferedTile() {
         val bufferTile = tileBuffer.get();
         debug("Read tile! " + bufferTile.tileID());
-        if (bufferedTileNull())
+        if (bufferedTileNull() && doneLoading)
             warn("WARNING: Buffer Read twice!");
         tileBuffer.remove();
         return bufferTile;

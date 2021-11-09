@@ -3,9 +3,11 @@ package com.github.basdxz.paratileentity.mixins.chisel;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.defenition.tile.ICTMGroupHandler;
+import com.github.basdxz.paratileentity.util.Utils;
 import com.google.common.base.Optional;
 import lombok.val;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.spongepowered.asm.mixin.Mixin;
@@ -73,15 +75,17 @@ public class CTMMixin {
     private boolean isParaTileConnected(IBlockAccess blockAccess, int posX, int posY, int posZ,
                                         ForgeDirection direction) {
         if (!disableObscuredFaceCheck.or(disableObscuredFaceCheckConfig)) {
-            int posX2 = posX + direction.offsetX;
-            int posY2 = posY + direction.offsetY;
-            int posZ2 = posZ + direction.offsetZ;
+            val posX2 = posX + direction.offsetX;
+            val posY2 = posY + direction.offsetY;
+            val posZ2 = posZ + direction.offsetZ;
 
             if (blockAccess.getBlock(posX2, posY2, posZ2) instanceof ICarvable)
                 return false;
         }
 
-        if (!(blockAccess.getTileEntity(posX, posY, posZ) instanceof IParaTileEntity))
+        val tileEntity = Utils.getTileEntityIfExists(
+                Minecraft.getMinecraft().theWorld, posX, posY, posZ);
+        if (!tileEntity.isPresent() || !(tileEntity.get() instanceof IParaTileEntity))
             return false;
 
         val cachedParaTile = cachedParaBlock.paraTile(blockAccess, cachedPosX, cachedPosY, cachedPosZ);
