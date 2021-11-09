@@ -5,6 +5,7 @@ import com.github.basdxz.paratileentity.network.NetworkDispatcher;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.management.PlayerManager;
 import net.minecraft.world.ChunkCoordIntPair;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +20,7 @@ import static com.github.basdxz.paratileentity.network.MultiParaTileChange.buffe
 import static com.github.basdxz.paratileentity.network.MultiParaTileChange.bufferedPacketNotNull;
 import static org.spongepowered.asm.mixin.injection.At.Shift.AFTER;
 
-@Mixin(targets = "net.minecraft.server.management.PlayerManager.PlayerInstance")
+@Mixin(PlayerManager.PlayerInstance.class)
 public class PlayerInstanceMixin {
     @Shadow
     @Final
