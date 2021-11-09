@@ -45,8 +45,9 @@ public class ChunkMixin {
     private void setBlockEarlyCancel(int posX, int posY, int posZ, Block block, int blockMeta,
                                      CallbackInfoReturnable<Boolean> cir, int i1, int j1, Block oldBlock, int oldMeta,
                                      ExtendedBlockStorage extendedblockstorage, boolean flag, int l1, int i2) {
-        if (!(block instanceof IParaBlock && blockMeta == NULL_TILE_ID) ||
-                !(oldBlock instanceof IParaBlock && oldMeta != NULL_TILE_ID))
+        if (!(block instanceof IParaBlock) || blockMeta != NULL_TILE_ID)
+            return;
+        if (!(oldBlock instanceof IParaBlock) || oldMeta == NULL_TILE_ID)
             return;
 
         if (((IParaBlock) block).manager() == ((IParaBlock) oldBlock).manager()) {
