@@ -42,6 +42,16 @@ public class PlayerInstanceMixin {
     }
 
     private void sendToAllPlayersWatchingChunk(IMessage message) {
+        if (playersWatchingChunk == null) {
+            System.out.println("playersWatchingChunk is null!!");
+            return;
+        }
+
+        if (chunkLocation == null) {
+            System.out.println("playersWatchingChunk is chunkLocation!!");
+            return;
+        }
+
         for (Object obj : playersWatchingChunk) {
             if (!(obj instanceof EntityPlayerMP))
                 return;
