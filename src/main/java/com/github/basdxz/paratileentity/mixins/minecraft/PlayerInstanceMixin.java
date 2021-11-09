@@ -1,10 +1,7 @@
 package com.github.basdxz.paratileentity.mixins.minecraft;
 
 import com.github.basdxz.paratileentity.network.MultiParaTileChangeMessage;
-import com.github.basdxz.paratileentity.network.NetworkDispatcher;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import lombok.val;
-import net.minecraft.entity.player.EntityPlayerMP;
+import com.github.basdxz.paratileentity.util.Utils;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.world.ChunkCoordIntPair;
 import org.spongepowered.asm.mixin.Final;
@@ -39,29 +36,9 @@ public class PlayerInstanceMixin {
         System.out.println("Time to sent the pre update packet!");
 
         if (bufferedPacketNotNull())
-            sendToAllPlayersWatchingChunk(
+            Utils.sendToAllPlayersWatchingChunk(
                     playersWatchingChunk,
                     chunkLocation,
                     new MultiParaTileChangeMessage.MultiParaTileChangeData(bufferedMultiParaTileChange()));
-    }
-
-    private static void sendToAllPlayersWatchingChunk(List playersWatchingChunk, ChunkCoordIntPair chunkLocation, IMessage message) {
-        if (playersWatchingChunk == null) {
-            System.out.println("playersWatchingChunk is null!!");
-            return;
-        }
-
-        if (chunkLocation == null) {
-            System.out.println("playersWatchingChunk is chunkLocation!!");
-            return;
-        }
-
-        for (Object obj : playersWatchingChunk) {
-            if (!(obj instanceof EntityPlayerMP))
-                return;
-            val entityPlayerMP = (EntityPlayerMP) obj;
-            if (!entityPlayerMP.loadedChunks.contains(chunkLocation))
-                NetworkDispatcher.INSTANCE.sendTo(message, entityPlayerMP);
-        }
     }
 }

@@ -2,11 +2,15 @@ package com.github.basdxz.paratileentity.util;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
+import com.github.basdxz.paratileentity.network.NetworkDispatcher;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.val;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -14,6 +18,7 @@ import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.info;
@@ -83,5 +88,26 @@ public class Utils {
                 return ((IParaTileEntity) tileEntity).tileID();
         }
         return blockAccess.getBlockMetadata(posX, posY, posZ);
+    }
+
+
+    public static void sendToAllPlayersWatchingChunk(List playersWatchingChunk, ChunkCoordIntPair chunkLocation, IMessage message) {
+        if (playersWatchingChunk == null) {
+            System.out.println("playersWatchingChunk is null!!");
+            return;
+        }
+
+        if (chunkLocation == null) {
+            System.out.println("playersWatchingChunk is chunkLocation!!");
+            return;
+        }
+
+        for (Object obj : playersWatchingChunk) {
+            if (!(obj instanceof EntityPlayerMP))
+                return;
+            val entityPlayerMP = (EntityPlayerMP) obj;
+            if (!entityPlayerMP.loadedChunks.contains(chunkLocation))
+                NetworkDispatcher.INSTANCE.sendTo(message, entityPlayerMP);
+        }
     }
 }
