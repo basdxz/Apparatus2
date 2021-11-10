@@ -3,6 +3,8 @@ package com.github.basdxz.paratileentity.instance;
 import codechicken.nei.api.API;
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -37,6 +39,7 @@ public class NullTile extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         if (icon == null)
             icon = iconRegister.registerIcon(MODID + ":trolley");

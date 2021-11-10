@@ -4,6 +4,8 @@ import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.RegisterParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IFacingHandler;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -36,6 +38,7 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         icons.set(0, iconRegister.registerIcon(MODID + ":test_tile_" + 0));
         icons.set(1, iconRegister.registerIcon(MODID + ":test_tile_" + 1));

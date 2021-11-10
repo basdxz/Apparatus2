@@ -1,6 +1,8 @@
 package com.github.basdxz.paratileentity.instance;
 
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +23,7 @@ public class ObamaCasing extends ParaTile {
     private final int casingID; // just goes from 0-7 as proof-of-concept, string names will follow.
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         if (icons[0] != null)
             return;
