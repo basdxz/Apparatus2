@@ -21,8 +21,8 @@ public final class ParaTileEntity extends ParaTileEntityBase {
     public static void load() {
         if (MANAGER != null)
             throw new IllegalStateException("Manager already registered!");
-        // ATTENTION: If you copied this class, make sure to change this line to have your modid, your name and your class.
-        new ParaTileManager(MODID, "test_tile", ParaTileEntity.class);
+        // ATTENTION: If you copied this class, make sure to change *ALL* of these arguments to match your mod.
+        new ParaTileManager(MODID, "test_tile", "com.github.basdxz.paratileentity", ParaTileEntity.class);
     }
 
     @Override

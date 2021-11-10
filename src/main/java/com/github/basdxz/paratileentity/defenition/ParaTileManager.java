@@ -15,16 +15,17 @@ import lombok.experimental.Accessors;
 import lombok.val;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
+import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.github.basdxz.paratileentity.ParaTileEntityMod.debug;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.warn;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
+import static org.reflections.scanners.Scanners.TypesAnnotated;
 
 @Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
@@ -32,6 +33,7 @@ public class ParaTileManager implements IParaTileManager {
 
     @Getter
     protected final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
+    @Getter
     protected final IBufferedParaTile nullTile;
     protected final ThreadLocal<IBufferedParaTile> tileBuffer;
 
@@ -40,6 +42,8 @@ public class ParaTileManager implements IParaTileManager {
     protected final String name;
     @Getter
     protected final String modid;
+    protected final String instancePackagePath;
+
     @Getter
     protected final IParaBlock paraBlock;
     protected final IParaTileEntity paraTileEntity;
@@ -47,14 +51,17 @@ public class ParaTileManager implements IParaTileManager {
     @Getter
     protected final CarvableHelperExtended carvingHelper;
 
-    public ParaTileManager(String modid, String name, Class<? extends IParaTileEntity> tileEntityClass) {
+    public ParaTileManager(String modid, String name, String instancePackagePath,
+                           Class<? extends IParaTileEntity> tileEntityClass) {
         this.modid = modid;
         this.name = name;
+        this.instancePackagePath = instancePackagePath;
         paraBlock = new ParaBlock(this);
         nullTile = bufferedNullTile();
         tileBuffer = tileBuffer();
         carvingHelper = new CarvableHelperExtended(this);
         this.paraTileEntity = registerTileEntity(tileEntityClass);
+        registerAnnotatedTiles();
         doneLoading = true;
     }
 
@@ -89,6 +96,29 @@ public class ParaTileManager implements IParaTileManager {
     @Override
     public TileEntity createNewTileEntity() {
         return paraTileEntity.createNewTileEntity();
+    }
+
+    protected void registerAnnotatedTiles() {
+        Reflections reflections = new Reflections(instancePackagePath);
+        Set<Class<?>> paraTileClasses = reflections.get(TypesAnnotated.with(RegisterParaTile.class).asClass());
+        for (Class<?> paraTileClass : paraTileClasses) {
+            if (IParaTile.class.isAssignableFrom(paraTileClass)) {
+                val annotation = paraTileClass.getAnnotation(RegisterParaTile.class);
+                if (!modid.equals(annotation.modid()) || !name.equals(annotation.manager()))
+                    continue;
+                try {
+                    val builder = paraTileClass.getMethod("builder").invoke(null);
+                    val buildMethod = builder.getClass().getMethod("build");
+                    buildMethod.setAccessible(true);
+                    val paraTile = buildMethod.invoke(builder);
+                    ((IParaTile) paraTile).register(this);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    throw new IllegalStateException("Classes annotated with @Register must use the Lombok @Builder or @SuperBuilder annotation.");
+                }
+            } else {
+                throw new IllegalStateException("Classes annotated with @Register must implement the IParaTile interface.");
+            }
+        }
     }
 
     @Override
@@ -135,7 +165,6 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public void bufferedTile(IBufferedParaTile bufferedTile) {
-        debug("Written tile! " + bufferedTile.tileID());
         if (!bufferedTileNull())
             warn("WARNING: Buffer Written twice!");
         tileBuffer.set(bufferedTile);
@@ -144,7 +173,6 @@ public class ParaTileManager implements IParaTileManager {
     @Override
     public IBufferedParaTile bufferedTile() {
         val bufferTile = tileBuffer.get();
-        debug("Read tile! " + bufferTile.tileID());
         if (bufferedTileNull() && doneLoading)
             warn("WARNING: Buffer Read twice!");
         tileBuffer.remove();

@@ -48,7 +48,6 @@ public class BufferedParaTile implements IBufferedParaTile {
         init();
     }
 
-
     protected void init() {
         if (!paraTile.singleton() && paraTile.tileID() != 0 && world == null)
             throw new IllegalArgumentException("World can only be null on tileID 0 or singletons.");

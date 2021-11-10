@@ -1,7 +1,9 @@
 package com.github.basdxz.paratileentity;
 
-import com.github.basdxz.paratileentity.instance.*;
-import com.github.basdxz.paratileentity.network.NetworkDispatcher;
+import com.github.basdxz.paratileentity.instance.ClickableBlockTest;
+import com.github.basdxz.paratileentity.instance.ObamaCasing;
+import com.github.basdxz.paratileentity.instance.ParaTileEntity;
+import com.github.basdxz.paratileentity.instance.TurbinePart;
 import com.github.basdxz.paratileentity.util.TestItem;
 import com.github.basdxz.paratileentity.util.Utils;
 import cpw.mods.fml.common.Mod;
@@ -35,13 +37,10 @@ public class ParaTileEntityMod {
         MANAGER.registerTile(ObamaCasing.builder().tileID(7).casingID(6).build());
         MANAGER.registerTile(ObamaCasing.builder().tileID(8).casingID(7).build());
         MANAGER.registerTile(TurbinePart.builder().tileID(9).maxDurability(500).maxSpeed(20).build());
-        MANAGER.registerTile(SidedExample.builder().tileID(10).build());
         MANAGER.registerTile(ClickableBlockTest.builder().tileID(11).build());
         MANAGER.registerTile(ObamaCasing.builder().tileID(12).casingID(0).build());
         MANAGER.registerTile(ClickableBlockTest.builder().tileID(220).build());
         MANAGER.registerTile(ClickableBlockTest.builder().tileID(Short.MAX_VALUE).build());
-
-        NetworkDispatcher.load();
         new TestItem();
     }
 

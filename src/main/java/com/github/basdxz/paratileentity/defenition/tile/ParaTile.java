@@ -25,6 +25,10 @@ public abstract class ParaTile implements IParaTile {
     }
 
     @Override
+    public void register(IParaTileManager manager) {
+    }
+
+    @Override
     public IParaTile clone() {
         try {
             return (IParaTile) super.clone();

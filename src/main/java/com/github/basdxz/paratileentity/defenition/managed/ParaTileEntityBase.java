@@ -30,7 +30,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     protected IParaTile initBufferedParaTile() {
-        val bufferedTile = manager().bufferedTile();
+        val bufferedTile = manager().bufferedTileNull() ? manager().nullTile() : manager().bufferedTile();
         worldObj(bufferedTile.world())
                 .posX(bufferedTile.posX())
                 .posY(bufferedTile.posY())

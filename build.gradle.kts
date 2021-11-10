@@ -107,6 +107,8 @@ dependencies {
     implementation("systems.manifold:manifold-ext-rt:$manifoldVersion")
     annotationProcessor("systems.manifold:manifold-ext:$manifoldVersion")
 
+    shadowImplementation("org.reflections:reflections:0.10.2")
+
     // Optional libraries for testing
     runtimeOnly("mcp.mobius.waila:Waila:$wailaVersion")
     runtimeOnly("codechicken:CodeChickenLib:$codechickenlibVersion:dev")

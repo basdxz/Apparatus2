@@ -1,5 +1,7 @@
 package com.github.basdxz.paratileentity.instance;
 
+import com.github.basdxz.paratileentity.defenition.IParaTileManager;
+import com.github.basdxz.paratileentity.defenition.RegisterParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IFacingHandler;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import lombok.Getter;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
+@RegisterParaTile(modid = MODID, manager = "test_tile")
 @Getter
 @Setter
 @Accessors(fluent = true)
@@ -25,7 +28,12 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 public class SidedExample extends ParaTile implements IFacingHandler {
     public ForgeDirection facing;
 
-    static List<IIcon> icons = Arrays.asList(new IIcon[2]);
+    private final static List<IIcon> icons = Arrays.asList(new IIcon[2]);
+
+    @Override
+    public void register(IParaTileManager manager) {
+        manager.registerTile(builder().tileID(10).build());
+    }
 
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
@@ -51,19 +59,6 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     public boolean singleton() {
         return false;
     }
-
-    //@Override
-    //public boolean canUpdate() {
-    //    return true;
-    //}
-//
-    //@Override
-    //public void updateEntity() {
-    //    if(side() == CLIENT) {
-    //        facingOnBlockPlacedBy(Minecraft.getMinecraft().thePlayer);
-    //        worldObj().markBlockForUpdate(posX(), posY(), posZ());
-    //    }
-    //}
 
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
