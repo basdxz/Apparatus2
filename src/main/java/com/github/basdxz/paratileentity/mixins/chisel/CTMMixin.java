@@ -5,6 +5,8 @@ import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import com.github.basdxz.paratileentity.defenition.tile.ICTMGroupHandler;
 import com.github.basdxz.paratileentity.util.Utils;
 import com.google.common.base.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -38,6 +40,7 @@ public class CTMMixin {
             at = @At("HEAD"),
             remap = false,
             require = 1)
+    @SideOnly(Side.CLIENT)
     public void buildConnectionMap(IBlockAccess world, int posX, int posY, int posZ, int side, Block block, int meta,
                                    CallbackInfo ci) {
         if (block instanceof IParaBlock) {
@@ -59,6 +62,7 @@ public class CTMMixin {
             cancellable = true,
             remap = false,
             require = 1)
+    @SideOnly(Side.CLIENT)
     public void isConnected(IBlockAccess blockAccess, int posX, int posY, int posZ, ForgeDirection direction,
                             Block block, int blockMeta, CallbackInfoReturnable<Boolean> cir) {
         if (block == cachedParaBlock) {
@@ -72,6 +76,7 @@ public class CTMMixin {
 
         Also implements a CTMGroup check to allow IParaTiles of different ids and managers to connect to each other.
      */
+    @SideOnly(Side.CLIENT)
     private boolean isParaTileConnected(IBlockAccess blockAccess, int posX, int posY, int posZ,
                                         ForgeDirection direction) {
         if (!disableObscuredFaceCheck.or(disableObscuredFaceCheckConfig)) {
