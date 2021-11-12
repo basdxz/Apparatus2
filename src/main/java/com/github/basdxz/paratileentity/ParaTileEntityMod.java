@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import static com.github.basdxz.paratileentity.instance.ParaTileEntity.MANAGER;
 
 @Mod(modid = ParaTileEntityMod.MODID, name = ParaTileEntityMod.NAME, version = ParaTileEntityMod.VERSION,
-        dependencies = "required-after:spongemixins@[1.1.0,);" + "required-after:chisel;" + "required-after:NotEnoughItems;")
+        dependencies = "required-after:spongemixins@[1.1.0,);" + "required-after:chisel;")
 public class ParaTileEntityMod {
     public static final String MODID = "paratileentity";
     public static final String NAME = "ParaTileEntity";

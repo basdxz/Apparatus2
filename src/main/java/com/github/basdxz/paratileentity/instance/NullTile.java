@@ -3,6 +3,7 @@ package com.github.basdxz.paratileentity.instance;
 import codechicken.nei.api.API;
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.NonNull;
@@ -24,7 +25,8 @@ public class NullTile extends ParaTile {
     @Override
     public void init(@NonNull IParaTileManager manager) {
         super.init(manager);
-        API.hideItem(newItemStack());
+        if (Loader.isModLoaded("NotEnoughItems"))
+            API.hideItem(newItemStack());
     }
 
     @Override
