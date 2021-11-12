@@ -113,16 +113,18 @@ public class ParaTileManager implements IParaTileManager {
                     val paraTile = buildMethod.invoke(builder);
                     ((IParaTile) paraTile).register(this);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new IllegalStateException("Classes annotated with @Register must use the Lombok @Builder or @SuperBuilder annotation.");
+                    throw new IllegalStateException("Classes annotated with @RegisterParaTile must use the Lombok @Builder or @SuperBuilder annotation.");
                 }
             } else {
-                throw new IllegalStateException("Classes annotated with @Register must implement the IParaTile interface.");
+                throw new IllegalStateException("Classes annotated with @RegisterParaTile must implement the IParaTile interface.");
             }
         }
     }
 
     @Override
     public IParaTile registerTile(@NonNull IParaTile tile) {
+        if (doneLoading)
+            throw new IllegalArgumentException("Manager already finished loading, maybe use @RegisterParaTile?");
         if (IParaTileManager.tileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
         if (tileList.get(tile.tileID()) != null)
