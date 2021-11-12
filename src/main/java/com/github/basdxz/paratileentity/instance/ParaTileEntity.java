@@ -18,11 +18,18 @@ public final class ParaTileEntity extends ParaTileEntityBase {
     /*
         Intended to be run during FMLInitializationEvent.
      */
-    public static void load() {
+    public static void init() {
         if (MANAGER != null)
             throw new IllegalStateException("Manager already registered!");
         // ATTENTION: If you copied this class, make sure to change *ALL* of these arguments to match your mod.
         new ParaTileManager(MODID, "test_tile", "com.github.basdxz.paratileentity", ParaTileEntity.class);
+    }
+
+    /*
+        Intended to be run during FMLPostInitializationEvent.
+     */
+    public static void postInit() {
+        MANAGER.postInit();
     }
 
     @Override

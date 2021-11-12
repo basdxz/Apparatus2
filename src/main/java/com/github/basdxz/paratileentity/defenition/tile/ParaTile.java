@@ -24,8 +24,14 @@ public abstract class ParaTile implements IParaTile {
         this.manager = manager;
     }
 
+    // todo Remove from here and force all extending classes to include it.
     @Override
     public void register(IParaTileManager manager) {
+    }
+
+    // todo Remove from here and force all extending classes to include it.
+    @Override
+    public void registerRecipes() {
     }
 
     @Override

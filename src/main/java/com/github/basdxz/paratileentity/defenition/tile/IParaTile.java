@@ -7,5 +7,7 @@ public interface IParaTile extends Cloneable, IProxiedBlock, IProxiedItemBlock, 
 
     void register(IParaTileManager manager);
 
+    void registerRecipes();
+
     IParaTile clone();
 }

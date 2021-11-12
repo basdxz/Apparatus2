@@ -29,7 +29,8 @@ import static org.reflections.scanners.Scanners.TypesAnnotated;
 
 @Accessors(fluent = true)
 public class ParaTileManager implements IParaTileManager {
-    protected final boolean doneLoading;
+    protected boolean initComplete;
+    protected boolean postInitComplete;
 
     @Getter
     protected final Class<? extends ItemBlock> itemClass = ParaItemBlock.class;
@@ -62,7 +63,7 @@ public class ParaTileManager implements IParaTileManager {
         carvingHelper = new CarvableHelperExtended(this);
         this.paraTileEntity = registerTileEntity(tileEntityClass);
         registerAnnotatedTiles();
-        doneLoading = true;
+        initComplete = true;
     }
 
     protected IBufferedParaTile bufferedNullTile() {
@@ -123,7 +124,7 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public IParaTile registerTile(@NonNull IParaTile tile) {
-        if (doneLoading)
+        if (initComplete)
             throw new IllegalArgumentException("Manager already finished loading, maybe use @RegisterParaTile?");
         if (IParaTileManager.tileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
@@ -136,6 +137,16 @@ public class ParaTileManager implements IParaTileManager {
         tileList.set(tile.tileID(), tile);
         tile.init(this);
         return tile;
+    }
+
+    @Override
+    public void postInit() {
+        if (postInitComplete)
+            throw new IllegalStateException("Post init already complete.");
+        for (IParaTile paraTile : tileList()) {
+            paraTile.registerRecipes();
+        }
+        postInitComplete = true;
     }
 
     @Override
@@ -175,7 +186,7 @@ public class ParaTileManager implements IParaTileManager {
     @Override
     public IBufferedParaTile bufferedTile() {
         val bufferTile = tileBuffer.get();
-        if (bufferedTileNull() && doneLoading)
+        if (bufferedTileNull() && initComplete)
             warn("WARNING: Buffer Read twice!");
         tileBuffer.remove();
         return bufferTile;

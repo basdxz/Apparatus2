@@ -22,6 +22,8 @@ public interface IParaTileManager {
 
     String modid();
 
+    void postInit();
+
     CarvableHelperExtended carvingHelper();
 
     default Block block() {

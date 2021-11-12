@@ -5,6 +5,7 @@ import com.github.basdxz.paratileentity.util.TestItem;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +19,13 @@ public class ParaTileEntityMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        //if (!Utils.isDevelopmentEnvironment())
-        //    return;
-        ParaTileEntity.load();
+        ParaTileEntity.init();
         new TestItem();
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        ParaTileEntity.postInit();
     }
 
     public static void debug(String message, Object... params) {
