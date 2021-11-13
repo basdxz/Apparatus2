@@ -46,9 +46,8 @@ public class EffectRendererMixin {
     private void renderParticlesInject(Entity p_78874_1_, float p_78874_2_, CallbackInfo ci,
                                        float f1, float f2, float f3, float f4, float f5, int k, int i,
                                        Tessellator tessellator) {
-
         val thePlayer = Minecraft.getMinecraft().thePlayer;
         final double x=thePlayer.posX,y=thePlayer.posY+thePlayer.eyeHeight,z=thePlayer.posZ;
-        ((List<EntityFX>)fxLayers[i]).sort(Comparator.comparing(entityFX -> entityFX.getDistanceSq(x,y,z)));
+        ((List<EntityFX>)fxLayers[i]).sort(Comparator.comparing(entityFX -> -entityFX.getDistanceSq(x,y,z)));
     }
 }
