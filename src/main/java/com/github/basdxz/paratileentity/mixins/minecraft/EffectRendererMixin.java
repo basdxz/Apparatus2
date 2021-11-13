@@ -1,9 +1,10 @@
 package com.github.basdxz.paratileentity.mixins.minecraft;
 
-import com.github.basdxz.paratileentity.sortedParticle.StaticStorage;
 import com.github.basdxz.paratileentity.util.Utils;
+import lombok.val;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import java.util.List;
 public class EffectRendererMixin {
     @Shadow
     private List[] fxLayers;
+
 
 
     /*
@@ -38,6 +41,7 @@ public class EffectRendererMixin {
         return Utils.getBlockMetadataRedirect(instance, posX, posY, posZ);
     }
 
+    @SuppressWarnings("unchecked")
     @Inject(method = "renderParticles(Lnet/minecraft/entity/Entity;F)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/Tessellator;startDrawingQuads ()V"),
@@ -46,7 +50,9 @@ public class EffectRendererMixin {
     private void renderParticlesInject(Entity p_78874_1_, float p_78874_2_, CallbackInfo ci,
                                        float f1, float f2, float f3, float f4, float f5, int k, int i,
                                        Tessellator tessellator) {
-        ((List<EntityFX>) fxLayers[i]).sort(Comparator.comparing(entityFX -> -entityFX.getDistanceSq(
-                StaticStorage.camPosX, StaticStorage.camPosY, StaticStorage.camPosZ)));
+        val x =ActiveRenderInfo.objectX+p_78874_1_.posX;
+        val y =ActiveRenderInfo.objectY+p_78874_1_.posY;
+        val z=ActiveRenderInfo.objectZ+p_78874_1_.posZ;
+        ((ArrayList<EntityFX>) fxLayers[i]).sort(Comparator.comparing(entityFX -> -entityFX.getDistanceSq(x,y,z)));
     }
 }
