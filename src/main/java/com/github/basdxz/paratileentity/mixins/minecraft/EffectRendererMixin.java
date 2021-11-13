@@ -1,8 +1,7 @@
 package com.github.basdxz.paratileentity.mixins.minecraft;
 
+import com.github.basdxz.paratileentity.sortedParticle.StaticStorage;
 import com.github.basdxz.paratileentity.util.Utils;
-import lombok.val;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -25,6 +24,7 @@ public class EffectRendererMixin {
     @Shadow
     private List[] fxLayers;
 
+
     /*
         Replaces block meta with IParaTile tileID if block is an instance of IParaBlock.
 
@@ -46,8 +46,7 @@ public class EffectRendererMixin {
     private void renderParticlesInject(Entity p_78874_1_, float p_78874_2_, CallbackInfo ci,
                                        float f1, float f2, float f3, float f4, float f5, int k, int i,
                                        Tessellator tessellator) {
-        val thePlayer = Minecraft.getMinecraft().thePlayer;
-        final double x=thePlayer.posX,y=thePlayer.posY+thePlayer.eyeHeight,z=thePlayer.posZ;
-        ((List<EntityFX>)fxLayers[i]).sort(Comparator.comparing(entityFX -> -entityFX.getDistanceSq(x,y,z)));
+        ((List<EntityFX>) fxLayers[i]).sort(Comparator.comparing(entityFX -> -entityFX.getDistanceSq(
+                StaticStorage.camPosX, StaticStorage.camPosY, StaticStorage.camPosZ)));
     }
 }
