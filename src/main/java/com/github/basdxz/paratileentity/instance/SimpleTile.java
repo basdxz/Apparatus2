@@ -4,7 +4,6 @@ import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.RegisterParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import cpw.mods.fml.common.registry.GameRegistry;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -14,7 +13,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
 @RegisterParaTile(modid = MODID, manager = "test_tile")
-@Accessors(fluent = true)
 @SuperBuilder
 public class SimpleTile extends ParaTile {
     @Override

@@ -100,8 +100,8 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     protected void registerAnnotatedTiles() {
-        Reflections reflections = new Reflections(instancePackagePath);
-        Set<Class<?>> paraTileClasses = reflections.get(TypesAnnotated.with(RegisterParaTile.class).asClass());
+        val paraTileClasses = new Reflections(instancePackagePath)
+                .get(TypesAnnotated.with(RegisterParaTile.class).asClass());
         for (Class<?> paraTileClass : paraTileClasses) {
             if (IParaTile.class.isAssignableFrom(paraTileClass)) {
                 val annotation = paraTileClass.getAnnotation(RegisterParaTile.class);
@@ -111,8 +111,7 @@ public class ParaTileManager implements IParaTileManager {
                     val builder = paraTileClass.getMethod("builder").invoke(null);
                     val buildMethod = builder.getClass().getMethod("build");
                     buildMethod.setAccessible(true);
-                    val paraTile = buildMethod.invoke(builder);
-                    ((IParaTile) paraTile).register(this);
+                    ((IParaTile) buildMethod.invoke(builder)).register(this);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     throw new IllegalStateException("Classes annotated with @RegisterParaTile must use the Lombok @Builder or @SuperBuilder annotation.");
                 }
