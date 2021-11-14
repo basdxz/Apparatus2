@@ -27,7 +27,6 @@ public class EffectRendererMixin {
     private List[] fxLayers;
 
 
-
     /*
         Replaces block meta with IParaTile tileID if block is an instance of IParaBlock.
 
@@ -50,9 +49,9 @@ public class EffectRendererMixin {
     private void renderParticlesInject(Entity p_78874_1_, float p_78874_2_, CallbackInfo ci,
                                        float f1, float f2, float f3, float f4, float f5, int k, int i,
                                        Tessellator tessellator) {
-        val x =ActiveRenderInfo.objectX+p_78874_1_.posX;
-        val y =ActiveRenderInfo.objectY+p_78874_1_.posY;
-        val z=ActiveRenderInfo.objectZ+p_78874_1_.posZ;
-        ((ArrayList<EntityFX>) fxLayers[i]).sort(Comparator.comparing(entityFX -> -entityFX.getDistanceSq(x,y,z)));
+        val x = ActiveRenderInfo.objectX + p_78874_1_.posX;
+        val y = ActiveRenderInfo.objectY + p_78874_1_.posY;
+        val z = ActiveRenderInfo.objectZ + p_78874_1_.posZ;
+        ((ArrayList<EntityFX>) fxLayers[i]).sort(Comparator.comparing(entityFX -> -entityFX.getDistanceSq(x, y, z)));
     }
 }
