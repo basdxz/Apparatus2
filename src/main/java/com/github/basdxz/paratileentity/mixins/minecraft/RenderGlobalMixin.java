@@ -23,4 +23,6 @@ public class RenderGlobalMixin {
     private int getBlockMetadataRedirect(WorldClient instance, int posX, int posY, int posZ) {
         return Utils.getBlockMetadataRedirect(instance, posX, posY, posZ);
     }
+
+
 }
