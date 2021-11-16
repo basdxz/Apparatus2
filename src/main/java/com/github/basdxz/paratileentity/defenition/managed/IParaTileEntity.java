@@ -2,9 +2,12 @@ package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IProxiedTileEntity;
+import lombok.val;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
 
 // TODO implement 'isTileValid' type function that checks the tile id
 public interface IParaTileEntity extends IParaManaged {
@@ -15,7 +18,7 @@ public interface IParaTileEntity extends IParaManaged {
 
     IParaTileEntity registerTileEntity(String modid, String name);
 
-    void reloadTileEntity(String newTileID);
+    void reloadTileEntity();
 
     void loadParaTile(IParaTile paraTile);
 
@@ -24,7 +27,8 @@ public interface IParaTileEntity extends IParaManaged {
     }
 
     default String readTileIDFromNBT(NBTTagCompound nbtTag) {
-        return nbtTag.getString(PARA_TILE_ID_INT_NBT_TAG);
+        val tileID = nbtTag.getString(PARA_TILE_ID_INT_NBT_TAG);
+        return (tileID != null && !tileID.equals("")) ? tileID : NULL_TILE_ID;
     }
 
     default IProxiedTileEntity proxiedTileEntity() {
@@ -32,6 +36,8 @@ public interface IParaTileEntity extends IParaManaged {
     }
 
     IParaTile paraTile();
+
+    IParaTileEntity expectedTileID(String tileID);
 
     default String tileID() {
         return paraTile().tileID();

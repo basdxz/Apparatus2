@@ -46,11 +46,10 @@ public interface IProxiedItemBlock extends IProxiedComponent {
             return;
 
         val tileEntity = world.getTileEntity(posX, posY, posZ);
-        if (!(tileEntity instanceof IParaTileEntity))
-            return;
-        val paraTileEntity = (IParaTileEntity) tileEntity;
-
-        paraTileEntity.reloadTileEntity(itemStack.stackTagCompound.getString(PARA_TILE_ID_INT_NBT_TAG));
+        if (tileEntity instanceof IParaTileEntity)
+            ((IParaTileEntity) tileEntity)
+                    .expectedTileID(itemStack.stackTagCompound.getString(PARA_TILE_ID_INT_NBT_TAG))
+                    .reloadTileEntity();
     }
 
     default ItemStack newItemStack(int count) {
