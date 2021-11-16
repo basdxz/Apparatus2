@@ -13,8 +13,9 @@ import net.minecraft.world.World;
 public interface IParaTileManager {
     String NULL_TILE_ID = "NULL";
 
+    // FIXME: FLAT_FIX (delete?)
     static boolean tileIDInvalid(String id) {
-        return id.equals(NULL_TILE_ID);
+        return false;
     }
 
     String name();
