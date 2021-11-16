@@ -1,6 +1,6 @@
 package com.github.basdxz.paratileentity.mixins.minecraft;
 
-import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -29,7 +29,6 @@ public class PlayerControllerMPMixin {
     public void onPlayerDestroyBlockPrePlayAuxSFXAtEntity(int posX, int posY, int posZ, int flags,
                                                           CallbackInfoReturnable<Boolean> cir, ItemStack stack,
                                                           WorldClient world, Block block) {
-        if (block instanceof IParaBlock)
-            ((IParaBlock) block).manager().bufferedTile(((IParaBlock) block).paraTile(world, posX, posY, posZ));
+        Utils.bufferParaTileSafe(world, posX, posY, posZ, block);
     }
 }

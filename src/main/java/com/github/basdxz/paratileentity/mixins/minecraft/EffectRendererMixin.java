@@ -1,6 +1,6 @@
 package com.github.basdxz.paratileentity.mixins.minecraft;
 
-import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.util.Utils;
 import lombok.val;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
@@ -37,10 +37,7 @@ public class EffectRendererMixin {
                     target = "Lnet/minecraft/world/World;getBlockMetadata (III)I"),
             require = 1)
     private int getBlockMetadataRedirect(World instance, int posX, int posY, int posZ) {
-        val block = instance.getBlock(posX, posY, posZ);
-        if (block instanceof IParaBlock) {
-            ((IParaBlock) block).manager().bufferedTile(((IParaBlock) block).paraTile(instance, posX, posY, posZ));
-        }
+        Utils.bufferParaTileSafe(instance, posX, posY, posZ);
         return instance.getBlockMetadata(posX, posY, posZ);
     }
 

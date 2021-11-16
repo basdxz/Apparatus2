@@ -2,6 +2,7 @@ package com.github.basdxz.paratileentity.mixins.minecraft;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.ItemInWorldManager;
@@ -34,8 +35,7 @@ public class ItemInWorldManagerMixin {
     public void tryHarvestBlockPreRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                               BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
                                               boolean flag, ItemStack itemstack, boolean flag1) {
-        if (block instanceof IParaBlock)
-            ((IParaBlock) block).manager().bufferedTile(((IParaBlock) block).paraTile(theWorld, posX, posY, posZ));
+        Utils.bufferParaTileSafe(theWorld, posX, posY, posZ, block);
     }
 
     /*
