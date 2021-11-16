@@ -51,4 +51,10 @@ public class NullTile extends ParaTile {
     public IIcon getIcon(ForgeDirection side) {
         return icon;
     }
+
+    // It updates once to attempt conversion
+    @Override
+    public boolean canUpdate() {
+        return true;
+    }
 }

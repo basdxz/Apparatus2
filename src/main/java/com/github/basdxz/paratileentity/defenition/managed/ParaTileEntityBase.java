@@ -18,45 +18,23 @@ import java.lang.reflect.InvocationTargetException;
 /*
     TODO: Setup and configure a TileEntitySpecialRenderer dedicated for rendering custom stuff on frame.
  */
-@Getter
 @Accessors(fluent = true)
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
-    protected final IParaTile paraTile;
+    @Getter
+    protected IParaTile paraTile;
+
+    protected String tileIDFromNBT;
 
     public ParaTileEntityBase() {
         blockMetadata = getBlockMetadata();
         blockType = getBlockType();
-        paraTile = initBufferedParaTile();
-    }
-
-    protected IParaTile initBufferedParaTile() {
-        val bufferedTile = manager().bufferedTileNull() ? manager().nullTile() : manager().bufferedTile();
-        worldObj(bufferedTile.world())
-                .posX(bufferedTile.posX())
-                .posY(bufferedTile.posY())
-                .posZ(bufferedTile.posZ());
-        return safeClone(bufferedTile.paraTile());
-    }
-
-    /*
-        Only clones non-singleton ParaTiles.
-
-        Also allows the clone() method to have access to this TileEntity as well as the cloned class
-        But prevents leaving a reference to **this** TileEntity, preventing unexpected use.
-     */
-    protected IParaTile safeClone(IParaTile paraTile) {
-        if (paraTile.singleton())
-            return paraTile;
-
-        paraTile.tileEntity(this);
-        val clonedParaTile = paraTile.clone();
-        paraTile.tileEntity(null);
-        return clonedParaTile;
+        paraTile = manager().nullTile().paraTile();
+        tileIDFromNBT = paraTile.tileID();
     }
 
     @Override
     public IParaTileEntity registerTileEntity(String modid, String name) {
-        GameRegistry.registerTileEntity(getClass(), modid + ":" + name + "_" + TILE_ENTITY_ID_POST_FIX);
+        GameRegistry.registerTileEntity(getClass(), modid + ":" + name + "_" + TILE_ENTITY_ID_POSTFIX);
         return this;
     }
 
@@ -119,12 +97,63 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void updateEntity() {
         proxiedTileEntity().updateEntity();
+        validateParaTile();
+    }
+
+    protected void validateParaTile() {
+        if (tileIDFromNBT.equals(paraTile().tileID()))
+            return;
+        reloadTileEntity();
+    }
+
+    protected void reloadTileEntity() {
+        paraTile = manager().paraTile(tileIDFromNBT);
+
+        val tileEntity = createNewTileEntity();
+        tileEntity.xCoord = posX();
+        tileEntity.yCoord = posY();
+        tileEntity.zCoord = posZ();
+        tileEntity.setWorldObj(worldObj());
+        ((ParaTileEntityBase) tileEntity).tileIDFromNBT = tileIDFromNBT;
+        ((IParaTileEntity) tileEntity).loadParaTile(paraTile);
+
+        worldObj().removeTileEntity(posX(), posY(), posZ());
+        worldObj().setTileEntity(posX(), posY(), posZ(), tileEntity);
+    }
+
+    @Override
+    public void loadParaTile(IParaTile paraTile) {
+        this.paraTile = safeClone(paraTile);
+        markDirty();
+        worldObj().markBlockForUpdate(posX(), posY(), posZ());
+    }
+
+    /*
+        Only clones non-singleton ParaTiles.
+
+        Also allows the clone() method to have access to this TileEntity as well as the cloned class
+        But clears reference to **this** TileEntity, preventing unexpected use.
+    */
+    protected IParaTile safeClone(IParaTile paraTile) {
+        if (paraTile.singleton())
+            return paraTile;
+
+        paraTile.tileEntity(this);
+        val clonedParaTile = paraTile.clone();
+        paraTile.tileEntity(null);
+        return clonedParaTile;
     }
 
     @Override
     public boolean canUpdate() {
         return proxiedTileEntity().canUpdate();
     }
+
+    // TODO: Passthrough to Paratile
+    //@Override
+    //public void markDirty() {
+    //    super.markDirty();
+    //}
 
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
@@ -134,10 +163,10 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
             paraTile.writeToNBT(nbtTagCompound);
     }
 
-    // Fixed MP Block place sync, but I'd like a cleaner fix
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
+        tileIDFromNBT = readTileIDFromNBT(nbtTagCompound); //Have some check for null?
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }

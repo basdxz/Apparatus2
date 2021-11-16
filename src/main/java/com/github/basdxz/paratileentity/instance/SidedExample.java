@@ -3,6 +3,7 @@ package com.github.basdxz.paratileentity.instance;
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.RegisterParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.IFacingHandler;
+import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
+import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -28,9 +30,16 @@ import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 @Accessors(fluent = true)
 @SuperBuilder
 public class SidedExample extends ParaTile implements IFacingHandler {
+    private final static List<IIcon> icons = Arrays.asList(new IIcon[2]);
+
     public ForgeDirection facing;
 
-    private final static List<IIcon> icons = Arrays.asList(new IIcon[2]);
+    @Override
+    public IParaTile clone() {
+        val newTile = (SidedExample) super.clone();
+        newTile.facing = DEFAULT_INVENTORY_FACING;
+        return newTile;
+    }
 
     @Override
     public void register(IParaTileManager manager) {
@@ -46,11 +55,7 @@ public class SidedExample extends ParaTile implements IFacingHandler {
 
     @Override
     public IIcon getIcon(ForgeDirection side) {
-        if (facing == null)
-            facing = DEFAULT_INVENTORY_FACING;
-        if (side == facing)
-            return icons.get(0);
-        return icons.get(1);
+        return side == facing ? icons.get(0) : icons.get(1);
     }
 
     @Override
@@ -64,12 +69,12 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound) {
-        writeFacingToNBT(nbtTagCompound);
+    public void writeToNBT(NBTTagCompound nbtTag) {
+        writeFacingToNBT(nbtTag);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        readFacingFromToNBT(nbtTagCompound);
+    public void readFromNBT(NBTTagCompound nbtTag) {
+        readFacingFromToNBT(nbtTag);
     }
 }
