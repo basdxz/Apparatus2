@@ -13,7 +13,9 @@ public interface IParaItemBlock extends IParaManaged {
         return manager().paraTile(tileID(itemStack));
     }
 
-    default int tileID(ItemStack itemStack) {
-        return itemStack.getItemDamage();
+    //FIXME: FLAT_FIX
+    default String tileID(ItemStack itemStack) {
+        return null;
+        //return itemStack.getItemDamage();
     }
 }

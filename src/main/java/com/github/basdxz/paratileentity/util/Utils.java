@@ -1,13 +1,10 @@
 package com.github.basdxz.paratileentity.util;
 
-import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
-import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
@@ -71,17 +68,18 @@ public class Utils {
         return worldBlockPos & 15;
     }
 
-    /*
-        A common redirect used in many of the IParaTile mixins by replacing the block meta with the tileID.
+    // FIXME: FLAT_FIX (remove?)
+    ///*
+    //    A common redirect used in many of the IParaTile mixins by replacing the block meta with the tileID.
 
-        Falls back on the default getter if the block is a valid target.
-     */
-    public int getBlockMetadataRedirect(IBlockAccess blockAccess, int posX, int posY, int posZ) {
-        if (blockAccess.getBlock(posX, posY, posZ) instanceof IParaBlock) {
-            val tileEntity = blockAccess.getTileEntity(posX, posY, posZ);
-            if (tileEntity instanceof IParaTileEntity)
-                return ((IParaTileEntity) tileEntity).tileID();
-        }
-        return blockAccess.getBlockMetadata(posX, posY, posZ);
-    }
+    //    Falls back on the default getter if the block is a valid target.
+    // */
+    //public int getBlockMetadataRedirect(IBlockAccess blockAccess, int posX, int posY, int posZ) {
+    //    if (blockAccess.getBlock(posX, posY, posZ) instanceof IParaBlock) {
+    //        val tileEntity = blockAccess.getTileEntity(posX, posY, posZ);
+    //        if (tileEntity instanceof IParaTileEntity)
+    //            return ((IParaTileEntity) tileEntity).tileID();
+    //    }
+    //    return blockAccess.getBlockMetadata(posX, posY, posZ);
+    //}
 }

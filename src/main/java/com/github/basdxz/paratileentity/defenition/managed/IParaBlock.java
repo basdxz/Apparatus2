@@ -16,11 +16,11 @@ public interface IParaBlock extends IParaManaged {
         return paraTile(blockAccess, posX, posY, posZ);
     }
 
-    default IProxiedBlock proxiedBlock(int tileID) {
+    default IProxiedBlock proxiedBlock(String tileID) {
         return manager().paraTile(tileID);
     }
 
-    default int tileID(IBlockAccess blockAccess, int posX, int posY, int posZ) {
+    default String tileID(IBlockAccess blockAccess, int posX, int posY, int posZ) {
         return paraTile(blockAccess, posX, posY, posZ).tileID();
     }
 

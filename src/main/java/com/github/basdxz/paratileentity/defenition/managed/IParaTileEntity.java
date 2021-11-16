@@ -25,7 +25,7 @@ public interface IParaTileEntity extends IParaManaged {
     }
 
     default void writeTileIDToNBT(NBTTagCompound nbtTagCompound) {
-        nbtTagCompound.setInteger(TILE_ID_INT_NBT_TAG, tileID());
+        nbtTagCompound.setString(TILE_ID_INT_NBT_TAG, tileID());
     }
 
     default IProxiedTileEntity proxiedTileEntity() {
@@ -34,7 +34,7 @@ public interface IParaTileEntity extends IParaManaged {
 
     IParaTile paraTile();
 
-    default int tileID() {
+    default String tileID() {
         return paraTile().tileID();
     }
 

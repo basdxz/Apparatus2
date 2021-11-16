@@ -18,13 +18,11 @@ import net.minecraft.tileentity.TileEntity;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.warn;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
+import static com.github.basdxz.paratileentity.defenition.IParaTileManager.tileIDInvalid;
 import static org.reflections.scanners.Scanners.TypesAnnotated;
 
 @Accessors(fluent = true)
@@ -38,7 +36,7 @@ public class ParaTileManager implements IParaTileManager {
     protected final IBufferedParaTile nullTile;
     protected final ThreadLocal<IBufferedParaTile> tileBuffer;
 
-    protected final List<IParaTile> tileList = Arrays.asList(new IParaTile[MAX_TILE_ID + 1]);
+    protected final Map<String, IParaTile> tileMap = new HashMap<>();
     @Getter
     protected final String name;
     @Getter
@@ -125,15 +123,15 @@ public class ParaTileManager implements IParaTileManager {
     public IParaTile registerTile(@NonNull IParaTile tile) {
         if (initComplete)
             throw new IllegalArgumentException("Manager already finished loading, maybe use @RegisterParaTile?");
-        if (IParaTileManager.tileIDInvalid(tile.tileID()))
+        if (tileIDInvalid(tile.tileID()))
             throw new IllegalArgumentException("Tile ID out of bounds.");
-        if (tileList.get(tile.tileID()) != null)
-            if (tile.tileID() == 0)
-                throw new IllegalArgumentException("ID 0 is used for null block.");
+        if (tileMap.get(tile.tileID()) != null)
+            if (NULL_TILE_ID.equals(tile.tileID()))
+                throw new IllegalArgumentException("ID NULL is used for null block.");
             else
                 throw new IllegalArgumentException("ID " + tile.tileID() + " already taken.");
 
-        tileList.set(tile.tileID(), tile);
+        tileMap.put(tile.tileID(), tile);
         tile.init(this);
         return tile;
     }
@@ -149,30 +147,23 @@ public class ParaTileManager implements IParaTileManager {
     }
 
     @Override
-    public IParaTile paraTile(int tileID) {
-        if (IParaTileManager.tileIDInvalid(tileID))
-            throw new IllegalArgumentException("Tile ID " + tileID + " is out of bounds.");
-        if (tileList.get(tileID) == null)
+    public IParaTile paraTile(String tileID) {
+        if (tileIDInvalid(tileID))
+            throw new IllegalArgumentException("Tile ID " + tileID + " is invalid.");
+        if (tileMap.get(tileID) == null)
             return nullTile.paraTile();
 
-        return tileList.get(tileID);
+        return tileMap.get(tileID);
     }
 
     @Override
     public Iterable<IParaTile> tileList() {
-        return tileList
-                .stream()
-                .filter(Objects::nonNull)
-                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+        return tileMap.values();
     }
 
     @Override
-    public Iterable<Integer> allTileIDs() {
-        return IntStream
-                .range(0, tileList.size())
-                .filter(i -> tileList.get(i) != null)
-                .boxed()
-                .collect(Collectors.toCollection(ArrayList::new));
+    public Iterable<String> allTileIDs() {
+        return tileMap.keySet();
     }
 
     @Override

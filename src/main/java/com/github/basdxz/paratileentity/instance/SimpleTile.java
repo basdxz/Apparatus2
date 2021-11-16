@@ -22,7 +22,7 @@ public class SimpleTile extends ParaTile {
 
     @Override
     public void register(IParaTileManager manager) {
-        manager.registerTile(builder().tileID(12).build());
+        manager.registerTile(builder().tileID("12").build());
     }
 
     @Override

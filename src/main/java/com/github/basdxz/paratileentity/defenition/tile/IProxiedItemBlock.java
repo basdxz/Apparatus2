@@ -21,20 +21,31 @@ public interface IProxiedItemBlock extends IProxiedComponent {
     default void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
     }
 
+    // FIXME: FLAT_FIX
     default boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world,
                                  int posX, int posY, int posZ, int side, float hitX, float hitY, float hitZ) {
-        if (!world.setBlock(posX, posY, posZ, manager().block(), tileID(),
+        //if (!world.setBlock(posX, posY, posZ, manager().block(), tileID(),
+        //        BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG)) {
+        //    return false;
+        //}
+        //if (world.getBlock(posX, posY, posZ) == manager().block()) {
+        //    manager().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
+        //    manager().block().onPostBlockPlaced(world, posX, posY, posZ, tileID());
+        //}
+        if (!world.setBlock(posX, posY, posZ, manager().block(), 0,
                 BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG)) {
             return false;
         }
         if (world.getBlock(posX, posY, posZ) == manager().block()) {
             manager().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
-            manager().block().onPostBlockPlaced(world, posX, posY, posZ, tileID());
+            manager().block().onPostBlockPlaced(world, posX, posY, posZ, 0);
         }
         return true;
     }
 
+    // FIXME: FLAT_FIX
     default ItemStack newItemStack(int count) {
-        return new ItemStack(manager().block(), count, tileID());
+        //return new ItemStack(manager().block(), count, tileID());
+        return new ItemStack(manager().block(), count, 0);
     }
 }

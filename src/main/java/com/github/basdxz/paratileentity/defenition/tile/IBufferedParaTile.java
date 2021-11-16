@@ -11,7 +11,7 @@ public interface IBufferedParaTile {
 
     int posZ();
 
-    default int tileID() {
+    default String tileID() {
         return paraTile().tileID();
     }
 

@@ -11,11 +11,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public interface IParaTileManager {
-    int MAX_TILE_ID = Short.MAX_VALUE;
-    int NULL_TILE_ID = 0;
+    String NULL_TILE_ID = "NULL";
 
-    static boolean tileIDInvalid(int id) {
-        return id < 0 || id > MAX_TILE_ID;
+    static boolean tileIDInvalid(String id) {
+        return id.equals(NULL_TILE_ID);
     }
 
     String name();
@@ -38,15 +37,15 @@ public interface IParaTileManager {
 
     IParaTile registerTile(IParaTile tile);
 
-    IParaTile paraTile(int id);
+    IParaTile paraTile(String id);
 
     Iterable<IParaTile> tileList();
 
-    Iterable<Integer> allTileIDs();
+    Iterable<String> allTileIDs();
 
     IBufferedParaTile nullTile();
 
-    default void bufferedTile(World world, int posX, int posY, int posZ, int tileID) {
+    default void bufferedTile(World world, int posX, int posY, int posZ, String tileID) {
         bufferedTile(new BufferedParaTile(world, posX, posY, posZ, paraTile(tileID)));
     }
 

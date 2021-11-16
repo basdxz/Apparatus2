@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.experimental.Accessors;
 import net.minecraft.world.World;
 
+import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
+
 @Getter
 @Accessors(fluent = true)
 public class BufferedParaTile implements IBufferedParaTile {
@@ -49,7 +51,7 @@ public class BufferedParaTile implements IBufferedParaTile {
     }
 
     protected void init() {
-        if (!paraTile.singleton() && paraTile.tileID() != 0 && world == null)
+        if (!paraTile.singleton() && NULL_TILE_ID.equals(paraTile.tileID()) && world == null)
             throw new IllegalArgumentException("World can only be null on tileID 0 or singletons.");
     }
 }

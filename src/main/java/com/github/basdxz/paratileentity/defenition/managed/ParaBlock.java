@@ -24,10 +24,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.api.ICarvable;
 import team.chisel.api.carving.IVariationInfo;
-import team.chisel.api.rendering.ClientUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
 
 @Getter
 @Accessors(fluent = true)
@@ -61,12 +62,13 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return manager.createNewTileEntity();
     }
 
+    // FIXME: FLAT_FIX
     @SuppressWarnings("unchecked") // Unavoidable due to Minecraft providing a raw list.
     @SideOnly(Side.CLIENT)
     @Override
     public void getSubBlocks(Item block, CreativeTabs creativeTabs, List subBlocks) {
-        for (val tileID : manager.allTileIDs())
-            subBlocks.add(new ItemStack(block, 1, tileID));
+        //for (val tileID : manager.allTileIDs())
+        //    subBlocks.add(new ItemStack(block, 1, tileID));
     }
 
     @Override
@@ -101,9 +103,11 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return proxiedBlock(blockAccess, posX, posY, posZ).getIcon(ForgeDirection.getOrientation(side));
     }
 
+    // FIXME: FLAT_FIX
     @Override
     public IIcon getIcon(int side, int tileID) {
-        return proxiedBlock(tileID).getIcon(ForgeDirection.getOrientation(side));
+        // return proxiedBlock().getIcon(ForgeDirection.getOrientation(side));
+        return proxiedBlock(NULL_TILE_ID).getIcon(ForgeDirection.getOrientation(side));
     }
 
     @Override
@@ -111,22 +115,28 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return manager().bufferedTile().paraTile().getDrops(fortune);
     }
 
+    // FIXME: FLAT_FIX
     @Override
     public int getDamageValue(World world, int posX, int posY, int posZ) {
-        return tileID(world, posX, posY, posZ);
+        //return tileID(world, posX, posY, posZ);
+        return 0;
     }
 
+    // FIXME: FLAT_FIX
     // region CHISEL
-    @Override
-    public int getRenderType() {
-        return ClientUtils.renderCTMId;
-    }
+    //@Override
+    //public int getRenderType() {
+    //    return ClientUtils.renderCTMId;
+    //}
 
+    // FIXME: FLAT_FIX
     @Override
     public IVariationInfo getManager(IBlockAccess blockAccess, int posX, int posY, int posZ, int blockMeta) {
-        return manager.carvingHelper().getVariation(tileID(blockAccess, posX, posY, posZ));
+        //return manager.carvingHelper().getVariation(tileID(blockAccess, posX, posY, posZ));
+        return manager.carvingHelper().getVariation(0);
     }
 
+    // FIXME: FLAT_FIX
     @Override
     public IVariationInfo getManager(int tileID) {
         return manager.carvingHelper().getVariation(tileID);

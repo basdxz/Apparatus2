@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public interface IProxiedComponent {
-    int tileID();
+    String tileID();
 
     IParaTileManager manager();
 

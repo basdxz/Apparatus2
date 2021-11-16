@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Accessors(fluent = true)
 @SuperBuilder
 public abstract class ParaTile implements IParaTile {
-    protected final int tileID;
+    protected final String tileID;
     protected IParaTileManager manager;
     protected IParaTileEntity tileEntity;
 

@@ -18,12 +18,10 @@ import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.ArrayList;
 
-import static com.github.basdxz.paratileentity.defenition.IParaTileManager.MAX_TILE_ID;
-
 public class CarvableHelperExtended {
     private final IParaTileManager manager;
     private final ArrayList<IVariationInfo> infoList = new ArrayList<>();
-    private final IVariationInfo[] infoMap = new IVariationInfo[MAX_TILE_ID + 1];
+    private final IVariationInfo[] infoMap = new IVariationInfo[32000]; // FIXME: FLAT_FIX
 
     public CarvableHelperExtended(IParaTileManager manager) {
         this.manager = manager;

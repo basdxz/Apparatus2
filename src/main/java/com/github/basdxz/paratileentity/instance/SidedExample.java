@@ -34,7 +34,7 @@ public class SidedExample extends ParaTile implements IFacingHandler {
 
     @Override
     public void register(IParaTileManager manager) {
-        manager.registerTile(builder().tileID(10).build());
+        manager.registerTile(builder().tileID("10").build());
     }
 
     @Override
