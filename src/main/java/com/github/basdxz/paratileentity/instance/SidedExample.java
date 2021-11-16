@@ -25,13 +25,14 @@ import java.util.List;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
 @RegisterParaTile(modid = MODID, manager = "test_tile")
-@Getter
-@Setter
+
 @Accessors(fluent = true)
 @SuperBuilder
 public class SidedExample extends ParaTile implements IFacingHandler {
     private final static List<IIcon> icons = Arrays.asList(new IIcon[2]);
 
+    @Getter
+    @Setter
     public ForgeDirection facing;
 
     @Override

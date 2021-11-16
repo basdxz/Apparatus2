@@ -22,13 +22,13 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
     @Getter
     protected IParaTile paraTile;
-    protected String tileIDFromNBT;
+    protected String actualTileID;
 
     public ParaTileEntityBase() {
         blockMetadata = getBlockMetadata();
         blockType = getBlockType();
         paraTile = manager().nullTile().paraTile();
-        tileIDFromNBT = paraTile.tileID();
+        actualTileID = paraTile.tileID();
     }
 
     @Override
@@ -100,37 +100,31 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public void updateEntity() {
+        System.out.println("tick!");
         proxiedTileEntity().updateEntity();
         validateParaTile();
     }
 
     protected void validateParaTile() {
-        if (paraTile().tileID().equals(tileIDFromNBT))
+        if (paraTile().tileID().equals(actualTileID))
             return;
-        reloadTileEntity(tileIDFromNBT);
+        reloadTileEntity(actualTileID);
     }
 
     @Override
     public void reloadTileEntity(String newTileID) {
-        paraTile = manager().paraTile(newTileID);
+        actualTileID = newTileID;
+        paraTile = safeClone(manager().paraTile(actualTileID));
 
         val newParaTileEntity = (IParaTileEntity) createNewTileEntity();
-        newParaTileEntity.posX(posX());
-        newParaTileEntity.posY(posY());
-        newParaTileEntity.posZ(posZ());
+        val nbtTag = new NBTTagCompound();
+        writeToNBT(nbtTag);
+        newParaTileEntity.tileEntity().readFromNBT(nbtTag);
         newParaTileEntity.worldObj(worldObj());
         newParaTileEntity.loadParaTile(paraTile);
 
         worldObj().removeTileEntity(posX(), posY(), posZ());
         worldObj().setTileEntity(posX(), posY(), posZ(), newParaTileEntity.tileEntity());
-    }
-
-    @Override
-    public void loadParaTile(IParaTile paraTile) {
-        tileIDFromNBT = paraTile.tileID();
-        this.paraTile = safeClone(paraTile);
-        markDirty();
-        worldObj().markBlockForUpdate(posX(), posY(), posZ());
     }
 
     /*
@@ -147,6 +141,13 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         val clonedParaTile = paraTile.clone();
         paraTile.tileEntity(null);
         return clonedParaTile;
+    }
+
+    @Override
+    public void loadParaTile(IParaTile paraTile) {
+        this.paraTile = paraTile;
+        markDirty();
+        worldObj().markBlockForUpdate(posX(), posY(), posZ());
     }
 
     @Override
@@ -171,7 +172,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
-        tileIDFromNBT = readTileIDFromNBT(nbtTagCompound); //Have some check for null?
+        actualTileID = readTileIDFromNBT(nbtTagCompound); //Have some check for null?
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }
