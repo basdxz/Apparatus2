@@ -25,7 +25,6 @@ import java.util.List;
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
 @RegisterParaTile(modid = MODID, manager = "test_tile")
-
 @Accessors(fluent = true)
 @SuperBuilder
 public class SidedExample extends ParaTile implements IFacingHandler {

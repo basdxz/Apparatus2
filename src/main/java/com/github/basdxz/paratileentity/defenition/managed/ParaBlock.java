@@ -19,16 +19,16 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.api.ICarvable;
 import team.chisel.api.carving.IVariationInfo;
+import team.chisel.api.rendering.ClientUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
 
 @Getter
 @Accessors(fluent = true)
@@ -106,7 +106,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     @Override
     public IIcon getIcon(int side, int tileID) {
         // return proxiedBlock().getIcon(ForgeDirection.getOrientation(side));
-        return proxiedBlock(NULL_TILE_ID).getIcon(ForgeDirection.getOrientation(side));
+        return manager().bufferedTile().paraTile().getIcon(ForgeDirection.getOrientation(side));
     }
 
     @Override
@@ -114,31 +114,28 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return manager().bufferedTile().paraTile().getDrops(fortune);
     }
 
-    // FIXME: FLAT_FIX
+    // TODO Have a dedicated passthrough method for this
+    @SuppressWarnings("deprecation") // Still used in WAILA API
     @Override
-    public int getDamageValue(World world, int posX, int posY, int posZ) {
-        //return tileID(world, posX, posY, posZ);
-        return 0;
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+        return paraTile(world, x, y, z).newItemStack();
     }
 
-    // FIXME: FLAT_FIX
     // region CHISEL
-    //@Override
-    //public int getRenderType() {
-    //    return ClientUtils.renderCTMId;
-    //}
+    @Override
+    public int getRenderType() {
+        return ClientUtils.renderCTMId;
+    }
 
-    // FIXME: FLAT_FIX
     @Override
     public IVariationInfo getManager(IBlockAccess blockAccess, int posX, int posY, int posZ, int blockMeta) {
-        //return manager.carvingHelper().getVariation(tileID(blockAccess, posX, posY, posZ));
-        return manager.carvingHelper().getVariation(0);
+        return manager.carvingHelper().getVariation(tileID(blockAccess, posX, posY, posZ));
     }
 
     // FIXME: FLAT_FIX
     @Override
     public IVariationInfo getManager(int tileID) {
-        return manager.carvingHelper().getVariation(tileID);
+        return manager.carvingHelper().getVariation(manager().bufferedTile().tileID());
     }
     //endregion
 

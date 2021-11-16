@@ -53,7 +53,7 @@ public class ClickableBlockTest extends ParaTile implements IActivityHandler, IC
 
     @Override
     public IIcon getIcon(ForgeDirection side) {
-        return getChiselIcon();
+        return getChiselIcon(side);
     }
 
     @Override
