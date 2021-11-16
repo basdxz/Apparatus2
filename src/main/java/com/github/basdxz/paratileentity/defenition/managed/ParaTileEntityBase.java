@@ -1,6 +1,7 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
+import com.github.basdxz.paratileentity.util.ExceptionUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
 import lombok.Setter;
@@ -102,10 +103,14 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public void updateEntity() {
-        if (isParaTileInvalid() || !paraTile().canUpdate()) {
-            reloadTileEntity();
-        } else {
-            proxiedTileEntity().updateEntity();
+        try {
+            if (isParaTileInvalid() || !paraTile().canUpdate()) {
+                reloadTileEntity();
+            } else {
+                proxiedTileEntity().updateEntity();
+            }
+        } catch (Exception exception) {
+            ExceptionUtil.reportTileEntityUpdateException(paraTile(), posX(), posY(), posZ(), exception);
         }
     }
 
@@ -138,22 +143,30 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
-        super.writeToNBT(nbtTagCompound);
-        writeTileIDToNBT(nbtTagCompound);
+        try {
+            super.writeToNBT(nbtTagCompound);
+            writeTileIDToNBT(nbtTagCompound);
 
-        if (!paraTile.singleton())
-            paraTile.writeToNBT(nbtTagCompound);
+            if (!paraTile.singleton())
+                paraTile.writeToNBT(nbtTagCompound);
+        } catch (Exception exception) {
+            ExceptionUtil.reportNBTWriteException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
+        }
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        super.readFromNBT(nbtTagCompound);
-        expectedTileID(readTileIDFromNBT(nbtTagCompound));
+        try {
+            super.readFromNBT(nbtTagCompound);
+            expectedTileID(readTileIDFromNBT(nbtTagCompound));
 
-        if (isParaTileInvalid())
-            reloadParaTile();
-        if (!paraTile.singleton())
-            paraTile.readFromNBT(nbtTagCompound);
+            if (isParaTileInvalid())
+                reloadParaTile();
+            if (!paraTile.singleton())
+                paraTile.readFromNBT(nbtTagCompound);
+        } catch (Exception exception) {
+            ExceptionUtil.reportNBTReadException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
+        }
     }
 
     protected boolean isParaTileInvalid() {
