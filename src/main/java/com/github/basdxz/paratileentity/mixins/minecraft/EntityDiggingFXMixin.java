@@ -1,20 +1,20 @@
 package com.github.basdxz.paratileentity.mixins.minecraft;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
-
 // Client-Side
 @Mixin(EntityDiggingFX.class)
 public class EntityDiggingFXMixin {
-    private static String bufferedTileID = NULL_TILE_ID;
+    private static IParaTile bufferedParaTile;
 
     /*
         Redirects the getIcon call to the IParaBlock with the correct metas from the buffered tile.
@@ -30,9 +30,10 @@ public class EntityDiggingFXMixin {
         if (instance instanceof IParaBlock) {
             val manager = ((IParaBlock) instance).manager();
             if (!manager.bufferedTileNull())
-                bufferedTileID = manager.bufferedTile().tileID();
-            return instance.getIcon(side, 0);// FIXME: FLAT_FIX
+                bufferedParaTile = manager.bufferedTile().paraTile();
+            if (bufferedParaTile != null)
+                return bufferedParaTile.getIcon(ForgeDirection.getOrientation(side));
         }
-        return instance.getIcon(side, 0);// FIXME: FLAT_FIX
+        return instance.getIcon(side, blockMeta);
     }
 }

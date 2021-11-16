@@ -1,15 +1,18 @@
 package com.github.basdxz.paratileentity.mixins.minecraft;
 
+import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import lombok.val;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -24,19 +27,22 @@ public class EffectRendererMixin {
     @Shadow
     private List[] fxLayers;
 
-    // FIXME: FLAT_FIX
-    ///*
-    //    Replaces block meta with IParaTile tileID if block is an instance of IParaBlock.
-//
-    //    Used to replace the block hit particles when a block is being mined.
-    // */
-    //@Redirect(method = "addBlockHitEffects(IIII)V",
-    //        at = @At(value = "INVOKE",
-    //                target = "Lnet/minecraft/world/World;getBlockMetadata (III)I"),
-    //        require = 1)
-    //private int getBlockMetadataRedirect(World instance, int posX, int posY, int posZ) {
-    //    return Utils.getBlockMetadataRedirect(instance, posX, posY, posZ);
-    //}
+    /*
+        Buffers an IParaTile if block is an instance of IParaBlock.
+
+        Used to replace the block hit particles when a block is being mined.
+     */
+    @Redirect(method = "addBlockHitEffects(IIII)V",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/world/World;getBlockMetadata (III)I"),
+            require = 1)
+    private int getBlockMetadataRedirect(World instance, int posX, int posY, int posZ) {
+        val block = instance.getBlock(posX, posY, posZ);
+        if (block instanceof IParaBlock) {
+            ((IParaBlock) block).manager().bufferedTile(((IParaBlock) block).paraTile(instance, posX, posY, posZ));
+        }
+        return instance.getBlockMetadata(posX, posY, posZ);
+    }
 
     // TODO: This is a rendering fix and belongs in some other mod as it's actions are out of project scope.
     @SuppressWarnings("unchecked") // Required since Minecraft provides us a raw list.
