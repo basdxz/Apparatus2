@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.List;
 
@@ -60,5 +61,10 @@ public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandl
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         durability = nbtTagCompound.getInteger(DURABILITY_NBT_TAG);
+    }
+
+    @Override
+    public ISubmapManager submapManager() {
+        return null;
     }
 }

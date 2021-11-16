@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+import team.chisel.ctmlib.ISubmapManager;
 
 import static com.github.basdxz.paratileentity.ParaTileEntityMod.MODID;
 
@@ -36,5 +37,10 @@ public class ParaTile_one extends ParaTile {
     @Override
     public boolean singleton() {
         return false;
+    }
+
+    @Override
+    public ISubmapManager submapManager() {
+        return null;
     }
 }

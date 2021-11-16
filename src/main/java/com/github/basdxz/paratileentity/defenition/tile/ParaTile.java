@@ -1,6 +1,7 @@
 package com.github.basdxz.paratileentity.defenition.tile;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
+import com.github.basdxz.paratileentity.defenition.chisel.IChiselRendering;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Accessors(fluent = true)
 @SuperBuilder
-public abstract class ParaTile implements IParaTile {
+public abstract class ParaTile implements IParaTile, IChiselRendering {
     protected final String tileID;
     protected IParaTileManager manager;
     protected IParaTileEntity tileEntity;

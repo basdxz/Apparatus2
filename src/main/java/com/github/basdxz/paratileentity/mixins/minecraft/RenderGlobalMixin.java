@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class RenderGlobalMixin {
 
     /*
-        Buffers an IParaTile if block is an instance of IParaBlock.
+        Buffers an IParaTile if block is an instance of IParaBlock. TODO: Convert into an inject
     */
     @Redirect(method = "playAuxSFX(Lnet/minecraft/entity/player/EntityPlayer;IIIII)V",
             at = @At(value = "INVOKE",
                     target = "net/minecraft/client/multiplayer/WorldClient.getBlockMetadata (III)I"),
             require = 1)
     private int getBlockMetadataRedirect(WorldClient instance, int posX, int posY, int posZ) {
-        Utils.bufferParaTileSafe(instance, posX, posY, posZ);
+        Utils.bufferParaTile(instance, posX, posY, posZ);
         return instance.getBlockMetadata(posX, posY, posZ);
     }
 }

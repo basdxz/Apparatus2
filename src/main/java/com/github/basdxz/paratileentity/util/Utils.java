@@ -1,10 +1,13 @@
 package com.github.basdxz.paratileentity.util;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
+import com.github.basdxz.paratileentity.defenition.managed.IParaItemBlock;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -71,17 +74,26 @@ public class Utils {
         return worldBlockPos & 15;
     }
 
-    /*
-        Safely buffers an IParaTIle if it exists.
-    */
-    public void bufferParaTileSafe(IBlockAccess blockAccess, int posX, int posY, int posZ) {
-        bufferParaTileSafe(blockAccess, posX, posY, posZ, blockAccess.getBlock(posX, posY, posZ));
+    public static void bufferParaTile(ItemStack itemStack) {
+        val item = itemStack.getItem();
+        if (item instanceof IParaItemBlock) {
+            val paraItem = ((IParaItemBlock) item);
+            paraItem.manager().bufferedTile(
+                    Minecraft.getMinecraft().theWorld, 0, 0, 0, paraItem.tileID(itemStack));
+        }
     }
 
     /*
-        Safely buffers an IParaTIle if it exists.
+        Safely buffers an IParaTile if it exists.
     */
-    public void bufferParaTileSafe(IBlockAccess blockAccess, int posX, int posY, int posZ, Block block) {
+    public void bufferParaTile(IBlockAccess blockAccess, int posX, int posY, int posZ) {
+        bufferParaTile(blockAccess, posX, posY, posZ, blockAccess.getBlock(posX, posY, posZ));
+    }
+
+    /*
+        Safely buffers an IParaTile if it exists.
+    */
+    public void bufferParaTile(IBlockAccess blockAccess, int posX, int posY, int posZ, Block block) {
         if (block instanceof IParaBlock)
             ((IParaBlock) block).manager().bufferedTile(((IParaBlock) block).paraTile(blockAccess, posX, posY, posZ));
     }

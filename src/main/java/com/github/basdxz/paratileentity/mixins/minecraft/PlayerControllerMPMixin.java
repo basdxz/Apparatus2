@@ -29,6 +29,6 @@ public class PlayerControllerMPMixin {
     public void onPlayerDestroyBlockPrePlayAuxSFXAtEntity(int posX, int posY, int posZ, int flags,
                                                           CallbackInfoReturnable<Boolean> cir, ItemStack stack,
                                                           WorldClient world, Block block) {
-        Utils.bufferParaTileSafe(world, posX, posY, posZ, block);
+        Utils.bufferParaTile(world, posX, posY, posZ, block);
     }
 }

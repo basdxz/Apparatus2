@@ -35,7 +35,7 @@ public class ItemInWorldManagerMixin {
     public void tryHarvestBlockPreRemoveBlock(int posX, int posY, int posZ, CallbackInfoReturnable<Boolean> cir,
                                               BlockEvent.BreakEvent event, ItemStack stack, Block block, int l,
                                               boolean flag, ItemStack itemstack, boolean flag1) {
-        Utils.bufferParaTileSafe(theWorld, posX, posY, posZ, block);
+        Utils.bufferParaTile(theWorld, posX, posY, posZ, block);
     }
 
     /*

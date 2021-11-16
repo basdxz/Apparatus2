@@ -11,6 +11,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
+import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.List;
 
@@ -74,5 +75,10 @@ public class ObamaCasing extends ParaTile {
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
         toolTip.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC +
                 StatCollector.translateToLocal(getUnlocalizedName(itemStack) + ".desc"));
+    }
+
+    @Override
+    public ISubmapManager submapManager() {
+        return null;
     }
 }

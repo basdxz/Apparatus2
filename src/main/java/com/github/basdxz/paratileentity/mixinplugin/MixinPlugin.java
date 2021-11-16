@@ -40,6 +40,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "minecraft.EntityDiggingFXMixin",
                 "minecraft.PlayerControllerMPMixin",
                 "minecraft.RenderGlobalMixin",
+                "minecraft.RenderItemMixin",
+                "minecraft.ItemRendererMixin",
                 "chisel.CTMMixin",
                 "chisel.ItemOffsetToolMixin"
         );

@@ -28,7 +28,7 @@ public class EffectRendererMixin {
     private List[] fxLayers;
 
     /*
-        Buffers an IParaTile if block is an instance of IParaBlock.
+        Buffers an IParaTile if block is an instance of IParaBlock. TODO: Convert into an inject
 
         Used to replace the block hit particles when a block is being mined.
      */
@@ -37,7 +37,7 @@ public class EffectRendererMixin {
                     target = "Lnet/minecraft/world/World;getBlockMetadata (III)I"),
             require = 1)
     private int getBlockMetadataRedirect(World instance, int posX, int posY, int posZ) {
-        Utils.bufferParaTileSafe(instance, posX, posY, posZ);
+        Utils.bufferParaTile(instance, posX, posY, posZ);
         return instance.getBlockMetadata(posX, posY, posZ);
     }
 

@@ -30,6 +30,8 @@ import team.chisel.api.rendering.ClientUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
+
 @Getter
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
@@ -102,11 +104,11 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return proxiedBlock(blockAccess, posX, posY, posZ).getIcon(ForgeDirection.getOrientation(side));
     }
 
-    // FIXME: FLAT_FIX
     @Override
-    public IIcon getIcon(int side, int tileID) {
-        // return proxiedBlock().getIcon(ForgeDirection.getOrientation(side));
-        return manager().bufferedTile().paraTile().getIcon(ForgeDirection.getOrientation(side));
+    public IIcon getIcon(int side, int blockMeta) {
+        if (variationCache != null)
+            return variationCache.getIcon(side, blockMeta);
+        return manager().paraTile(NULL_TILE_ID).getIcon(ForgeDirection.getOrientation(side));
     }
 
     @Override
@@ -132,10 +134,12 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return manager.carvingHelper().getVariation(tileID(blockAccess, posX, posY, posZ));
     }
 
-    // FIXME: FLAT_FIX
+    IVariationInfo variationCache;
+
     @Override
     public IVariationInfo getManager(int tileID) {
-        return manager.carvingHelper().getVariation(manager().bufferedTile().tileID());
+        variationCache = manager.carvingHelper().getVariation(manager().bufferedTile().tileID());
+        return variationCache;
     }
     //endregion
 

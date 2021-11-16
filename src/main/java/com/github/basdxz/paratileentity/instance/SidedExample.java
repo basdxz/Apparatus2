@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -76,5 +77,10 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     @Override
     public void readFromNBT(NBTTagCompound nbtTag) {
         readFacingFromToNBT(nbtTag);
+    }
+
+    @Override
+    public ISubmapManager submapManager() {
+        return null;
     }
 }
