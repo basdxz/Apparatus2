@@ -35,12 +35,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
             Utils.loadJar("Chisel");
 
         return Lists.newArrayList(
-                "minecraft.WorldMixin",
-                "minecraft.AnvilChunkLoaderMixin",
                 "minecraft.ItemInWorldManagerMixin",
-                "minecraft.ChunkMixin",
-                "minecraft.NetHandlerPlayClientMixin",
-                "minecraft.S23PacketBlockChangeMixin",
                 "minecraft.EffectRendererMixin",
                 "minecraft.EntityDiggingFXMixin",
                 "minecraft.PlayerControllerMPMixin",
