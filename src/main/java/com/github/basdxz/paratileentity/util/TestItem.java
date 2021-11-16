@@ -1,6 +1,5 @@
 package com.github.basdxz.paratileentity.util;
 
-import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,18 +20,10 @@ public class TestItem extends ItemShears {
             val posX = (int) entityPlayer.posX;
             val posY = (int) entityPlayer.posY;
             val posZ = (int) entityPlayer.posZ;
-            for (int i = 0; i < 60; i++) {
-                for (int j = 0; j < 60; j++) {
-                    for (int k = 0; k < 120; k = k + 2) {
-                        world.setBlock(posX + i, posY + k, posZ + j, MANAGER.block(), 220, 3);
-                        val te = world.getTileEntity(posX + i, posY + k, posZ + j);
-
-                        te.setWorldObj(world);
-                        te.xCoord = posX + i;
-                        te.yCoord = posY + k;
-                        te.zCoord = posZ + j;
-
-                        ((IParaTileEntity) te).expectedTileID("wogi").reloadTileEntity();
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 2; j++) {
+                    for (int k = 0; k < 8; k = k + 2) {
+                        MANAGER.paraTile("wogi").placeInWorld(world, posX + i, posY + k, posZ + j);
                     }
                 }
             }
