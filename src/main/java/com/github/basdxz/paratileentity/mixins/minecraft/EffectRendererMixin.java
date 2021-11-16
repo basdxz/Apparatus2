@@ -23,9 +23,9 @@ import java.util.List;
 // Client-Side
 @Mixin(EffectRenderer.class)
 public class EffectRendererMixin {
+    @SuppressWarnings("rawtypes") // Required since Minecraft provides us a raw list.
     @Shadow
     private List[] fxLayers;
-
 
     /*
         Replaces block meta with IParaTile tileID if block is an instance of IParaBlock.
@@ -40,7 +40,8 @@ public class EffectRendererMixin {
         return Utils.getBlockMetadataRedirect(instance, posX, posY, posZ);
     }
 
-    @SuppressWarnings("unchecked")
+    // TODO: This is a rendering fix and belongs in some other mod as it's actions are out of project scope.
+    @SuppressWarnings("unchecked") // Required since Minecraft provides us a raw list.
     @Inject(method = "renderParticles(Lnet/minecraft/entity/Entity;F)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/Tessellator;startDrawingQuads ()V"),
