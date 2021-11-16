@@ -36,6 +36,7 @@ import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_
 @Accessors(fluent = true)
 public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     protected final IParaTileManager manager;
+    private IVariationInfo variationCache;
 
     public ParaBlock(IParaTileManager manager) {
         super(Material.anvil);
@@ -133,8 +134,6 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     public IVariationInfo getManager(IBlockAccess blockAccess, int posX, int posY, int posZ, int blockMeta) {
         return manager.carvingHelper().getVariation(tileID(blockAccess, posX, posY, posZ));
     }
-
-    IVariationInfo variationCache;
 
     @Override
     public IVariationInfo getManager(int tileID) {

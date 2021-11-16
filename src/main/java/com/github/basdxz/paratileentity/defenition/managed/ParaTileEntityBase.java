@@ -102,7 +102,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public void updateEntity() {
-        if (isParaTileInvalid()) {
+        if (isParaTileInvalid() || !paraTile().canUpdate()) {
             reloadTileEntity();
         } else {
             proxiedTileEntity().updateEntity();
@@ -136,16 +136,11 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         return proxiedTileEntity().canUpdate();
     }
 
-    // TODO: Passthrough to Paratile
-    //@Override
-    //public void markDirty() {
-    //    super.markDirty();
-    //}
-
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
         super.writeToNBT(nbtTagCompound);
         writeTileIDToNBT(nbtTagCompound);
+
         if (!paraTile.singleton())
             paraTile.writeToNBT(nbtTagCompound);
     }
