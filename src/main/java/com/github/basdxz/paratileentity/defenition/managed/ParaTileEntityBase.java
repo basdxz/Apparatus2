@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
     @Getter
     protected IParaTile paraTile;
-
     protected String tileIDFromNBT;
 
     public ParaTileEntityBase() {
@@ -35,6 +34,11 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public IParaTileEntity registerTileEntity(String modid, String name) {
         GameRegistry.registerTileEntity(getClass(), modid + ":" + name + "_" + TILE_ENTITY_ID_POSTFIX);
+        return this;
+    }
+
+    @Override
+    public TileEntity tileEntity() {
         return this;
     }
 
@@ -101,28 +105,29 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     protected void validateParaTile() {
-        if (tileIDFromNBT.equals(paraTile().tileID()))
+        if (paraTile().tileID().equals(tileIDFromNBT))
             return;
-        reloadTileEntity();
+        reloadTileEntity(tileIDFromNBT);
     }
 
-    protected void reloadTileEntity() {
-        paraTile = manager().paraTile(tileIDFromNBT);
+    @Override
+    public void reloadTileEntity(String newTileID) {
+        paraTile = manager().paraTile(newTileID);
 
-        val tileEntity = createNewTileEntity();
-        tileEntity.xCoord = posX();
-        tileEntity.yCoord = posY();
-        tileEntity.zCoord = posZ();
-        tileEntity.setWorldObj(worldObj());
-        ((ParaTileEntityBase) tileEntity).tileIDFromNBT = tileIDFromNBT;
-        ((IParaTileEntity) tileEntity).loadParaTile(paraTile);
+        val newParaTileEntity = (IParaTileEntity) createNewTileEntity();
+        newParaTileEntity.posX(posX());
+        newParaTileEntity.posY(posY());
+        newParaTileEntity.posZ(posZ());
+        newParaTileEntity.worldObj(worldObj());
+        newParaTileEntity.loadParaTile(paraTile);
 
         worldObj().removeTileEntity(posX(), posY(), posZ());
-        worldObj().setTileEntity(posX(), posY(), posZ(), tileEntity);
+        worldObj().setTileEntity(posX(), posY(), posZ(), newParaTileEntity.tileEntity());
     }
 
     @Override
     public void loadParaTile(IParaTile paraTile) {
+        tileIDFromNBT = paraTile.tileID();
         this.paraTile = safeClone(paraTile);
         markDirty();
         worldObj().markBlockForUpdate(posX(), posY(), posZ());

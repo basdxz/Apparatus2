@@ -62,13 +62,12 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return manager.createNewTileEntity();
     }
 
-    // FIXME: FLAT_FIX
     @SuppressWarnings("unchecked") // Unavoidable due to Minecraft providing a raw list.
     @SideOnly(Side.CLIENT)
     @Override
     public void getSubBlocks(Item block, CreativeTabs creativeTabs, List subBlocks) {
-        //for (val tileID : manager.allTileIDs())
-        //    subBlocks.add(new ItemStack(block, 1, tileID));
+        for (val paraTile : manager.tileList())
+            subBlocks.add(paraTile.newItemStack());
     }
 
     @Override
