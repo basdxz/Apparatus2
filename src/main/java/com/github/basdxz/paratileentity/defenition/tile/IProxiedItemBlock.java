@@ -34,21 +34,18 @@ public interface IProxiedItemBlock extends IProxiedComponent {
             return false;
         }
         if (world.getBlock(posX, posY, posZ) == manager().block()) {
-            loadParaTile(itemStack, world, posX, posY, posZ);
+            loadParaTile(world, posX, posY, posZ);
             manager().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
             manager().block().onPostBlockPlaced(world, posX, posY, posZ, 0);
         }
         return true;
     }
 
-    default void loadParaTile(ItemStack itemStack, World world, int posX, int posY, int posZ) {
-        if (itemStack.stackTagCompound == null)
-            return;
-
+    default void loadParaTile(World world, int posX, int posY, int posZ) {
         val tileEntity = world.getTileEntity(posX, posY, posZ);
         if (tileEntity instanceof IParaTileEntity)
             ((IParaTileEntity) tileEntity)
-                    .expectedTileID(itemStack.stackTagCompound.getString(PARA_TILE_ID_INT_NBT_TAG))
+                    .expectedTileID(tileID())
                     .reloadTileEntity();
     }
 
