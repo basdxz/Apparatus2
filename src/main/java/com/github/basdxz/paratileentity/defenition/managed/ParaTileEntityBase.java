@@ -100,7 +100,6 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public void updateEntity() {
-        System.out.println("tick!");
         proxiedTileEntity().updateEntity();
         validateParaTile();
     }
@@ -173,9 +172,17 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
         actualTileID = readTileIDFromNBT(nbtTagCompound); //Have some check for null?
+        validateParaTileSlim();
         if (!paraTile.singleton())
             paraTile.readFromNBT(nbtTagCompound);
     }
+
+    protected void validateParaTileSlim() {
+        if (paraTile().tileID().equals(actualTileID))
+            return;
+        paraTile = safeClone(manager().paraTile(actualTileID));
+    }
+
 
     @Override
     public Packet getDescriptionPacket() {
