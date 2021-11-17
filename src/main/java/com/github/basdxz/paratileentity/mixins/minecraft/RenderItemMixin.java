@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+// Client-Side
 @Mixin(RenderItem.class)
 public class RenderItemMixin {
     @Inject(method = "doRender(Lnet/minecraft/entity/item/EntityItem;DDDFF)V",
