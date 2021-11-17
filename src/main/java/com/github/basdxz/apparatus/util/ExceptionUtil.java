@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.util;
 
-import com.github.basdxz.apparatus.ParaTileEntityMod;
+import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import lombok.experimental.UtilityClass;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,31 +11,31 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 public class ExceptionUtil {
     public void reportNBTWriteException(IParaTile paraTile, int posX, int posY, int posZ,
                                         NBTTagCompound nbtTag, Exception exception) {
-        ParaTileEntityMod.error("A ParaTile has failed to save it's NBT!");
+        ApparatusMod.error("A ParaTile has failed to save it's NBT!");
         printNBT(nbtTag);
         printError(paraTile, exception, posX, posY, posZ);
     }
 
     public void reportNBTReadException(IParaTile paraTile, int posX, int posY, int posZ,
                                        NBTTagCompound nbtTag, Exception exception) {
-        ParaTileEntityMod.error("A ParaTile has failed to load it's NBT!");
+        ApparatusMod.error("A ParaTile has failed to load it's NBT!");
         printNBT(nbtTag);
         printError(paraTile, exception, posX, posY, posZ);
     }
 
     private void printNBT(NBTTagCompound nbtTag) {
-        ParaTileEntityMod.error("Full NBT Tag:%s ", nbtTag.toString());
+        ApparatusMod.error("Full NBT Tag:%s ", nbtTag.toString());
     }
 
     public void reportTileEntityUpdateException(IParaTile paraTile, int posX, int posY, int posZ, Exception exception) {
-        ParaTileEntityMod.error("A ParaTile has failed to tick!");
+        ApparatusMod.error("A ParaTile has failed to tick!");
         printError(paraTile, exception, posX, posY, posZ);
     }
 
     private void printError(IParaTile paraTile, Exception exception, int posX, int posY, int posZ) {
-        ParaTileEntityMod.error(listParaTileInfo(paraTile));
-        ParaTileEntityMod.error(listLocationInfo(posX, posY, posZ));
-        ParaTileEntityMod.error(getStackTrace(exception));
+        ApparatusMod.error(listParaTileInfo(paraTile));
+        ApparatusMod.error(listLocationInfo(posX, posY, posZ));
+        ApparatusMod.error(getStackTrace(exception));
     }
 
     private String listParaTileInfo(IParaTile paraTile) {

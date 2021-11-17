@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.instance;
 
-import com.github.basdxz.apparatus.ParaTileEntityMod;
+import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -8,7 +8,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.ctmlib.ISubmapManager;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.MODID;
+import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 
 @SuperBuilder
 public class ParaTile_one extends ParaTile {
@@ -31,7 +31,7 @@ public class ParaTile_one extends ParaTile {
 
     @Override
     public void updateEntity() {
-        ParaTileEntityMod.debug("HELLOW from ParaTile!!");
+        ApparatusMod.debug("HELLOW from ParaTile!!");
     }
 
     @Override

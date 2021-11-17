@@ -5,7 +5,7 @@ import com.github.basdxz.apparatus.defenition.ParaTileManager;
 import com.github.basdxz.apparatus.defenition.managed.ParaTileEntityBase;
 import lombok.NoArgsConstructor;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.MODID;
+import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 
 /*
     Class is intended to be copied for each manager/block id

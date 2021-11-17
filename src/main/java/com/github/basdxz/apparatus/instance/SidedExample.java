@@ -23,7 +23,7 @@ import team.chisel.ctmlib.ISubmapManager;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.MODID;
+import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 
 @RegisterParaTile(modid = MODID, manager = "test_tile")
 @Accessors(fluent = true)

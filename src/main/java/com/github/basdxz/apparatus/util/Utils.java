@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Optional;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.info;
+import static com.github.basdxz.apparatus.ApparatusMod.info;
 
 @UtilityClass
 public class Utils {

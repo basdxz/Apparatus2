@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.client.render.SubmapMultiManager;
 import team.chisel.ctmlib.ISubmapManager;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.MODID;
+import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 
 @RegisterParaTile(modid = MODID, manager = "test_tile")
 @SuperBuilder

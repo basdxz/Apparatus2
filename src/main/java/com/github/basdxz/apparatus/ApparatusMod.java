@@ -9,11 +9,11 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ParaTileEntityMod.MODID, name = ParaTileEntityMod.NAME, version = ParaTileEntityMod.VERSION,
+@Mod(modid = ApparatusMod.MODID, name = ApparatusMod.NAME, version = ApparatusMod.VERSION,
         dependencies = "required-after:spongemixins@[1.1.0,);" + "required-after:chisel;")
-public class ParaTileEntityMod {
-    public static final String MODID = "paratileentity";
-    public static final String NAME = "ParaTileEntity";
+public class ApparatusMod {
+    public static final String MODID = "apparatus";
+    public static final String NAME = "Apparatus";
     public static final String VERSION = "@GRADLE_VERSION_TOKEN@";
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 

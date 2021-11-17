@@ -15,7 +15,7 @@ import team.chisel.client.render.SubmapManagerBaseExtra;
 import team.chisel.ctmlib.ISubmapManager;
 import team.chisel.ctmlib.TextureSubmap;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.MODID;
+import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 
 @RegisterParaTile(modid = MODID, manager = "test_tile")
 @SuperBuilder

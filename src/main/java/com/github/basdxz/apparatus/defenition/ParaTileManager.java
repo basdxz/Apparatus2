@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.warn;
+import static com.github.basdxz.apparatus.ApparatusMod.warn;
 import static com.github.basdxz.apparatus.defenition.IParaTileManager.tileIDInvalid;
 import static org.reflections.scanners.Scanners.TypesAnnotated;
 

@@ -15,7 +15,7 @@ import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.List;
 
-import static com.github.basdxz.apparatus.ParaTileEntityMod.MODID;
+import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 
 @SuperBuilder
 public class ObamaCasing extends ParaTile {
