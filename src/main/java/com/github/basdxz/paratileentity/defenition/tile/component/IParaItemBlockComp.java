@@ -12,9 +12,6 @@ import java.util.List;
 
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.PARA_TILE_ID_INT_NBT_TAG;
 
-/*
-   TODO: List all ItemBlock functions then Implement and pass through the functions with defaults provided here.
- */
 public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
     int BLOCK_UPDATE_FLAG = 1;
     int SEND_TO_CLIENT_FLAG = 2;

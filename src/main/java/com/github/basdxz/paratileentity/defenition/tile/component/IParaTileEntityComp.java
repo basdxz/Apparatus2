@@ -5,10 +5,6 @@ import com.github.basdxz.paratileentity.defenition.tile.proxy.IParaTileEntityPro
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-/*
-   TODO: Copy across "Proxied" functions into their own interface.
-   TODO: List all TileEntity functions then Implement and pass through the functions with defaults provided here.
- */
 public interface IParaTileEntityComp extends IParaTileComp, IParaTileEntityProxy {
     @Override
     default boolean canUpdate() {

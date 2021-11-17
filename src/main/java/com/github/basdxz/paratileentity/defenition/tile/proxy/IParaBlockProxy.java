@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 
 /*
-   List all Block functions and make a separate list of ones that don't have [World, posX, posY, posZ]
+   TODO: List all Block functions.
  */
 public interface IParaBlockProxy {
     void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack);

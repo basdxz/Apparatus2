@@ -2,6 +2,9 @@ package com.github.basdxz.paratileentity.defenition.tile.proxy;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+/*
+   TODO: List all TileEntity functions here.
+ */
 public interface IParaTileEntityProxy {
     boolean canUpdate();
 

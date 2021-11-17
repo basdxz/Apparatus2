@@ -6,6 +6,9 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+/*
+   TODO: List all ItemBlock functions.
+ */
 public interface IParaItemBlockProxy {
     String getUnlocalizedName(ItemStack itemStack);
 
