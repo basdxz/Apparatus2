@@ -29,7 +29,6 @@ public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
     default boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world,
                                  int posX, int posY, int posZ, int side, float hitX, float hitY, float hitZ) {
         if (placeInWorld(world, posX, posY, posZ)) {
-            loadParaTile(world, posX, posY, posZ);
             manager().block().onBlockPlacedBy(world, posX, posY, posZ, entityPlayer, itemStack);
             manager().block().onPostBlockPlaced(world, posX, posY, posZ, 0);
             return true;
