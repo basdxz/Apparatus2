@@ -18,7 +18,7 @@ import static com.github.basdxz.apparatus.ParaTileEntityMod.MODID;
 public class ChiselTextureTest extends ParaTile implements IChiselRendering {
     @Override
     public void register(IParaTileManager manager) {
-        manager.registerTile(builder().tileID("wogi").build());
+        manager.registerTile(builder().tileID("wogii").build());
     }
 
     @Override
