@@ -23,12 +23,14 @@ public interface IParaTileEntityComp extends IParaTileComp, IParaTileEntityProxy
     default void readFromNBT(NBTTagCompound nbtTagCompound) {
     }
 
-    default boolean cloneable() {
+    // TODO invert logic and find a better name
+    default boolean unCloneable() {
         return true;
     }
 
     IParaTileEntityComp tileEntity(IParaTileEntity tileEntity);
 
+    // TODO explain effect of not being cloneable
     IParaTileEntity tileEntity();
 
     default boolean serverSide() {

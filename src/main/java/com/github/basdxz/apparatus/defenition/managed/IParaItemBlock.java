@@ -17,6 +17,7 @@ public interface IParaItemBlock extends IParaManaged {
         return manager().paraTile(tileID(itemStack));
     }
 
+    //TODO Rework this
     default String tileID(ItemStack itemStack) {
         if (itemStack.stackTagCompound == null)
             return NULL_TILE_ID;

@@ -34,7 +34,7 @@ public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandl
     }
 
     @Override
-    public boolean cloneable() {
+    public boolean unCloneable() {
         return false;
     }
 

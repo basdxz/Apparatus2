@@ -35,7 +35,7 @@ public class ParaTile_one extends ParaTile {
     }
 
     @Override
-    public boolean cloneable() {
+    public boolean unCloneable() {
         return false;
     }
 

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 
+//TODO follow proper Singleton pattern FFS
 /*
     Class is intended to be copied for each manager/block id
  */
@@ -22,7 +23,7 @@ public final class ParaTileEntity extends ParaTileEntityBase {
         if (MANAGER != null)
             throw new IllegalStateException("Manager already registered!");
         // ATTENTION: If you copied this class, make sure to change *ALL* of these arguments to match your mod.
-        new ParaTileManager(MODID, "test_tile", "com.github.basdxz.paratileentity", ParaTileEntity.class);
+        new ParaTileManager(MODID, "test_tile", "com.github.basdxz.apparatus", ParaTileEntity.class); //TODO check for no class def nonsense
     }
 
     /*

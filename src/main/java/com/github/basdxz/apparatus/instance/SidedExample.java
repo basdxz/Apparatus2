@@ -15,7 +15,6 @@ import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.ctmlib.ISubmapManager;
@@ -65,18 +64,8 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     }
 
     @Override
-    public boolean cloneable() {
+    public boolean unCloneable() {
         return false;
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbtTag) {
-        writeFacingToNBT(nbtTag);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbtTag) {
-        readFacingFromToNBT(nbtTag);
     }
 
     @Override

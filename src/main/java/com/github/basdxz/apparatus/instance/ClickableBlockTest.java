@@ -26,7 +26,7 @@ public class ClickableBlockTest extends ParaTile implements IActivityHandler, IC
     private boolean active;
 
     @Override
-    public boolean cloneable() {
+    public boolean unCloneable() {
         return false;
     }
 

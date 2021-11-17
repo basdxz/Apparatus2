@@ -61,11 +61,15 @@ public interface IFacingHandler extends IParaTile {
         }
     }
 
-    default void writeFacingToNBT(NBTTagCompound nbtTagCompound) {
+    //TODO: Evaluate pattern
+    @Override
+    default void writeToNBT(NBTTagCompound nbtTagCompound) {
         nbtTagCompound.setInteger(FACING_NBT_TAG, facing().ordinal());
     }
 
-    default void readFacingFromToNBT(NBTTagCompound nbtTagCompound) {
+    //TODO: Evaluate pattern
+    @Override
+    default void readFromNBT(NBTTagCompound nbtTagCompound) {
         facing(ForgeDirection.getOrientation(nbtTagCompound.getInteger(FACING_NBT_TAG)));
     }
 }
