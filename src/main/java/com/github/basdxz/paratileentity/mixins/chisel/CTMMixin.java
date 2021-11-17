@@ -2,7 +2,7 @@ package com.github.basdxz.paratileentity.mixins.chisel;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaBlock;
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
-import com.github.basdxz.paratileentity.defenition.tile.ICTMGroupHandler;
+import com.github.basdxz.paratileentity.defenition.tile.handler.ICTMGroupHandler;
 import com.github.basdxz.paratileentity.util.Utils;
 import com.google.common.base.Optional;
 import cpw.mods.fml.relauncher.Side;

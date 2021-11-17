@@ -1,22 +1,21 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
-import com.github.basdxz.paratileentity.defenition.tile.IProxiedBlock;
+import com.github.basdxz.paratileentity.defenition.tile.proxy.IParaBlockProxy;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
 
 public interface IParaBlock extends IParaManaged {
-    // TODO Pass the actual block to the manager with a delegate
     Block block();
 
     String getUnlocalizedName();
 
-    default IProxiedBlock proxiedBlock(IBlockAccess blockAccess, int posX, int posY, int posZ) {
+    default IParaBlockProxy proxiedBlock(IBlockAccess blockAccess, int posX, int posY, int posZ) {
         return paraTile(blockAccess, posX, posY, posZ);
     }
 
-    default IProxiedBlock proxiedBlock(String tileID) {
+    default IParaBlockProxy proxiedBlock(String tileID) {
         return manager().paraTile(tileID);
     }
 

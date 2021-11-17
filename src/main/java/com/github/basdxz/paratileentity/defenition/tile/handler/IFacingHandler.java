@@ -1,5 +1,6 @@
-package com.github.basdxz.paratileentity.defenition.tile;
+package com.github.basdxz.paratileentity.defenition.tile.handler;
 
+import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import lombok.val;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
 import static net.minecraftforge.common.util.ForgeDirection.*;
 
 // TODO Create our own extended-direction enum for 6 directions plus 4 state rotation
-public interface IFacingHandler {
+public interface IFacingHandler extends IParaTile {
     //ForgeDirection DEFAULT_INVENTORY_FACING = SOUTH; fixme It's normally south, but with Chisel rendering it's east
     ForgeDirection DEFAULT_INVENTORY_FACING = EAST;
     String FACING_NBT_TAG = "facing";

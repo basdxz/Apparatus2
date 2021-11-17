@@ -147,7 +147,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
             super.writeToNBT(nbtTagCompound);
             writeTileIDToNBT(nbtTagCompound);
 
-            if (!paraTile.singleton())
+            if (!paraTile.cloneable())
                 paraTile.writeToNBT(nbtTagCompound);
         } catch (Exception exception) {
             ExceptionUtil.reportNBTWriteException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
@@ -162,7 +162,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
             if (isParaTileInvalid())
                 reloadParaTile();
-            if (!paraTile.singleton())
+            if (!paraTile.cloneable())
                 paraTile.readFromNBT(nbtTagCompound);
         } catch (Exception exception) {
             ExceptionUtil.reportNBTReadException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
@@ -184,7 +184,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         But clears reference to **this** TileEntity, preventing unexpected use.
     */
     protected IParaTile safeClone(IParaTile paraTile) {
-        if (paraTile.singleton())
+        if (paraTile.cloneable())
             return paraTile;
 
         paraTile.tileEntity(this);

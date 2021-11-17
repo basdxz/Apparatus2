@@ -1,8 +1,8 @@
 package com.github.basdxz.paratileentity.instance;
 
-import com.github.basdxz.paratileentity.defenition.tile.IItemNBTHandler;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
+import com.github.basdxz.paratileentity.defenition.tile.handler.IItemNBTHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -34,7 +34,7 @@ public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandl
     }
 
     @Override
-    public boolean singleton() {
+    public boolean cloneable() {
         return false;
     }
 

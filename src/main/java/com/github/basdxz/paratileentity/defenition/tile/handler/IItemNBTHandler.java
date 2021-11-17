@@ -1,11 +1,12 @@
-package com.github.basdxz.paratileentity.defenition.tile;
+package com.github.basdxz.paratileentity.defenition.tile.handler;
 
+import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
-public interface IItemNBTHandler {
+public interface IItemNBTHandler extends IParaTile {
     default void addNBTInformation(ItemStack itemStack, List<String> toolTip) {
         if (itemStack.stackTagCompound != null)
             toolTip.add(itemStack.stackTagCompound.toString());
@@ -16,7 +17,7 @@ public interface IItemNBTHandler {
     }
 
     default ItemStack writeNBTToItemStack(ItemStack itemStack) {
-        if (!singleton()) {
+        if (!cloneable()) {
             if (itemStack.stackTagCompound == null)
                 itemStack.stackTagCompound = new NBTTagCompound();
             writeToNBT(itemStack.stackTagCompound);
@@ -29,13 +30,7 @@ public interface IItemNBTHandler {
     }
 
     default void readNBTFromItemStack(ItemStack itemStack) {
-        if (!singleton() && (itemStack.stackTagCompound != null))
+        if (!cloneable() && (itemStack.stackTagCompound != null))
             readFromNBT(itemStack.stackTagCompound);
     }
-
-    boolean singleton();
-
-    void writeToNBT(NBTTagCompound tagCompound);
-
-    void readFromNBT(NBTTagCompound tagCompound);
 }

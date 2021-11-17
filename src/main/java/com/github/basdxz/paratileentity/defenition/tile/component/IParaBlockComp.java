@@ -1,5 +1,6 @@
-package com.github.basdxz.paratileentity.defenition.tile;
+package com.github.basdxz.paratileentity.defenition.tile.component;
 
+import com.github.basdxz.paratileentity.defenition.tile.proxy.IParaBlockProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -7,26 +8,27 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
 /*
-   Copy across "Proxied" functions into their own interface.
-   List all Block functions and make a separate list of ones that don't have [World, posX, posY, posZ]
    Implement and pass through the functions with defaults provided here.
  */
-public interface IProxiedBlock extends IProxiedComponent {
+public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
+    @Override
     default void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack) {
     }
 
+    @Override
     default void onPostBlockPlaced() {
     }
 
+    @Override
     default void registerBlockIcons(IIconRegister iconRegister) {
     }
 
+    @Override
     default IIcon getIcon(ForgeDirection side) {
         return missingIcon();
     }
@@ -39,20 +41,23 @@ public interface IProxiedBlock extends IProxiedComponent {
                 .getAtlasSprite("missingno");
     }
 
-    //TODO interface proper?
+    @Override
     default void breakBlock() {
     }
 
+    @Override
     default ArrayList<ItemStack> getDrops(int fortune) {
         ArrayList<ItemStack> itemDropList = new ArrayList<>();
         itemDropList.add(newItemStack());
         return itemDropList;
     }
 
-    default void onBlockClicked(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer) {
+    @Override
+    default void onBlockClicked(EntityPlayer entityPlayer) {
     }
 
-    default boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
+    @Override
+    default boolean onBlockActivated(EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
         return false;
     }
 

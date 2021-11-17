@@ -1,7 +1,7 @@
 package com.github.basdxz.paratileentity.defenition.chisel;
 
 import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
-import com.github.basdxz.paratileentity.defenition.tile.IActivityHandler;
+import com.github.basdxz.paratileentity.defenition.tile.handler.IActivityHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Builder;

@@ -2,9 +2,9 @@ package com.github.basdxz.paratileentity.instance;
 
 import com.github.basdxz.paratileentity.defenition.IParaTileManager;
 import com.github.basdxz.paratileentity.defenition.RegisterParaTile;
-import com.github.basdxz.paratileentity.defenition.tile.IFacingHandler;
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
+import com.github.basdxz.paratileentity.defenition.tile.handler.IFacingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
@@ -65,7 +65,7 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     }
 
     @Override
-    public boolean singleton() {
+    public boolean cloneable() {
         return false;
     }
 

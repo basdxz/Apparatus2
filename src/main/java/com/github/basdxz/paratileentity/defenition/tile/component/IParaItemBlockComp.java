@@ -1,5 +1,7 @@
-package com.github.basdxz.paratileentity.defenition.tile;
+package com.github.basdxz.paratileentity.defenition.tile.component;
 
+import com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity;
+import com.github.basdxz.paratileentity.defenition.tile.proxy.IParaItemBlockProxy;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,17 +13,22 @@ import java.util.List;
 import static com.github.basdxz.paratileentity.defenition.managed.IParaTileEntity.PARA_TILE_ID_INT_NBT_TAG;
 
 /*
-   TODO: Copy across "Proxied" functions into their own interface.
    TODO: List all ItemBlock functions then Implement and pass through the functions with defaults provided here.
  */
-public interface IProxiedItemBlock extends IProxiedComponent {
+public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
+    int BLOCK_UPDATE_FLAG = 1;
+    int SEND_TO_CLIENT_FLAG = 2;
+
+    @Override
     default String getUnlocalizedName(ItemStack itemStack) {
         return "tile." + manager().modid() + "." + manager().name();
     }
 
+    @Override
     default void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
     }
 
+    @Override
     default boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world,
                                  int posX, int posY, int posZ, int side, float hitX, float hitY, float hitZ) {
         if (placeInWorld(world, posX, posY, posZ)) {
@@ -32,6 +39,27 @@ public interface IProxiedItemBlock extends IProxiedComponent {
         } else {
             return false;
         }
+    }
+
+    default boolean placeInWorld(World world, int posX, int posY, int posZ) {
+        if (!world.setBlock(posX, posY, posZ, manager().block(), 0,
+                BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
+            return false;
+
+        if (world.getBlock(posX, posY, posZ) == manager().block()) {
+            return loadParaTile(world, posX, posY, posZ);
+        } else {
+            return false;
+        }
+    }
+
+    default boolean loadParaTile(World world, int posX, int posY, int posZ) {
+        val tileEntity = world.getTileEntity(posX, posY, posZ);
+        if (tileEntity instanceof IParaTileEntity) {
+            ((IParaTileEntity) tileEntity).expectedTileID(tileID()).reloadTileEntity();
+            return true;
+        }
+        return false;
     }
 
     default ItemStack newItemStack(int count) {

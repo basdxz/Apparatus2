@@ -82,12 +82,12 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
 
     @Override
     public void onBlockClicked(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer) {
-        proxiedBlock(world, posX, posY, posZ).onBlockClicked(world, posX, posY, posZ, entityPlayer);
+        proxiedBlock(world, posX, posY, posZ).onBlockClicked(entityPlayer);
     }
 
     @Override
     public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
-        return proxiedBlock(world, posX, posY, posZ).onBlockActivated(world, posX, posY, posZ, entityPlayer, side, hitX, hitY, hitZ);
+        return proxiedBlock(world, posX, posY, posZ).onBlockActivated(entityPlayer, side, hitX, hitY, hitZ);
     }
 
     @Override

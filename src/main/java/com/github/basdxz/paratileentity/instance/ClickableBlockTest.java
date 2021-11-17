@@ -3,8 +3,8 @@ package com.github.basdxz.paratileentity.instance;
 import com.github.basdxz.paratileentity.ParaTileEntityMod;
 import com.github.basdxz.paratileentity.defenition.chisel.IChiselRendering;
 import com.github.basdxz.paratileentity.defenition.chisel.SubmapActivityMultiManager;
-import com.github.basdxz.paratileentity.defenition.tile.IActivityHandler;
 import com.github.basdxz.paratileentity.defenition.tile.ParaTile;
+import com.github.basdxz.paratileentity.defenition.tile.handler.IActivityHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.client.render.SubmapMultiManager;
 import team.chisel.ctmlib.ISubmapManager;
@@ -27,13 +26,8 @@ public class ClickableBlockTest extends ParaTile implements IActivityHandler, IC
     private boolean active;
 
     @Override
-    public boolean singleton() {
+    public boolean cloneable() {
         return false;
-    }
-
-    @Override
-    public void updateBlock() {
-        super.updateBlock();
     }
 
     @Override
@@ -64,7 +58,7 @@ public class ClickableBlockTest extends ParaTile implements IActivityHandler, IC
     }
 
     @Override
-    public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
         updateActivity(!active());
         ParaTileEntityMod.info(active() ? "tick!" : "tock");
         return true;

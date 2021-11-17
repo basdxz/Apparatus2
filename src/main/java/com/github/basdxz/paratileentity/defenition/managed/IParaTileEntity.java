@@ -1,7 +1,7 @@
 package com.github.basdxz.paratileentity.defenition.managed;
 
 import com.github.basdxz.paratileentity.defenition.tile.IParaTile;
-import com.github.basdxz.paratileentity.defenition.tile.IProxiedTileEntity;
+import com.github.basdxz.paratileentity.defenition.tile.proxy.IParaTileEntityProxy;
 import lombok.val;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 
 import static com.github.basdxz.paratileentity.defenition.IParaTileManager.NULL_TILE_ID;
 
-// TODO implement 'isTileValid' type function that checks the tile id
 public interface IParaTileEntity extends IParaManaged {
     String TILE_ENTITY_ID_POSTFIX = "ParaTileEntity";
     int DEFAULT_TILE_ENTITY_PACKET_FLAG = 0;
@@ -31,7 +30,7 @@ public interface IParaTileEntity extends IParaManaged {
         return (tileID != null && !tileID.equals("")) ? tileID : NULL_TILE_ID;
     }
 
-    default IProxiedTileEntity proxiedTileEntity() {
+    default IParaTileEntityProxy proxiedTileEntity() {
         return paraTile();
     }
 

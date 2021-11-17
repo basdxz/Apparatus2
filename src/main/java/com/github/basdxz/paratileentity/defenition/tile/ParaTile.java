@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
+import team.chisel.ctmlib.ISubmapManager;
 
 @Setter
 @Getter
@@ -25,12 +26,12 @@ public abstract class ParaTile implements IParaTile, IChiselRendering {
         this.manager = manager;
     }
 
-    // todo Remove from here and force all extending classes to include it.
+    // TODO: Remove from here and force all extending classes to include it.
     @Override
     public void register(IParaTileManager manager) {
     }
 
-    // todo Remove from here and force all extending classes to include it.
+    // TODO: Remove from here and force all extending classes to include it.
     @Override
     public void registerRecipes() {
     }
@@ -42,5 +43,11 @@ public abstract class ParaTile implements IParaTile, IChiselRendering {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError("Failed to create IParaTile!");
         }
+    }
+
+    // TODO: Remove once rendering is more settled.
+    @Override
+    public ISubmapManager submapManager() {
+        return null;
     }
 }
