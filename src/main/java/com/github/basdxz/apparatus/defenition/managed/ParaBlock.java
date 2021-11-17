@@ -95,7 +95,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         proxiedBlock(world, posX, posY, posZ).onBlockPlacedBy(entityLivingBase, itemStack);
     }
 
-    @Override
+    @Override //TODO check if tileID here is actually side?
     public void onPostBlockPlaced(World world, int posX, int posY, int posZ, int tileID) {
         proxiedBlock(world, posX, posY, posZ).onPostBlockPlaced();
     }
