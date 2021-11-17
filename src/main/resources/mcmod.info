@@ -1,15 +1,17 @@
 [
   {
-    "modid": "paratileentity",
-    "name": "ParaTileEntity",
+    "modid": "apparatus",
+    "name": "Apparatus",
     "description": "Many In One",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": " ",
     "updateUrl": " ",
-    "authorList": ["basdxz"],
-    "credits": " ",
-    "logoFile": "",
+    "authorList": [
+      "basdxz"
+    ],
+    "credits": "The whole GTMEGA crew of 2021.",
+    "logoFile": "LOGO.png",
     "screenshots": [],
     "dependencies": []
   }

@@ -93,7 +93,6 @@ dependencies {
     compile(fileTree("libs") { include("*.jar") })
     // Version loading
     val lombokVersion: String by project
-    val manifoldVersion: String by project
     val codechickenlibVersion: String by project
     val codechickencoreVersion: String by project
     val neiVersion: String by project
@@ -103,9 +102,6 @@ dependencies {
     // Java extensions
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
-    implementation("systems.manifold:manifold-javadoc-agent:$manifoldVersion")
-    implementation("systems.manifold:manifold-ext-rt:$manifoldVersion")
-    annotationProcessor("systems.manifold:manifold-ext:$manifoldVersion")
 
     shadowImplementation("org.reflections:reflections:0.10.2")
 
