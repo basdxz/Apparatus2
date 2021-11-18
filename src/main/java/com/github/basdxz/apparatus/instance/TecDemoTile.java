@@ -18,6 +18,6 @@ public class TecDemoTile extends ParaTile {
 
     @Override
     public void register(IParaTileManager manager) {
-        manager.registerTile(builder().tileID("tec_demo").build());
+        manager.registerTile(builder().tileID("Ztec_demo").build());
     }
 }

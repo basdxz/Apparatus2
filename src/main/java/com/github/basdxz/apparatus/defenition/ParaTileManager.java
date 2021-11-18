@@ -8,7 +8,9 @@ import com.github.basdxz.apparatus.defenition.managed.ParaItemBlock;
 import com.github.basdxz.apparatus.defenition.tile.BufferedParaTile;
 import com.github.basdxz.apparatus.defenition.tile.IBufferedParaTile;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
+import com.github.basdxz.apparatus.defenition.tile.component.IParaTileComp;
 import com.github.basdxz.apparatus.instance.NullTile;
+import com.github.basdxz.apparatus.util.AlphanumericComparator;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
@@ -18,8 +20,11 @@ import net.minecraft.tileentity.TileEntity;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.github.basdxz.apparatus.ApparatusMod.warn;
 import static com.github.basdxz.apparatus.defenition.IParaTileManager.tileIDInvalid;
@@ -158,12 +163,9 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public Iterable<IParaTile> tileList() {
-        return tileMap.values();
-    }
-
-    @Override
-    public Iterable<String> allTileIDs() {
-        return tileMap.keySet();
+        return tileMap.values().stream()
+                .sorted(Comparator.comparing(IParaTileComp::tileID, new AlphanumericComparator(Locale.ENGLISH)))
+                .collect(Collectors.toList());
     }
 
     @Override

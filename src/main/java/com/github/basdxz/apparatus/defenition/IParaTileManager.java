@@ -42,8 +42,6 @@ public interface IParaTileManager {
 
     Iterable<IParaTile> tileList();
 
-    Iterable<String> allTileIDs();
-
     IBufferedParaTile nullTile();
 
     default void bufferedTile(World world, int posX, int posY, int posZ, String tileID) {
