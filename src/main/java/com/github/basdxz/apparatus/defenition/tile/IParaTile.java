@@ -6,6 +6,11 @@ import com.github.basdxz.apparatus.defenition.tile.component.IParaItemBlockComp;
 import com.github.basdxz.apparatus.defenition.tile.component.IParaTileEntityComp;
 
 public interface IParaTile extends Cloneable, IParaBlockComp, IParaItemBlockComp, IParaTileEntityComp {
+    @Override
+    default IParaTile paraTile() {
+        return this;
+    }
+
     void init(IParaTileManager manager);
 
     void register(IParaTileManager manager);

@@ -17,9 +17,6 @@ public interface IParaTileEntity extends IParaManaged {
 
     IParaTileEntity registerTileEntity(String modid, String name);
 
-    void reloadTileEntity();
-
-    void loadParaTile(IParaTile paraTile);
 
     default void writeTileIDToNBT(NBTTagCompound nbtTag) {
         nbtTag.setString(PARA_TILE_ID_INT_NBT_TAG, tileID());
@@ -34,9 +31,11 @@ public interface IParaTileEntity extends IParaManaged {
         return paraTile();
     }
 
-    IParaTile paraTile();
+    void reloadParaTile();
 
-    IParaTileEntity expectedTileID(String tileID);
+    IParaTileEntity paraTile(IParaTile paraTile);
+
+    IParaTile paraTile();
 
     default String tileID() {
         return paraTile().tileID();
@@ -44,11 +43,11 @@ public interface IParaTileEntity extends IParaManaged {
 
     TileEntity tileEntity();
 
-    TileEntity createNewTileEntity();
+    TileEntity newTileEntity();
 
-    IParaTileEntity worldObj(World worldObj);
+    IParaTileEntity world(World worldObj);
 
-    World worldObj();
+    World world();
 
     IParaTileEntity posX(int posX);
 

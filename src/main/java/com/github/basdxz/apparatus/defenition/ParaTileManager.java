@@ -94,7 +94,7 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public TileEntity createNewTileEntity() {
-        return paraTileEntity.createNewTileEntity();
+        return paraTileEntity.newTileEntity();
     }
 
     protected void registerAnnotatedTiles() {

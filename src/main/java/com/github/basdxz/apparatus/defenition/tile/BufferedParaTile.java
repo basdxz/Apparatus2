@@ -22,7 +22,7 @@ public class BufferedParaTile implements IBufferedParaTile {
         int posY = 0;
         int posZ = 0;
 
-        if (!paraTile.unCloneable()) {
+        if (paraTile.cloneable()) {
             try {
                 world = paraTile.worldObj();
                 posX = paraTile.posX();
@@ -51,7 +51,7 @@ public class BufferedParaTile implements IBufferedParaTile {
     }
 
     protected void init() {
-        if (!paraTile.unCloneable() && NULL_TILE_ID.equals(paraTile.tileID()) && world == null)
+        if (paraTile.cloneable() && NULL_TILE_ID.equals(paraTile.tileID()) && world == null)
             throw new IllegalArgumentException("World can only be null on tileID 0 or singletons.");
     }
 }

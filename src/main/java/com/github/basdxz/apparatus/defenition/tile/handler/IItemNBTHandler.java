@@ -17,7 +17,7 @@ public interface IItemNBTHandler extends IParaTile {
     }
 
     default ItemStack writeNBTToItemStack(ItemStack itemStack) {
-        if (!unCloneable()) {
+        if (cloneable()) {
             if (itemStack.stackTagCompound == null)
                 itemStack.stackTagCompound = new NBTTagCompound();
             writeToNBT(itemStack.stackTagCompound);
@@ -30,7 +30,7 @@ public interface IItemNBTHandler extends IParaTile {
     }
 
     default void readNBTFromItemStack(ItemStack itemStack) {
-        if (!unCloneable() && (itemStack.stackTagCompound != null))
+        if (cloneable() && (itemStack.stackTagCompound != null))
             readFromNBT(itemStack.stackTagCompound);
     }
 }

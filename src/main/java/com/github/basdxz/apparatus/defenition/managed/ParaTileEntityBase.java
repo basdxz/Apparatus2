@@ -4,7 +4,6 @@ import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import com.github.basdxz.apparatus.util.ExceptionUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.val;
 import net.minecraft.block.Block;
@@ -24,14 +23,12 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
     @Getter
     protected IParaTile paraTile;
-    @Setter
     protected String expectedTileID;
 
     public ParaTileEntityBase() {
         blockMetadata = getBlockMetadata();
         blockType = getBlockType();
-        paraTile = manager().nullTile().paraTile();
-        expectedTileID = paraTile.tileID();
+        paraTile(manager().nullTile().paraTile());
     }
 
     @Override
@@ -46,7 +43,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     @Override
-    public TileEntity createNewTileEntity() {
+    public TileEntity newTileEntity() {
         try {
             return getClass().getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e) {
@@ -58,13 +55,13 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     @Override
-    public IParaTileEntity worldObj(World worldObj) {
+    public IParaTileEntity world(World worldObj) {
         this.worldObj = worldObj;
         return this;
     }
 
     @Override
-    public World worldObj() {
+    public World world() {
         return worldObj;
     }
 
@@ -102,6 +99,11 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     }
 
     @Override
+    public boolean canUpdate() {
+        return proxiedTileEntity().canUpdate();
+    }
+
+    @Override
     public void updateEntity() {
         try {
             if (isParaTileInvalid()) {
@@ -116,37 +118,24 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         }
     }
 
-    @Override
     public void reloadTileEntity() {
-        val newParaTileEntity = (IParaTileEntity) createNewTileEntity();
+        val newParaTileEntity = (IParaTileEntity) newTileEntity();
 
         newParaTileEntity.posX(posX());
         newParaTileEntity.posY(posY());
         newParaTileEntity.posZ(posZ());
-        newParaTileEntity.worldObj(worldObj());
+        newParaTileEntity.world(world());
 
-        newParaTileEntity.loadParaTile(paraTile);
+        newParaTileEntity.paraTile(paraTile()).reloadParaTile();
 
         val nbtTag = new NBTTagCompound();
         writeToNBT(nbtTag);
         newParaTileEntity.tileEntity().readFromNBT(nbtTag);
 
-        worldObj().removeTileEntity(posX(), posY(), posZ());
-        worldObj().setTileEntity(posX(), posY(), posZ(), newParaTileEntity.tileEntity());
+        world().removeTileEntity(posX(), posY(), posZ());
+        world().setTileEntity(posX(), posY(), posZ(), newParaTileEntity.tileEntity());
         newParaTileEntity.tileEntity().markDirty();
-        worldObj().markBlockForUpdate(posX(), posY(), posZ());
-    }
-
-    //todo replace with @setter
-    @Override
-    public void loadParaTile(IParaTile paraTile) {
-        this.paraTile = paraTile;
-        expectedTileID(paraTile.tileID());
-    }
-
-    @Override
-    public boolean canUpdate() {
-        return proxiedTileEntity().canUpdate();
+        world().markBlockForUpdate(posX(), posY(), posZ());
     }
 
     @Override
@@ -154,8 +143,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         try {
             super.writeToNBT(nbtTagCompound);
             writeTileIDToNBT(nbtTagCompound);
-
-            if (!paraTile.unCloneable())
+            if (paraTile.cloneable())
                 paraTile.writeToNBT(nbtTagCompound);
         } catch (Exception exception) {
             ExceptionUtil.reportNBTWriteException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
@@ -166,11 +154,10 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         try {
             super.readFromNBT(nbtTagCompound);
-            expectedTileID(readTileIDFromNBT(nbtTagCompound));
-
+            expectedTileID = readTileIDFromNBT(nbtTagCompound);
             if (isParaTileInvalid())
                 reloadParaTile();
-            if (!paraTile.unCloneable())
+            if (paraTile.cloneable())
                 paraTile.readFromNBT(nbtTagCompound);
         } catch (Exception exception) {
             ExceptionUtil.reportNBTReadException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
@@ -181,9 +168,16 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         return !paraTile().tileID().equals(expectedTileID);
     }
 
+    @Override
     public void reloadParaTile() {
-        paraTile = safeClone(manager().paraTile(expectedTileID));
-        expectedTileID(expectedTileID);
+        paraTile(safeClone(manager().paraTile(expectedTileID)));
+    }
+
+    @Override
+    public IParaTileEntity paraTile(IParaTile paraTile) {
+        this.paraTile = paraTile;
+        expectedTileID = paraTile.tileID();
+        return this;
     }
 
     /*
@@ -193,7 +187,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         But clears reference to **this** TileEntity, preventing unexpected use.
     */
     protected IParaTile safeClone(IParaTile paraTile) {
-        if (paraTile.unCloneable())
+        if (!paraTile.cloneable())
             return paraTile;
 
         paraTile.tileEntity(this);

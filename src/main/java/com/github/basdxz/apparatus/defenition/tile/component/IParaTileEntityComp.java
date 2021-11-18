@@ -24,8 +24,8 @@ public interface IParaTileEntityComp extends IParaTileComp, IParaTileEntityProxy
     }
 
     // TODO invert logic and find a better name
-    default boolean unCloneable() {
-        return true;
+    default boolean cloneable() {
+        return false;
     }
 
     IParaTileEntityComp tileEntity(IParaTileEntity tileEntity);
@@ -42,7 +42,7 @@ public interface IParaTileEntityComp extends IParaTileComp, IParaTileEntityProxy
     }
 
     default World worldObj() {
-        return tileEntity().worldObj();
+        return tileEntity().world();
     }
 
     default int posX() {

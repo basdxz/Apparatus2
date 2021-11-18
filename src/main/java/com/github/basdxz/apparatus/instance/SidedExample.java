@@ -50,8 +50,8 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     }
 
     @Override
-    public boolean unCloneable() {
-        return false;
+    public boolean cloneable() {
+        return true;
     }
 
     @Override
