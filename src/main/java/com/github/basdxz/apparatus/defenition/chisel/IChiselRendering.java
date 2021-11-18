@@ -6,9 +6,14 @@ import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.ctmlib.ISubmapManager;
 
 public interface IChiselRendering {
+    IChiselRendering submapManager(ISubmapManager submapManager);
+
     ISubmapManager submapManager();
 
+    ISubmapManager newSubmapManager();
+
     default void registerChiselBlockIcons() {
+        submapManager(newSubmapManager());
         manager().carvingHelper().addVariation(tileID(), submapManager());
     }
 

@@ -50,4 +50,16 @@ public abstract class ParaTile implements IParaTile, IChiselRendering {
     public ISubmapManager submapManager() {
         return null;
     }
+
+    // TODO: Remove once rendering is more settled.
+    @Override
+    public IChiselRendering submapManager(ISubmapManager submapManager) {
+        return this;
+    }
+
+    // TODO: Remove once rendering is more settled.
+    @Override
+    public ISubmapManager newSubmapManager() {
+        return null;
+    }
 }
