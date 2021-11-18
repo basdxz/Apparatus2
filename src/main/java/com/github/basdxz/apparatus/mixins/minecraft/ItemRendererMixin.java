@@ -18,7 +18,7 @@ public class ItemRendererMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/RenderBlocks;renderBlockAsItem " +
                             "(Lnet/minecraft/block/Block;IF)V"),
-            require = 1)
+            require = 2)
     private void renderItemIntoGUI(EntityLivingBase p_78443_1_, ItemStack itemStack, int p_78443_3_,
                                    IItemRenderer.ItemRenderType type, CallbackInfo ci) {
         Utils.bufferParaTile(itemStack);
