@@ -17,15 +17,16 @@ public interface IParaTileEntity extends IParaManaged {
 
     IParaTileEntity registerTileEntity(String modid, String name);
 
-
     default void writeTileIDToNBT(NBTTagCompound nbtTag) {
         nbtTag.setString(PARA_TILE_ID_INT_NBT_TAG, tileID());
     }
 
-    default String readTileIDFromNBT(NBTTagCompound nbtTag) {
+    default void readTileIDFromNBT(NBTTagCompound nbtTag) {
         val tileID = nbtTag.getString(PARA_TILE_ID_INT_NBT_TAG);
-        return (tileID != null && !tileID.equals("")) ? tileID : NULL_TILE_ID;
+        expectedTileID((tileID != null && !tileID.equals("")) ? tileID : NULL_TILE_ID);
     }
+
+    IParaTileEntity expectedTileID(String expectedTileID);
 
     default IParaTileEntityProxy proxiedTileEntity() {
         return paraTile();

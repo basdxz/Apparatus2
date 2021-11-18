@@ -4,6 +4,7 @@ import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import com.github.basdxz.apparatus.util.ExceptionUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.val;
 import net.minecraft.block.Block;
@@ -23,6 +24,7 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class ParaTileEntityBase extends TileEntity implements IParaTileEntity {
     @Getter
     protected IParaTile paraTile;
+    @Setter
     protected String expectedTileID;
 
     public ParaTileEntityBase() {
@@ -106,9 +108,8 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void updateEntity() {
         try {
-            if (isParaTileInvalid()) {
-                reloadParaTile();
-            } else if (!paraTile().canUpdate()) {
+            validateParaTile();
+            if (!paraTile().canUpdate()) {
                 reloadTileEntity();
             } else {
                 proxiedTileEntity().updateEntity();
@@ -143,8 +144,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         try {
             super.writeToNBT(nbtTagCompound);
             writeTileIDToNBT(nbtTagCompound);
-            if (paraTile.cloneable())
-                paraTile.writeToNBT(nbtTagCompound);
+            proxiedTileEntity().writeToNBT(nbtTagCompound);
         } catch (Exception exception) {
             ExceptionUtil.reportNBTWriteException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
         }
@@ -154,14 +154,17 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         try {
             super.readFromNBT(nbtTagCompound);
-            expectedTileID = readTileIDFromNBT(nbtTagCompound);
-            if (isParaTileInvalid())
-                reloadParaTile();
-            if (paraTile.cloneable())
-                paraTile.readFromNBT(nbtTagCompound);
+            readTileIDFromNBT(nbtTagCompound);
+            validateParaTile();
+            proxiedTileEntity().readFromNBT(nbtTagCompound);
         } catch (Exception exception) {
             ExceptionUtil.reportNBTReadException(paraTile(), posX(), posY(), posZ(), nbtTagCompound, exception);
         }
+    }
+
+    protected void validateParaTile() {
+        if (isParaTileInvalid())
+            reloadParaTile();
     }
 
     protected boolean isParaTileInvalid() {
