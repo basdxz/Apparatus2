@@ -32,6 +32,8 @@ public interface IParaTileEntity extends IParaManaged {
         return paraTile();
     }
 
+    void loadParaTile(IParaTile paraTile);
+
     void reloadParaTile();
 
     IParaTileEntity paraTile(IParaTile paraTile);

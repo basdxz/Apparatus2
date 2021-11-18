@@ -162,6 +162,10 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         }
     }
 
+    public void loadParaTile(IParaTile paraTile) {
+        paraTile(paraTile).reloadParaTile();
+    }
+
     protected void validateParaTile() {
         if (isParaTileInvalid())
             reloadParaTile();

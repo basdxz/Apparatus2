@@ -52,7 +52,7 @@ public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
     default boolean loadParaTile(World world, int posX, int posY, int posZ) {
         val tileEntity = world.getTileEntity(posX, posY, posZ);
         if (tileEntity instanceof IParaTileEntity) {
-            ((IParaTileEntity) tileEntity).paraTile(paraTile()).reloadParaTile();
+            ((IParaTileEntity) tileEntity).loadParaTile(paraTile());
             return true;
         }
         return false;
