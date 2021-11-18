@@ -3,6 +3,7 @@ package com.github.basdxz.apparatus.defenition.tile.handler;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import lombok.val;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -30,10 +31,11 @@ public interface IFacingHandler extends IParaTile {
         return Stream.of(VALID_DIRECTIONS).collect(Collectors.toSet());
     }
 
-    default void facingOnBlockPlacedBy(EntityLivingBase entityPlayer) {
-        val facing = placedFacing(entityPlayer);
+    @Override
+    default void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack) {
+        val facing = placedFacing(entityLivingBase);
         if (validFacings().contains(facing))
-            facing(placedFacing(entityPlayer));
+            facing(placedFacing(entityLivingBase));
     }
 
     default ForgeDirection placedFacing(EntityLivingBase entityPlayer) {

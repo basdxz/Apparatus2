@@ -2,19 +2,16 @@ package com.github.basdxz.apparatus.instance;
 
 import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import com.github.basdxz.apparatus.defenition.RegisterParaTile;
-import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
 import com.github.basdxz.apparatus.defenition.tile.handler.IFacingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.ctmlib.ISubmapManager;
@@ -32,14 +29,8 @@ public class SidedExample extends ParaTile implements IFacingHandler {
 
     @Getter
     @Setter
-    public ForgeDirection facing;
-
-    @Override
-    public IParaTile clone() {
-        val newTile = (SidedExample) super.clone();
-        newTile.facing = DEFAULT_INVENTORY_FACING;
-        return newTile;
-    }
+    @Builder.Default
+    public ForgeDirection facing = DEFAULT_INVENTORY_FACING;
 
     @Override
     public void register(IParaTileManager manager) {
@@ -56,11 +47,6 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     @Override
     public IIcon getIcon(ForgeDirection side) {
         return side == facing ? icons.get(0) : icons.get(1);
-    }
-
-    @Override
-    public void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack) {
-        facingOnBlockPlacedBy(entityLivingBase);
     }
 
     @Override

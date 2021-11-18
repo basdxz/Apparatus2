@@ -104,7 +104,9 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void updateEntity() {
         try {
-            if (isParaTileInvalid() || !paraTile().canUpdate()) {
+            if (isParaTileInvalid()) {
+                reloadParaTile();
+            } else if (!paraTile().canUpdate()) {
                 reloadTileEntity();
             } else {
                 proxiedTileEntity().updateEntity();
@@ -116,13 +118,18 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
 
     @Override
     public void reloadTileEntity() {
-        reloadParaTile();
         val newParaTileEntity = (IParaTileEntity) createNewTileEntity();
+
+        newParaTileEntity.posX(posX());
+        newParaTileEntity.posY(posY());
+        newParaTileEntity.posZ(posZ());
+        newParaTileEntity.worldObj(worldObj());
+
+        newParaTileEntity.loadParaTile(paraTile);
+
         val nbtTag = new NBTTagCompound();
         writeToNBT(nbtTag);
         newParaTileEntity.tileEntity().readFromNBT(nbtTag);
-        newParaTileEntity.worldObj(worldObj());
-        newParaTileEntity.loadParaTile(paraTile);
 
         worldObj().removeTileEntity(posX(), posY(), posZ());
         worldObj().setTileEntity(posX(), posY(), posZ(), newParaTileEntity.tileEntity());
@@ -134,6 +141,7 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
     @Override
     public void loadParaTile(IParaTile paraTile) {
         this.paraTile = paraTile;
+        expectedTileID(paraTile.tileID());
     }
 
     @Override
@@ -173,8 +181,9 @@ public abstract class ParaTileEntityBase extends TileEntity implements IParaTile
         return !paraTile().tileID().equals(expectedTileID);
     }
 
-    protected void reloadParaTile() {
+    public void reloadParaTile() {
         paraTile = safeClone(manager().paraTile(expectedTileID));
+        expectedTileID(expectedTileID);
     }
 
     /*

@@ -2,6 +2,7 @@ package com.github.basdxz.apparatus.defenition.tile.component;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaTileEntity;
 import com.github.basdxz.apparatus.defenition.tile.proxy.IParaItemBlockProxy;
+import com.github.basdxz.apparatus.instance.ParaTileEntity;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -52,7 +53,7 @@ public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
     default boolean loadParaTile(World world, int posX, int posY, int posZ) {
         val tileEntity = world.getTileEntity(posX, posY, posZ);
         if (tileEntity instanceof IParaTileEntity) {
-            ((IParaTileEntity) tileEntity).expectedTileID(tileID()).reloadTileEntity();
+            ((ParaTileEntity) tileEntity).expectedTileID(tileID()).reloadParaTile();// todo remove direct ref
             return true;
         }
         return false;
