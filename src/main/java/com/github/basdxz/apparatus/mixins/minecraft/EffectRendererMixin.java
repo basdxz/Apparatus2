@@ -1,10 +1,10 @@
 package com.github.basdxz.apparatus.mixins.minecraft;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
-import com.github.basdxz.apparatus.fx.EntityDiggingFXParaTile;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.Tessellator;
@@ -35,6 +35,9 @@ public abstract class EffectRendererMixin {
     @Shadow
     protected World worldObj;
 
+    /*
+        Replaces the destruction particle effect for IParaBlocks.
+     */
     @Inject(method = "addBlockDestroyEffects(IIILnet/minecraft/block/Block;I)V",
             at = @At(value = "HEAD"),
             cancellable = true,
@@ -53,12 +56,15 @@ public abstract class EffectRendererMixin {
                         double dPosX = (double) posX + ((double) i + 0.5D) / (double) popSize;
                         double dPosY = (double) posY + ((double) j + 0.5D) / (double) popSize;
                         double dPosZ = (double) posZ + ((double) k + 0.5D) / (double) popSize;
-                        addEffect((new EntityDiggingFXParaTile(
+                        val particle = new EntityDiggingFX(
                                 worldObj, dPosX, dPosY, dPosZ,
                                 dPosX - (double) posX - 0.5D,
                                 dPosY - (double) posY - 0.5D,
                                 dPosZ - (double) posZ - 0.5D,
-                                tile)).applyColourMultiplier(posX, posY, posZ));
+                                block, 0);
+                        particle.setParticleIcon(
+                                tile.getIcon(ForgeDirection.getOrientation(worldObj.rand.nextInt(6))));
+                        addEffect(particle);
                     }
                 }
             }
@@ -66,6 +72,9 @@ public abstract class EffectRendererMixin {
         ci.cancel();
     }
 
+    /*
+        Replaces the hit particle effect for IParaBlocks.
+    */
     @Inject(method = "addBlockHitEffects(IIII)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/particle/EffectRenderer;addEffect" +
@@ -77,8 +86,16 @@ public abstract class EffectRendererMixin {
                                                Block block, float f, double dPosX, double dPosY, double dPosZ) {
         if (!(block instanceof IParaBlock))
             return;
-        addEffect(new EntityDiggingFXParaTile(worldObj, dPosX, dPosY, dPosZ, 0.0D, 0.0D, 0.0D,
-                ((IParaBlock) block).paraTile(worldObj, posX, posY, posZ), ForgeDirection.getOrientation(side)));
+        val particle = new EntityDiggingFX(
+                worldObj, dPosX, dPosY, dPosZ,
+                dPosX - (double) posX - 0.5D,
+                dPosY - (double) posY - 0.5D,
+                dPosZ - (double) posZ - 0.5D,
+                block, 0);
+        particle.setParticleIcon(((IParaBlock) block)
+                .paraTile(worldObj, posX, posY, posZ)
+                .getIcon(ForgeDirection.getOrientation(side)));
+        addEffect(particle);
         ci.cancel();
     }
 
