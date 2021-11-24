@@ -61,6 +61,7 @@ public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
         return false;
     }
 
+    @Override
     default void updateBlock() {
         worldObj().markBlockForUpdate(posX(), posY(), posZ());
     }

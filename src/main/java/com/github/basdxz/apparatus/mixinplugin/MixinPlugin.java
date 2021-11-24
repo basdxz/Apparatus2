@@ -37,8 +37,6 @@ public class MixinPlugin implements IMixinConfigPlugin {
         return Lists.newArrayList(
                 "minecraft.ItemInWorldManagerMixin",
                 "minecraft.EffectRendererMixin",
-                "minecraft.EntityDiggingFXMixin",
-                "minecraft.PlayerControllerMPMixin",
                 "minecraft.RenderGlobalMixin",
                 "minecraft.RenderItemMixin",
                 "minecraft.ItemRendererMixin",
