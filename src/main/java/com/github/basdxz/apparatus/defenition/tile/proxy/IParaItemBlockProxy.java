@@ -10,6 +10,10 @@ import java.util.List;
    TODO: List all ItemBlock functions.
  */
 public interface IParaItemBlockProxy {
+    default IParaItemBlockProxy proxiedItemBlock() {
+        return this;
+    }
+
     String getUnlocalizedName(ItemStack itemStack);
 
     void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced);

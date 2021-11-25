@@ -13,6 +13,10 @@ import java.util.ArrayList;
    TODO: List all Block functions.
  */
 public interface IParaBlockProxy {
+    default IParaBlockProxy proxyBlock() {
+        return this;
+    }
+
     void onBlockPlacedBy(EntityLivingBase entityLivingBase, ItemStack itemStack);
 
     void onPostBlockPlaced();
@@ -20,6 +24,8 @@ public interface IParaBlockProxy {
     void registerBlockIcons(IIconRegister iconRegister);
 
     IIcon getIcon(ForgeDirection side);
+
+    int getRenderBlockPass();
 
     void breakBlock();
 

@@ -33,6 +33,11 @@ public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
         return missingIcon();
     }
 
+    @Override
+    default int getRenderBlockPass() {
+        return 0;
+    }
+
     static IIcon missingIcon() {
         return ((TextureMap) Minecraft
                 .getMinecraft()

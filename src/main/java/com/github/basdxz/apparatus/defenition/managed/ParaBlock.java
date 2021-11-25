@@ -112,6 +112,18 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return manager().paraTile(NULL_TILE_ID).getIcon(ForgeDirection.getOrientation(side));
     }
 
+    // TODO: another mixing for item handling?
+    @Override
+    public int getRenderBlockPass() {
+        return 1;
+    }
+
+    // TODO: Does this need a mixin? Can we just, keep it true for everything?
+    @Override
+    public boolean canRenderInPass(int pass) {
+        return true;
+    }
+
     @Override
     public ArrayList<ItemStack> getDrops(World world, int posX, int posY, int posZ, int tileID, int fortune) {
         return manager().bufferedTile().paraTile().getDrops(fortune);

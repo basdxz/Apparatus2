@@ -10,7 +10,7 @@ import static com.github.basdxz.apparatus.defenition.managed.IParaTileEntity.PAR
 
 public interface IParaItemBlock extends IParaManaged {
     default IParaItemBlockProxy proxiedItemBlock(ItemStack itemStack) {
-        return paraTile(itemStack);
+        return paraTile(itemStack).proxiedItemBlock();
     }
 
     default IParaTile paraTile(ItemStack itemStack) {

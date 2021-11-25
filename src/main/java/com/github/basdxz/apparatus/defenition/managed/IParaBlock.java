@@ -12,11 +12,11 @@ public interface IParaBlock extends IParaManaged {
     String getUnlocalizedName();
 
     default IParaBlockProxy proxiedBlock(IBlockAccess blockAccess, int posX, int posY, int posZ) {
-        return paraTile(blockAccess, posX, posY, posZ);
+        return paraTile(blockAccess, posX, posY, posZ).proxyBlock();
     }
 
     default IParaBlockProxy proxiedBlock(String tileID) {
-        return manager().paraTile(tileID);
+        return manager().paraTile(tileID).proxyBlock();
     }
 
     default String tileID(IBlockAccess blockAccess, int posX, int posY, int posZ) {

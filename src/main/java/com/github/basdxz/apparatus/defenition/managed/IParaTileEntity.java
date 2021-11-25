@@ -29,7 +29,7 @@ public interface IParaTileEntity extends IParaManaged {
     IParaTileEntity expectedTileID(String expectedTileID);
 
     default IParaTileEntityProxy proxiedTileEntity() {
-        return paraTile();
+        return paraTile().tileEntityProxy();
     }
 
     void loadParaTile(IParaTile paraTile);
