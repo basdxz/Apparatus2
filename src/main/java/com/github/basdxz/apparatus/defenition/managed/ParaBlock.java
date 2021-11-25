@@ -115,13 +115,14 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     // TODO: another mixing for item handling?
     @Override
     public int getRenderBlockPass() {
-        return 1;
+        val stackTraceElements = Thread.currentThread().getStackTrace();
+        System.out.println(stackTraceElements[2]);
+        return 0;
     }
 
-    // TODO: Does this need a mixin? Can we just, keep it true for everything?
     @Override
-    public boolean canRenderInPass(int pass) {
-        return true;
+    public boolean isOpaqueCube() {
+        return super.isOpaqueCube();
     }
 
     @Override

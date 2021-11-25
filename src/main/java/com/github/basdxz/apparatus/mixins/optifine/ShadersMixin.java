@@ -1,0 +1,29 @@
+package com.github.basdxz.apparatus.mixins.optifine;
+
+import com.github.basdxz.apparatus.defenition.managed.IParaItemBlock;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import lombok.val;
+import net.minecraft.item.ItemStack;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(targets = "shadersmod.client.Shaders", remap = false)
+public class ShadersMixin {
+
+    @Inject(method = "isTranslucentBlock(Ladd;)Z",
+            at = @At(value = "HEAD"),
+            cancellable = true,
+            require = 1)
+    @SideOnly(Side.CLIENT)
+    private static void isTranslucentBlockRedirect(ItemStack itemStack, CallbackInfoReturnable cir) {
+        val item = itemStack.getItem();
+        if (!(item instanceof IParaItemBlock))
+            return;
+
+        cir.setReturnValue(((IParaItemBlock) item).paraTile(itemStack).getRenderBlockPass() == 1);
+        cir.cancel();
+    }
+}
