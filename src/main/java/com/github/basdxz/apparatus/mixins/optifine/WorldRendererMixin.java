@@ -3,8 +3,10 @@ package com.github.basdxz.apparatus.mixins.optifine;
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import com.github.basdxz.apparatus.woag.ChunkCacheOF;
+import com.github.basdxz.apparatus.woag.ReflectorMethod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -18,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.HashSet;
 
+// Client-Side
+@SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference"}) // Hooks into class not present in dev.
 @Mixin(targets = "net.minecraft.client.renderer.WorldRenderer", remap = false)
 public class WorldRendererMixin {
     private static IParaTile cachedParaTile;
@@ -47,8 +51,20 @@ public class WorldRendererMixin {
     private int getRenderBlockPassRedirect(Block instance) {
         if (!(instance instanceof IParaBlock) || cachedParaTile == null)
             return instance.getRenderBlockPass();
-        int pass = cachedParaTile.proxyBlock().getRenderBlockPass();
+        return cachedParaTile.proxyBlock().getRenderBlockPass();
+    }
+
+    @Redirect(method = "func_147892_a(Lnet/minecraft/entity/EntityLivingBase;)V",
+            at = @At(value = "INVOKE",
+                    target = "LReflector;callBoolean (Ljava/lang/Object;LReflectorMethod;[Ljava/lang/Object;)Z",
+                    ordinal = 1),
+            require = 1)
+    @SideOnly(Side.CLIENT)
+    private boolean getRenderBlockCanRenderRedirect(Object blockObj, ReflectorMethod method, Object[] oa) {
+        if (!(blockObj instanceof IParaBlock) || cachedParaTile == null)
+            return ((Block) blockObj).canRenderInPass((int) oa[0]);
+        val shouldRender = cachedParaTile.proxyBlock().canRenderInPass((int) oa[0]);
         cachedParaTile = null;
-        return pass;
+        return shouldRender;
     }
 }

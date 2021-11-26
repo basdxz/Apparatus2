@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 // Client-Side
+@SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference"}) // Hooks into class not present in dev.
 @Mixin(targets = "ItemRendererOF", remap = false)
 public class ItemRendererOFMixin {
     private static IParaTile cachedParaTile;

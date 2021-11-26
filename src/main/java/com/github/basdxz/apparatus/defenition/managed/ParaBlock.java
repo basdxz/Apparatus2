@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.defenition.managed;
 
+import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -115,9 +116,18 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     // TODO: another mixing for item handling?
     @Override
     public int getRenderBlockPass() {
-        val stackTraceElements = Thread.currentThread().getStackTrace();
-        System.out.println(stackTraceElements[2]);
+        ApparatusMod.warn("Invalid use of getRenderBlockPass from:");
+        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
+            ApparatusMod.warn(stackTraceElement.toString());
         return 0;
+    }
+
+    @Override
+    public boolean canRenderInPass(int pass) {
+        ApparatusMod.warn("Invalid use of canRenderInPass from:");
+        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
+            ApparatusMod.warn(stackTraceElement.toString());
+        return pass == 0;
     }
 
     @Override

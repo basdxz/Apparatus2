@@ -38,6 +38,11 @@ public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
         return 0;
     }
 
+    @Override
+    default boolean canRenderInPass(int pass) {
+        return getRenderBlockPass() == pass;
+    }
+
     static IIcon missingIcon() {
         return ((TextureMap) Minecraft
                 .getMinecraft()
