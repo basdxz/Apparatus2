@@ -13,16 +13,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(targets = "shadersmod.client.Shaders", remap = false)
 public class ShadersMixin {
 
-    @Inject(method = "isTranslucentBlock(Ladd;)Z",
+    @Inject(method = "isTranslucentBlock(Lnet/minecraft/item/ItemStack;)Z",
             at = @At(value = "HEAD"),
             cancellable = true,
             require = 1)
     @SideOnly(Side.CLIENT)
-    private static void isTranslucentBlockRedirect(ItemStack itemStack, CallbackInfoReturnable cir) {
+    private static void isTranslucentBlockRedirect(ItemStack itemStack, CallbackInfoReturnable<Boolean> cir) {
+        if (itemStack == null)
+            return;
         val item = itemStack.getItem();
         if (!(item instanceof IParaItemBlock))
             return;
-
         cir.setReturnValue(((IParaItemBlock) item).paraTile(itemStack).getRenderBlockPass() == 1);
         cir.cancel();
     }
