@@ -1,7 +1,9 @@
 package com.github.basdxz.apparatus.mixinplugin;
 
+import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.util.Utils;
 import com.google.common.collect.Lists;
+import lombok.val;
 import org.spongepowered.asm.lib.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -34,19 +36,34 @@ public class MixinPlugin implements IMixinConfigPlugin {
         if (!Utils.isDevelopmentEnvironment())
             Utils.loadJar("Chisel");
 
-        return Lists.newArrayList(
+        val mixinList = Lists.newArrayList(
                 "minecraft.ItemInWorldManagerMixin",
                 "minecraft.EffectRendererMixin",
                 "minecraft.RenderGlobalMixin",
                 "minecraft.RenderItemMixin",
-                //"minecraft.WorldRendererMixin",
-                "minecraft.ItemRendererMixin", //CAN BE APPLIED WITH OF
+                "minecraft.ItemRendererMixin",
                 "chisel.CTMMixin",
-                "chisel.ItemOffsetToolMixin",
-                // "optifine.WorldRendererMixin",
-                "optifine.ShadersMixin",
-                "optifine.ItemRendererOFMixin"
+                "chisel.ItemOffsetToolMixin"
         );
+
+        if (doesOptifineIsExist()) {
+            ApparatusMod.warn("Oh no, you included optifine. you absolute monkey.");
+            mixinList.add("optifine.WorldRendererMixin");
+            mixinList.add("optifine.ShadersMixin");
+            mixinList.add("optifine.ItemRendererOFMixin");
+        } else {
+            mixinList.add("minecraft.WorldRendererMixin");
+        }
+        return mixinList;
+    }
+
+    public boolean doesOptifineIsExist() {
+        try {
+            Class.forName("ChunkCacheOF", false, getClass().getClassLoader());
+            return true;
+        } catch (ClassNotFoundException ignored) {
+        }
+        return false;
     }
 
     @Override
