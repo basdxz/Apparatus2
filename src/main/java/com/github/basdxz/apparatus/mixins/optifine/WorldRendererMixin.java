@@ -61,9 +61,15 @@ public class WorldRendererMixin {
             require = 1)
     @SideOnly(Side.CLIENT)
     private boolean getRenderBlockCanRenderRedirect(Object blockObj, ReflectorMethod method, Object[] oa) {
-        if (!(blockObj instanceof IParaBlock) || cachedParaTile == null)
-            return ((Block) blockObj).canRenderInPass((int) oa[0]);
-        val shouldRender = cachedParaTile.proxyBlock().canRenderInPass((int) oa[0]);
+        if (!(blockObj instanceof Block) || oa.length < 1)
+            return false;
+        val block = (Block) blockObj;
+        val pass = (int) oa[0];
+
+        if (!(block instanceof IParaBlock) || cachedParaTile == null)
+            return block.canRenderInPass(pass);
+
+        val shouldRender = cachedParaTile.proxyBlock().canRenderInPass(pass);
         cachedParaTile = null;
         return shouldRender;
     }
