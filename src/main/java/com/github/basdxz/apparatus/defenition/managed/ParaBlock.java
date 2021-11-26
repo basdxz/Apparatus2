@@ -127,8 +127,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         ApparatusMod.warn("Invalid use of canRenderInPass from:");
         for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
             ApparatusMod.warn(stackTraceElement.toString());
-        // return super.canRenderInPass(pass);
-        return pass == 1;
+        return super.canRenderInPass(pass);
     }
 
     @Override
