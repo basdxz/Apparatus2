@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus.woag;
+package com.github.basdxz.apparatus.optifinemocks;
 
 import net.minecraft.world.IBlockAccess;
 

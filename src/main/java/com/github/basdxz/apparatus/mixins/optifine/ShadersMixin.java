@@ -9,10 +9,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import shadersmod.client.Shaders;
 
 // Client-Side
 @SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference"}) // Hooks into class not present in dev.
-@Mixin(targets = "shadersmod.client.Shaders", remap = false)
+@Mixin(value = Shaders.class, remap = false)
 public class ShadersMixin {
 
     @Inject(method = "isTranslucentBlock(Lnet/minecraft/item/ItemStack;)Z",

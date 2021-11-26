@@ -2,14 +2,15 @@ package com.github.basdxz.apparatus.mixins.optifine;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
-import com.github.basdxz.apparatus.woag.ChunkCacheOF;
-import com.github.basdxz.apparatus.woag.ReflectorMethod;
+import com.github.basdxz.apparatus.optifinemocks.ChunkCacheOF;
+import com.github.basdxz.apparatus.optifinemocks.ReflectorMethod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ import java.util.HashSet;
 
 // Client-Side
 @SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference"}) // Hooks into class not present in dev.
-@Mixin(targets = "net.minecraft.client.renderer.WorldRenderer", remap = false)
+@Mixin(value = WorldRenderer.class, remap = false)
 public class WorldRendererMixin {
     private static IParaTile cachedParaTile;
 
