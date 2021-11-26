@@ -151,6 +151,13 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         return proxiedBlock(blockAccess, posX, posY, posZ).getLightOpacity();
     }
 
+    @Override
+    public float getAmbientOcclusionLightValue() {
+        ApparatusMod.warn("Invalid use of getAmbientOcclusionLightValue from:");
+        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
+            ApparatusMod.warn(stackTraceElement.toString());
+        return super.getAmbientOcclusionLightValue();
+    }
 
     @Override
     public ArrayList<ItemStack> getDrops(World world, int posX, int posY, int posZ, int tileID, int fortune) {

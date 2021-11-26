@@ -35,6 +35,8 @@ public interface IParaBlockProxy {
 
     int getLightOpacity();
 
+    float getAmbientOcclusionLightValue();
+
     void breakBlock();
 
     ArrayList<ItemStack> getDrops(int fortune);

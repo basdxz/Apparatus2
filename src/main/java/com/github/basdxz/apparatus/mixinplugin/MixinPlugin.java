@@ -43,6 +43,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "minecraft.RenderItemMixin",
                 "minecraft.ItemRendererMixin",
                 "minecraft.BlockMixin",
+                "minecraft.RenderBlocksMixin",
                 "chisel.CTMMixin",
                 "chisel.ItemOffsetToolMixin"
         );
