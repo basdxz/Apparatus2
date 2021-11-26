@@ -37,9 +37,7 @@ public class WorldRendererMixin {
         if (!(block instanceof IParaBlock))
             return;
         cachedParaTile = ((IParaBlock) block).paraTile(chunkcache, posX, posY, posZ);
-        System.out.println("Cached the thing!");
     }
-
 
     @Redirect(method = "func_147892_a(Lnet/minecraft/entity/EntityLivingBase;)V",
             at = @At(value = "INVOKE",
@@ -51,7 +49,6 @@ public class WorldRendererMixin {
             return instance.getRenderBlockPass();
         int pass = cachedParaTile.proxyBlock().getRenderBlockPass();
         cachedParaTile = null;
-        System.out.println("Redirected!");
         return pass;
     }
 }
