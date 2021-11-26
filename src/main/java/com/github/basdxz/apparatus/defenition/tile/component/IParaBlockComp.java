@@ -1,7 +1,8 @@
 package com.github.basdxz.apparatus.defenition.tile.component;
 
+import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.tile.proxy.IParaBlockProxy;
-import net.minecraft.client.Minecraft;
+import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,6 +12,8 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
+
+import static net.minecraft.client.Minecraft.getMinecraft;
 
 /*
    Implement and pass through the functions with defaults provided here.
@@ -48,9 +51,27 @@ public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
         return true;
     }
 
+    //TODO: This will not work nicely with non-full blocks (Stairs, buttons etc..)
+    @Override
+    default boolean shouldSideBeRendered(int posX, int posY, int posZ, int side) {
+        val block = getMinecraft().theWorld.getBlock(posX, posY, posZ);
+        if (!(block instanceof IParaBlock))
+            return !block.isOpaqueCube();
+
+        val otherTile = ((IParaBlock) block).paraTile(getMinecraft().theWorld, posX, posY, posZ);
+        if (otherTile.isOpaqueCube())
+            return false;
+
+        return !(tileID().equals(otherTile.tileID()) && manager().equals(otherTile.manager()));
+    }
+
+    @Override
+    default int getLightOpacity() {
+        return isOpaqueCube() ? 255 : 0;
+    }
+
     static IIcon missingIcon() {
-        return ((TextureMap) Minecraft
-                .getMinecraft()
+        return ((TextureMap) getMinecraft()
                 .getTextureManager()
                 .getTexture(TextureMap.locationBlocksTexture))
                 .getAtlasSprite("missingno");

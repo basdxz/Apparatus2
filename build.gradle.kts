@@ -90,7 +90,7 @@ val shadowImplementation by configurations.creating
 configurations["implementation"].extendsFrom(shadowImplementation)
 dependencies {
     // Local libraries
-    compile(fileTree("libs") { include("*.jar") })
+    compileOnly(fileTree("libs") { include("*.jar") })
     // Version loading
     val lombokVersion: String by project
     val codechickenlibVersion: String by project

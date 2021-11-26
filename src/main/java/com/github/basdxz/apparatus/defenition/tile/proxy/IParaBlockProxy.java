@@ -31,6 +31,10 @@ public interface IParaBlockProxy {
 
     boolean isOpaqueCube();
 
+    boolean shouldSideBeRendered(int posX, int posY, int posZ, int side);
+
+    int getLightOpacity();
+
     void breakBlock();
 
     ArrayList<ItemStack> getDrops(int fortune);

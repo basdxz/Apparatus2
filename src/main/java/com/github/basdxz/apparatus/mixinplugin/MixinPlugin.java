@@ -47,7 +47,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "chisel.ItemOffsetToolMixin"
         );
 
-        if (doesOptifineIsExist()) {
+        if (!Utils.isDevelopmentEnvironment() && doesOptifineIsExist()) {
             ApparatusMod.warn("Oh no, you included optifine. you absolute monkey.");
             mixinList.add("optifine.WorldRendererMixin");
             mixinList.add("optifine.ShadersMixin");

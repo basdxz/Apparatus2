@@ -119,7 +119,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         ApparatusMod.warn("Invalid use of getRenderBlockPass from:");
         for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
             ApparatusMod.warn(stackTraceElement.toString());
-        return 0;
+        return super.getRenderBlockPass();
     }
 
     @Override
@@ -127,7 +127,8 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
         ApparatusMod.warn("Invalid use of canRenderInPass from:");
         for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
             ApparatusMod.warn(stackTraceElement.toString());
-        return pass == 0;
+        // return super.canRenderInPass(pass);
+        return pass == 1;
     }
 
     @Override
@@ -137,6 +138,20 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
             ApparatusMod.warn(stackTraceElement.toString());
         return super.isOpaqueCube();
     }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess blockAccess, int posX, int posY, int posZ, int side) {
+        val direction = ForgeDirection.getOrientation(side);
+        return proxiedBlock(blockAccess,
+                posX - direction.offsetX, posY - direction.offsetY, posZ - direction.offsetZ)
+                .shouldSideBeRendered(posX, posY, posZ, side);
+    }
+
+    @Override
+    public int getLightOpacity(IBlockAccess blockAccess, int posX, int posY, int posZ) {
+        return proxiedBlock(blockAccess, posX, posY, posZ).getLightOpacity();
+    }
+
 
     @Override
     public ArrayList<ItemStack> getDrops(World world, int posX, int posY, int posZ, int tileID, int fortune) {
