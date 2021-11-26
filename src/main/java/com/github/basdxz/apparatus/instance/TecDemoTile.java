@@ -53,4 +53,9 @@ public class TecDemoTile extends ParaTile {
     public int getRenderBlockPass() {
         return 1;
     }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
 }

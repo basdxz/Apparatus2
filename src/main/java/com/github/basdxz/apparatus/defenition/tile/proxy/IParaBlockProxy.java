@@ -29,6 +29,8 @@ public interface IParaBlockProxy {
 
     boolean canRenderInPass(int pass);
 
+    boolean isOpaqueCube();
+
     void breakBlock();
 
     ArrayList<ItemStack> getDrops(int fortune);

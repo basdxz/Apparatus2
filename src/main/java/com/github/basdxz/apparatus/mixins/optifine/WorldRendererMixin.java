@@ -32,12 +32,12 @@ public class WorldRendererMixin {
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             require = 1)
     @SideOnly(Side.CLIENT)
-    private void getParaTile(EntityLivingBase p_147892_1_, CallbackInfo ci, int xMin, int yMin, int zMain, int xMax,
-                             int yMax, int zMax, HashSet var26, Minecraft var9, EntityLivingBase var10, int viewEntityPosX,
-                             int viewEntityPosY, int viewEntityPosZ, byte var14, ChunkCacheOF chunkcache,
-                             RenderBlocks renderblocks, boolean hasForge, int renderPass, boolean renderNextPass,
-                             boolean hasRenderedBlocks, boolean hasGlList, int posY, int posZ, int posX, Block block,
-                             boolean hasTileEntity) {
+    private void updateRendererNextBlock(EntityLivingBase p_147892_1_, CallbackInfo ci, int xMin, int yMin, int zMain, int xMax,
+                                         int yMax, int zMax, HashSet var26, Minecraft var9, EntityLivingBase var10,
+                                         int viewEntityPosX, int viewEntityPosY, int viewEntityPosZ, byte var14, ChunkCacheOF chunkcache,
+                                         RenderBlocks renderblocks, boolean hasForge, int renderPass, boolean renderNextPass,
+                                         boolean hasRenderedBlocks, boolean hasGlList, int posY, int posZ, int posX, Block block,
+                                         boolean hasTileEntity) {
         if (!(block instanceof IParaBlock))
             return;
         cachedParaTile = ((IParaBlock) block).paraTile(chunkcache, posX, posY, posZ);

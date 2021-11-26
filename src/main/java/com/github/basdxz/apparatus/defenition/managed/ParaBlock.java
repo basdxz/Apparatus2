@@ -132,6 +132,9 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
 
     @Override
     public boolean isOpaqueCube() {
+        ApparatusMod.warn("Invalid use of isOpaqueCube from:");
+        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
+            ApparatusMod.warn(stackTraceElement.toString());
         return super.isOpaqueCube();
     }
 
