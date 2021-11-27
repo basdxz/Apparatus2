@@ -17,8 +17,8 @@ public class TesselatorMixin {
     private int rawBufferIndex;
 
     /**
-     * @author SirFell
-     * @reason Fixes MinecraftForge#981. Crash on "bad moder rendering"(©LexManos) of transparent/translucent blocks when they draw nothing.
+     * author SirFell
+     * reason Fixes MinecraftForge#981. Crash on "bad moder rendering"(©LexManos) of transparent/translucent blocks when they draw nothing.
      */
     @Inject(method = "getVertexState", at = @At("HEAD"), cancellable = true)
     public void getVertexStateNatural0Safe(float x, float y, float z, CallbackInfoReturnable<TesselatorVertexState> cir) {
