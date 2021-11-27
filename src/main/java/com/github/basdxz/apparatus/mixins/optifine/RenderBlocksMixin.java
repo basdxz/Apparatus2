@@ -38,7 +38,6 @@ public class RenderBlocksMixin {
         if (!(instance instanceof IParaBlock))
             return instance.isBlockNormalCube();
 
-        System.out.println("POG POG POG");
         return ((IParaBlock) instance)
                 .paraTile(field_147845_a, cachedPosX, cachedPosY, cachedPosZ)
                 .isBlockNormalCube();
