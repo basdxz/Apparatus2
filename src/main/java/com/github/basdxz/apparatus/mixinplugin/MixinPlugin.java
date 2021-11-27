@@ -43,7 +43,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "minecraft.RenderItemMixin",
                 "minecraft.ItemRendererMixin",
                 "minecraft.BlockMixin",
-                "minecraft.RenderBlocksMixin",
+                "minecraft.TesselatorMixin",
                 //"minecraft.ChunkMixin",
                 "chisel.CTMMixin",
                 "chisel.ItemOffsetToolMixin"
@@ -54,8 +54,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
             mixinList.add("optifine.WorldRendererMixin");
             mixinList.add("optifine.ShadersMixin");
             mixinList.add("optifine.ItemRendererOFMixin");
+            mixinList.add("optifine.RenderBlocksMixin");
         } else {
             mixinList.add("minecraft.WorldRendererMixin");
+            mixinList.add("minecraft.RenderBlocksMixin");
         }
         return mixinList;
     }

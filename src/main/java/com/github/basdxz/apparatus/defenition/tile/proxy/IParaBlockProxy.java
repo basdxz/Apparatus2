@@ -37,6 +37,8 @@ public interface IParaBlockProxy {
 
     float getAmbientOcclusionLightValue();
 
+    boolean isBlockNormalCube();
+
     void breakBlock();
 
     ArrayList<ItemStack> getDrops(int fortune);

@@ -75,6 +75,11 @@ public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
         return isOpaqueCube() ? 0.2F : 1.0F;
     }
 
+    @Override
+    default boolean isBlockNormalCube() {
+        return isOpaqueCube();
+    }
+
     static IIcon missingIcon() {
         return ((TextureMap) getMinecraft()
                 .getTextureManager()
