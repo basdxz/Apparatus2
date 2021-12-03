@@ -129,7 +129,6 @@ dependencies {
         exclude(module = "log4j-core")
     }
     compile("com.github.GTNewHorizons:SpongeMixins:1.3.3:dev")
-    compile("eu.usrv:YAMCore:$yamcoreVersion:deobf")
 }
 sourceSets.main {
     java {
