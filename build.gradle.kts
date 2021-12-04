@@ -80,6 +80,7 @@ repositories {
     maven("https://jitpack.io") { name = "JitPack Maven" }
     maven("https://repo.spongepowered.org/repository/maven-public") { name = "Sponge Maven" }
     mavenCentral()
+    maven("https://cursemaven.com") { name = "Curse Maven" }
 }
 // Allows JitPack dependencies to be updated more frequently by checking more often.
 configurations.all {
@@ -129,6 +130,9 @@ dependencies {
         exclude(module = "log4j-core")
     }
     compile("com.github.GTNewHorizons:SpongeMixins:1.3.3:dev")
+
+    // Journeymap compat
+    compile("curse.maven:journeymap-32274:2367915")
 }
 sourceSets.main {
     java {

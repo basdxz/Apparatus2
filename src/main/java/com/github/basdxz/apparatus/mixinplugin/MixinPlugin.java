@@ -33,8 +33,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public List<String> getMixins() {
-        if (!Utils.isDevelopmentEnvironment())
+        if (!Utils.isDevelopmentEnvironment()) {
             Utils.loadJar("Chisel");
+            Utils.loadJar("journeymap");
+        }
 
         val mixinList = Lists.newArrayList(
                 "minecraft.ItemInWorldManagerMixin",
@@ -46,7 +48,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "minecraft.TesselatorMixin",
                 //"minecraft.ChunkMixin",
                 "chisel.CTMMixin",
-                "chisel.ItemOffsetToolMixin"
+                "chisel.ItemOffsetToolMixin",
+                "journeymap.StratumMixin"
         );
 
         if (!Utils.isDevelopmentEnvironment() && doesOptifineIsExist()) {
