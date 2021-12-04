@@ -3,3 +3,4 @@
 run/
 /build/
 /libs/OptiFine_1.7.10_HD_U_E7-deobf.jar
+/src/main/resources/mixins.apparatus.json
