@@ -6,7 +6,7 @@ import lombok.experimental.SuperBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
-import team.chisel.ctmlib.ISubmapManager;
+import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
 
 import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 

@@ -15,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.client.render.SubmapMultiManager;
-import team.chisel.ctmlib.ISubmapManager;
+import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
 
 @Setter
 @Getter

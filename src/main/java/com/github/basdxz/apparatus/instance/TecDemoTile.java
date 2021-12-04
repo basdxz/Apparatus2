@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.client.render.SubmapManagerBaseExtra;
-import team.chisel.ctmlib.ISubmapManager;
-import team.chisel.ctmlib.TextureSubmap;
+import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
+import team.chisel.shadow.team.chisel.ctmlib.TextureSubmap;
 
 import static com.github.basdxz.apparatus.ApparatusMod.MODID;
 

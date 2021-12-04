@@ -12,7 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import team.chisel.ctmlib.ISubmapManager;
+import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
 
 import java.util.List;
 

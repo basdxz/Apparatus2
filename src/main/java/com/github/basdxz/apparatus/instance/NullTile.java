@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
-import team.chisel.ctmlib.ISubmapManager;
+import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
 
 import java.util.List;
 

@@ -113,8 +113,7 @@ dependencies {
     runtimeOnly("codechicken:NotEnoughItems:$neiVersion:dev")
 
     // Chisel stuff for renders
-    compile("com.github.GTMEGA:Chisel:2.9.11-GTMEGA:deobf")
-    compile("com.github.GTMEGA:CTMLib:17cd6ebc23:deobf")
+    compile("com.github.GTMEGA:Chisel:2.9.16-GTMEGA:dev")
 
     // Mixin stuff
     annotationProcessor("org.ow2.asm:asm-debug-all:5.2")

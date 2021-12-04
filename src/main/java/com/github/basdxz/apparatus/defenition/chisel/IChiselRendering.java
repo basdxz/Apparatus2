@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.defenition.chisel;
 import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
-import team.chisel.ctmlib.ISubmapManager;
+import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
 
 public interface IChiselRendering {
     IChiselRendering submapManager(ISubmapManager submapManager);
