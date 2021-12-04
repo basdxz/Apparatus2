@@ -9,7 +9,7 @@ buildscript {
         maven("https://jitpack.io") { name = "JitPack Maven" }
     }
     dependencies {
-        classpath("com.github.GTNH2:ForgeGradle:FG_1.2-SNAPSHOT")
+        classpath("com.github.GTNewHorizons:ForgeGradle:1.2.4")
     }
 }
 apply(plugin = "forge")
