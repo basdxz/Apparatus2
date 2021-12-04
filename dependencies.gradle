@@ -1,5 +1,23 @@
 // Add your dependencies here
 
 dependencies {
+    // Java extensions
+    compileOnly("org.projectlombok:lombok:1.18.20")
+    annotationProcessor("org.projectlombok:lombok:1.18.20")
 
+    shadowImplementation("org.reflections:reflections:0.10.2")
+
+    // Optional libraries for testing
+    runtimeOnly("mcp.mobius.waila:Waila:1.5.10_1.7.10") {
+        transitive(false)
+    }
+    runtimeOnly("codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev")
+    runtimeOnly("codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev")
+    runtimeOnly("codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev")
+
+    // Chisel stuff for renders
+    compile("com.github.GTMEGA:Chisel:2.9.16-GTMEGA:dev")
+
+    // Journeymap compat
+    compile("curse.maven:journeymap-32274:2367915")
 }

@@ -1,5 +1,13 @@
 // Add any additional repositories for your dependencies here
 
 repositories {
+    maven {
+        name = "CodeChicken Maven"
+        url = "http://chickenbones.net/maven/"
+    }
 
+    maven {
+        name = "Curseforge Maven"
+        url = "https://cursemaven.com/"
+    }
 }

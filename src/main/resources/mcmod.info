@@ -1,10 +1,10 @@
 [
   {
-    "modid": "apparatus",
-    "name": "Apparatus",
+    "modid": "${modId}",
+    "name": "${modName}",
     "description": "Many In One",
-    "version": "${version}",
-    "mcversion": "${mcversion}",
+    "version": "${modVersion}",
+    "mcversion": "${minecraftVersion}",
     "url": " ",
     "updateUrl": " ",
     "authorList": [
