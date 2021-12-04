@@ -74,13 +74,14 @@ public class Utils {
         return worldBlockPos & 15;
     }
 
-    public static void bufferParaTile(ItemStack itemStack) {
+    public static ItemStack bufferParaTile(ItemStack itemStack) {
         val item = itemStack.getItem();
         if (item instanceof IParaItemBlock) {
             val paraItem = ((IParaItemBlock) item);
             paraItem.manager().bufferedTile(
                     Minecraft.getMinecraft().theWorld, 0, 0, 0, paraItem.tileID(itemStack));
         }
+        return itemStack;
     }
 
     /*

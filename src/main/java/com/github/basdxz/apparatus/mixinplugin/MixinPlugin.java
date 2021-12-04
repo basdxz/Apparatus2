@@ -36,6 +36,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         if (!Utils.isDevelopmentEnvironment()) {
             Utils.loadJar("Chisel");
             Utils.loadJar("journeymap");
+            Utils.loadJar("NotEnoughItems");
         }
 
         val mixinList = Lists.newArrayList(
@@ -49,7 +50,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 //"minecraft.ChunkMixin",
                 "chisel.CTMMixin",
                 "chisel.ItemOffsetToolMixin",
-                "journeymap.StratumMixin"
+                "journeymap.StratumMixin",
+                "nei.ItemInfoMixin"
         );
 
         if (!Utils.isDevelopmentEnvironment() && doesOptifineIsExist()) {
