@@ -22,7 +22,7 @@ public class RenderBlocksMixin {
             "renderStandardBlockWithAmbientOcclusionPartial(Lnet/minecraft/block/Block;IIIFFF)Z"},
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/IBlockAccess.getBlock (III)Lnet/minecraft/block/Block;"),
-            require = 2)
+            require = 2) //TODO: Actually need way more than two, same bug on Optifine
     private Block blockRenderWithAOHead(IBlockAccess instance, int posX, int posY, int posZ) {
         cachedPosX = posX;
         cachedPosY = posY;
