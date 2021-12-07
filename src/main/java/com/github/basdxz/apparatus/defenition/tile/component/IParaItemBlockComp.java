@@ -4,6 +4,7 @@ import com.github.basdxz.apparatus.defenition.managed.IParaTileEntity;
 import com.github.basdxz.apparatus.defenition.tile.proxy.IParaItemBlockProxy;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -38,6 +39,10 @@ public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
     }
 
     default boolean placeInWorld(World world, int posX, int posY, int posZ) {
+        if (!world.setBlock(posX, posY, posZ, Blocks.air, 0,
+                BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
+            return false;
+
         if (!world.setBlock(posX, posY, posZ, manager().block(), 0,
                 BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
             return false;
