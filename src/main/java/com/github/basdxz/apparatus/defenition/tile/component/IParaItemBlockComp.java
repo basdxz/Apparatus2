@@ -39,9 +39,10 @@ public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
     }
 
     default boolean placeInWorld(World world, int posX, int posY, int posZ) {
-        if (!world.setBlock(posX, posY, posZ, Blocks.air, 0,
-                BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
-            return false;
+        if (world.getBlock(posX, posY, posZ) == manager().block())
+            if (!world.setBlock(posX, posY, posZ, Blocks.air, 0,
+                    BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
+                return false;
 
         if (!world.setBlock(posX, posY, posZ, manager().block(), 0,
                 BLOCK_UPDATE_FLAG | SEND_TO_CLIENT_FLAG))
