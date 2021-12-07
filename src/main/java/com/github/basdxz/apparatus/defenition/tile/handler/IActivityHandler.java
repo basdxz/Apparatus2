@@ -11,8 +11,10 @@ public interface IActivityHandler extends IParaTile {
     boolean active();
 
     default void updateActivity(boolean active) {
-        active(active);
-        updateBlock();
+        if (active() != active) {
+            active(active);
+            updateBlock();
+        }
     }
 
     default void writeActivityToNBT(NBTTagCompound nbtTagCompound) {
