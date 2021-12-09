@@ -1,6 +1,8 @@
 package com.github.basdxz.apparatus.mixins.minecraft;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import lombok.var;
 import net.minecraft.block.Block;
@@ -42,6 +44,7 @@ public class RenderGlobalMixin {
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             cancellable = true,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void playAuxSFXOnPlayerLand(EntityPlayer entityPlayer, int sfxID, int posX, int posY, int posZ,
                                         int fallHeight, CallbackInfo ci, Random random, Block block) {
         if (mc.gameSettings.particleSetting == 2 || !(block instanceof IParaBlock))
