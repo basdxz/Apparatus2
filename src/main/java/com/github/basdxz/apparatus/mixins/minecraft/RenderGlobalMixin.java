@@ -8,7 +8,6 @@ import lombok.var;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EntityBlockDustFX;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,8 +28,6 @@ import java.util.Random;
 public class RenderGlobalMixin {
     private static float TWO_PI_FLOAT = (float) (Math.PI * 2D);
 
-    @Shadow
-    private WorldClient theWorld;
     @Shadow
     private Minecraft mc;
 
@@ -60,6 +57,8 @@ public class RenderGlobalMixin {
             val particleY = posY + 1F;
             val particleZ = posZ + 0.5F;
             val motionY = 0.2D + fallIntensity / 100.0D;
+
+            val theWorld = Minecraft.getMinecraft().theWorld;
 
             for (int i = 0; i < particleCount; ++i) {
                 if (mc.gameSettings.particleSetting == 1 && theWorld.rand.nextInt(3) == 0)

@@ -2,6 +2,8 @@ package com.github.basdxz.apparatus.mixins.nei;
 
 import codechicken.nei.api.ItemInfo;
 import com.github.basdxz.apparatus.util.Utils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,7 @@ public class ItemInfoMixin {
                             "IIILnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;"),
             require = 1,
             remap = false)
+    @SideOnly(Side.CLIENT)
     private static ItemStack getPickBlockRedirect(Block instance, MovingObjectPosition hit,
                                                   World world, int posX, int posY, int posZ, EntityPlayer player) {
         return Utils.bufferParaTile(instance.getPickBlock(hit, world, posX, posY, posZ, player));
