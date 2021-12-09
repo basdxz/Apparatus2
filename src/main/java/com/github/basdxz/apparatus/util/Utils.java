@@ -6,7 +6,6 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -14,6 +13,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
 import java.util.Optional;
+
+import static net.minecraft.client.Minecraft.getMinecraft;
 
 @UtilityClass
 public class Utils {
@@ -47,8 +48,8 @@ public class Utils {
         val item = itemStack.getItem();
         if (item instanceof IParaItemBlock) {
             val paraItem = ((IParaItemBlock) item);
-            paraItem.manager().bufferedTile(
-                    Minecraft.getMinecraft().theWorld, 0, 0, 0, paraItem.tileID(itemStack));
+            paraItem.manager().bufferedTile(getMinecraft().theWorld, 0, 0, 0,
+                    paraItem.tileID(itemStack));
         }
         return itemStack;
     }

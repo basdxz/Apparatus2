@@ -53,7 +53,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "minecraft.ItemRendererMixin",
                 "minecraft.BlockMixin",
                 "minecraft.TesselatorMixin",
-                "minecraft.ChunkMixin",
+                //"minecraft.ChunkMixin",
                 "chisel.CTMMixin",
                 "chisel.ItemOffsetToolMixin",
                 "journeymap.StratumMixin",
