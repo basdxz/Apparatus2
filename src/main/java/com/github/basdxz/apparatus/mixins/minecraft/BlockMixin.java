@@ -2,6 +2,8 @@ package com.github.basdxz.apparatus.mixins.minecraft;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -18,6 +20,7 @@ public class BlockMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/IBlockAccess;getBlock (III)Lnet/minecraft/block/Block;"),
             require = 1)
+    @SideOnly(Side.CLIENT)
     private Block shouldSideBeRenderedGetBlockRedirect(IBlockAccess instance, int posX, int posY, int posZ) {
         val block = Minecraft.getMinecraft().theWorld.getBlock(posX, posY, posZ);
         if (block instanceof IParaBlock)
@@ -25,6 +28,7 @@ public class BlockMixin {
         return block;
     }
 
+    @SideOnly(Side.CLIENT)
     @Redirect(method = "shouldSideBeRendered(Lnet/minecraft/world/IBlockAccess;IIII)Z",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/block/Block;isOpaqueCube ()Z"),
