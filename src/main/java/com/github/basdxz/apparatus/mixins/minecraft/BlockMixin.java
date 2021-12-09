@@ -28,11 +28,11 @@ public class BlockMixin {
         return block;
     }
 
-    @SideOnly(Side.CLIENT)
     @Redirect(method = "shouldSideBeRendered(Lnet/minecraft/world/IBlockAccess;IIII)Z",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/block/Block;isOpaqueCube ()Z"),
             require = 1)
+    @SideOnly(Side.CLIENT)
     private boolean shouldSideBeRenderedIsOpaqueCubeRedirect(Block instance) {
         if (!(instance instanceof IParaBlock) || cachedParaTile == null)
             return instance.isOpaqueCube();

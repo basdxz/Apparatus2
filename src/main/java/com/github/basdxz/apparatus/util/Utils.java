@@ -8,43 +8,15 @@ import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraft.launchwrapper.Launch;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Optional;
-
-import static com.github.basdxz.apparatus.ApparatusMod.info;
 
 @UtilityClass
 public class Utils {
-    public boolean isDevelopmentEnvironment() {
-        return (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
-    }
-
-    public boolean loadJar(final String jarName) {
-        try {
-            File jar = MinecraftURLClassPath.getJarInModPath(jarName);
-            if (jar == null) {
-                info("Jar not found: " + jarName);
-                return false;
-            }
-
-            info("Attempting to add " + jar + " to the URL Class Path");
-            if (!jar.exists())
-                throw new FileNotFoundException(jar.toString());
-            MinecraftURLClassPath.addJar(jar);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     /*
         Gets a TileEntity from world without creating it if it doesn't exist.
@@ -53,10 +25,7 @@ public class Utils {
         Optional<TileEntity> tileEntity = Optional.empty();
         val chunk = world.getChunkFromBlockCoords(posX, posZ);
         if (chunk != null)
-            tileEntity = getTileEntityIfExists(chunk,
-                    Utils.worldToChunkBlockPosXZ(posX),
-                    posY,
-                    Utils.worldToChunkBlockPosXZ(posZ));
+            tileEntity = getTileEntityIfExists(chunk, worldToChunkBlockPosXZ(posX), posY, worldToChunkBlockPosXZ(posZ));
         return tileEntity;
     }
 
@@ -98,4 +67,5 @@ public class Utils {
         if (block instanceof IParaBlock)
             ((IParaBlock) block).manager().bufferedTile(((IParaBlock) block).paraTile(blockAccess, posX, posY, posZ));
     }
+
 }

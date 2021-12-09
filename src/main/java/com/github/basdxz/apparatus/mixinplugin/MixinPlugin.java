@@ -1,18 +1,24 @@
 package com.github.basdxz.apparatus.mixinplugin;
 
 import com.github.basdxz.apparatus.ApparatusMod;
-import com.github.basdxz.apparatus.util.Utils;
 import com.google.common.collect.Lists;
 import lombok.val;
+import net.minecraft.launchwrapper.Launch;
 import org.spongepowered.asm.lib.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Set;
 
+import static com.github.basdxz.apparatus.ApparatusMod.info;
+
 //TODO Clean up mixin configs and packages
 public class MixinPlugin implements IMixinConfigPlugin {
+
     @Override
     public void onLoad(String mixinPackage) {
     }
@@ -33,10 +39,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public List<String> getMixins() {
-        if (!Utils.isDevelopmentEnvironment()) {
-            Utils.loadJar("Chisel");
-            Utils.loadJar("journeymap");
-            Utils.loadJar("NotEnoughItems");
+        if (runningForRealsies()) {
+            loadJar("Chisel");
+            loadJar("journeymap");
+            loadJar("NotEnoughItems");
         }
 
         val mixinList = Lists.newArrayList(
@@ -47,14 +53,14 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "minecraft.ItemRendererMixin",
                 "minecraft.BlockMixin",
                 "minecraft.TesselatorMixin",
-                //"minecraft.ChunkMixin",
+                "minecraft.ChunkMixin",
                 "chisel.CTMMixin",
                 "chisel.ItemOffsetToolMixin",
                 "journeymap.StratumMixin",
                 "nei.ItemInfoMixin"
         );
 
-        if (!Utils.isDevelopmentEnvironment() && doesOptifineIsExist()) {
+        if (runningForRealsies() && doesOptifineIsExist()) {
             ApparatusMod.warn("Oh no, you included optifine. you absolute monkey.");
             mixinList.add("optifine.WorldRendererMixin");
             mixinList.add("optifine.ShadersMixin");
@@ -65,6 +71,29 @@ public class MixinPlugin implements IMixinConfigPlugin {
             mixinList.add("minecraft.RenderBlocksMixin");
         }
         return mixinList;
+    }
+
+    public boolean runningForRealsies() {
+        return !((boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment"));
+    }
+
+    public boolean loadJar(final String jarName) {
+        try {
+            File jar = MinecraftURLClassPath.getJarInModPath(jarName);
+            if (jar == null) {
+                info("Jar not found: " + jarName);
+                return false;
+            }
+
+            info("Attempting to add " + jar + " to the URL Class Path");
+            if (!jar.exists())
+                throw new FileNotFoundException(jar.toString());
+            MinecraftURLClassPath.addJar(jar);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean doesOptifineIsExist() {
@@ -83,4 +112,5 @@ public class MixinPlugin implements IMixinConfigPlugin {
     @Override
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
     }
+
 }
