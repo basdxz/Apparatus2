@@ -35,7 +35,7 @@ public class TecDemoTile extends ParaTile {
 
     @Override
     public void registerRecipes() {
-        GameRegistry.addRecipe(newItemStack(), "WWW", " W ", " W ", 'W', Items.leather);
+        GameRegistry.addRecipe(newItemStack(), "WWW", " W ", "WW ", 'W', Items.leather);
     }
 
     @Override
