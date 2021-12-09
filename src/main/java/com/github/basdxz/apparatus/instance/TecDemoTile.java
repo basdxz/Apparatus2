@@ -3,12 +3,14 @@ package com.github.basdxz.apparatus.instance;
 import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import com.github.basdxz.apparatus.defenition.RegisterParaTile;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -29,6 +31,11 @@ public class TecDemoTile extends ParaTile {
     @Override
     public void register(IParaTileManager manager) {
         manager.registerTile(builder().tileID("Ztec_demo").build());
+    }
+
+    @Override
+    public void registerRecipes() {
+        GameRegistry.addRecipe(newItemStack(), "WWW", " W ", " W ", 'W', Items.leather);
     }
 
     @Override

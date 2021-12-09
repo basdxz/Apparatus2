@@ -57,7 +57,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "chisel.CTMMixin",
                 "chisel.ItemOffsetToolMixin",
                 "journeymap.StratumMixin",
-                "nei.ItemInfoMixin"
+                "nei.ItemInfoMixin",
+                "nei.NEIServerUtilsMixin"
         );
 
         if (runningForRealsies() && doesOptifineIsExist()) {
