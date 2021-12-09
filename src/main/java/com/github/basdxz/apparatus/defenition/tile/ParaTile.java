@@ -3,6 +3,8 @@ package com.github.basdxz.apparatus.defenition.tile;
 import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import com.github.basdxz.apparatus.defenition.chisel.IChiselRendering;
 import com.github.basdxz.apparatus.defenition.managed.IParaTileEntity;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -47,18 +49,21 @@ public abstract class ParaTile implements IParaTile, IChiselRendering {
 
     // TODO: Remove once rendering is more settled.
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager submapManager() {
         return null;
     }
 
     // TODO: Remove once rendering is more settled.
     @Override
+    @SideOnly(Side.CLIENT)
     public IChiselRendering submapManager(ISubmapManager submapManager) {
         return this;
     }
 
     // TODO: Remove once rendering is more settled.
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager newSubmapManager() {
         return null;
     }

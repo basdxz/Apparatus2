@@ -1,6 +1,8 @@
 package com.github.basdxz.apparatus.mixins.minecraft;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
@@ -23,6 +25,7 @@ public class RenderBlocksMixin {
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/IBlockAccess.getBlock (III)Lnet/minecraft/block/Block;"),
             require = 2) //TODO: Actually need way more than two, same bug on Optifine
+    @SideOnly(Side.CLIENT)
     private Block blockRenderWithAOHead(IBlockAccess instance, int posX, int posY, int posZ) {
         cachedPosX = posX;
         cachedPosY = posY;
@@ -35,6 +38,7 @@ public class RenderBlocksMixin {
             at = @At(value = "INVOKE",
                     target = "net/minecraft/block/Block.getAmbientOcclusionLightValue ()F"),
             require = 108)
+    @SideOnly(Side.CLIENT)
     private float getAmbientOcclusionLightValueRedirect(Block instance) {
         if (!(instance instanceof IParaBlock))
             return instance.getAmbientOcclusionLightValue();

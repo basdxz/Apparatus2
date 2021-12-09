@@ -4,6 +4,8 @@ import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.managed.IParaItemBlock;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import com.github.basdxz.apparatus.util.Utils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
@@ -25,6 +27,7 @@ public class RenderItemMixin {
     @Inject(method = "doRender(Lnet/minecraft/entity/item/EntityItem;DDDFF)V",
             at = @At(value = "HEAD"),
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void doRenderHead(EntityItem entityItem, double f7, double l, double block, float f9, float k,
                               CallbackInfo ci) {
         Utils.bufferParaTile(entityItem.getEntityItem());
@@ -38,6 +41,7 @@ public class RenderItemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/block/Block;getRenderBlockPass ()I"),
             require = 2)
+    @SideOnly(Side.CLIENT)
     private int getRenderBlockPassDoRenderRedirect(Block instance) {
         if (!(instance instanceof IParaBlock) || cachedParaTile == null)
             return instance.getRenderBlockPass();
@@ -47,6 +51,7 @@ public class RenderItemMixin {
     @Inject(method = "doRender(Lnet/minecraft/entity/item/EntityItem;DDDFF)V",
             at = @At(value = "RETURN"),
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void doRenderReturn(EntityItem entityItem, double f7, double l, double block, float f9, float k,
                                 CallbackInfo ci) {
         cachedParaTile = null;
@@ -57,6 +62,7 @@ public class RenderItemMixin {
             at = @At(value = "HEAD"),
             remap = false,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void renderItemIntoGUIHead(FontRenderer l, TextureManager f, ItemStack itemStack, int f4, int iicon,
                                        boolean i1, CallbackInfo ci) {
         Utils.bufferParaTile(itemStack);
@@ -70,6 +76,7 @@ public class RenderItemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/block/Block;getRenderBlockPass ()I"),
             require = 2)
+    @SideOnly(Side.CLIENT)
     private int getRenderBlockPassRenderIntoGUIRedirect(Block instance) {
         if (!(instance instanceof IParaBlock) || cachedParaTile == null)
             return instance.getRenderBlockPass();
@@ -81,6 +88,7 @@ public class RenderItemMixin {
             at = @At(value = "RETURN"),
             remap = false,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void renderItemIntoGUIReturn(FontRenderer l, TextureManager f, ItemStack itemStack, int f4, int iicon,
                                          boolean i1, CallbackInfo ci) {
         cachedParaTile = null;

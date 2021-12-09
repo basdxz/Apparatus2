@@ -2,6 +2,8 @@ package com.github.basdxz.apparatus.defenition.tile.component;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaTileEntity;
 import com.github.basdxz.apparatus.defenition.tile.proxy.IParaItemBlockProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -23,6 +25,7 @@ public interface IParaItemBlockComp extends IParaTileComp, IParaItemBlockProxy {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     default void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
     }
 

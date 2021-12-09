@@ -3,6 +3,8 @@ package com.github.basdxz.apparatus.instance;
 import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import com.github.basdxz.apparatus.defenition.RegisterParaTile;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -30,11 +32,13 @@ public class TecDemoTile extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         registerChiselBlockIcons();
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager submapManager() {
         return new SubmapManagerBaseExtra("") {
             @Override
@@ -45,6 +49,7 @@ public class TecDemoTile extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ForgeDirection side) {
         return getChiselIcon(side);
     }

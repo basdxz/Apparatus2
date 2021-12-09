@@ -5,6 +5,8 @@ import com.github.basdxz.apparatus.defenition.chisel.IChiselRendering;
 import com.github.basdxz.apparatus.defenition.chisel.SubmapActivityMultiManager;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
 import com.github.basdxz.apparatus.defenition.tile.handler.IActivityHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -46,11 +48,13 @@ public class ClickableBlockTest extends ParaTile implements IActivityHandler, IC
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ForgeDirection side) {
         return getChiselIcon(side);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager submapManager() {
         if (submapManager == null)
             submapManager = new SubmapActivityMultiManager(SubmapMultiManager.ofGlowCTM("futura/screenCyan"), SubmapMultiManager.ofGlowCTM("futura/screenMetallic"));

@@ -3,6 +3,8 @@ package com.github.basdxz.apparatus.instance;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
 import com.github.basdxz.apparatus.defenition.tile.handler.IItemNBTHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -39,6 +41,7 @@ public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandl
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
         addNBTInformation(itemStack, toolTip);
     }
@@ -64,6 +67,7 @@ public class TurbinePart extends ParaTile implements ITurbinePart, IItemNBTHandl
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager submapManager() {
         return null;
     }

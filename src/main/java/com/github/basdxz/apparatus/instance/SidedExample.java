@@ -45,6 +45,7 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ForgeDirection side) {
         return side == facing ? icons.get(0) : icons.get(1);
     }
@@ -55,6 +56,7 @@ public class SidedExample extends ParaTile implements IFacingHandler {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager submapManager() {
         return null;
     }

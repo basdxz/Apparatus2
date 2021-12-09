@@ -4,6 +4,8 @@ import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import com.github.basdxz.apparatus.defenition.RegisterParaTile;
 import com.github.basdxz.apparatus.defenition.chisel.IChiselRendering;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -31,16 +33,19 @@ public class ChiselTextureTest extends ParaTile implements IChiselRendering {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         registerChiselBlockIcons();
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager newSubmapManager() {
         return SubmapMultiManager.ofGlowCTM("futura/screenMetallic");
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ForgeDirection side) {
         return getChiselIcon(side);
     }

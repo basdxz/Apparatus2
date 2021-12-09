@@ -36,6 +36,7 @@ public class NullTile extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
         toolTip.add("Things broke, you shouldn't have this.");
         toolTip.add("I hope your day gets better.");
@@ -49,6 +50,7 @@ public class NullTile extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ForgeDirection side) {
         return icon;
     }
@@ -60,6 +62,7 @@ public class NullTile extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager submapManager() {
         return null;
     }

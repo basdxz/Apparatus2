@@ -4,6 +4,8 @@ import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.managed.IParaItemBlock;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import com.github.basdxz.apparatus.util.Utils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -26,6 +28,7 @@ public class ItemRendererMixin {
             at = @At(value = "HEAD"),
             remap = false,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void renderItemHead(EntityLivingBase p_78443_1_, ItemStack itemStack, int p_78443_3_,
                                 IItemRenderer.ItemRenderType type, CallbackInfo ci) {
         Utils.bufferParaTile(itemStack);
@@ -39,6 +42,7 @@ public class ItemRendererMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/block/Block;getRenderBlockPass ()I"),
             require = 3)
+    @SideOnly(Side.CLIENT)
     private int getRenderBlockPassRenderItemRedirect(Block instance) {
         if (!(instance instanceof IParaBlock) || cachedParaTile == null)
             return instance.getRenderBlockPass();
@@ -50,6 +54,7 @@ public class ItemRendererMixin {
             at = @At(value = "RETURN"),
             remap = false,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void renderItemReturn(EntityLivingBase p_78443_1_, ItemStack itemStack, int p_78443_3_,
                                   IItemRenderer.ItemRenderType type, CallbackInfo ci) {
         cachedParaTile = null;

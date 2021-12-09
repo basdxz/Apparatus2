@@ -1,6 +1,8 @@
 package com.github.basdxz.apparatus.mixins.minecraft;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EffectRenderer;
@@ -42,6 +44,7 @@ public abstract class EffectRendererMixin {
             at = @At(value = "HEAD"),
             cancellable = true,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void addBlockDestroyEffectsReplacement(int posX, int posY, int posZ, Block block, int side,
                                                    CallbackInfo ci) {
         if (!(block instanceof IParaBlock))
@@ -82,6 +85,7 @@ public abstract class EffectRendererMixin {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void addBlockHitEffectsReplacement(int posX, int posY, int posZ, int side, CallbackInfo ci,
                                                Block block, float f, double dPosX, double dPosY, double dPosZ) {
         if (!(block instanceof IParaBlock))
@@ -106,6 +110,7 @@ public abstract class EffectRendererMixin {
                     target = "Lnet/minecraft/client/renderer/Tessellator;startDrawingQuads ()V"),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void renderParticlesInject(Entity p_78874_1_, float p_78874_2_, CallbackInfo ci,
                                        float f1, float f2, float f3, float f4, float f5, int k, int i,
                                        Tessellator tessellator) {

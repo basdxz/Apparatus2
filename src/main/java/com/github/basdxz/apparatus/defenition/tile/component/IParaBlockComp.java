@@ -2,6 +2,8 @@ package com.github.basdxz.apparatus.defenition.tile.component;
 
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.tile.proxy.IParaBlockProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.val;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -28,10 +30,12 @@ public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     default void registerBlockIcons(IIconRegister iconRegister) {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     default IIcon getIcon(ForgeDirection side) {
         return missingIcon();
     }
@@ -80,6 +84,7 @@ public interface IParaBlockComp extends IParaTileComp, IParaBlockProxy {
         return isOpaqueCube();
     }
 
+    @SideOnly(Side.CLIENT)
     static IIcon missingIcon() {
         return ((TextureMap) getMinecraft()
                 .getTextureManager()

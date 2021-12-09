@@ -1,5 +1,7 @@
 package com.github.basdxz.apparatus.mixins.minecraft;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.shader.TesselatorVertexState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +23,7 @@ public class TesselatorMixin {
      * reason Fixes MinecraftForge#981. Crash on "bad moder rendering"(©LexManos) of transparent/translucent blocks when they draw nothing.
      */
     @Inject(method = "getVertexState", at = @At("HEAD"), cancellable = true)
+    @SideOnly(Side.CLIENT)
     public void getVertexStateNatural0Safe(float x, float y, float z, CallbackInfoReturnable<TesselatorVertexState> cir) {
         if (this.rawBufferIndex <= 0) {
             cir.setReturnValue(null);

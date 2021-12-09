@@ -32,6 +32,7 @@ public class WorldRendererMixin {
                     shift = At.Shift.AFTER),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             require = 1)
+    @SideOnly(Side.CLIENT)
     private void updateRendererNextBlock(EntityLivingBase entityLivingBase, CallbackInfo ci, int i, int j, int k, int l, int i1,
                                          int j1, HashSet hashset, Minecraft minecraft, EntityLivingBase entitylivingbase1,
                                          int l1, int i2, int j2, byte b0, ChunkCache chunkcache, RenderBlocks renderblocks,

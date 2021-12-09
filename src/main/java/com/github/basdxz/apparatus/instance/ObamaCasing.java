@@ -39,6 +39,7 @@ public class ObamaCasing extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ForgeDirection side) {
         return icons[casingID];
     }
@@ -72,12 +73,14 @@ public class ObamaCasing extends ParaTile {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, boolean advanced) {
         toolTip.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC +
                 StatCollector.translateToLocal(getUnlocalizedName(itemStack) + ".desc"));
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ISubmapManager submapManager() {
         return null;
     }
