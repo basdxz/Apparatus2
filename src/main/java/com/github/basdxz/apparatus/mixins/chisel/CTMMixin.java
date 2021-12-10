@@ -3,6 +3,7 @@ package com.github.basdxz.apparatus.mixins.chisel;
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.managed.IParaTileEntity;
 import com.github.basdxz.apparatus.defenition.tile.handler.ICTMGroupHandler;
+import com.github.basdxz.apparatus.util.Utils;
 import com.google.common.base.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.chisel.shadow.team.chisel.ctmlib.CTM;
 
-import static com.github.basdxz.apparatus.util.Utils.getTileEntityIfExists;
 import static net.minecraft.client.Minecraft.getMinecraft;
 import static team.chisel.shadow.team.chisel.ctmlib.CTM.disableObscuredFaceCheckConfig;
 
@@ -87,7 +87,8 @@ public class CTMMixin {
             val block = blockAccess.getBlock(posX2, posY2, posZ2);
 
             if (block instanceof IParaBlock) {
-                val tileEntity = getTileEntityIfExists(getMinecraft().theWorld, posX2, posY2, posZ2);
+                val tileEntity = Utils.getTileEntityIfExists(
+                        getMinecraft().theWorld, posX2, posY2, posZ2);
                 if (tileEntity.isPresent() && tileEntity.get() instanceof IParaTileEntity) {
                     val paraTile = ((IParaTileEntity) tileEntity.get()).paraTile();
 
@@ -106,7 +107,7 @@ public class CTMMixin {
 
         }
 
-        val tileEntity = getTileEntityIfExists(getMinecraft().theWorld, posX, posY, posZ);
+        val tileEntity = Utils.getTileEntityIfExists(getMinecraft().theWorld, posX, posY, posZ);
         if (!tileEntity.isPresent() || !(tileEntity.get() instanceof IParaTileEntity))
             return false;
 
