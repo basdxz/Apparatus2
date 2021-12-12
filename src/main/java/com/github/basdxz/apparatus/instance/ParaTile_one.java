@@ -1,6 +1,5 @@
 package com.github.basdxz.apparatus.instance;
 
-import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.defenition.tile.ParaTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
 
 import static com.github.basdxz.apparatus.ApparatusMod.MODID;
+import static com.github.basdxz.apparatus.util.LoggingUtil.debug;
 
 @SuperBuilder
 public class ParaTile_one extends ParaTile {
@@ -35,7 +35,7 @@ public class ParaTile_one extends ParaTile {
 
     @Override
     public void updateEntity() {
-        ApparatusMod.debug("HELLOW from ParaTile!!");
+        debug("HELLOW from ParaTile!!");
     }
 
     @Override

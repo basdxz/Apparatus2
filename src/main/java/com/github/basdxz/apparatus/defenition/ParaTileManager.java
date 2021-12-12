@@ -1,6 +1,5 @@
 package com.github.basdxz.apparatus.defenition;
 
-import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.defenition.chisel.CarvableHelperExtended;
 import com.github.basdxz.apparatus.defenition.managed.IParaBlock;
 import com.github.basdxz.apparatus.defenition.managed.IParaTileEntity;
@@ -28,6 +27,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.github.basdxz.apparatus.defenition.IParaTileManager.tileIDInvalid;
+import static com.github.basdxz.apparatus.util.LoggingUtil.warn;
 import static org.reflections.scanners.Scanners.TypesAnnotated;
 
 @Accessors(fluent = true)
@@ -170,22 +170,16 @@ public class ParaTileManager implements IParaTileManager {
 
     @Override
     public void bufferedTile(IBufferedParaTile bufferedTile) {
-        if (!bufferedTileNull()) {
-            ApparatusMod.warn("Buffer Written twice!:");
-            for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
-                ApparatusMod.warn(stackTraceElement.toString());
-        }
+        if (!bufferedTileNull())
+            warn("Buffer Written twice!:", new Throwable());
         tileBuffer.set(bufferedTile);
     }
 
     @Override
     public IBufferedParaTile bufferedTile() {
         val bufferTile = tileBuffer.get();
-        if (bufferedTileNull() && initComplete) {
-            ApparatusMod.warn("Buffer Read twice!:");
-            for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
-                ApparatusMod.warn(stackTraceElement.toString());
-        }
+        if (bufferedTileNull() && initComplete)
+            warn("Buffer Read twice!:", new Throwable());
         tileBuffer.remove();
         return bufferTile;
     }

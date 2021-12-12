@@ -1,6 +1,5 @@
 package com.github.basdxz.apparatus.mixinplugin;
 
-import com.github.basdxz.apparatus.ApparatusMod;
 import com.google.common.collect.Lists;
 import lombok.val;
 import net.minecraft.launchwrapper.Launch;
@@ -14,7 +13,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.basdxz.apparatus.ApparatusMod.info;
+import static com.github.basdxz.apparatus.util.LoggingUtil.info;
+import static com.github.basdxz.apparatus.util.LoggingUtil.warn;
 
 //TODO Clean up mixin configs and packages
 public class MixinPlugin implements IMixinConfigPlugin {
@@ -62,7 +62,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         );
 
         if (runningForRealsies() && doesOptifineIsExist()) {
-            ApparatusMod.warn("Oh no, you included optifine. you absolute monkey.");
+            warn("Oh no, you included optifine. you absolute monkey.");
             mixinList.add("optifine.WorldRendererMixin");
             mixinList.add("optifine.ShadersMixin");
             mixinList.add("optifine.ItemRendererOFMixin");

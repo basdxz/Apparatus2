@@ -20,4 +20,7 @@ dependencies {
 
     // Journeymap compat
     compile("curse.maven:journeymap-32274:2367915")
+
+    // Carpenters Blocks Compat
+    compile("curse.maven:carpenters-blocks-228932:2719376")
 }

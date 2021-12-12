@@ -104,7 +104,6 @@ public class CTMMixin {
                     }
                 }
             }
-
         }
 
         val tileEntity = Utils.getTileEntityIfExists(getMinecraft().theWorld, posX, posY, posZ);

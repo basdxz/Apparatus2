@@ -1,6 +1,5 @@
 package com.github.basdxz.apparatus.defenition.managed;
 
-import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.defenition.IParaTileManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.basdxz.apparatus.defenition.IParaTileManager.NULL_TILE_ID;
+import static com.github.basdxz.apparatus.util.LoggingUtil.warn;
 
 @Getter
 @Accessors(fluent = true)
@@ -116,25 +116,19 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
     // TODO: another mixing for item handling?
     @Override
     public int getRenderBlockPass() {
-        ApparatusMod.warn("Invalid use of getRenderBlockPass from:");
-        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
-            ApparatusMod.warn(stackTraceElement.toString());
+        warn("Invalid use of getRenderBlockPass from:", new Throwable());
         return super.getRenderBlockPass();
     }
 
     @Override
     public boolean canRenderInPass(int pass) {
-        ApparatusMod.warn("Invalid use of canRenderInPass from:");
-        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
-            ApparatusMod.warn(stackTraceElement.toString());
+        warn("Invalid use of canRenderInPass from:", new Throwable());
         return super.canRenderInPass(pass);
     }
 
     @Override
     public boolean isOpaqueCube() {
-        ApparatusMod.warn("Invalid use of isOpaqueCube from:");
-        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
-            ApparatusMod.warn(stackTraceElement.toString());
+        warn("Invalid use of isOpaqueCube from:", new Throwable());
         return super.isOpaqueCube();
     }
 
@@ -153,9 +147,7 @@ public class ParaBlock extends BlockContainer implements IParaBlock, ICarvable {
 
     @Override
     public float getAmbientOcclusionLightValue() {
-        ApparatusMod.warn("Invalid use of getAmbientOcclusionLightValue from:");
-        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
-            ApparatusMod.warn(stackTraceElement.toString());
+        warn("Invalid use of getAmbientOcclusionLightValue from:", new Throwable());
         return super.getAmbientOcclusionLightValue();
     }
 

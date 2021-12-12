@@ -1,41 +1,35 @@
 package com.github.basdxz.apparatus.util;
 
-import com.github.basdxz.apparatus.ApparatusMod;
 import com.github.basdxz.apparatus.defenition.tile.IParaTile;
 import lombok.experimental.UtilityClass;
 import net.minecraft.nbt.NBTTagCompound;
 
-import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
+import static com.github.basdxz.apparatus.util.LoggingUtil.error;
 
 @UtilityClass
 public class ExceptionUtil {
+
     public void reportNBTWriteException(IParaTile paraTile, int posX, int posY, int posZ,
                                         NBTTagCompound nbtTag, Exception exception) {
-        ApparatusMod.error("A ParaTile has failed to save it's NBT!");
-        printNBT(nbtTag);
-        printError(paraTile, exception, posX, posY, posZ);
+        error("A ParaTile has failed to save it's NBT.\n" +
+                nbtTag + "\n" +
+                tileInfo(paraTile, posX, posY, posZ), exception);
     }
 
     public void reportNBTReadException(IParaTile paraTile, int posX, int posY, int posZ,
                                        NBTTagCompound nbtTag, Exception exception) {
-        ApparatusMod.error("A ParaTile has failed to load it's NBT!");
-        printNBT(nbtTag);
-        printError(paraTile, exception, posX, posY, posZ);
-    }
-
-    private void printNBT(NBTTagCompound nbtTag) {
-        ApparatusMod.error("Full NBT Tag:%s ", nbtTag.toString());
+        error("A ParaTile has failed to load it's NBT.\n" +
+                nbtTag + "\n" +
+                tileInfo(paraTile, posX, posY, posZ), exception);
     }
 
     public void reportTileEntityUpdateException(IParaTile paraTile, int posX, int posY, int posZ, Exception exception) {
-        ApparatusMod.error("A ParaTile has failed to tick!");
-        printError(paraTile, exception, posX, posY, posZ);
+        error("A ParaTile has failed to tick.\n" +
+                tileInfo(paraTile, posX, posY, posZ), exception);
     }
 
-    private void printError(IParaTile paraTile, Exception exception, int posX, int posY, int posZ) {
-        ApparatusMod.error(listParaTileInfo(paraTile));
-        ApparatusMod.error(listLocationInfo(posX, posY, posZ));
-        ApparatusMod.error(getStackTrace(exception));
+    private String tileInfo(IParaTile paraTile, int posX, int posY, int posZ) {
+        return listParaTileInfo(paraTile) + "\n" + listLocationInfo(posX, posY, posZ);
     }
 
     private String listParaTileInfo(IParaTile paraTile) {
@@ -46,4 +40,5 @@ public class ExceptionUtil {
     private String listLocationInfo(int posX, int posY, int posZ) {
         return String.format("PosX:%d PosY:%d PosZ:%d", posX, posY, posZ);
     }
+
 }
