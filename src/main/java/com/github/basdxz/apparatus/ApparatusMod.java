@@ -12,7 +12,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 public class ApparatusMod {
     public static final String MODID = "apparatus";
     public static final String NAME = "Apparatus";
-    public static final String VERSION = "@GRADLE_VERSION_TOKEN@";
+    public static final String VERSION = "GRADLETOKEN_VERSION";
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
