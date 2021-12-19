@@ -40,7 +40,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
     @Override
     public List<String> getMixins() {
         if (runningForRealsies()) {
-            loadJar("Chisel");
+            loadJar("Chisel-1.7.10");
             loadJar("journeymap");
             loadJar("NotEnoughItems");
         }
