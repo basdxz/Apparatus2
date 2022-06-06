@@ -1,4 +1,4 @@
-package com.myname.mymodid.cool;
+package com.myname.mymodid.parathing;
 
 import lombok.*;
 import lombok.experimental.*;
@@ -6,7 +6,7 @@ import lombok.experimental.*;
 @Getter
 @RequiredArgsConstructor
 @Accessors(fluent = true, chain = true)
-public class ParaItem implements IParaItem {
+public class ParaItemAdapter implements ParaItem {
     @NonNull
     protected final String paraID;
     @NonNull

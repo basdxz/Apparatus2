@@ -1,6 +1,6 @@
-package com.myname.mymodid.cool;
+package com.myname.mymodid.parathing;
 
-public interface IParaThing {
+public interface ParaThing {
     //TODO: ID should not be string, we should have our own interface for it since strings are final.
     String paraID();
 

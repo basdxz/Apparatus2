@@ -1,7 +1,7 @@
 package com.myname.mymodid;
 
 import com.myname.mymodid.cool.DumbassManager;
-import com.myname.mymodid.cool.ParaItem;
+import com.myname.mymodid.parathing.ParaItemAdapter;
 import cpw.mods.fml.common.event.*;
 
 public class CommonProxy {
@@ -14,7 +14,7 @@ public class CommonProxy {
         MyMod.info(Config.greeting);
         MyMod.info("I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
 
-        DumbassManager.register(new ParaItem("fuck", "this"));
+        DumbassManager.register(new ParaItemAdapter("cool_thing_id", "Cool Thing!"));
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."
