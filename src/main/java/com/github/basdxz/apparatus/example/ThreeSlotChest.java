@@ -1,6 +1,6 @@
-package com.myname.mymodid.example;
+package com.github.basdxz.apparatus.example;
 
-import com.myname.mymodid.parathing.ParaTileEntity;
+import com.github.basdxz.apparatus.parathing.ParaTileEntity;
 
 public class ThreeSlotChest implements ParaTileEntity {
     @Override

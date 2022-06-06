@@ -1,7 +1,7 @@
-package com.myname.mymodid.cool;
+package com.github.basdxz.apparatus.cool;
 
-import com.myname.mymodid.parathing.ParaItem;
-import com.myname.mymodid.util.LangUtil;
+import com.github.basdxz.apparatus.parathing.ParaItem;
+import com.github.basdxz.apparatus.util.LangUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.item.Item;

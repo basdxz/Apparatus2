@@ -1,8 +1,8 @@
-package com.myname.mymodid.example;
+package com.github.basdxz.apparatus.example;
 
-import com.myname.mymodid.parathing.ParaFluid;
+import com.github.basdxz.apparatus.parathing.ParaBlock;
 
-public class OrangeJuice implements ParaFluid {
+public class DirtPlank implements ParaBlock {
     @Override
     public String paraID() {
         return null;

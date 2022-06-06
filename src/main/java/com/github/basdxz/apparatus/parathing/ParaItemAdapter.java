@@ -1,4 +1,4 @@
-package com.myname.mymodid.parathing;
+package com.github.basdxz.apparatus.parathing;
 
 import lombok.*;
 import lombok.experimental.*;

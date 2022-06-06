@@ -1,4 +1,4 @@
-package com.myname.mymodid.util;
+package com.github.basdxz.apparatus.util;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import lombok.*;

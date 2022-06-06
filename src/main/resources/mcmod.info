@@ -5,13 +5,13 @@
         "description": "An example mod for Minecraft 1.7.10 with Forge focussed on a stable setup.",
         "version": "${modVersion}",
         "mcversion": "${minecraftVersion}",
-        "url": "https://github.com/SinTh0r4s/MyMod",
+        "url": "https://github.com/basdxz/Apparatus",
         "updateUrl": "",
         "authorList": [
-            "SinTho0r4s"
+            "basdxz"
         ],
-        "credits": "",
-        "logoFile": "",
+        "credits": "The whole GTMEGA crew of 2021-2022!",
+        "logoFile": "LOGO.png",
         "screenshots": [],
         "dependencies": []
     }
