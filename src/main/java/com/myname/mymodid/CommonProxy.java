@@ -1,16 +1,20 @@
 package com.myname.mymodid;
 
+import com.myname.mymodid.cool.DumbassManager;
+import com.myname.mymodid.cool.ParaItem;
 import cpw.mods.fml.common.event.*;
 
 public class CommonProxy {
 
     // preInit "Run before anything else. Read your config, create blocks, items,
     // etc, and register them with the GameRegistry."
-    public void preInit(FMLPreInitializationEvent event) 	{
+    public void preInit(FMLPreInitializationEvent event) {
         Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
 
         MyMod.info(Config.greeting);
         MyMod.info("I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
+
+        DumbassManager.register(new ParaItem("fuck", "this"));
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."
