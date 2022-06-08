@@ -51,12 +51,12 @@ public class FirstItemRendererThing implements IItemRenderer {
                     val renderBlocks = (RenderBlocks) data[0];
                     val entityItem = (EntityItem) data[1];
                     GL11.glTranslatef(-0.5F, -0.25F, 0F); //TODO What exactly -is- this offset?
+
                     val offset = 0.025F;
+                    renderIconWithThickness(paraItemWrapper.inner);
                     GL11.glTranslatef(0F, 0F, offset);
                     renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset);
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, -offset);
+                    GL11.glTranslatef(0F, 0F, -offset * 2);
                     renderIconWithThickness(paraItemWrapper.outer);
                     GL11.glTranslatef(0F, 0F, offset);
                 }
@@ -66,12 +66,12 @@ public class FirstItemRendererThing implements IItemRenderer {
                 if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase) {
                     val renderBlocks = (RenderBlocks) data[0];
                     val entityLivingBase = (EntityLivingBase) data[1];
+
                     val offset = 0.025F;
+                    renderIconWithThickness(paraItemWrapper.inner);
                     GL11.glTranslatef(0F, 0F, offset);
                     renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset);
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, -offset);
+                    GL11.glTranslatef(0F, 0F, -offset * 2);
                     renderIconWithThickness(paraItemWrapper.outer);
                     GL11.glTranslatef(0F, 0F, offset);
                 }
@@ -81,12 +81,12 @@ public class FirstItemRendererThing implements IItemRenderer {
                 if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase) {
                     val renderBlocks = (RenderBlocks) data[0];
                     val entityLivingBase = (EntityLivingBase) data[1];
+
                     val offset = 0.025F;
+                    renderIconWithThickness(paraItemWrapper.inner);
                     GL11.glTranslatef(0F, 0F, offset);
                     renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset);
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, -offset);
+                    GL11.glTranslatef(0F, 0F, -offset * 2);
                     renderIconWithThickness(paraItemWrapper.outer);
                     GL11.glTranslatef(0F, 0F, offset);
                 }
@@ -95,8 +95,8 @@ public class FirstItemRendererThing implements IItemRenderer {
             case INVENTORY: {
                 if (data[0] instanceof RenderBlocks) {
                     val renderBlocks = (RenderBlocks) data[0];
-                    renderIconFlat(paraItemWrapper.outer);
                     renderIconFlat(paraItemWrapper.inner);
+                    renderIconFlat(paraItemWrapper.outer);
                     renderIconFlat(paraItemWrapper.outer);
                 }
             }
