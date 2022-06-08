@@ -1,0 +1,16 @@
+{
+  "transparent": false,
+  "texture": true,
+  "lighting": true,
+  "vertexMatrix": [
+                      [0.066666666666666, 0, 0, -0.5],
+                      [0, 0.066666666666666, 0, -0.5],
+                      [0, 0, 0.066666666666666, -0.5]
+                  ],
+  "uvMatrix": [
+    [1, 0, 0],
+    [0, -1, 0]
+  ],
+  "normal": true,
+  "cullBackFaces": false
+}

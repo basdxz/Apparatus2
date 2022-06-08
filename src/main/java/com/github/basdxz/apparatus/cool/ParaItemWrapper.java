@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.cool;
 
+import com.falsepattern.dynamicrendering.drawing.Model;
 import com.github.basdxz.apparatus.parathing.ParaItem;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -8,9 +9,10 @@ import net.minecraft.util.IIcon;
 
 public class ParaItemWrapper extends Item {
     protected final ParaItem paraItem;
-    private IIcon inner;
-    private IIcon outer;
-    public IIcon geauh;
+    public IIcon inner;
+    public IIcon outer;
+    private IIcon geauh;
+    private Model prism;
 
     public ParaItemWrapper(@NonNull ParaItem paraItem) {
         this.paraItem = paraItem;
@@ -24,5 +26,6 @@ public class ParaItemWrapper extends Item {
         inner = register.registerIcon("apparatus:SwInner");
         outer = register.registerIcon("apparatus:Swouter");
         geauh = register.registerIcon("apparatus:Geauh");
+        prism = new Model("apparatus", "models/prism", "models/prism.png");
     }
 }

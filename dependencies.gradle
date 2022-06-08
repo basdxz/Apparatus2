@@ -1,6 +1,9 @@
 // Add your dependencies here
 
 dependencies {
+    compile("com.falsepattern:falsepatternlib-mc1.7.10:0.7.1:dev")
+    compile("com.falsepattern:dynamicrendering-mc1.7.10:0.0.2:dev")
+
     compileOnly("org.projectlombok:lombok:1.18.22")
     annotationProcessor("org.projectlombok:lombok:1.18.22")
 }
