@@ -8,8 +8,9 @@ import net.minecraft.util.IIcon;
 
 public class ParaItemWrapper extends Item {
     protected final ParaItem paraItem;
-    public IIcon inner;
-    public IIcon outer;
+    private IIcon inner;
+    private IIcon outer;
+    public IIcon geauh;
 
     public ParaItemWrapper(@NonNull ParaItem paraItem) {
         this.paraItem = paraItem;
@@ -22,5 +23,6 @@ public class ParaItemWrapper extends Item {
         super.registerIcons(register);
         inner = register.registerIcon("apparatus:SwInner");
         outer = register.registerIcon("apparatus:Swouter");
+        geauh = register.registerIcon("apparatus:Geauh");
     }
 }

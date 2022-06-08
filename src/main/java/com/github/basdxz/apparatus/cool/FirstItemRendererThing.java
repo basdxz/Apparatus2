@@ -52,13 +52,16 @@ public class FirstItemRendererThing implements IItemRenderer {
                     val entityItem = (EntityItem) data[1];
                     GL11.glTranslatef(-0.5F, -0.25F, 0F); //TODO What exactly -is- this offset?
 
-                    val offset = 0.025F;
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, offset);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset * 2);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, offset);
+//                    val offset = 0.025F;
+//                    renderIconWithThickness(paraItemWrapper.inner);
+//                    GL11.glTranslatef(0F, 0F, offset);
+//                    renderIconWithThickness(paraItemWrapper.outer);
+//                    GL11.glTranslatef(0F, 0F, -offset * 2);
+//                    renderIconWithThickness(paraItemWrapper.outer);
+//                    GL11.glTranslatef(0F, 0F, offset);
+
+                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
+                    renderIconWithThickness(paraItemWrapper.geauh);
                 }
             }
             break;
@@ -67,13 +70,16 @@ public class FirstItemRendererThing implements IItemRenderer {
                     val renderBlocks = (RenderBlocks) data[0];
                     val entityLivingBase = (EntityLivingBase) data[1];
 
-                    val offset = 0.025F;
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, offset);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset * 2);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, offset);
+//                    val offset = 0.025F;
+//                    renderIconWithThickness(paraItemWrapper.inner);
+//                    GL11.glTranslatef(0F, 0F, offset);
+//                    renderIconWithThickness(paraItemWrapper.outer);
+//                    GL11.glTranslatef(0F, 0F, -offset * 2);
+//                    renderIconWithThickness(paraItemWrapper.outer);
+//                    GL11.glTranslatef(0F, 0F, offset);
+
+                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
+                    renderIconWithThickness(paraItemWrapper.geauh);
                 }
             }
             break;
@@ -82,22 +88,28 @@ public class FirstItemRendererThing implements IItemRenderer {
                     val renderBlocks = (RenderBlocks) data[0];
                     val entityLivingBase = (EntityLivingBase) data[1];
 
-                    val offset = 0.025F;
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, offset);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset * 2);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, offset);
+//                    val offset = 0.025F;
+//                    renderIconWithThickness(paraItemWrapper.inner);
+//                    GL11.glTranslatef(0F, 0F, offset);
+//                    renderIconWithThickness(paraItemWrapper.outer);
+//                    GL11.glTranslatef(0F, 0F, -offset * 2);
+//                    renderIconWithThickness(paraItemWrapper.outer);
+//                    GL11.glTranslatef(0F, 0F, offset);
+
+                    GL11.glColor4f(0.72F, 0.55F, 0.2F, 0.5F);
+                    renderIconWithThickness(paraItemWrapper.geauh);
                 }
             }
             break;
             case INVENTORY: {
                 if (data[0] instanceof RenderBlocks) {
                     val renderBlocks = (RenderBlocks) data[0];
-                    renderIconFlat(paraItemWrapper.inner);
-                    renderIconFlat(paraItemWrapper.outer);
-                    renderIconFlat(paraItemWrapper.outer);
+//                    renderIconFlat(paraItemWrapper.inner);
+//                    renderIconFlat(paraItemWrapper.outer);
+//                    renderIconFlat(paraItemWrapper.outer);
+
+                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
+                    renderIconFlat(paraItemWrapper.geauh);
                 }
             }
         }
