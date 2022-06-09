@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus;
 
+import com.github.basdxz.apparatus.common.parathing.ParaItemAdapter;
 import com.github.basdxz.apparatus.cool.DumbassManager;
-import com.github.basdxz.apparatus.parathing.ParaItemAdapter;
 import cpw.mods.fml.common.event.*;
 
 public class CommonProxy {

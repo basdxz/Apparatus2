@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus.popoga;
+package com.github.basdxz.apparatus.common.popoga;
 
 import org.joml.Quaternionfc;
 import org.joml.Vector3fc;

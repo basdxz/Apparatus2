@@ -1,11 +1,12 @@
 package com.github.basdxz.apparatus.cool;
 
 import com.falsepattern.dynamicrendering.drawing.Model;
-import com.github.basdxz.apparatus.parathing.ParaItem;
+import com.github.basdxz.apparatus.common.parathing.ParaItem;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ParaItemWrapper extends Item {
     protected final ParaItem paraItem;
@@ -18,6 +19,8 @@ public class ParaItemWrapper extends Item {
         this.paraItem = paraItem;
         setUnlocalizedName("apparatus." + paraItem.paraID());
         setTextureName("apparatus:a");
+
+        MinecraftForgeClient.registerItemRenderer(this, new FirstItemRendererThing(this));//TODO: CLIENT SIDE ONLY!
     }
 
     @Override

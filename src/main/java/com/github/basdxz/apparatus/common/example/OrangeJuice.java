@@ -1,6 +1,6 @@
-package com.github.basdxz.apparatus.example;
+package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.parathing.ParaFluid;
+import com.github.basdxz.apparatus.common.parathing.ParaFluid;
 
 //Creates a fluid
 public class OrangeJuice implements ParaFluid {

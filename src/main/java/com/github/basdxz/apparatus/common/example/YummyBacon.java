@@ -1,6 +1,6 @@
-package com.github.basdxz.apparatus.example;
+package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.parathing.ParaItem;
+import com.github.basdxz.apparatus.common.parathing.ParaItem;
 
 //Edible
 //Provides Food

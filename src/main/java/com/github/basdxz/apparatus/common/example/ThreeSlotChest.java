@@ -1,6 +1,6 @@
-package com.github.basdxz.apparatus.example;
+package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.parathing.ParaTileEntity;
+import com.github.basdxz.apparatus.common.parathing.ParaTileEntity;
 
 //Chest with a custom TESR
 //Has GUI on client and server side

@@ -1,6 +1,6 @@
-package com.github.basdxz.apparatus.example;
+package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.parathing.ParaBlock;
+import com.github.basdxz.apparatus.common.parathing.ParaBlock;
 
 //Renders as block with different sides
 //Has a slight glow
