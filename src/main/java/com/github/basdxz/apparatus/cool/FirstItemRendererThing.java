@@ -44,7 +44,7 @@ public class FirstItemRendererThing implements IItemRenderer {
         return false;
     }
 
-    @SuppressWarnings("DuplicateBranchesInSwitch")
+
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT);
@@ -53,85 +53,89 @@ public class FirstItemRendererThing implements IItemRenderer {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.0001F);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+
         switch (type) {
-            case ENTITY: {
-                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityItem) {
-                    val renderBlocks = (RenderBlocks) data[0];
-                    val entityItem = (EntityItem) data[1];
-                    GL11.glTranslatef(-0.5F, -0.25F, 0F); //TODO What exactly -is- this offset?
-
-                    val offset = 0.025F;
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, offset);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset * 2);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, offset);
-
-//                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
-//                    renderIconWithThickness(paraItemWrapper.geauh);
-//
-//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
-                }
-            }
-            break;
-            case EQUIPPED: {
-                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase) {
-                    val renderBlocks = (RenderBlocks) data[0];
-                    val entityLivingBase = (EntityLivingBase) data[1];
-
-                    val offset = 0.025F;
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, offset);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset * 2);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, offset);
-
-//                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
-//                    renderIconWithThickness(paraItemWrapper.geauh);
-//
-//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
-                }
-            }
-            break;
-            case EQUIPPED_FIRST_PERSON: {
-                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase) {
-                    val renderBlocks = (RenderBlocks) data[0];
-                    val entityLivingBase = (EntityLivingBase) data[1];
-
-                    val offset = 0.025F;
-                    renderIconWithThickness(paraItemWrapper.inner);
-                    GL11.glTranslatef(0F, 0F, offset);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, -offset * 2);
-                    renderIconWithThickness(paraItemWrapper.outer);
-                    GL11.glTranslatef(0F, 0F, offset);
-
-//                    GL11.glColor4f(0.72F, 0.55F, 0.2F, 0.5F);
-//                    renderIconWithThickness(paraItemWrapper.geauh);
-//
-//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
-                }
-            }
-            break;
+            case ENTITY:
+                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityItem)
+                    renderAsEntity((RenderBlocks) data[0], (EntityItem) data[1]);
+                break;
+            case EQUIPPED:
+                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase)
+                    renderAsEquipped((RenderBlocks) data[0], (EntityLivingBase) data[1]);
+                break;
+            case EQUIPPED_FIRST_PERSON:
+                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase)
+                    renderAsEquippedFirstPerson((RenderBlocks) data[0], (EntityLivingBase) data[1]);
+                break;
             case INVENTORY: {
-                if (data[0] instanceof RenderBlocks) {
-                    val renderBlocks = (RenderBlocks) data[0];
-                    renderIconFlat(paraItemWrapper.inner);
-                    renderIconFlat(paraItemWrapper.outer);
-                    renderIconFlat(paraItemWrapper.outer);
-
-//                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
-//                    renderIconFlat(paraItemWrapper.geauh);
-//
-//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
-                }
+                if (data[0] instanceof RenderBlocks)
+                    renderInInventory((RenderBlocks) data[0]);
             }
         }
 
         GL11.glPopMatrix();
         GL11.glPopAttrib();
+    }
+
+    protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {
+        GL11.glTranslatef(-0.5F, -0.25F, 0F); //TODO What exactly -is- this offset?
+
+        val offset = 0.025F;
+        renderIconWithThickness(paraItemWrapper.inner);
+        GL11.glTranslatef(0F, 0F, offset);
+        renderIconWithThickness(paraItemWrapper.outer);
+        GL11.glTranslatef(0F, 0F, -offset * 2);
+        renderIconWithThickness(paraItemWrapper.outer);
+        GL11.glTranslatef(0F, 0F, offset);
+
+//                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
+//                    renderIconWithThickness(paraItemWrapper.geauh);
+//
+//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
+    }
+
+    private void renderAsEquipped(RenderBlocks renderBlocks, EntityLivingBase entityLivingBase) {
+        System.out.println(renderBlocks);
+        System.out.println(entityLivingBase);
+        val offset = 0.025F;
+        renderIconWithThickness(paraItemWrapper.inner);
+        GL11.glTranslatef(0F, 0F, offset);
+        renderIconWithThickness(paraItemWrapper.outer);
+        GL11.glTranslatef(0F, 0F, -offset * 2);
+        renderIconWithThickness(paraItemWrapper.outer);
+        GL11.glTranslatef(0F, 0F, offset);
+
+//                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
+//                    renderIconWithThickness(paraItemWrapper.geauh);
+//
+//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
+    }
+
+    private void renderAsEquippedFirstPerson(RenderBlocks renderBlocks, EntityLivingBase entityLivingBase) {
+        val offset = 0.025F;
+        renderIconWithThickness(paraItemWrapper.inner);
+        GL11.glTranslatef(0F, 0F, offset);
+        renderIconWithThickness(paraItemWrapper.outer);
+        GL11.glTranslatef(0F, 0F, -offset * 2);
+        renderIconWithThickness(paraItemWrapper.outer);
+        GL11.glTranslatef(0F, 0F, offset);
+
+//                    GL11.glColor4f(0.72F, 0.55F, 0.2F, 0.5F);
+//                    renderIconWithThickness(paraItemWrapper.geauh);
+//
+//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
+    }
+
+    private void renderInInventory(RenderBlocks renderBlocks) {
+        System.out.println(renderBlocks);
+        renderIconFlat(paraItemWrapper.inner);
+        renderIconFlat(paraItemWrapper.outer);
+        renderIconFlat(paraItemWrapper.outer);
+
+//                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
+//                    renderIconFlat(paraItemWrapper.geauh);
+//
+//                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
     }
 
     protected static void renderIconWithThickness(@NonNull IIcon icon) {
