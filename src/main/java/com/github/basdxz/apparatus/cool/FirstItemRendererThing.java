@@ -16,7 +16,7 @@ import org.lwjgl.opengl.*;
 
 @RequiredArgsConstructor
 public class FirstItemRendererThing implements IItemRenderer {
-    protected final static float ITEM_2D_THICKNESS = 0.0625F;
+    private final static float ITEM_2D_THICKNESS = 0.0625F;
 
     protected final ParaItemWrapper paraItemWrapper;
 
@@ -47,12 +47,12 @@ public class FirstItemRendererThing implements IItemRenderer {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT);
+        GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT);
         GL11.glPushMatrix();
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.0001F);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
         switch (type) {
             case ENTITY:
@@ -80,13 +80,13 @@ public class FirstItemRendererThing implements IItemRenderer {
     protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {
         GL11.glTranslatef(-0.5F, -0.25F, 0F); //TODO What exactly -is- this offset?
 
-        val offset = 0.025F;
-        renderIconWithThickness(paraItemWrapper.inner);
-        GL11.glTranslatef(0F, 0F, offset);
-        renderIconWithThickness(paraItemWrapper.outer);
-        GL11.glTranslatef(0F, 0F, -offset * 2);
-        renderIconWithThickness(paraItemWrapper.outer);
-        GL11.glTranslatef(0F, 0F, offset);
+//        val offset = 0.025F;
+//        renderIconWithThickness(paraItemWrapper.inner);
+//        GL11.glTranslatef(0F, 0F, offset);
+//        renderIconWithThickness(paraItemWrapper.outer);
+//        GL11.glTranslatef(0F, 0F, -offset * 2);
+//        renderIconWithThickness(paraItemWrapper.outer);
+//        GL11.glTranslatef(0F, 0F, offset);
 
 //                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
 //                    renderIconWithThickness(paraItemWrapper.geauh);
@@ -97,13 +97,13 @@ public class FirstItemRendererThing implements IItemRenderer {
     private void renderAsEquipped(RenderBlocks renderBlocks, EntityLivingBase entityLivingBase) {
         System.out.println(renderBlocks);
         System.out.println(entityLivingBase);
-        val offset = 0.025F;
-        renderIconWithThickness(paraItemWrapper.inner);
-        GL11.glTranslatef(0F, 0F, offset);
-        renderIconWithThickness(paraItemWrapper.outer);
-        GL11.glTranslatef(0F, 0F, -offset * 2);
-        renderIconWithThickness(paraItemWrapper.outer);
-        GL11.glTranslatef(0F, 0F, offset);
+//        val offset = 0.025F;
+//        renderIconWithThickness(paraItemWrapper.inner);
+//        GL11.glTranslatef(0F, 0F, offset);
+//        renderIconWithThickness(paraItemWrapper.outer);
+//        GL11.glTranslatef(0F, 0F, -offset * 2);
+//        renderIconWithThickness(paraItemWrapper.outer);
+//        GL11.glTranslatef(0F, 0F, offset);
 
 //                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
 //                    renderIconWithThickness(paraItemWrapper.geauh);
@@ -112,13 +112,13 @@ public class FirstItemRendererThing implements IItemRenderer {
     }
 
     private void renderAsEquippedFirstPerson(RenderBlocks renderBlocks, EntityLivingBase entityLivingBase) {
-        val offset = 0.025F;
-        renderIconWithThickness(paraItemWrapper.inner);
-        GL11.glTranslatef(0F, 0F, offset);
-        renderIconWithThickness(paraItemWrapper.outer);
-        GL11.glTranslatef(0F, 0F, -offset * 2);
-        renderIconWithThickness(paraItemWrapper.outer);
-        GL11.glTranslatef(0F, 0F, offset);
+//        val offset = 0.025F;
+//        renderIconWithThickness(paraItemWrapper.inner);
+//        GL11.glTranslatef(0F, 0F, offset);
+//        renderIconWithThickness(paraItemWrapper.outer);
+//        GL11.glTranslatef(0F, 0F, -offset * 2);
+//        renderIconWithThickness(paraItemWrapper.outer);
+//        GL11.glTranslatef(0F, 0F, offset);
 
 //                    GL11.glColor4f(0.72F, 0.55F, 0.2F, 0.5F);
 //                    renderIconWithThickness(paraItemWrapper.geauh);
@@ -127,10 +127,10 @@ public class FirstItemRendererThing implements IItemRenderer {
     }
 
     private void renderInInventory(RenderBlocks renderBlocks) {
-        System.out.println(renderBlocks);
-        renderIconFlat(paraItemWrapper.inner);
-        renderIconFlat(paraItemWrapper.outer);
-        renderIconFlat(paraItemWrapper.outer);
+//        System.out.println(renderBlocks);
+//        renderIconFlat(paraItemWrapper.inner);
+//        renderIconFlat(paraItemWrapper.outer);
+//        renderIconFlat(paraItemWrapper.outer);
 
 //                    GL11.glColor4f(0.72F, 0.45F, 0.2F, 1F);
 //                    renderIconFlat(paraItemWrapper.geauh);
@@ -138,7 +138,7 @@ public class FirstItemRendererThing implements IItemRenderer {
 //                    paraItemWrapper.prism.draw(mRender, 0, 0,0);
     }
 
-    protected static void renderIconWithThickness(@NonNull IIcon icon) {
+    public static void renderIconWithThickness(@NonNull IIcon icon) {
         ItemRenderer.renderItemIn2D(
                 Tessellator.instance,
                 icon.getMaxU(), icon.getMinV(),
@@ -147,7 +147,7 @@ public class FirstItemRendererThing implements IItemRenderer {
                 ITEM_2D_THICKNESS);
     }
 
-    public void renderIconFlat(@NonNull IIcon icon) {
+    public static void renderIconFlat(@NonNull IIcon icon) {
         Tessellator.instance.startDrawingQuads();
         Tessellator.instance.addVertexWithUV(0, 16, 0, icon.getMinU(), icon.getMaxV());
         Tessellator.instance.addVertexWithUV(16, 16, 0, icon.getMaxU(), icon.getMaxV());
