@@ -1,7 +1,11 @@
 package com.github.basdxz.apparatus.cool;
 
 import com.github.basdxz.apparatus.common.parathing.ParaItemRender;
+import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,15 +16,19 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.Timer;
 import net.minecraftforge.client.IItemRenderer;
 
 import static com.github.basdxz.apparatus.common.popoga.impl.RenderView.*;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
+@SideOnly(Side.CLIENT)
 @RequiredArgsConstructor
 public class ParaItemRendererWrapper implements IItemRenderer {
-    protected static IIcon NULL_TEXTURE_REFERENCE;
     protected final static float ITEM_UNIT_THICKNESS = 0.0625F;
+    protected final static Timer MINECRAFT_TIMER = getMinecraftTimer();
+
+    protected static IIcon NULL_TEXTURE_REFERENCE;
 
     private final boolean renderWithColor = false;
     private final TempRenderItem renderItem = new TempRenderItem();
@@ -29,6 +37,13 @@ public class ParaItemRendererWrapper implements IItemRenderer {
 
     {
         renderItem.setRenderManager(RenderManager.instance);
+    }
+
+    @SneakyThrows
+    protected static Timer getMinecraftTimer() {
+        val timerField = ReflectionHelper.findField(Minecraft.class, "timer", "field_71428_T");
+        timerField.setAccessible(true);
+        return (Timer) timerField.get(getMinecraft());
     }
 
     @Override
@@ -68,7 +83,7 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     //Set the flags for each model
     //Render each model (flat/thick/mesh)
     protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {
-        renderItem.doRender(entityItem, 0, 0, 0, 0, 0);
+        renderItem.doRender(entityItem, 0, 0, 0, 0, getSubTick());
     }
 
     protected void renderAsEquipped(@NonNull RenderBlocks renderBlocks, @NonNull EntityLivingBase entityLivingBase) {
@@ -123,5 +138,9 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     public void registerResources(@NonNull IIconRegister register) {
         if (NULL_TEXTURE_REFERENCE != null)
             NULL_TEXTURE_REFERENCE = null;
+    }
+
+    protected static float getSubTick() {
+        return MINECRAFT_TIMER.renderPartialTicks;
     }
 }

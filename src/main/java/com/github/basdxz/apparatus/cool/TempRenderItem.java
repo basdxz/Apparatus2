@@ -35,38 +35,38 @@ public class TempRenderItem extends RenderItem {
     private final RenderBlocks renderBlocksRi = new RenderBlocks();
     private final Random random = new Random();
 
-    public void doRender(EntityItem p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
-        ItemStack itemstack = p_76986_1_.getEntityItem();
+    public void doRender(EntityItem entityItem, double posX, double posY, double posZ, float p_76986_8_, float subTick) {
+        ItemStack itemstack = entityItem.getEntityItem();
 
         if (itemstack.getItem() != null) {
-            this.bindEntityTexture(p_76986_1_);
+            this.bindEntityTexture(entityItem);
             TextureUtil.func_152777_a(false, false, 1.0F);
             this.random.setSeed(187L);
             GL11.glPushMatrix();
             GL11.glScalef(2F, 2F, 2F);
-            float f2 = shouldBob() ? MathHelper.sin(((float) p_76986_1_.age + p_76986_9_) / 10.0F + p_76986_1_.hoverStart) * 0.1F + 0.1F : 0F;
-            float f3 = (((float) p_76986_1_.age + p_76986_9_) / 20.0F + p_76986_1_.hoverStart) * (180F / (float) Math.PI);
-            int b0 = 1;
+            float bob = shouldBob() ? MathHelper.sin(((float) entityItem.age + subTick) / 10.0F + entityItem.hoverStart) * 0.1F + 0.1F : 0F;
+            float rotation = (((float) entityItem.age + subTick) / 20.0F + entityItem.hoverStart) * (180F / (float) Math.PI);
+            int miniBlockCount = 1;
 
-            if (p_76986_1_.getEntityItem().stackSize > 1) {
-                b0 = 2;
+            if (entityItem.getEntityItem().stackSize > 1) {
+                miniBlockCount = 2;
             }
 
-            if (p_76986_1_.getEntityItem().stackSize > 5) {
-                b0 = 3;
+            if (entityItem.getEntityItem().stackSize > 5) {
+                miniBlockCount = 3;
             }
 
-            if (p_76986_1_.getEntityItem().stackSize > 20) {
-                b0 = 4;
+            if (entityItem.getEntityItem().stackSize > 20) {
+                miniBlockCount = 4;
             }
 
-            if (p_76986_1_.getEntityItem().stackSize > 40) {
-                b0 = 5;
+            if (entityItem.getEntityItem().stackSize > 40) {
+                miniBlockCount = 5;
             }
 
-            b0 = getMiniBlockCount(itemstack, b0);
+            miniBlockCount = getMiniBlockCount(itemstack, miniBlockCount);
 
-            GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_ + f2, (float) p_76986_6_);
+            GL11.glTranslatef((float) posX, (float) posY + bob, (float) posZ);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             float f6;
             float f7;
@@ -74,7 +74,7 @@ public class TempRenderItem extends RenderItem {
 
             if (itemstack.getItemSpriteNumber() == 0 && itemstack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemstack.getItem()).getRenderType())) {
                 Block block = Block.getBlockFromItem(itemstack.getItem());
-                GL11.glRotatef(f3, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
 
                 if (renderInFrame) {
                     GL11.glScalef(1.25F, 1.25F, 1.25F);
@@ -97,7 +97,7 @@ public class TempRenderItem extends RenderItem {
 
                 GL11.glScalef(f9, f9, f9);
 
-                for (int l = 0; l < b0; ++l) {
+                for (int l = 0; l < miniBlockCount; ++l) {
                     GL11.glPushMatrix();
 
                     if (l > 0) {
@@ -117,7 +117,7 @@ public class TempRenderItem extends RenderItem {
             } else {
                 float f5;
 
-                if (/*itemstack.getItemSpriteNumber() == 1 &&*/ itemstack.getItem().requiresMultipleRenderPasses()) {
+                if (itemstack.getItem().requiresMultipleRenderPasses()) {
                     if (renderInFrame) {
                         GL11.glScalef(0.5128205F, 0.5128205F, 0.5128205F);
                         GL11.glTranslatef(0.0F, -0.05F, 0.0F);
@@ -135,9 +135,9 @@ public class TempRenderItem extends RenderItem {
                             f6 = (float) (k >> 8 & 255) / 255.0F;
                             f7 = (float) (k & 255) / 255.0F;
                             GL11.glColor4f(f5, f6, f7, 1.0F);
-                            this.renderDroppedItem(p_76986_1_, iicon1, b0, p_76986_9_, f5, f6, f7, j);
+                            this.renderDroppedItem(entityItem, iicon1, miniBlockCount, subTick, f5, f6, f7, j);
                         } else {
-                            this.renderDroppedItem(p_76986_1_, iicon1, b0, p_76986_9_, 1.0F, 1.0F, 1.0F, j);
+                            this.renderDroppedItem(entityItem, iicon1, miniBlockCount, subTick, 1.0F, 1.0F, 1.0F, j);
                         }
                     }
                 } else {
@@ -161,9 +161,9 @@ public class TempRenderItem extends RenderItem {
                         float f4 = (float) (i >> 16 & 255) / 255.0F;
                         f5 = (float) (i >> 8 & 255) / 255.0F;
                         f6 = (float) (i & 255) / 255.0F;
-                        this.renderDroppedItem(p_76986_1_, iicon, b0, p_76986_9_, f4, f5, f6);
+                        this.renderDroppedItem(entityItem, iicon, miniBlockCount, subTick, f4, f5, f6);
                     } else {
-                        this.renderDroppedItem(p_76986_1_, iicon, b0, p_76986_9_, 1.0F, 1.0F, 1.0F);
+                        this.renderDroppedItem(entityItem, iicon, miniBlockCount, subTick, 1.0F, 1.0F, 1.0F);
                     }
 
                     if (itemstack != null && itemstack.getItem() instanceof ItemCloth) {
@@ -174,7 +174,7 @@ public class TempRenderItem extends RenderItem {
 
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
             GL11.glPopMatrix();
-            this.bindEntityTexture(p_76986_1_);
+            this.bindEntityTexture(entityItem);
             TextureUtil.func_147945_b();
         }
     }
@@ -182,34 +182,32 @@ public class TempRenderItem extends RenderItem {
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(EntityItem p_110775_1_) {
-        return this.renderManager.renderEngine.getResourceLocation(p_110775_1_.getEntityItem().getItemSpriteNumber());
+    protected ResourceLocation getEntityTexture(EntityItem entityItem) {
+        return this.renderManager.renderEngine.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
     }
 
     /**
      * Renders a dropped item
      */
-    private void renderDroppedItem(EntityItem p_77020_1_, IIcon p_77020_2_, int p_77020_3_, float p_77020_4_, float p_77020_5_, float p_77020_6_, float p_77020_7_) {
-        this.renderDroppedItem(p_77020_1_, p_77020_2_, p_77020_3_, p_77020_4_, p_77020_5_, p_77020_6_, p_77020_7_, 0);
+    private void renderDroppedItem(EntityItem entityItem, IIcon icon, int p_77020_3_, float p_77020_4_, float p_77020_5_, float p_77020_6_, float p_77020_7_) {
+        this.renderDroppedItem(entityItem, icon, p_77020_3_, p_77020_4_, p_77020_5_, p_77020_6_, p_77020_7_, 0);
     }
 
-    private void renderDroppedItem(EntityItem p_77020_1_, IIcon p_77020_2_, int p_77020_3_, float p_77020_4_, float p_77020_5_, float p_77020_6_, float p_77020_7_, int pass) {
-        Tessellator tessellator = Tessellator.instance;
-
-        if (p_77020_2_ == null) {
+    private void renderDroppedItem(EntityItem entityItem, IIcon icon, int miniBlockCount, float subTick, float red, float green, float blue, int pass) {
+        if (icon == null) {
             TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-            ResourceLocation resourcelocation = texturemanager.getResourceLocation(p_77020_1_.getEntityItem().getItemSpriteNumber());
-            p_77020_2_ = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("potato");
+            ResourceLocation resourcelocation = texturemanager.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
+            icon = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("potato");
         }
 
-        float f14 = p_77020_2_.getMinU();
-        float f15 = p_77020_2_.getMaxU();
-        float f4 = p_77020_2_.getMinV();
-        float f5 = p_77020_2_.getMaxV();
-        float f6 = 1.0F;
-        float f7 = 0.5F;
-        float f8 = 0.25F;
-        float f10;
+        float minU = icon.getMinU();
+        float maxU = icon.getMaxU();
+        float minV = icon.getMinV();
+        float maxV = icon.getMaxV();
+        float fOne = 1.0F;
+        float fHalf = 0.5F;
+        float fQuart = 0.25F;
+        float magicNumber;
 
         if (this.renderManager.options.fancyGraphics) {
             GL11.glPushMatrix();
@@ -217,38 +215,38 @@ public class TempRenderItem extends RenderItem {
             if (renderInFrame) {
                 GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
             } else {
-                GL11.glRotatef((((float) p_77020_1_.age + p_77020_4_) / 20.0F + p_77020_1_.hoverStart) * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef((((float) entityItem.age + subTick) / 20.0F + entityItem.hoverStart) * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
             }
 
-            float f9 = 0.0625F;
-            f10 = 0.021875F;
-            ItemStack itemstack = p_77020_1_.getEntityItem();
+            float oneOver16 = 0.0625F;
+            magicNumber = 0.021875F;
+            ItemStack itemstack = entityItem.getEntityItem();
             int j = itemstack.stackSize;
-            int b0;
+            int miniItemCount;
 
             if (j < 2) {
-                b0 = 1;
+                miniItemCount = 1;
             } else if (j < 16) {
-                b0 = 2;
+                miniItemCount = 2;
             } else if (j < 32) {
-                b0 = 3;
+                miniItemCount = 3;
             } else {
-                b0 = 4;
+                miniItemCount = 4;
             }
 
-            b0 = getMiniItemCount(itemstack, b0);
+            miniItemCount = getMiniItemCount(itemstack, miniItemCount);
 
-            GL11.glTranslatef(-f7, -f8, -((f9 + f10) * (float) b0 / 2.0F));
+            GL11.glTranslatef(-fHalf, -fQuart, -((oneOver16 + magicNumber) * (float) miniItemCount / 2.0F));
 
-            for (int k = 0; k < b0; ++k) {
+            for (int k = 0; k < miniItemCount; ++k) {
                 // Makes items offset when in 3D, like when in 2D, looks much better. Considered a vanilla bug...
                 if (k > 0 && shouldSpreadItems()) {
                     float x = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
                     float y = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
                     float z = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
-                    GL11.glTranslatef(x, y, f9 + f10);
+                    GL11.glTranslatef(x, y, oneOver16 + magicNumber);
                 } else {
-                    GL11.glTranslatef(0f, 0f, f9 + f10);
+                    GL11.glTranslatef(0f, 0f, oneOver16 + magicNumber);
                 }
 
                 if (itemstack.getItemSpriteNumber() == 0) {
@@ -257,8 +255,8 @@ public class TempRenderItem extends RenderItem {
                     this.bindTexture(TextureMap.locationItemsTexture);
                 }
 
-                GL11.glColor4f(p_77020_5_, p_77020_6_, p_77020_7_, 1.0F);
-                ItemRenderer.renderItemIn2D(tessellator, f15, f4, f14, f5, p_77020_2_.getIconWidth(), p_77020_2_.getIconHeight(), f9);
+                GL11.glColor4f(red, green, blue, 1.0F);
+                ItemRenderer.renderItemIn2D(Tessellator.instance, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), oneOver16);
 
                 if (itemstack.hasEffect(pass)) {
                     GL11.glDepthFunc(GL11.GL_EQUAL);
@@ -270,19 +268,19 @@ public class TempRenderItem extends RenderItem {
                     GL11.glColor4f(0.5F * f11, 0.25F * f11, 0.8F * f11, 1.0F);
                     GL11.glMatrixMode(GL11.GL_TEXTURE);
                     GL11.glPushMatrix();
-                    float f12 = 0.125F;
-                    GL11.glScalef(f12, f12, f12);
+                    float oneOver8 = 0.125F;
+                    GL11.glScalef(oneOver8, oneOver8, oneOver8);
                     float f13 = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
                     GL11.glTranslatef(f13, 0.0F, 0.0F);
                     GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
-                    ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, f9);
+                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, oneOver16);
                     GL11.glPopMatrix();
                     GL11.glPushMatrix();
-                    GL11.glScalef(f12, f12, f12);
+                    GL11.glScalef(oneOver8, oneOver8, oneOver8);
                     f13 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
                     GL11.glTranslatef(-f13, 0.0F, 0.0F);
                     GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
-                    ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, f9);
+                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, oneOver16);
                     GL11.glPopMatrix();
                     GL11.glMatrixMode(GL11.GL_MODELVIEW);
                     GL11.glDisable(GL11.GL_BLEND);
@@ -293,28 +291,28 @@ public class TempRenderItem extends RenderItem {
 
             GL11.glPopMatrix();
         } else {
-            for (int l = 0; l < p_77020_3_; ++l) {
+            for (int i = 0; i < miniBlockCount; ++i) {
                 GL11.glPushMatrix();
 
-                if (l > 0) {
-                    f10 = (this.random.nextFloat() * 2.0F - 1.0F) * 0.3F;
+                if (i > 0) {
+                    magicNumber = (this.random.nextFloat() * 2.0F - 1.0F) * 0.3F;
                     float f16 = (this.random.nextFloat() * 2.0F - 1.0F) * 0.3F;
                     float f17 = (this.random.nextFloat() * 2.0F - 1.0F) * 0.3F;
-                    GL11.glTranslatef(f10, f16, f17);
+                    GL11.glTranslatef(magicNumber, f16, f17);
                 }
 
                 if (!renderInFrame) {
                     GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 }
 
-                GL11.glColor4f(p_77020_5_, p_77020_6_, p_77020_7_, 1.0F);
-                tessellator.startDrawingQuads();
-                tessellator.setNormal(0.0F, 1.0F, 0.0F);
-                tessellator.addVertexWithUV(0.0F - f7, 0.0F - f8, 0.0D, f14, f5);
-                tessellator.addVertexWithUV(f6 - f7, 0.0F - f8, 0.0D, f15, f5);
-                tessellator.addVertexWithUV(f6 - f7, 1.0F - f8, 0.0D, f15, f4);
-                tessellator.addVertexWithUV(0.0F - f7, 1.0F - f8, 0.0D, f14, f4);
-                tessellator.draw();
+                GL11.glColor4f(red, green, blue, 1.0F);
+                Tessellator.instance.startDrawingQuads();
+                Tessellator.instance.setNormal(0.0F, 1.0F, 0.0F);
+                Tessellator.instance.addVertexWithUV(0.0F - fHalf, 0.0F - fQuart, 0.0D, minU, maxV);
+                Tessellator.instance.addVertexWithUV(fOne - fHalf, 0.0F - fQuart, 0.0D, maxU, maxV);
+                Tessellator.instance.addVertexWithUV(fOne - fHalf, 1.0F - fQuart, 0.0D, maxU, minV);
+                Tessellator.instance.addVertexWithUV(0.0F - fHalf, 1.0F - fQuart, 0.0D, minU, minV);
+                Tessellator.instance.draw();
                 GL11.glPopMatrix();
             }
         }
@@ -323,8 +321,8 @@ public class TempRenderItem extends RenderItem {
     /**
      * Renders the item's icon or block into the UI at the specified position.
      */
-    public void renderItemIntoGUI(FontRenderer p_77015_1_, TextureManager p_77015_2_, ItemStack p_77015_3_, int p_77015_4_, int p_77015_5_) {
-        this.renderItemIntoGUI(p_77015_1_, p_77015_2_, p_77015_3_, p_77015_4_, p_77015_5_, false);
+    public void renderItemIntoGUI(FontRenderer fontRenderer, TextureManager textureManager, ItemStack itemStack, int p_77015_4_, int p_77015_5_) {
+        this.renderItemIntoGUI(fontRenderer, textureManager, itemStack, p_77015_4_, p_77015_5_, false);
     }
 
     public void renderItemIntoGUI(FontRenderer p_77015_1_, TextureManager p_77015_2_, ItemStack p_77015_3_, int p_77015_4_, int p_77015_5_, boolean renderEffect) {
