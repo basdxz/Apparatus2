@@ -180,9 +180,9 @@ public class TempRenderItem extends RenderItem {
             GL11.glPushMatrix();
 
             if (renderInFrame) {
-                GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(180F, 0F, 1F, 0F);
             } else {
-                GL11.glRotatef(entitySpin(entityItem, subTick), 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(entitySpin(entityItem, subTick), 0F, 1F, 0F);
             }
 
             val oneOver16 = 0.0625F;
@@ -190,15 +190,15 @@ public class TempRenderItem extends RenderItem {
             val itemStack = entityItem.getEntityItem();
             val multiItemCount = fancyMultiItemCount(itemStack.stackSize);
 
-            GL11.glTranslatef(-fHalf, -fQuart, -((oneOver16 + magicNumber) * (float) multiItemCount / 2.0F));
+            GL11.glTranslatef(-fHalf, -fQuart, -((oneOver16 + magicNumber) * (float) multiItemCount / 2F));
 
             for (var i = 0; i < multiItemCount; ++i) {
                 if (i > 0 && shouldSpreadItems()) {
-                    float x = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
-                    float y = (random.nextFloat() * 2.0F - 1.0F) * 0.3F / 0.5F;
+                    float x = (random.nextFloat() * 2F - 1F) * 0.3F / 0.5F;
+                    float y = (random.nextFloat() * 2F - 1F) * 0.3F / 0.5F;
                     GL11.glTranslatef(x, y, oneOver16 + magicNumber);
                 } else {
-                    GL11.glTranslatef(0f, 0f, oneOver16 + magicNumber);
+                    GL11.glTranslatef(0F, 0F, oneOver16 + magicNumber);
                 }
 
                 if (itemStack.getItemSpriteNumber() == 0) {
@@ -207,7 +207,7 @@ public class TempRenderItem extends RenderItem {
                     bindTexture(TextureMap.locationItemsTexture);
                 }
 
-                GL11.glColor4f(red, green, blue, 1.0F);
+                GL11.glColor4f(red, green, blue, 1F);
                 ItemRenderer.renderItemIn2D(Tessellator.instance, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), oneOver16);
 
                 if (itemStack.hasEffect(pass)) {
@@ -217,22 +217,22 @@ public class TempRenderItem extends RenderItem {
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
                     float f11 = 0.76F;
-                    GL11.glColor4f(0.5F * f11, 0.25F * f11, 0.8F * f11, 1.0F);
+                    GL11.glColor4f(0.5F * f11, 0.25F * f11, 0.8F * f11, 1F);
                     GL11.glMatrixMode(GL11.GL_TEXTURE);
                     GL11.glPushMatrix();
                     float oneOver8 = 0.125F;
                     GL11.glScalef(oneOver8, oneOver8, oneOver8);
-                    float f13 = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
-                    GL11.glTranslatef(f13, 0.0F, 0.0F);
-                    GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
-                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, oneOver16);
+                    float f13 = (float) (Minecraft.getSystemTime() % 3000L) / 3000F * 8F;
+                    GL11.glTranslatef(f13, 0F, 0F);
+                    GL11.glRotatef(-50F, 0F, 0F, 1F);
+                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0F, 0F, 1F, 1F, 255, 255, oneOver16);
                     GL11.glPopMatrix();
                     GL11.glPushMatrix();
                     GL11.glScalef(oneOver8, oneOver8, oneOver8);
-                    f13 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
-                    GL11.glTranslatef(-f13, 0.0F, 0.0F);
-                    GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
-                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, oneOver16);
+                    f13 = (float) (Minecraft.getSystemTime() % 4873L) / 4873F * 8F;
+                    GL11.glTranslatef(-f13, 0F, 0F);
+                    GL11.glRotatef(10F, 0F, 0F, 1F);
+                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0F, 0F, 1F, 1F, 255, 255, oneOver16);
                     GL11.glPopMatrix();
                     GL11.glMatrixMode(GL11.GL_MODELVIEW);
                     GL11.glDisable(GL11.GL_BLEND);
@@ -259,10 +259,10 @@ public class TempRenderItem extends RenderItem {
                 GL11.glColor4f(red, green, blue, 1.0F);
                 Tessellator.instance.startDrawingQuads();
                 Tessellator.instance.setNormal(0.0F, 1.0F, 0.0F);
-                Tessellator.instance.addVertexWithUV(0.0F - fHalf, 0.0F - fQuart, 0.0D, minU, maxV);
-                Tessellator.instance.addVertexWithUV(fOne - fHalf, 0.0F - fQuart, 0.0D, maxU, maxV);
-                Tessellator.instance.addVertexWithUV(fOne - fHalf, 1.0F - fQuart, 0.0D, maxU, minV);
-                Tessellator.instance.addVertexWithUV(0.0F - fHalf, 1.0F - fQuart, 0.0D, minU, minV);
+                Tessellator.instance.addVertexWithUV(-0.5f, -0.25f, 0.0D, minU, maxV);
+                Tessellator.instance.addVertexWithUV(0.5f, -0.25f, 0.0D, maxU, maxV);
+                Tessellator.instance.addVertexWithUV(0.5f, 0.75f, 0.0D, maxU, minV);
+                Tessellator.instance.addVertexWithUV(-0.5f, 0.75f, 0.0D, minU, minV);
                 Tessellator.instance.draw();
                 GL11.glPopMatrix();
             }

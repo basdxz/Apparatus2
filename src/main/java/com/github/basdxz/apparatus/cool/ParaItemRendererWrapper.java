@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Timer;
 import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.*;
 
 import static com.github.basdxz.apparatus.common.popoga.impl.RenderView.*;
 import static net.minecraft.client.Minecraft.getMinecraft;
@@ -103,8 +104,9 @@ public class ParaItemRendererWrapper implements IItemRenderer {
 
     protected void renderInInventory(@NonNull RenderBlocks renderBlocks) {
         render.itemModels(INVENTORY);
-
+        GL11.glPushMatrix();
         renderFlat(nullTexture());
+        GL11.glPopMatrix();
     }
 
     //TODO: Not thread safe right now
@@ -120,10 +122,11 @@ public class ParaItemRendererWrapper implements IItemRenderer {
 
     protected static void renderFlat(@NonNull IIcon icon) {
         Tessellator.instance.startDrawingQuads();
-        Tessellator.instance.addVertexWithUV(0, 16, 0, icon.getMinU(), icon.getMaxV());
-        Tessellator.instance.addVertexWithUV(16, 16, 0, icon.getMaxU(), icon.getMaxV());
-        Tessellator.instance.addVertexWithUV(16, 0, 0, icon.getMaxU(), icon.getMinV());
-        Tessellator.instance.addVertexWithUV(0, 0, 0, icon.getMinU(), icon.getMinV());
+        GL11.glScalef(16F, 16F, 1F);
+        Tessellator.instance.addVertexWithUV(0F, 1F, 0F, icon.getMinU(), icon.getMaxV());
+        Tessellator.instance.addVertexWithUV(1F, 1F, 0F, icon.getMaxU(), icon.getMaxV());
+        Tessellator.instance.addVertexWithUV(1F, 0F, 0F, icon.getMaxU(), icon.getMinV());
+        Tessellator.instance.addVertexWithUV(0F, 0F, 0F, icon.getMinU(), icon.getMinV());
         Tessellator.instance.draw();
     }
 
