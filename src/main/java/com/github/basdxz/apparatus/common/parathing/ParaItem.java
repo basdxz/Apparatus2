@@ -6,7 +6,8 @@ import lombok.*;
 
 public interface ParaItem extends ParaThing, ParaItemRender {
     @Override
-    default void itemRender(@NonNull IRenderView view) {
+    default Iterable<?> itemModels(@NonNull IRenderView view) {
         //TODO: REMOVEE
+        return null;
     }
 }

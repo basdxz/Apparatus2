@@ -4,5 +4,5 @@ import com.github.basdxz.apparatus.common.popoga.IRenderView;
 import lombok.*;
 
 public interface ParaItemRender {
-    void itemRender(@NonNull IRenderView view);
+    Iterable<?> itemModels(@NonNull IRenderView view);
 }
