@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.cool;
 
+import lombok.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -31,8 +32,8 @@ import java.util.concurrent.Callable;
 
 public class TempRenderItem extends RenderItem {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-    private RenderBlocks renderBlocksRi = new RenderBlocks();
-    private Random random = new Random();
+    private final RenderBlocks renderBlocksRi = new RenderBlocks();
+    private final Random random = new Random();
 
     public void doRender(EntityItem p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
         ItemStack itemstack = p_76986_1_.getEntityItem();
@@ -45,7 +46,7 @@ public class TempRenderItem extends RenderItem {
             GL11.glScalef(2F, 2F, 2F);
             float f2 = shouldBob() ? MathHelper.sin(((float) p_76986_1_.age + p_76986_9_) / 10.0F + p_76986_1_.hoverStart) * 0.1F + 0.1F : 0F;
             float f3 = (((float) p_76986_1_.age + p_76986_9_) / 20.0F + p_76986_1_.hoverStart) * (180F / (float) Math.PI);
-            byte b0 = 1;
+            int b0 = 1;
 
             if (p_76986_1_.getEntityItem().stackSize > 1) {
                 b0 = 2;
@@ -201,10 +202,10 @@ public class TempRenderItem extends RenderItem {
             p_77020_2_ = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("potato");
         }
 
-        float f14 = ((IIcon) p_77020_2_).getMinU();
-        float f15 = ((IIcon) p_77020_2_).getMaxU();
-        float f4 = ((IIcon) p_77020_2_).getMinV();
-        float f5 = ((IIcon) p_77020_2_).getMaxV();
+        float f14 = p_77020_2_.getMinU();
+        float f15 = p_77020_2_.getMaxU();
+        float f4 = p_77020_2_.getMinV();
+        float f5 = p_77020_2_.getMaxV();
         float f6 = 1.0F;
         float f7 = 0.5F;
         float f8 = 0.25F;
@@ -223,7 +224,7 @@ public class TempRenderItem extends RenderItem {
             f10 = 0.021875F;
             ItemStack itemstack = p_77020_1_.getEntityItem();
             int j = itemstack.stackSize;
-            byte b0;
+            int b0;
 
             if (j < 2) {
                 b0 = 1;
@@ -257,7 +258,7 @@ public class TempRenderItem extends RenderItem {
                 }
 
                 GL11.glColor4f(p_77020_5_, p_77020_6_, p_77020_7_, 1.0F);
-                ItemRenderer.renderItemIn2D(tessellator, f15, f4, f14, f5, ((IIcon) p_77020_2_).getIconWidth(), ((IIcon) p_77020_2_).getIconHeight(), f9);
+                ItemRenderer.renderItemIn2D(tessellator, f15, f4, f14, f5, p_77020_2_.getIconWidth(), p_77020_2_.getIconHeight(), f9);
 
                 if (itemstack.hasEffect(pass)) {
                     GL11.glDepthFunc(GL11.GL_EQUAL);
@@ -309,10 +310,10 @@ public class TempRenderItem extends RenderItem {
                 GL11.glColor4f(p_77020_5_, p_77020_6_, p_77020_7_, 1.0F);
                 tessellator.startDrawingQuads();
                 tessellator.setNormal(0.0F, 1.0F, 0.0F);
-                tessellator.addVertexWithUV((double) (0.0F - f7), (double) (0.0F - f8), 0.0D, (double) f14, (double) f5);
-                tessellator.addVertexWithUV((double) (f6 - f7), (double) (0.0F - f8), 0.0D, (double) f15, (double) f5);
-                tessellator.addVertexWithUV((double) (f6 - f7), (double) (1.0F - f8), 0.0D, (double) f15, (double) f4);
-                tessellator.addVertexWithUV((double) (0.0F - f7), (double) (1.0F - f8), 0.0D, (double) f14, (double) f4);
+                tessellator.addVertexWithUV(0.0F - f7, 0.0F - f8, 0.0D, f14, f5);
+                tessellator.addVertexWithUV(f6 - f7, 0.0F - f8, 0.0D, f15, f5);
+                tessellator.addVertexWithUV(f6 - f7, 1.0F - f8, 0.0D, f15, f4);
+                tessellator.addVertexWithUV(0.0F - f7, 1.0F - f8, 0.0D, f14, f4);
                 tessellator.draw();
                 GL11.glPopMatrix();
             }
@@ -387,10 +388,10 @@ public class TempRenderItem extends RenderItem {
             Tessellator tessellator = Tessellator.instance;
             tessellator.startDrawingQuads();
             tessellator.setColorOpaque_I(-1);
-            tessellator.addVertex((double) (p_77015_4_ - 2), (double) (p_77015_5_ + 18), (double) this.zLevel);
-            tessellator.addVertex((double) (p_77015_4_ + 18), (double) (p_77015_5_ + 18), (double) this.zLevel);
-            tessellator.addVertex((double) (p_77015_4_ + 18), (double) (p_77015_5_ - 2), (double) this.zLevel);
-            tessellator.addVertex((double) (p_77015_4_ - 2), (double) (p_77015_5_ - 2), (double) this.zLevel);
+            tessellator.addVertex(p_77015_4_ - 2, p_77015_5_ + 18, this.zLevel);
+            tessellator.addVertex(p_77015_4_ + 18, p_77015_5_ + 18, this.zLevel);
+            tessellator.addVertex(p_77015_4_ + 18, p_77015_5_ - 2, this.zLevel);
+            tessellator.addVertex(p_77015_4_ - 2, p_77015_5_ - 2, this.zLevel);
             tessellator.draw();
             GL11.glColorMask(true, true, true, true);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -560,10 +561,10 @@ public class TempRenderItem extends RenderItem {
             }
 
             tessellator.startDrawingQuads();
-            tessellator.addVertexWithUV((double) (p_77018_2_ + 0), (double) (p_77018_3_ + p_77018_5_), (double) this.zLevel, (double) ((f2 + (float) p_77018_5_ * f4) * f), (double) ((f3 + (float) p_77018_5_) * f1));
-            tessellator.addVertexWithUV((double) (p_77018_2_ + p_77018_4_), (double) (p_77018_3_ + p_77018_5_), (double) this.zLevel, (double) ((f2 + (float) p_77018_4_ + (float) p_77018_5_ * f4) * f), (double) ((f3 + (float) p_77018_5_) * f1));
-            tessellator.addVertexWithUV((double) (p_77018_2_ + p_77018_4_), (double) (p_77018_3_ + 0), (double) this.zLevel, (double) ((f2 + (float) p_77018_4_) * f), (double) ((f3 + 0.0F) * f1));
-            tessellator.addVertexWithUV((double) (p_77018_2_ + 0), (double) (p_77018_3_ + 0), (double) this.zLevel, (double) ((f2 + 0.0F) * f), (double) ((f3 + 0.0F) * f1));
+            tessellator.addVertexWithUV(p_77018_2_ + 0, p_77018_3_ + p_77018_5_, this.zLevel, (f2 + (float) p_77018_5_ * f4) * f, (f3 + (float) p_77018_5_) * f1);
+            tessellator.addVertexWithUV(p_77018_2_ + p_77018_4_, p_77018_3_ + p_77018_5_, this.zLevel, (f2 + (float) p_77018_4_ + (float) p_77018_5_ * f4) * f, (f3 + (float) p_77018_5_) * f1);
+            tessellator.addVertexWithUV(p_77018_2_ + p_77018_4_, p_77018_3_ + 0, this.zLevel, (f2 + (float) p_77018_4_) * f, (f3 + 0.0F) * f1);
+            tessellator.addVertexWithUV(p_77018_2_ + 0, p_77018_3_ + 0, this.zLevel, (f2 + 0.0F) * f, (f3 + 0.0F) * f1);
             tessellator.draw();
         }
     }
@@ -573,7 +574,7 @@ public class TempRenderItem extends RenderItem {
      * specified position.
      */
     public void renderItemOverlayIntoGUI(FontRenderer p_77021_1_, TextureManager p_77021_2_, ItemStack p_77021_3_, int p_77021_4_, int p_77021_5_) {
-        this.renderItemOverlayIntoGUI(p_77021_1_, p_77021_2_, p_77021_3_, p_77021_4_, p_77021_5_, (String) null);
+        this.renderItemOverlayIntoGUI(p_77021_1_, p_77021_2_, p_77021_3_, p_77021_4_, p_77021_5_, null);
     }
 
     public void renderItemOverlayIntoGUI(FontRenderer p_94148_1_, TextureManager p_94148_2_, ItemStack p_94148_3_, int p_94148_4_, int p_94148_5_, String p_94148_6_) {
@@ -620,20 +621,20 @@ public class TempRenderItem extends RenderItem {
     private void renderQuad(Tessellator p_77017_1_, int p_77017_2_, int p_77017_3_, int p_77017_4_, int p_77017_5_, int p_77017_6_) {
         p_77017_1_.startDrawingQuads();
         p_77017_1_.setColorOpaque_I(p_77017_6_);
-        p_77017_1_.addVertex((double) (p_77017_2_ + 0), (double) (p_77017_3_ + 0), 0.0D);
-        p_77017_1_.addVertex((double) (p_77017_2_ + 0), (double) (p_77017_3_ + p_77017_5_), 0.0D);
-        p_77017_1_.addVertex((double) (p_77017_2_ + p_77017_4_), (double) (p_77017_3_ + p_77017_5_), 0.0D);
-        p_77017_1_.addVertex((double) (p_77017_2_ + p_77017_4_), (double) (p_77017_3_ + 0), 0.0D);
+        p_77017_1_.addVertex(p_77017_2_ + 0, p_77017_3_ + 0, 0.0D);
+        p_77017_1_.addVertex(p_77017_2_ + 0, p_77017_3_ + p_77017_5_, 0.0D);
+        p_77017_1_.addVertex(p_77017_2_ + p_77017_4_, p_77017_3_ + p_77017_5_, 0.0D);
+        p_77017_1_.addVertex(p_77017_2_ + p_77017_4_, p_77017_3_ + 0, 0.0D);
         p_77017_1_.draw();
     }
 
     public void renderIcon(int p_94149_1_, int p_94149_2_, IIcon p_94149_3_, int p_94149_4_, int p_94149_5_) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double) (p_94149_1_ + 0), (double) (p_94149_2_ + p_94149_5_), (double) this.zLevel, (double) p_94149_3_.getMinU(), (double) p_94149_3_.getMaxV());
-        tessellator.addVertexWithUV((double) (p_94149_1_ + p_94149_4_), (double) (p_94149_2_ + p_94149_5_), (double) this.zLevel, (double) p_94149_3_.getMaxU(), (double) p_94149_3_.getMaxV());
-        tessellator.addVertexWithUV((double) (p_94149_1_ + p_94149_4_), (double) (p_94149_2_ + 0), (double) this.zLevel, (double) p_94149_3_.getMaxU(), (double) p_94149_3_.getMinV());
-        tessellator.addVertexWithUV((double) (p_94149_1_ + 0), (double) (p_94149_2_ + 0), (double) this.zLevel, (double) p_94149_3_.getMinU(), (double) p_94149_3_.getMinV());
+        tessellator.addVertexWithUV(p_94149_1_ + 0, p_94149_2_ + p_94149_5_, this.zLevel, p_94149_3_.getMinU(), p_94149_3_.getMaxV());
+        tessellator.addVertexWithUV(p_94149_1_ + p_94149_4_, p_94149_2_ + p_94149_5_, this.zLevel, p_94149_3_.getMaxU(), p_94149_3_.getMaxV());
+        tessellator.addVertexWithUV(p_94149_1_ + p_94149_4_, p_94149_2_ + 0, this.zLevel, p_94149_3_.getMaxU(), p_94149_3_.getMinV());
+        tessellator.addVertexWithUV(p_94149_1_ + 0, p_94149_2_ + 0, this.zLevel, p_94149_3_.getMinU(), p_94149_3_.getMinV());
         tessellator.draw();
     }
 
@@ -654,39 +655,19 @@ public class TempRenderItem extends RenderItem {
         this.doRender((EntityItem) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
     }
 
-    /*==================================== FORGE START ===========================================*/
-
-    /**
-     * Items should spread out when rendered in 3d?
-     *
-     * @return
-     */
     public boolean shouldSpreadItems() {
         return true;
     }
 
-    /**
-     * Items should have a bob effect
-     *
-     * @return
-     */
     public boolean shouldBob() {
         return true;
     }
 
-    public byte getMiniBlockCount(ItemStack stack, byte original) {
+    public int getMiniBlockCount(@NonNull ItemStack stack, int original) {
         return original;
     }
 
-    /**
-     * Allows for a subclass to override how many rendered items appear in a
-     * "mini item 3d stack"
-     *
-     * @param stack    The item stack
-     * @param original The default amount vanilla would use
-     * @return
-     */
-    public byte getMiniItemCount(ItemStack stack, byte original) {
+    public int getMiniItemCount(@NonNull ItemStack stack, int original) {
         return original;
     }
 }
