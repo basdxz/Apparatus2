@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Timer;
@@ -83,7 +84,11 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     //Set the flags for each model
     //Render each model (flat/thick/mesh)
     protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {
-        renderItem.doRender(entityItem, 0, 0, 0, 0, getSubTick());
+//        renderItem.doRender(entityItem, 0, 0, 0, 0, getSubTick());
+        val ent = new EntityItem(getMinecraft().theWorld, 0F, 0F, 0F, new ItemStack(Blocks.brick_block));
+        ent.age = entityItem.age;
+        ent.hoverStart = entityItem.hoverStart;
+        renderItem.doRender(ent, 0, 0, 0, 0, getSubTick());
     }
 
     protected void renderAsEquipped(@NonNull RenderBlocks renderBlocks, @NonNull EntityLivingBase entityLivingBase) {

@@ -47,7 +47,7 @@ public class TempRenderItem extends RenderItem {
             GL11.glScalef(2F, 2F, 2F);
             val miniBlockCount = getMiniBlockCount(itemStack.stackSize);
 
-            GL11.glTranslatef((float) posX, (float) posY + getBob(entityItem, subTick), (float) posZ);
+            GL11.glTranslatef((float) posX, (float) posY + entityBob(entityItem, subTick), (float) posZ);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             float f6;
             float f7;
@@ -55,7 +55,7 @@ public class TempRenderItem extends RenderItem {
 
             if (itemStack.getItemSpriteNumber() == 0 && itemStack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemStack.getItem()).getRenderType())) {
                 Block block = Block.getBlockFromItem(itemStack.getItem());
-                GL11.glRotatef(getRotation(entityItem, subTick), 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(entitySpin(entityItem, subTick), 0.0F, 1.0F, 0.0F);
 
                 if (renderInFrame) {
                     GL11.glScalef(1.25F, 1.25F, 1.25F);
@@ -158,12 +158,6 @@ public class TempRenderItem extends RenderItem {
         }
     }
 
-    protected float getBob(EntityItem entityItem, float subTick) {
-        if (renderInFrame)
-            return 0.1F;
-        return MathHelper.sin(((float) entityItem.age + subTick) / 10.0F + entityItem.hoverStart) * 0.1F + 0.1F;
-    }
-
     protected ResourceLocation getEntityTexture(EntityItem entityItem) {
         return RenderManager.instance.renderEngine.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
     }
@@ -193,7 +187,7 @@ public class TempRenderItem extends RenderItem {
             if (renderInFrame) {
                 GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
             } else {
-                GL11.glRotatef(getRotation(entityItem, subTick), 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(entitySpin(entityItem, subTick), 0.0F, 1.0F, 0.0F);
             }
 
             val oneOver16 = 0.0625F;
@@ -280,7 +274,15 @@ public class TempRenderItem extends RenderItem {
         }
     }
 
-    protected float getRotation(@NonNull EntityItem entityItem, float subTick) {
+    protected static float entityBob(@NonNull EntityItem entityItem, float subTick) {
+        if (renderInFrame)
+            return 0.1F;
+        return MathHelper.sin(((float) entityItem.age + subTick) / 10.0F + entityItem.hoverStart) * 0.1F + 0.1F;
+    }
+
+    protected static float entitySpin(@NonNull EntityItem entityItem, float subTick) {
+        if (renderInFrame)
+            return 0;
         return (((float) entityItem.age + subTick) / 20.0F + entityItem.hoverStart) * (180F / (float) Math.PI);
     }
 
