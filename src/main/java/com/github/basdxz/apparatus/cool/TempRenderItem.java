@@ -38,7 +38,7 @@ public class TempRenderItem extends RenderItem {
     protected final RenderBlocks renderBlocks = new RenderBlocks();
     protected final Random random = new Random();
 
-    public void actualRender(@NonNull EntityItem entityItem) {
+    public void actualRender(@NonNull EntityItem entityItem, @NonNull Runnable renderRunnable) {
         if (renderInFrame) {
             GL11.glScalef(1.025641F, 1.025641F, 1.025641F);
             GL11.glTranslatef(0F, 0.15F, 0F);
@@ -47,7 +47,7 @@ public class TempRenderItem extends RenderItem {
             GL11.glTranslatef(0, entityBob(entityItem, partialTick()), 0);
         }
 
-        renderDroppedItem(entityItem);
+        renderDroppedItem(entityItem, renderRunnable);
     }
 
     public void doRender(EntityItem entityItem, double posX, double posY, double posZ, float p_76986_8_, float subTick) {
@@ -55,7 +55,7 @@ public class TempRenderItem extends RenderItem {
         if (itemStack.getItem() == null)
             return;
 
-        actualRender(entityItem);
+        //actualRender(entityItem);
         if (true)
             return;
 
@@ -124,7 +124,8 @@ public class TempRenderItem extends RenderItem {
                     random.setSeed(187L);
                     val icon = itemStack.getItem().getIcon(itemStack, i);
 
-                    renderDroppedItem(entityItem);
+                    renderDroppedItem(entityItem, () -> {
+                    });
                 }
             } else {
                 if (itemStack.getItem() instanceof ItemCloth) {
@@ -141,7 +142,8 @@ public class TempRenderItem extends RenderItem {
                 }
 
                 val icon = itemStack.getIconIndex();
-                renderDroppedItem(entityItem);
+                renderDroppedItem(entityItem, () -> {
+                });
 
                 if (itemStack.getItem() instanceof ItemCloth)
                     GL11.glDisable(GL11.GL_BLEND);
@@ -158,11 +160,10 @@ public class TempRenderItem extends RenderItem {
         return RenderManager.instance.renderEngine.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
     }
 
-    private void renderDroppedItem(@NonNull EntityItem entityItem) {
+    private void renderDroppedItem(@NonNull EntityItem entityItem, @NonNull Runnable renderRunnable) {
         TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
         ResourceLocation resourcelocation = texturemanager.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
         val icon = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("potato");
-
 
         GL11.glPushMatrix();
         GL11.glColor4f(1F, 1F, 1F, 1F);
@@ -198,7 +199,9 @@ public class TempRenderItem extends RenderItem {
                     GL11.glTranslatef(x, y, 0.084375F);
                 }
 
-                ItemRenderer.renderItemIn2D(Tessellator.instance, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), thickness);
+                renderRunnable.run();
+
+                //ItemRenderer.renderItemIn2D(Tessellator.instance, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), thickness);
 
                 if (itemStack.hasEffect(0) || itemStack.hasEffect(1)) {
                     GL11.glDepthFunc(GL11.GL_EQUAL);
@@ -227,7 +230,7 @@ public class TempRenderItem extends RenderItem {
                     GL11.glDisable(GL11.GL_BLEND);
                     GL11.glEnable(GL11.GL_LIGHTING);
                     GL11.glDepthFunc(GL11.GL_LEQUAL);
-
+//
                     GL11.glColor4f(1F, 1F, 1F, 1F);
                     if (itemStack.getItemSpriteNumber() == 0) {
                         bindTexture(TextureMap.locationBlocksTexture);
