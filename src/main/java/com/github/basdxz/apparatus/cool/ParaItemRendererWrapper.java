@@ -1,11 +1,9 @@
 package com.github.basdxz.apparatus.cool;
 
 import com.github.basdxz.apparatus.common.parathing.ParaItemRender;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -17,18 +15,17 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.Timer;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.*;
 
 import static com.github.basdxz.apparatus.common.popoga.impl.RenderView.*;
+import static com.github.basdxz.apparatus.util.RenderUtil.partialTick;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
 @SideOnly(Side.CLIENT)
 @RequiredArgsConstructor
 public class ParaItemRendererWrapper implements IItemRenderer {
     protected final static float ITEM_UNIT_THICKNESS = 0.0625F;
-    protected final static Timer MINECRAFT_TIMER = getMinecraftTimer();
 
     protected static IIcon NULL_TEXTURE_REFERENCE;
 
@@ -39,13 +36,6 @@ public class ParaItemRendererWrapper implements IItemRenderer {
 
     {
         renderItem.setRenderManager(RenderManager.instance);
-    }
-
-    @SneakyThrows
-    protected static Timer getMinecraftTimer() {
-        val timerField = ReflectionHelper.findField(Minecraft.class, "timer", "field_71428_T");
-        timerField.setAccessible(true);
-        return (Timer) timerField.get(getMinecraft());
     }
 
     @Override
@@ -86,10 +76,10 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     //Render each model (flat/thick/mesh)
     protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {
 //        renderItem.doRender(entityItem, 0, 0, 0, 0, getSubTick());
-        val ent = new EntityItem(getMinecraft().theWorld, 0F, 0F, 0F, new ItemStack(Blocks.brick_block));
+        val ent = new EntityItem(getMinecraft().theWorld, 0F, 0F, 0F, new ItemStack(Blocks.tnt));
         ent.age = entityItem.age;
         ent.hoverStart = entityItem.hoverStart;
-        renderItem.doRender(ent, 0, 0, 0, 0, getSubTick());
+        renderItem.doRender(entityItem, 0, 0, 0, 0, partialTick());
     }
 
     protected void renderAsEquipped(@NonNull RenderBlocks renderBlocks, @NonNull EntityLivingBase entityLivingBase) {
@@ -146,9 +136,5 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     public void registerResources(@NonNull IIconRegister register) {
         if (NULL_TEXTURE_REFERENCE != null)
             NULL_TEXTURE_REFERENCE = null;
-    }
-
-    protected static float getSubTick() {
-        return MINECRAFT_TIMER.renderPartialTicks;
     }
 }
