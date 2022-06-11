@@ -31,186 +31,176 @@ import org.lwjgl.opengl.*;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
+import static com.github.basdxz.apparatus.util.RenderUtil.partialTick;
+
 public class TempRenderItem extends RenderItem {
     protected static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     protected final RenderBlocks renderBlocks = new RenderBlocks();
     protected final Random random = new Random();
 
+    public void actualRender(@NonNull EntityItem entityItem) {
+        if (renderInFrame) {
+            GL11.glScalef(1.025641F, 1.025641F, 1.025641F);
+            GL11.glTranslatef(0F, 0.15F, 0F);
+        } else {
+            random.setSeed(187L);
+            GL11.glTranslatef(0, entityBob(entityItem, partialTick()), 0);
+        }
+
+        renderDroppedItem(entityItem);
+    }
+
     public void doRender(EntityItem entityItem, double posX, double posY, double posZ, float p_76986_8_, float subTick) {
         val itemStack = entityItem.getEntityItem();
+        if (itemStack.getItem() == null)
+            return;
 
-        if (itemStack.getItem() != null) {
-            bindEntityTexture(entityItem);
-            TextureUtil.func_152777_a(false, false, 1.0F);
-            random.setSeed(187L);
-            GL11.glPushMatrix();
-            GL11.glScalef(2F, 2F, 2F);
-            val miniBlockCount = getMiniBlockCount(itemStack.stackSize);
+        actualRender(entityItem);
+        if (true)
+            return;
 
-            GL11.glTranslatef((float) posX, (float) posY + entityBob(entityItem, subTick), (float) posZ);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        bindEntityTexture(entityItem);
+        TextureUtil.func_152777_a(false, false, 1.0F);
+        random.setSeed(187L);
+        GL11.glPushMatrix();
+        GL11.glScalef(2F, 2F, 2F);
+        val miniBlockCount = getMiniBlockCount(itemStack.stackSize);
 
-            if (itemStack.getItemSpriteNumber() == 0 && itemStack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemStack.getItem()).getRenderType())) {
-                Block block = Block.getBlockFromItem(itemStack.getItem());
-                GL11.glRotatef(entitySpin(entityItem, subTick), 0.0F, 1.0F, 0.0F);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
+        if (itemStack.getItemSpriteNumber() == 0 && itemStack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemStack.getItem()).getRenderType())) {
+            Block block = Block.getBlockFromItem(itemStack.getItem());
+            GL11.glRotatef(entitySpin(entityItem, subTick), 0.0F, 1.0F, 0.0F);
+
+            if (renderInFrame) {
+                GL11.glScalef(1.25F, 1.25F, 1.25F);
+                GL11.glTranslatef(0.0F, 0.05F, 0.0F);
+                GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+            }
+
+            float scale;
+            val renderType = block.getRenderType();
+            if (renderType == 1 || renderType == 19 || renderType == 12 || renderType == 2) {
+                scale = 0.5F;
+            } else {
+                scale = 0.25F;
+            }
+
+            if (block.getRenderBlockPass() > 0) {
+                GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+                GL11.glEnable(GL11.GL_BLEND);
+                OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+            }
+
+            GL11.glScalef(scale, scale, scale);
+
+            for (int i = 0; i < miniBlockCount; ++i) {
+                GL11.glPushMatrix();
+
+                if (i > 0) {
+                    val xOffset = (random.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
+                    val yOffset = (random.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
+                    val zOffset = (random.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
+                    GL11.glTranslatef(xOffset, yOffset, zOffset);
+                }
+
+                renderBlocks.renderBlockAsItem(block, itemStack.getItemDamage(), 1.0F);
+                GL11.glPopMatrix();
+            }
+
+            if (block.getRenderBlockPass() > 0)
+                GL11.glDisable(GL11.GL_BLEND);
+
+        } else {
+            if (itemStack.getItem().requiresMultipleRenderPasses()) {
                 if (renderInFrame) {
-                    GL11.glScalef(1.25F, 1.25F, 1.25F);
-                    GL11.glTranslatef(0.0F, 0.05F, 0.0F);
-                    GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-                }
-
-                float scale;
-                val renderType = block.getRenderType();
-                if (renderType == 1 || renderType == 19 || renderType == 12 || renderType == 2) {
-                    scale = 0.5F;
+                    GL11.glScalef(0.5128205F, 0.5128205F, 0.5128205F);
+                    GL11.glTranslatef(0.0F, -0.05F, 0.0F);
                 } else {
-                    scale = 0.25F;
+                    GL11.glScalef(0.5F, 0.5F, 0.5F);
                 }
 
-                if (block.getRenderBlockPass() > 0) {
+                for (int i = 0; i < itemStack.getItem().getRenderPasses(itemStack.getItemDamage()); ++i) {
+                    random.setSeed(187L);
+                    val icon = itemStack.getItem().getIcon(itemStack, i);
+
+                    renderDroppedItem(entityItem);
+                }
+            } else {
+                if (itemStack.getItem() instanceof ItemCloth) {
                     GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
                     GL11.glEnable(GL11.GL_BLEND);
                     OpenGlHelper.glBlendFunc(770, 771, 1, 0);
                 }
 
-                GL11.glScalef(scale, scale, scale);
-
-                for (int i = 0; i < miniBlockCount; ++i) {
-                    GL11.glPushMatrix();
-
-                    if (i > 0) {
-                        val xOffset = (random.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
-                        val yOffset = (random.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
-                        val zOffset = (random.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
-                        GL11.glTranslatef(xOffset, yOffset, zOffset);
-                    }
-
-                    renderBlocks.renderBlockAsItem(block, itemStack.getItemDamage(), 1.0F);
-                    GL11.glPopMatrix();
-                }
-
-                if (block.getRenderBlockPass() > 0)
-                    GL11.glDisable(GL11.GL_BLEND);
-
-            } else {
-                if (itemStack.getItem().requiresMultipleRenderPasses()) {
-                    if (renderInFrame) {
-                        GL11.glScalef(0.5128205F, 0.5128205F, 0.5128205F);
-                        GL11.glTranslatef(0.0F, -0.05F, 0.0F);
-                    } else {
-                        GL11.glScalef(0.5F, 0.5F, 0.5F);
-                    }
-
-                    for (int i = 0; i < itemStack.getItem().getRenderPasses(itemStack.getItemDamage()); ++i) {
-                        random.setSeed(187L);
-                        val icon = itemStack.getItem().getIcon(itemStack, i);
-
-                        if (renderWithColor) {
-                            val color = itemStack.getItem().getColorFromItemStack(itemStack, i);
-                            val red = (float) (color >> 16 & 255) / 255.0F;
-                            val green = (float) (color >> 8 & 255) / 255.0F;
-                            val blue = (float) (color & 255) / 255.0F;
-                            renderDroppedItem(entityItem, icon, miniBlockCount, subTick, red, green, blue, i);
-                        } else {
-                            renderDroppedItem(entityItem, icon, miniBlockCount, subTick, 1.0F, 1.0F, 1.0F, i);
-                        }
-                    }
+                if (renderInFrame) {
+                    GL11.glScalef(0.5128205F, 0.5128205F, 0.5128205F);
+                    GL11.glTranslatef(0.0F, -0.05F, 0.0F);
                 } else {
-                    if (itemStack.getItem() instanceof ItemCloth) {
-                        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-                        GL11.glEnable(GL11.GL_BLEND);
-                        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-                    }
-
-                    if (renderInFrame) {
-                        GL11.glScalef(0.5128205F, 0.5128205F, 0.5128205F);
-                        GL11.glTranslatef(0.0F, -0.05F, 0.0F);
-                    } else {
-                        GL11.glScalef(0.5F, 0.5F, 0.5F);
-                    }
-
-                    val icon = itemStack.getIconIndex();
-                    if (renderWithColor) {
-                        val color = itemStack.getItem().getColorFromItemStack(itemStack, 0);
-                        val red = (float) (color >> 16 & 255) / 255.0F;
-                        val green = (float) (color >> 8 & 255) / 255.0F;
-                        val blue = (float) (color & 255) / 255.0F;
-                        renderDroppedItem(entityItem, icon, miniBlockCount, subTick, red, green, blue);
-                    } else {
-                        renderDroppedItem(entityItem, icon, miniBlockCount, subTick, 1.0F, 1.0F, 1.0F);
-                    }
-
-                    if (itemStack.getItem() instanceof ItemCloth)
-                        GL11.glDisable(GL11.GL_BLEND);
+                    GL11.glScalef(0.5F, 0.5F, 0.5F);
                 }
-            }
 
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            GL11.glPopMatrix();
-            bindEntityTexture(entityItem);
-            TextureUtil.func_147945_b();
+                val icon = itemStack.getIconIndex();
+                renderDroppedItem(entityItem);
+
+                if (itemStack.getItem() instanceof ItemCloth)
+                    GL11.glDisable(GL11.GL_BLEND);
+            }
         }
+
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        GL11.glPopMatrix();
+        bindEntityTexture(entityItem);
+        TextureUtil.func_147945_b();
     }
 
     protected ResourceLocation getEntityTexture(EntityItem entityItem) {
         return RenderManager.instance.renderEngine.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
     }
 
-    private void renderDroppedItem(EntityItem entityItem, IIcon icon, int miniBlockCount, float subTick, float red, float green, float blue) {
-        this.renderDroppedItem(entityItem, icon, miniBlockCount, subTick, red, green, blue, 0);
-    }
+    private void renderDroppedItem(@NonNull EntityItem entityItem) {
+        TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
+        ResourceLocation resourcelocation = texturemanager.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
+        val icon = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("potato");
 
-    private void renderDroppedItem(EntityItem entityItem, IIcon icon, int miniBlockCount, float subTick, float red, float green, float blue, int pass) {
-        if (icon == null) {
-            TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-            ResourceLocation resourcelocation = texturemanager.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
-            icon = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("potato");
-        }
+
+        GL11.glPushMatrix();
+        GL11.glColor4f(1F, 1F, 1F, 1F);
 
         val minU = icon.getMinU();
         val maxU = icon.getMaxU();
         val minV = icon.getMinV();
         val maxV = icon.getMaxV();
-        val fOne = 1.0F;
-        val fHalf = 0.5F;
-        val fQuart = 0.25F;
 
+        val itemStack = entityItem.getEntityItem();
         if (RenderManager.instance.options.fancyGraphics) {
-            GL11.glPushMatrix();
+            val thickness = 1F / 16F;
+            val itemSpacing = thickness * 0.35F;
+            val multiItemCount = fancyMultiItemCount(itemStack.stackSize);
+            if (itemStack.getItemSpriteNumber() == 0) {
+                bindTexture(TextureMap.locationBlocksTexture);
+            } else {
+                bindTexture(TextureMap.locationItemsTexture);
+            }
 
             if (renderInFrame) {
                 GL11.glRotatef(180F, 0F, 1F, 0F);
             } else {
-                GL11.glRotatef(entitySpin(entityItem, subTick), 0F, 1F, 0F);
+                GL11.glRotatef(entitySpin(entityItem, partialTick()), 0F, 1F, 0F);
             }
 
-            val oneOver16 = 0.0625F;
-            val magicNumber = 0.021875F;
-            val itemStack = entityItem.getEntityItem();
-            val multiItemCount = fancyMultiItemCount(itemStack.stackSize);
-
-            GL11.glTranslatef(-fHalf, -fQuart, -((oneOver16 + magicNumber) * (float) multiItemCount / 2F));
+            GL11.glTranslatef(-0.5F, -0.25F, -((thickness + itemSpacing) * (multiItemCount / 2F - 1F)));
 
             for (var i = 0; i < multiItemCount; ++i) {
                 if (i > 0 && shouldSpreadItems()) {
-                    float x = (random.nextFloat() * 2F - 1F) * 0.3F / 0.5F;
-                    float y = (random.nextFloat() * 2F - 1F) * 0.3F / 0.5F;
-                    GL11.glTranslatef(x, y, oneOver16 + magicNumber);
-                } else {
-                    GL11.glTranslatef(0F, 0F, oneOver16 + magicNumber);
+                    float x = (random.nextFloat() * 2F - 1F) * 0.3F;
+                    float y = (random.nextFloat() * 2F - 1F) * 0.3F;
+                    GL11.glTranslatef(x, y, 0.084375F);
                 }
 
-                if (itemStack.getItemSpriteNumber() == 0) {
-                    bindTexture(TextureMap.locationBlocksTexture);
-                } else {
-                    bindTexture(TextureMap.locationItemsTexture);
-                }
+                ItemRenderer.renderItemIn2D(Tessellator.instance, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), thickness);
 
-                GL11.glColor4f(red, green, blue, 1F);
-                ItemRenderer.renderItemIn2D(Tessellator.instance, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), oneOver16);
-
-                if (itemStack.hasEffect(pass)) {
+                if (itemStack.hasEffect(0) || itemStack.hasEffect(1)) {
                     GL11.glDepthFunc(GL11.GL_EQUAL);
                     GL11.glDisable(GL11.GL_LIGHTING);
                     RenderManager.instance.renderEngine.bindTexture(RES_ITEM_GLINT);
@@ -220,29 +210,37 @@ public class TempRenderItem extends RenderItem {
                     GL11.glColor4f(0.5F * f11, 0.25F * f11, 0.8F * f11, 1F);
                     GL11.glMatrixMode(GL11.GL_TEXTURE);
                     GL11.glPushMatrix();
-                    float oneOver8 = 0.125F;
-                    GL11.glScalef(oneOver8, oneOver8, oneOver8);
+                    GL11.glScalef(0.125F, 0.125F, 0.125F);
                     float f13 = (float) (Minecraft.getSystemTime() % 3000L) / 3000F * 8F;
                     GL11.glTranslatef(f13, 0F, 0F);
                     GL11.glRotatef(-50F, 0F, 0F, 1F);
-                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0F, 0F, 1F, 1F, 255, 255, oneOver16);
+                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0F, 0F, 1F, 1F, 255, 255, thickness);
                     GL11.glPopMatrix();
                     GL11.glPushMatrix();
-                    GL11.glScalef(oneOver8, oneOver8, oneOver8);
+                    GL11.glScalef(0.125F, 0.125F, 0.125F);
                     f13 = (float) (Minecraft.getSystemTime() % 4873L) / 4873F * 8F;
                     GL11.glTranslatef(-f13, 0F, 0F);
                     GL11.glRotatef(10F, 0F, 0F, 1F);
-                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0F, 0F, 1F, 1F, 255, 255, oneOver16);
+                    ItemRenderer.renderItemIn2D(Tessellator.instance, 0F, 0F, 1F, 1F, 255, 255, thickness);
                     GL11.glPopMatrix();
                     GL11.glMatrixMode(GL11.GL_MODELVIEW);
                     GL11.glDisable(GL11.GL_BLEND);
                     GL11.glEnable(GL11.GL_LIGHTING);
                     GL11.glDepthFunc(GL11.GL_LEQUAL);
+
+                    GL11.glColor4f(1F, 1F, 1F, 1F);
+                    if (itemStack.getItemSpriteNumber() == 0) {
+                        bindTexture(TextureMap.locationBlocksTexture);
+                    } else {
+                        bindTexture(TextureMap.locationItemsTexture);
+                    }
                 }
             }
-
-            GL11.glPopMatrix();
         } else {
+            GL11.glTranslatef(-0.5F, -0.25F, 0F);
+            if (!renderInFrame)
+                GL11.glRotatef(180.0F - RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+            val miniBlockCount = getMiniBlockCount(itemStack.stackSize);
             for (int i = 0; i < miniBlockCount; ++i) {
                 GL11.glPushMatrix();
 
@@ -253,20 +251,17 @@ public class TempRenderItem extends RenderItem {
                     GL11.glTranslatef(xOffset, yOffset, zOffset);
                 }
 
-                if (!renderInFrame)
-                    GL11.glRotatef(180.0F - RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-
-                GL11.glColor4f(red, green, blue, 1.0F);
                 Tessellator.instance.startDrawingQuads();
                 Tessellator.instance.setNormal(0.0F, 1.0F, 0.0F);
-                Tessellator.instance.addVertexWithUV(-0.5f, -0.25f, 0.0D, minU, maxV);
-                Tessellator.instance.addVertexWithUV(0.5f, -0.25f, 0.0D, maxU, maxV);
-                Tessellator.instance.addVertexWithUV(0.5f, 0.75f, 0.0D, maxU, minV);
-                Tessellator.instance.addVertexWithUV(-0.5f, 0.75f, 0.0D, minU, minV);
+                Tessellator.instance.addVertexWithUV(0F, 0F, 0.0D, minU, maxV);
+                Tessellator.instance.addVertexWithUV(1F, 0F, 0.0D, maxU, maxV);
+                Tessellator.instance.addVertexWithUV(1F, 1F, 0.0D, maxU, minV);
+                Tessellator.instance.addVertexWithUV(0F, 1F, 0.0D, minU, minV);
                 Tessellator.instance.draw();
                 GL11.glPopMatrix();
             }
         }
+        GL11.glPopMatrix();
     }
 
     protected static float entityBob(@NonNull EntityItem entityItem, float subTick) {
@@ -599,10 +594,12 @@ public class TempRenderItem extends RenderItem {
         doRender((EntityItem) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
     }
 
+    @Override
     public boolean shouldSpreadItems() {
         return true;
     }
 
+    @Override
     public boolean shouldBob() {
         return true;
     }
