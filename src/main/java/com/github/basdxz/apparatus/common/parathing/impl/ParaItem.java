@@ -14,5 +14,5 @@ public class ParaItem implements IParaItem {
     @NonNull
     protected final String localizedName;
     @NonNull
-    protected final IRenderer model;
+    protected final IRenderer renderer;
 }

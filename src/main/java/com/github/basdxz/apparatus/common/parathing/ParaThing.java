@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.common.parathing;
 
+
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 
 public interface ParaThing {
@@ -8,5 +9,5 @@ public interface ParaThing {
 
     String localizedName();
 
-    IRenderer model();
+    IRenderer renderer();
 }

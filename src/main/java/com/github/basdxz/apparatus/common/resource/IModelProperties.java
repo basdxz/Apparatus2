@@ -5,6 +5,7 @@ import org.joml.Vector3fc;
 
 import java.awt.*;
 
+//TODO: This should not be an IResource but two separate things, the ModelProperties and it's Resource?
 public interface IModelProperties extends IResource {
     boolean hasAlpha();
 

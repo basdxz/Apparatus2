@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.common.resource.IRender;
 
 //Edible
 //Provides Food
@@ -18,7 +18,7 @@ public class YummyBacon implements IParaItem {
     }
 
     @Override
-    public IRenderer model() {
+    public IRender renderer() {
         return null;
     }
 }

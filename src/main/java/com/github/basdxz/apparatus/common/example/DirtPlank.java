@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaBlock;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.common.resource.IRender;
 
 //Renders as block with different sides
 //Has a slight glow
@@ -17,7 +17,7 @@ public class DirtPlank implements IParaBlock {
     }
 
     @Override
-    public IRenderer model() {
+    public IRender renderer() {
         return null;
     }
 }
