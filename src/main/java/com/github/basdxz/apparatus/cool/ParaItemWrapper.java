@@ -18,8 +18,9 @@ public class ParaItemWrapper extends Item {
     public ParaItemWrapper(@NonNull ParaItem paraItem) {
         this.paraItem = paraItem;
         setUnlocalizedName("apparatus." + paraItem.paraID());
-        setTextureName("apparatus:a");
+        setTextureName("apparatus:SwInner");
 
+//        setFull3D(); //This is for stuff like tools, makes the item bigger in third-person and orients it like a tool/sword
         renderer = new ParaItemRendererWrapper(paraItem);//TODO: CLIENT SIDE ONLY!
         MinecraftForgeClient.registerItemRenderer(this, renderer);//TODO: CLIENT SIDE ONLY!
     }
@@ -27,7 +28,7 @@ public class ParaItemWrapper extends Item {
     //TODO: CLIENT SIDE ONLY!
     @Override
     public void registerIcons(@NonNull IIconRegister register) {
-//        super.registerIcons(register);
+        super.registerIcons(register);
 //        inner = register.registerIcon("apparatus:SwInner");
 //        outer = register.registerIcon("apparatus:Swouter");
 //        geauh = register.registerIcon("apparatus:Geauh");

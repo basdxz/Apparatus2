@@ -89,6 +89,10 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     protected void renderAsEquipped(@NonNull RenderBlocks renderBlocks, @NonNull EntityLivingBase entityLivingBase) {
         render.itemModels(EQUIPPED);
         //renderThick(nullTexture(), 1F / 16F);
+//        GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
+//        GL11.glScalef(0.625F, -0.625F, 0.625F);
+//        GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
+//        GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
         renderTestCircuit();
     }
 
@@ -114,9 +118,15 @@ public class ParaItemRendererWrapper implements IItemRenderer {
 
     protected void renderInInventory(@NonNull RenderBlocks renderBlocks) {
         render.itemModels(INVENTORY);
+        GL11.glDisable(GL11.GL_LIGHTING); //Forge: Make sure that render states are reset, a renderEffect can derp them up.
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_BLEND);
         renderFlat(bottom);
         renderFlat(middle);
         renderFlat(top);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     //TODO: Not thread safe right now
