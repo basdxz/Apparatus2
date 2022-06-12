@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaFluid;
-import com.github.basdxz.apparatus.common.resource.IModel;
+import com.github.basdxz.apparatus.common.resource.IRenderer;
 
 //Creates a fluid
 public class OrangeJuice implements IParaFluid {
@@ -16,7 +16,7 @@ public class OrangeJuice implements IParaFluid {
     }
 
     @Override
-    public IModel model() {
+    public IRenderer model() {
         return null;
     }
 }

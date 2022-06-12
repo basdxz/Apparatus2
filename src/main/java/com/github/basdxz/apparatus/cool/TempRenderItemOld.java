@@ -31,7 +31,8 @@ import org.lwjgl.opengl.*;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-import static com.github.basdxz.apparatus.util.RenderUtil.partialTick;
+import static com.falsepattern.lib.util.RenderUtil.partialTick;
+
 
 public class TempRenderItemOld extends RenderItem {
     protected static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");

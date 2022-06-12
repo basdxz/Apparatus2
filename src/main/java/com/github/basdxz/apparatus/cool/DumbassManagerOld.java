@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.cool;
 
+import com.falsepattern.lib.util.LangUtil;
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
-import com.github.basdxz.apparatus.util.LangUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 

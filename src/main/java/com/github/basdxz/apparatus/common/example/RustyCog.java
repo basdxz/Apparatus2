@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
-import com.github.basdxz.apparatus.common.resource.IModel;
+import com.github.basdxz.apparatus.common.resource.IRenderer;
 
 //Has a fancy description with a shift key alt description
 //NBT storing how many times it's been pressed
@@ -17,7 +17,7 @@ public class RustyCog implements IParaItem {
     }
 
     @Override
-    public IModel model() {
+    public IRenderer model() {
         return null;
     }
 }
