@@ -1,6 +1,6 @@
-package com.github.basdxz.apparatus.common.popoga.impl;
+package com.github.basdxz.apparatus.common.resource.impl;
 
-import com.github.basdxz.apparatus.common.popoga.IRenderProperties;
+import com.github.basdxz.apparatus.common.resource.IRenderProperties;
 import lombok.*;
 import lombok.experimental.*;
 import org.joml.Quaternionfc;

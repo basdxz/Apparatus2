@@ -18,7 +18,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.*;
 
-import static com.github.basdxz.apparatus.common.popoga.impl.RenderView.*;
+import static com.github.basdxz.apparatus.common.render.impl.RenderView.*;
 import static com.github.basdxz.apparatus.cool.TempRenderItem.RES_ITEM_GLINT;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
@@ -107,6 +107,7 @@ public class ParaItemRendererWrapper implements IItemRenderer {
         val bottomThickness = unit * 0.15F;
         val middleThickness = unit * 0.3F;
         val topThickness = unit * 0.5F;
+
         GL11.glPushMatrix();
         renderThick(bottom, bottomThickness);
         GL11.glTranslatef(0F, 0F, -bottomThickness);
