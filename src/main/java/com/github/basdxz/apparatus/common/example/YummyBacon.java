@@ -1,11 +1,12 @@
 package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.common.parathing.ParaItem;
+import com.github.basdxz.apparatus.common.parathing.IParaItem;
+import com.github.basdxz.apparatus.common.resource.IModel;
 
 //Edible
 //Provides Food
 //Gives user speed buff
-public class YummyBacon implements ParaItem {
+public class YummyBacon implements IParaItem {
     @Override
     public String paraID() {
         return null;
@@ -13,6 +14,11 @@ public class YummyBacon implements ParaItem {
 
     @Override
     public String localizedName() {
+        return null;
+    }
+
+    @Override
+    public IModel model() {
         return null;
     }
 }

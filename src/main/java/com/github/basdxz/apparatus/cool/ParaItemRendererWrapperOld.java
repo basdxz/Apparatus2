@@ -1,6 +1,9 @@
 package com.github.basdxz.apparatus.cool;
 
-import com.github.basdxz.apparatus.common.parathing.ParaItemRender;
+import com.github.basdxz.apparatus.common.resource.ISpriteModel;
+import com.github.basdxz.apparatus.common.resource.impl.ModelProperties;
+import com.github.basdxz.apparatus.common.resource.impl.SpriteModel;
+import com.github.basdxz.apparatus.common.resource.impl.TextureResource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.*;
@@ -16,30 +19,50 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.*;
 
-import static com.github.basdxz.apparatus.common.render.impl.RenderView.*;
-import static com.github.basdxz.apparatus.cool.TempRenderItem.RES_ITEM_GLINT;
+import java.awt.*;
+
+import static com.github.basdxz.apparatus.cool.TempRenderItemOld.RES_ITEM_GLINT;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
 @SideOnly(Side.CLIENT)
 @RequiredArgsConstructor
-public class ParaItemRendererWrapper implements IItemRenderer {
+public class ParaItemRendererWrapperOld implements IItemRenderer {
     protected final static float ITEM_UNIT_THICKNESS = 0.0625F;
 
     protected static IIcon NULL_TEXTURE_REFERENCE;
 
     private final boolean renderWithColor = false;
-    private final TempRenderItem renderItem = new TempRenderItem();
-    @NonNull
-    protected final ParaItemRender render;
+    private final TempRenderItemOld renderItem = new TempRenderItemOld();
 
     protected IIcon bottom;
     protected IIcon middle;
     protected IIcon top;
 
+    protected ISpriteModel sprite;
+
     {
         renderItem.setRenderManager(RenderManager.instance);
+
+        val props = new ModelProperties(
+                "apparatus",
+                "prop",
+                true,
+                true,
+                true,
+                Color.WHITE,
+                new Vector3f(),
+                new Quaternionf(),
+                new Vector3f()
+        );
+        val tex = new TextureResource(
+                "apparatus",
+                "SwInner"
+        );
+        sprite = new SpriteModel(props, 1F, tex);
     }
 
     @Override
@@ -87,7 +110,6 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     }
 
     protected void renderAsEquipped(@NonNull RenderBlocks renderBlocks, @NonNull EntityLivingBase entityLivingBase) {
-        render.itemModels(EQUIPPED);
         //renderThick(nullTexture(), 1F / 16F);
 //        GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
 //        GL11.glScalef(0.625F, -0.625F, 0.625F);
@@ -97,7 +119,6 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     }
 
     protected void renderAsEquippedFirstPerson(@NonNull RenderBlocks renderBlocks, @NonNull EntityLivingBase entityLivingBase) {
-        render.itemModels(EQUIPPED_FIRST_PERSON);
         //renderThick(nullTexture(), 1F / 16F);
         renderTestCircuit();
     }
@@ -118,7 +139,6 @@ public class ParaItemRendererWrapper implements IItemRenderer {
     }
 
     protected void renderInInventory(@NonNull RenderBlocks renderBlocks) {
-        render.itemModels(INVENTORY);
         GL11.glDisable(GL11.GL_LIGHTING); //Forge: Make sure that render states are reset, a renderEffect can derp them up.
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_BLEND);

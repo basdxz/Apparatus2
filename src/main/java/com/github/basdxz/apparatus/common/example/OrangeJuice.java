@@ -1,9 +1,10 @@
 package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.common.parathing.ParaFluid;
+import com.github.basdxz.apparatus.common.parathing.IParaFluid;
+import com.github.basdxz.apparatus.common.resource.IModel;
 
 //Creates a fluid
-public class OrangeJuice implements ParaFluid {
+public class OrangeJuice implements IParaFluid {
     @Override
     public String paraID() {
         return null;
@@ -11,6 +12,11 @@ public class OrangeJuice implements ParaFluid {
 
     @Override
     public String localizedName() {
+        return null;
+    }
+
+    @Override
+    public IModel model() {
         return null;
     }
 }

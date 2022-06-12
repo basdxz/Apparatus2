@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.cool;
 
-import com.github.basdxz.apparatus.common.resource.ITextureResource;
+import com.github.basdxz.apparatus.common.resource.IResource;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,13 +10,13 @@ import static cpw.mods.fml.relauncher.Side.CLIENT;
 
 @SideOnly(CLIENT)
 @RequiredArgsConstructor
-public class TextureResourceWrapper {
+public class TextureResourceWrapperOld {
     @NonNull
-    protected ITextureResource resource;
+    protected IResource IResource;
     @Getter
     protected IIcon icon;
 
     public void registerIcon(@NonNull IIconRegister register) {
-        icon = register.registerIcon(resource.resourceDomain() + ":" + resource.resourceLocation());
+        icon = register.registerIcon(IResource.domain() + ":" + IResource.location());
     }
 }

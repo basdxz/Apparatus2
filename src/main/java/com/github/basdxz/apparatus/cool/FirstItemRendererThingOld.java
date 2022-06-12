@@ -15,10 +15,10 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.*;
 
 @RequiredArgsConstructor
-public class FirstItemRendererThing implements IItemRenderer {
+public class FirstItemRendererThingOld implements IItemRenderer {
     private final static float ITEM_2D_THICKNESS = 0.0625F;
 
-    protected final ParaItemWrapper paraItemWrapper;
+    protected final ParaItemWrapperOld paraItemWrapperOld;
 
     protected final MeshRenderer mRender = new MeshRenderer() {
         {

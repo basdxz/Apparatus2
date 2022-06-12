@@ -5,7 +5,7 @@ import org.joml.Vector3fc;
 
 import java.awt.*;
 
-public interface IRenderProperties {
+public interface IModelProperties extends IResource {
     boolean hasAlpha();
 
     boolean hasNormal();

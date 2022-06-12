@@ -1,4 +1,5 @@
 package com.github.basdxz.apparatus.common.parathing;
 
-public interface ParaFluid extends ParaBlock {
+public interface IParaItem extends ParaThing {
+
 }
