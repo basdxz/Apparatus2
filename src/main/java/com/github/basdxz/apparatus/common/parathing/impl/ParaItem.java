@@ -37,7 +37,7 @@ public class ParaItem implements IParaItem {
         );
         val tex = new TextureResource(new ResourceLocation("apparatus", "SwInner"));
         val models = new ArrayList<IModel>();
-        models.add(new SpriteModel(props, 1F, tex));
+        models.add(new SpriteModel(props, tex, 1F));
 
         val renderer = new Renderer(models);
         renderers = new HashMap<>();

@@ -11,6 +11,6 @@ import lombok.experimental.*;
 @Accessors(fluent = true, chain = true)
 public class SpriteModel implements ISpriteModel {
     protected final IModelProperties properties;
-    protected final float thickness;
     protected final ITextureResource texture;
+    protected final float thickness;
 }
