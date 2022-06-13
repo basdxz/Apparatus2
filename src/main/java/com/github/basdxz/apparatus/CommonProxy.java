@@ -14,7 +14,7 @@ public class CommonProxy {
         Apparatus.info(Config.greeting);
         Apparatus.info("I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
 
-        DumbassManagerOld.register(new ParaItem("cool_thing_id", "Cool Thing!", null));
+        DumbassManagerOld.register(new ParaItem("cool_thing_id", "Cool Thing!"));
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."

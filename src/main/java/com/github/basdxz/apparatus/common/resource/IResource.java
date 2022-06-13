@@ -1,9 +1,7 @@
 package com.github.basdxz.apparatus.common.resource;
 
 public interface IResource {
-    String domain();
-
-    String location();
+    IResourceLocation location();
 
     IResourceType type();
 }

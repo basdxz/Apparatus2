@@ -12,7 +12,7 @@ public class ParaItemAdapter extends Item {
 
     public ParaItemAdapter(@NonNull IParaItem paraItem) {
         this.paraItem = paraItem;
-        renderer = new ParaItemRendererAdapter(paraItem.renderer());
+        renderer = new ParaItemRendererAdapter(paraItem.renderers());
         MinecraftForgeClient.registerItemRenderer(this, renderer);
     }
 

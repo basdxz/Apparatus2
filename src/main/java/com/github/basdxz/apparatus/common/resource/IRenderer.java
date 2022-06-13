@@ -1,5 +1,7 @@
 package com.github.basdxz.apparatus.common.resource;
 
+import java.util.List;
+
 public interface IRenderer {
-    Iterable<IModel> models();
+    List<IModel> models();
 }

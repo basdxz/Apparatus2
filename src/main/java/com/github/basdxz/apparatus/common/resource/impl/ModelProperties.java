@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.common.resource.impl;
 
 import com.github.basdxz.apparatus.common.resource.IModelProperties;
+import com.github.basdxz.apparatus.common.resource.IResourceLocation;
 import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 import lombok.experimental.*;
@@ -11,12 +12,10 @@ import java.awt.*;
 
 import static com.github.basdxz.apparatus.common.resource.impl.ResourceType.MODEL_PROPERTIES;
 
-@Getter
-@AllArgsConstructor
+@Data
 @Accessors(fluent = true, chain = true)
 public class ModelProperties implements IModelProperties {
-    protected final String domain;
-    protected final String location;
+    protected final IResourceLocation location;
     protected final boolean hasAlpha;
     protected final boolean hasNormal;
     protected final boolean hasLighting;

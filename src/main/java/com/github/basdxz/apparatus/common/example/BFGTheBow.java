@@ -1,7 +1,10 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
-import com.github.basdxz.apparatus.common.resource.IRender;
+import com.github.basdxz.apparatus.common.render.IRendererView;
+import com.github.basdxz.apparatus.common.resource.IRenderer;
+
+import java.util.Map;
 
 //Bow that shoots every arrow in the inventory at once
 public class BFGTheBow implements IParaItem {
@@ -16,7 +19,7 @@ public class BFGTheBow implements IParaItem {
     }
 
     @Override
-    public IRender renderer() {
+    public Map<IRendererView, IRenderer> renderers() {
         return null;
     }
 }

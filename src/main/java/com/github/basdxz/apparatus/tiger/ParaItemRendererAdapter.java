@@ -1,17 +1,22 @@
 package com.github.basdxz.apparatus.tiger;
 
-import com.github.basdxz.apparatus.common.resource.IRender;
+import com.github.basdxz.apparatus.common.render.IRendererView;
+import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 
-public class ParaItemRendererAdapter implements IItemRenderer {
-    protected final IRender itemRenderer;
+import java.util.HashMap;
+import java.util.Map;
 
-    public ParaItemRendererAdapter(@NonNull IRender itemRenderer) {
-        this.itemRenderer = itemRenderer;
+public class ParaItemRendererAdapter implements IItemRenderer {
+    protected final Map<IRendererView, IRenderer> renderers;
+    protected final Map<ItemRenderType, Object> adaptedRenderers = new HashMap<>();
+
+    public ParaItemRendererAdapter(@NonNull Map<IRendererView, IRenderer> renderers) {
+        this.renderers = renderers;
     }
 
     @Override

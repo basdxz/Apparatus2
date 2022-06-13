@@ -1,7 +1,10 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaTileEntity;
-import com.github.basdxz.apparatus.common.resource.IRender;
+import com.github.basdxz.apparatus.common.render.IRendererView;
+import com.github.basdxz.apparatus.common.resource.IRenderer;
+
+import java.util.Map;
 
 //Chest with a custom TESR
 //Has GUI on client and server side
@@ -18,7 +21,7 @@ public class ThreeSlotChest implements IParaTileEntity {
     }
 
     @Override
-    public IRender renderer() {
+    public Map<IRendererView, IRenderer> renderers() {
         return null;
     }
 }

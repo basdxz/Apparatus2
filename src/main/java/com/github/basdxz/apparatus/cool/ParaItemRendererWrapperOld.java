@@ -1,9 +1,6 @@
 package com.github.basdxz.apparatus.cool;
 
 import com.github.basdxz.apparatus.common.resource.ISpriteModel;
-import com.github.basdxz.apparatus.common.resource.impl.ModelProperties;
-import com.github.basdxz.apparatus.common.resource.impl.SpriteModel;
-import com.github.basdxz.apparatus.common.resource.impl.TextureResource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.*;
@@ -19,11 +16,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import org.lwjgl.opengl.*;
-
-import java.awt.*;
 
 import static com.github.basdxz.apparatus.cool.TempRenderItemOld.RES_ITEM_GLINT;
 import static net.minecraft.client.Minecraft.getMinecraft;
@@ -47,22 +40,22 @@ public class ParaItemRendererWrapperOld implements IItemRenderer {
     {
         renderItem.setRenderManager(RenderManager.instance);
 
-        val props = new ModelProperties(
-                "apparatus",
-                "prop",
-                true,
-                true,
-                true,
-                Color.WHITE,
-                new Vector3f(),
-                new Quaternionf(),
-                new Vector3f()
-        );
-        val tex = new TextureResource(
-                "apparatus",
-                "SwInner"
-        );
-        sprite = new SpriteModel(props, 1F, tex);
+//        val props = new ModelProperties(
+//                "apparatus",
+//                "prop",
+//                true,
+//                true,
+//                true,
+//                Color.WHITE,
+//                new Vector3f(),
+//                new Quaternionf(),
+//                new Vector3f()
+//        );
+//        val tex = new TextureResource(
+//                "apparatus",
+//                "SwInner"
+//        );
+//        sprite = new SpriteModel(props, 1F, tex);
     }
 
     @Override

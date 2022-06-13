@@ -12,11 +12,11 @@ import static cpw.mods.fml.relauncher.Side.CLIENT;
 @RequiredArgsConstructor
 public class TextureResourceWrapperOld {
     @NonNull
-    protected IResource IResource;
+    protected final IResource resource;
     @Getter
     protected IIcon icon;
 
     public void registerIcon(@NonNull IIconRegister register) {
-        icon = register.registerIcon(IResource.domain() + ":" + IResource.location());
+        icon = register.registerIcon(resource.location().domain() + ":" + resource.location().path());
     }
 }
