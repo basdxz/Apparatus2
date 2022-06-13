@@ -13,7 +13,12 @@ public class ParaItemAdapter extends Item {
     public ParaItemAdapter(@NonNull IParaItem paraItem) {
         this.paraItem = paraItem;
         renderer = new ParaItemRendererAdapter(paraItem.renderers());
+
+        setUnlocalizedName("apparatus." + paraItem.paraID());
         MinecraftForgeClient.registerItemRenderer(this, renderer);
+
+        //  True if tool
+        //  setFull3D();
     }
 
     @Override

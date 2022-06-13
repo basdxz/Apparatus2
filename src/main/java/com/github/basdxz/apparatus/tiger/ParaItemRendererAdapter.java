@@ -2,8 +2,10 @@ package com.github.basdxz.apparatus.tiger;
 
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.cool.TempRenderItemOld;
 import lombok.*;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -19,6 +21,11 @@ import static com.github.basdxz.apparatus.common.render.impl.RendererView.*;
 public class ParaItemRendererAdapter implements IItemRenderer {
     protected final Map<IRendererView, IRenderer> renderers;
     protected final Map<IRendererView, RendererAdapter> adaptedRenderers = new HashMap<>();
+    protected final TempRenderItemOld tempRenderItemOld = new TempRenderItemOld();
+
+    {
+        tempRenderItemOld.setRenderManager(RenderManager.instance);
+    }
 
     public ParaItemRendererAdapter(@NonNull Map<IRendererView, IRenderer> renderers) {
         this.renderers = renderers;
@@ -56,6 +63,10 @@ public class ParaItemRendererAdapter implements IItemRenderer {
     }
 
     protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {
+        tempRenderItemOld.actualRender(entityItem, this::renderAsEntity);
+    }
+
+    private void renderAsEntity() {
         adaptedRenderers.getOrDefault(ENTITY, RendererAdapter.EMPTY_INSTANCE).render();
     }
 

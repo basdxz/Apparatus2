@@ -4,7 +4,7 @@ import com.github.basdxz.apparatus.common.resource.ISpriteModel;
 import lombok.*;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import org.lwjgl.opengl.*;
 
 public class SpriteModelAdapter extends ModelAdapter {
     protected final static float SPRITE_UNIT_THICKNESS = 1F / 16F;
@@ -19,15 +19,33 @@ public class SpriteModelAdapter extends ModelAdapter {
 
     @Override
     public void render() {
-        renderSpriteWithThickness(textureAdapter, sprite.thickness());
+        if (sprite.thickness() != 0F) {
+            renderIconFlat();
+        } else {
+            renderSpriteWithThickness();
+        }
     }
 
-    protected static void renderSpriteWithThickness(@NonNull IIcon icon, float thickness) {
+    public void renderIconFlat() {
+        GL11.glPushAttrib(GL11.GL_POLYGON_BIT);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        Tessellator.instance.startDrawingQuads();
+        Tessellator.instance.setNormal(0.0F, 1.0F, 0.0F);
+        Tessellator.instance.addVertexWithUV(0F, 0F, 0.0D, textureAdapter.getMinU(), textureAdapter.getMaxV());
+        Tessellator.instance.addVertexWithUV(1F, 0F, 0.0D, textureAdapter.getMaxU(), textureAdapter.getMaxV());
+        Tessellator.instance.addVertexWithUV(1F, 1F, 0.0D, textureAdapter.getMaxU(), textureAdapter.getMinV());
+        Tessellator.instance.addVertexWithUV(0F, 1F, 0.0D, textureAdapter.getMinU(), textureAdapter.getMinV());
+        Tessellator.instance.draw();
+        GL11.glPopAttrib();
+    }
+
+    protected void renderSpriteWithThickness() {
         renderSpriteWithThicknessReal(
-                icon.getMaxU(), icon.getMinV(),
-                icon.getMinU(), icon.getMaxV(),
-                icon.getIconWidth(), icon.getIconHeight(),
-                SPRITE_UNIT_THICKNESS * thickness);
+                textureAdapter.getMaxU(), textureAdapter.getMinV(),
+                textureAdapter.getMinU(), textureAdapter.getMaxV(),
+                textureAdapter.getIconWidth(), textureAdapter.getIconHeight(),
+                SPRITE_UNIT_THICKNESS * sprite.thickness()
+        );
     }
 
     protected static void renderSpriteWithThicknessReal(float maxU, float minV, float minU, float maxV, int width, int height, float thickness) {
@@ -69,7 +87,7 @@ public class SpriteModelAdapter extends ModelAdapter {
             Tessellator.instance.addVertexWithUV(posX, 1D, -thickness, posU, minV);
         }
 
-        Tessellator.instance.setNormal(0.0F, 1.0F, 0.0F);
+        Tessellator.instance.setNormal(0F, 1F, 0F);
         for (var i = 0; i < height; i++) {
             val heightFraction = (float) i / (float) height;
             val posY = heightFraction + 1.0F / (float) height;
@@ -81,7 +99,7 @@ public class SpriteModelAdapter extends ModelAdapter {
         }
 
 
-        Tessellator.instance.setNormal(0.0F, -1.0F, 0.0F);
+        Tessellator.instance.setNormal(0F, -1F, 0F);
         for (var i = 0; i < height; i++) {
             val posY = (float) i / (float) height;
             val posV = maxV + (minV - maxV) * posY - floatB;

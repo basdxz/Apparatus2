@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RendererAdapter {
+public class RendererAdapter implements IRendererAdapter {
     public final static RendererAdapter EMPTY_INSTANCE = new RendererAdapter();
 
     protected final List<ModelAdapter> modelAdapters;
@@ -31,6 +31,7 @@ public class RendererAdapter {
         modelAdapters = Collections.emptyList();
     }
 
+    @Override
     public void render() {
         modelAdapters.forEach(ModelAdapter::render);
     }

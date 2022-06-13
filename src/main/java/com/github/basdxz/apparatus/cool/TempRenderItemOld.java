@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.cool;
 
+import com.github.basdxz.apparatus.tiger.IRendererAdapter;
 import lombok.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -39,7 +40,7 @@ public class TempRenderItemOld extends RenderItem {
     protected final RenderBlocks renderBlocks = new RenderBlocks();
     protected final Random random = new Random();
 
-    public void actualRender(@NonNull EntityItem entityItem, @NonNull Runnable renderRunnable) {
+    public void actualRender(@NonNull EntityItem entityItem, @NonNull IRendererAdapter renderer) {
         if (renderInFrame) {
             GL11.glScalef(1.025641F, 1.025641F, 1.025641F);
             GL11.glTranslatef(0F, 0.15F, 0F);
@@ -48,7 +49,7 @@ public class TempRenderItemOld extends RenderItem {
             GL11.glTranslatef(0, entityBob(entityItem, partialTick()), 0);
         }
 
-        renderDroppedItem(entityItem, renderRunnable);
+        renderDroppedItem(entityItem, renderer);
     }
 
     public void doRender(EntityItem entityItem, double posX, double posY, double posZ, float p_76986_8_, float subTick) {
@@ -161,7 +162,7 @@ public class TempRenderItemOld extends RenderItem {
         return RenderManager.instance.renderEngine.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
     }
 
-    private void renderDroppedItem(@NonNull EntityItem entityItem, @NonNull Runnable renderRunnable) {
+    private void renderDroppedItem(@NonNull EntityItem entityItem, @NonNull IRendererAdapter renderer) {
         TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
         ResourceLocation resourcelocation = texturemanager.getResourceLocation(entityItem.getEntityItem().getItemSpriteNumber());
         val icon = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("potato");
@@ -200,7 +201,7 @@ public class TempRenderItemOld extends RenderItem {
                     GL11.glTranslatef(x, y, 0.084375F);
                 }
 
-                renderRunnable.run();
+                renderer.render();
 
                 //ItemRenderer.renderItemIn2D(Tessellator.instance, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), thickness);
 
