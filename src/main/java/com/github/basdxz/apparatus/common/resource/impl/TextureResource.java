@@ -13,6 +13,10 @@ import static com.github.basdxz.apparatus.common.resource.impl.ResourceType.TEXT
 public class TextureResource implements ITextureResource {
     protected final IResourceLocation location;
 
+    public static ITextureResource newDefaultTextureResource(@NonNull String domain, @NonNull String path) {
+        return new TextureResource(new ResourceLocation(domain, path));
+    }
+
     @Override
     public IResourceType type() {
         return TEXTURE;

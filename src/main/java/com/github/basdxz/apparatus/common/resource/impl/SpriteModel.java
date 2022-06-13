@@ -6,11 +6,23 @@ import com.github.basdxz.apparatus.common.resource.ITextureResource;
 import lombok.*;
 import lombok.experimental.*;
 
-@Getter
-@RequiredArgsConstructor
+import static com.github.basdxz.apparatus.common.resource.impl.ModelProperties.newDefaultProperties;
+import static com.github.basdxz.apparatus.common.resource.impl.TextureResource.newDefaultTextureResource;
+
+@Data
 @Accessors(fluent = true, chain = true)
 public class SpriteModel implements ISpriteModel {
+    @NonNull
     protected final IModelProperties properties;
+    @NonNull
     protected final ITextureResource texture;
     protected final float thickness;
+
+    public static ISpriteModel newDefaultSpriteModel(@NonNull String domain, @NonNull String path) {
+        return new SpriteModel(
+                newDefaultProperties(domain, path),
+                newDefaultTextureResource(domain, path),
+                1F
+        );
+    }
 }

@@ -8,6 +8,9 @@ import lombok.experimental.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.github.basdxz.apparatus.common.resource.impl.SpriteModel.newDefaultSpriteModel;
+
+@Data
 @Accessors(fluent = true, chain = true)
 public class Renderer implements IRenderer {
     protected final List<IModel> models;
@@ -16,7 +19,7 @@ public class Renderer implements IRenderer {
         this.models = Collections.unmodifiableList(models);
     }
 
-    public List<IModel> models() {
-        return this.models;
+    public static IRenderer newDefaultSpriteRenderer(@NonNull String domain, @NonNull String path) {
+        return new Renderer(Collections.singletonList(newDefaultSpriteModel(domain, path)));
     }
 }
