@@ -1,7 +1,8 @@
 package com.github.basdxz.apparatus.common.resource.impl;
 
+import com.github.basdxz.apparatus.common.domain.ILocation;
+import com.github.basdxz.apparatus.common.domain.impl.Location;
 import com.github.basdxz.apparatus.common.resource.IModelProperties;
-import com.github.basdxz.apparatus.common.resource.IResourceLocation;
 import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 import lombok.experimental.*;
@@ -18,7 +19,7 @@ import static com.github.basdxz.apparatus.common.resource.impl.ResourceType.MODE
 @Accessors(fluent = true, chain = true)
 public class ModelProperties implements IModelProperties {
     @NonNull
-    protected final IResourceLocation location;
+    protected final ILocation location;
     protected final boolean hasAlpha;
     protected final boolean hasNormal;
     protected final boolean hasLighting;
@@ -33,7 +34,7 @@ public class ModelProperties implements IModelProperties {
 
     public static IModelProperties newDefaultProperties(@NonNull String domain, @NonNull String path) {
         return new ModelProperties(
-                new ResourceLocation(domain, path),
+                new Location(domain, path),
                 true,
                 true,
                 true,

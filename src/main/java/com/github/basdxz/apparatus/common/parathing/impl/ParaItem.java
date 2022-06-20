@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
+import com.github.basdxz.apparatus.common.registry.IParaID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
@@ -16,7 +17,7 @@ import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefau
 @Getter
 @Accessors(fluent = true, chain = true)
 public class ParaItem implements IParaItem {
-    protected final String paraID;
+    protected final IParaID paraID;
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
@@ -29,7 +30,7 @@ public class ParaItem implements IParaItem {
         renderers.put(INVENTORY, renderer);
     }
 
-    public ParaItem(@NonNull String paraID, @NonNull String localizedName) {
+    public ParaItem(@NonNull IParaID paraID, @NonNull String localizedName) {
         this.paraID = paraID;
         this.localizedName = localizedName;
     }
