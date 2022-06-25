@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaTileEntity;
+import com.github.basdxz.apparatus.common.registry.IParaID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 //Uses NBT to store the internal items`
 public class ThreeSlotChest implements IParaTileEntity {
     @Override
-    public String paraID() {
+    public IParaID paraID() {
         return null;
     }
 

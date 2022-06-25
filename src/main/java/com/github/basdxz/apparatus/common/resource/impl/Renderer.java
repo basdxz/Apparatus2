@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.common.resource.impl;
 
+import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.resource.IModel;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
@@ -19,7 +20,7 @@ public class Renderer implements IRenderer {
         this.models = Collections.unmodifiableList(models);
     }
 
-    public static IRenderer newDefaultSpriteRenderer(@NonNull String domain, @NonNull String path) {
+    public static IRenderer newDefaultSpriteRenderer(@NonNull IDomain domain, @NonNull String path) {
         return new Renderer(Collections.singletonList(newDefaultSpriteModel(domain, path)));
     }
 }

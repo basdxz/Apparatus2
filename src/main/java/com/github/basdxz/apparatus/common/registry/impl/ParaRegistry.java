@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.common.registry.impl;
 
-import com.github.basdxz.apparatus.common.domain.impl.IDomain;
+import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 import lombok.*;
 import lombok.experimental.*;
@@ -13,7 +13,7 @@ import lombok.experimental.*;
 @Accessors(fluent = true, chain = true)
 public class ParaRegistry implements IParaRegistry {
     @NonNull
-    protected final String managerName;
+    protected final String registryName;
     @NonNull
     protected final String classPath;
     @NonNull

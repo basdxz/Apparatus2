@@ -21,17 +21,16 @@ public class ParaItem implements IParaItem {
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
-    {
-        val renderer = newDefaultSpriteRenderer("apparatus", "SwInner");
+
+    public ParaItem(@NonNull IParaID paraID, @NonNull String localizedName) {
+        this.paraID = paraID;
+        this.localizedName = localizedName;
+
+        val renderer = newDefaultSpriteRenderer(paraID.registry().domain(), "SwInner");
         renderers = new HashMap<>();
         renderers.put(ENTITY, renderer);
         renderers.put(EQUIPPED, renderer);
         renderers.put(EQUIPPED_FIRST_PERSON, renderer);
         renderers.put(INVENTORY, renderer);
-    }
-
-    public ParaItem(@NonNull IParaID paraID, @NonNull String localizedName) {
-        this.paraID = paraID;
-        this.localizedName = localizedName;
     }
 }

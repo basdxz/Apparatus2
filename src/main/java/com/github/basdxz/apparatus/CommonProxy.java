@@ -1,7 +1,5 @@
 package com.github.basdxz.apparatus;
 
-import com.github.basdxz.apparatus.common.parathing.impl.ParaItem;
-import com.github.basdxz.apparatus.cool.DumbassManagerOld;
 import cpw.mods.fml.common.event.*;
 
 public class CommonProxy {
@@ -14,7 +12,7 @@ public class CommonProxy {
         Apparatus.info(Config.greeting);
         Apparatus.info("I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
 
-        DumbassManagerOld.register(new ParaItem("cool_thing_id", "Cool Thing!"));
+//        DumbassManagerOld.register(new ParaItem("cool_thing_id", "Cool Thing!"));
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."

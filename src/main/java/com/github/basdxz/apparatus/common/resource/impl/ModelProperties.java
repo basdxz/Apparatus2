@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.common.resource.impl;
 
+import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.ILocation;
 import com.github.basdxz.apparatus.common.domain.impl.Location;
 import com.github.basdxz.apparatus.common.resource.IModelProperties;
@@ -32,7 +33,7 @@ public class ModelProperties implements IModelProperties {
     @NonNull
     protected final Vector3fc scale;
 
-    public static IModelProperties newDefaultProperties(@NonNull String domain, @NonNull String path) {
+    public static IModelProperties newDefaultProperties(@NonNull IDomain domain, @NonNull String path) {
         return new ModelProperties(
                 new Location(domain, path),
                 true,

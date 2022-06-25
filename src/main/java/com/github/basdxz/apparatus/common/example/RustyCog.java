@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
+import com.github.basdxz.apparatus.common.registry.IParaID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 //NBT storing how many times it's been pressed
 public class RustyCog implements IParaItem {
     @Override
-    public String paraID() {
+    public IParaID paraID() {
         return null;
     }
 

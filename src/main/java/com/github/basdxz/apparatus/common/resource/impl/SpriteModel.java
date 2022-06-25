@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.common.resource.impl;
 
+import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.resource.IModelProperties;
 import com.github.basdxz.apparatus.common.resource.ISpriteModel;
 import com.github.basdxz.apparatus.common.resource.ITextureResource;
@@ -18,7 +19,7 @@ public class SpriteModel implements ISpriteModel {
     protected final ITextureResource texture;
     protected final float thickness;
 
-    public static ISpriteModel newDefaultSpriteModel(@NonNull String domain, @NonNull String path) {
+    public static ISpriteModel newDefaultSpriteModel(@NonNull IDomain domain, @NonNull String path) {
         return new SpriteModel(
                 newDefaultProperties(domain, path),
                 newDefaultTextureResource(domain, path),

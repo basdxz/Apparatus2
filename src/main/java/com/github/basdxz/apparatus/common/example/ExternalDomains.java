@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
+import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.impl.Domain;
-import com.github.basdxz.apparatus.common.domain.impl.IDomain;
 import lombok.*;
 
 import static lombok.AccessLevel.PRIVATE;
