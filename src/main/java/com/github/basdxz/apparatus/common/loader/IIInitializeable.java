@@ -1,15 +1,9 @@
 package com.github.basdxz.apparatus.common.loader;
 
 public interface IIInitializeable {
-    default void preInit() {
+    void preInit();
 
-    }
+    void init();
 
-    default void init() {
-
-    }
-
-    default void postInit() {
-
-    }
+    void postInit();
 }

@@ -2,6 +2,7 @@ package com.github.basdxz.apparatus;
 
 import com.github.basdxz.apparatus.common.domain.impl.Domain;
 import com.github.basdxz.apparatus.common.registry.impl.ParaRegistry;
+import com.github.basdxz.apparatus.tiger.RegistryAdapter;
 import cpw.mods.fml.common.event.*;
 import lombok.*;
 
@@ -11,14 +12,7 @@ public class CommonProxy {
     // etc, and register them with the GameRegistry."
     @SneakyThrows
     public void preInit(FMLPreInitializationEvent event) {
-//        Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
-//        Apparatus.info(Config.greeting);
-//        Apparatus.info("I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
-        //        DumbassManagerOld.register(new ParaItem("cool_thing_id", "Cool Thing!"));
-//        Class<?> cl = Class.forName("com.github.basdxz.apparatus.common.parathing.impl.ParaItemLoader");
-        // Call no-args constructor
-//        ILoader<IParaThing> newInstance = (ILoader<IParaThing>) cl.newInstance();
-
+        Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
 
         val domain = new Domain("apparatus");
         val registry = new ParaRegistry(
@@ -27,27 +21,8 @@ public class CommonProxy {
                 "com.github.basdxz.apparatus.common.parathing.impl"
         );
 
-        registry.preInit();
-
-        for (val paraThing : registry.paraThings()) {
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-            System.out.println(paraThing);
-        }
+        val registryAdapter = new RegistryAdapter(registry);
+        registryAdapter.preInit();
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."

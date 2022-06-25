@@ -1,12 +1,12 @@
 package com.github.basdxz.apparatus.common.registry.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.loader.IIInitializeable;
 import com.github.basdxz.apparatus.common.loader.ILoader;
 import com.github.basdxz.apparatus.common.loader.ILoadingContext;
 import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
 import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.registry.IParaIInitializeableRegistry;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -20,7 +20,7 @@ import static lombok.AccessLevel.NONE;
 
 @Data
 @Accessors(fluent = true, chain = true)
-public class ParaRegistry implements IParaRegistry, IIInitializeable {
+public class ParaRegistry implements IParaIInitializeableRegistry {
     @NonNull
     protected final IDomain domain;
     @NonNull
@@ -73,7 +73,6 @@ public class ParaRegistry implements IParaRegistry, IIInitializeable {
     protected boolean sameRegistryName(@NonNull RegisteredLoader loaderAnnotation) {
         return registryName.equals(loaderAnnotation.registryName());
     }
-
 
     //TODO: Check that the class has a no args constructor
     //TODO: Maybe check that stuff isn't private
