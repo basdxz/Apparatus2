@@ -4,6 +4,8 @@ dependencies {
     compile("org.joml:joml:1.10.4")
     compile("com.falsepattern:falsepatternlib-mc1.7.10:0.8.0:dev")
     compile("com.falsepattern:dynamicrendering-mc1.7.10:0.0.2:dev")
+    compile("io.github.classgraph:classgraph:4.8.147")
+
 
     compileOnly("org.projectlombok:lombok:1.18.22")
     annotationProcessor("org.projectlombok:lombok:1.18.22")

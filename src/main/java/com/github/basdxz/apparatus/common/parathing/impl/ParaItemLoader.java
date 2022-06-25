@@ -6,7 +6,7 @@ import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import lombok.*;
 
 @NoArgsConstructor
-@RegisteredLoader(registryName = "", paraThingClass = ParaItem.class)
+@RegisteredLoader(registryName = "")
 public class ParaItemLoader implements ILoader<ParaItem> {
     @Override
     public void preInit(@NonNull ILoadingContext.IPreInit<ParaItem> context) {

@@ -4,9 +4,12 @@ import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.loader.IIInitializeable;
 import com.github.basdxz.apparatus.common.loader.ILoader;
 import com.github.basdxz.apparatus.common.loader.ILoadingContext;
+import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
 import com.github.basdxz.apparatus.common.registry.IParaID;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -21,7 +24,7 @@ public class ParaRegistry implements IParaRegistry, IIInitializeable {
     @NonNull
     protected final String registryName;
     @NonNull
-    protected final String classPath;
+    protected final String loadersPackage;
     @NonNull
     protected final IDomain domain;
     @Getter(NONE)
@@ -41,40 +44,81 @@ public class ParaRegistry implements IParaRegistry, IIInitializeable {
 
     @Override
     public void preInit() {
-        // Find all loaders
+        populateLoaders();
         val context = new PreInitContext();
-        loaders.forEach((l) -> l.preInit(context));
+        loaders.forEach((loader) -> loader.preInit(context));
+    }
+
+    protected void populateLoaders() {
+        @Cleanup val scanResult = new ClassGraph()
+                .enableAnnotationInfo()
+                .acceptPackages(loadersPackage)
+                .scan();
+
+        for (val loaderClassInfo : scanResult.getClassesWithAnnotation(RegisteredLoader.class)) {
+            val loaderAnnotation = instantiateLoaderAnnotation(loaderClassInfo);
+            if (!sameRegistryName(loaderAnnotation))
+                continue;
+
+            ensureValidLoader(loaderClassInfo);
+            loaders.add(instantiateLoader(loaderClassInfo));
+        }
+    }
+
+    protected RegisteredLoader instantiateLoaderAnnotation(@NonNull ClassInfo loaderClassInfo) {
+        val annotationInfo = loaderClassInfo.getAnnotationInfo(RegisteredLoader.class);
+        return (RegisteredLoader) annotationInfo.loadClassAndInstantiate();
+    }
+
+    protected boolean sameRegistryName(@NonNull RegisteredLoader loaderAnnotation) {
+        return registryName.equals(loaderAnnotation.registryName());
+    }
+
+    protected void ensureValidLoader(@NonNull ClassInfo loaderClassInfo) {
+        if (loaderClassInfo.implementsInterface(ILoader.class))
+            throw new IllegalArgumentException("Should implement ILoader");//TODO: Proper Exceptions, but honestly just event-based bindings
+        if (loaderClassInfo.isAbstract())
+            throw new IllegalArgumentException("Annotated loader cannot be abstract");//TODO: Proper Exceptions
+    }
+
+    @SuppressWarnings("unchecked")
+    protected ILoader<IParaThing> instantiateLoader(@NonNull ClassInfo loaderClassInfo) {
+        try {
+            return (ILoader<IParaThing>) loaderClassInfo.loadClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to create new loader, perhaps missing a no args constructor?", e);//TODO: Proper Exceptions
+        }
     }
 
     @Override
     public void init() {
         val context = new InitContext();
-        loaders.forEach((l) -> l.init(context));
+        loaders.forEach((loader) -> loader.init(context));
     }
 
     @Override
     public void postInit() {
         val context = new PostInitContext();
-        loaders.forEach((l) -> l.postInit(context));
+        loaders.forEach((loader) -> loader.postInit(context));
         loaders.clear();
     }
 
     protected class PreInitContext extends LoadingContext implements ILoadingContext.IPreInit<IParaThing> {
         @Override
         public void register(@NonNull IParaThing paraThing) {
-            validateParaThing(paraThing);
-            validateNoDuplicate(paraThing);
+            ensureValidParaID(paraThing);
+            ensureNoDuplicate(paraThing);
             addParaThing(paraThing);
         }
 
-        protected void validateParaThing(@NonNull IParaThing paraThing) {
+        protected void ensureValidParaID(@NonNull IParaThing paraThing) {
             if (paraThing.paraID() == null)
                 throw new IllegalArgumentException("ParaID is null");//TODO: proper exception
             if (!registry().equals(paraThing.paraID().registry()))
                 throw new IllegalArgumentException("Registry doesn't match");//TODO: proper exception
         }
 
-        protected void validateNoDuplicate(@NonNull IParaThing paraThing) {
+        protected void ensureNoDuplicate(@NonNull IParaThing paraThing) {
             if (paraThings.get(paraThing.paraID()) != null)
                 throw new IllegalArgumentException("ParaThing already registered");//TODO: proper exception
         }
