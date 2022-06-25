@@ -22,11 +22,11 @@ import static lombok.AccessLevel.NONE;
 @Accessors(fluent = true, chain = true)
 public class ParaRegistry implements IParaRegistry, IIInitializeable {
     @NonNull
+    protected final IDomain domain;
+    @NonNull
     protected final String registryName;
     @NonNull
     protected final String loadersPackage;
-    @NonNull
-    protected final IDomain domain;
     @Getter(NONE)
     protected final Map<IParaID, IParaThing> paraThings = new HashMap<>();//TODO: Switch to alpha-numeric TreeMap
     @Getter(NONE)
@@ -74,8 +74,11 @@ public class ParaRegistry implements IParaRegistry, IIInitializeable {
         return registryName.equals(loaderAnnotation.registryName());
     }
 
+
+    //TODO: Check that the class has a no args constructor
+    //TODO: Maybe check that stuff isn't private
     protected void ensureValidLoader(@NonNull ClassInfo loaderClassInfo) {
-        if (loaderClassInfo.implementsInterface(ILoader.class))
+        if (!loaderClassInfo.implementsInterface(ILoader.class))
             throw new IllegalArgumentException("Should implement ILoader");//TODO: Proper Exceptions, but honestly just event-based bindings
         if (loaderClassInfo.isAbstract())
             throw new IllegalArgumentException("Annotated loader cannot be abstract");//TODO: Proper Exceptions

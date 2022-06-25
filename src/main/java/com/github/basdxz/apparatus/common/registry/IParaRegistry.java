@@ -8,11 +8,11 @@ import lombok.*;
 import java.util.Optional;
 
 public interface IParaRegistry {
+    IDomain domain();
+
     String registryName();
 
     String loadersPackage();
-
-    IDomain domain();
 
     Optional<IParaThing> paraThing(@NonNull IParaID paraID);
 

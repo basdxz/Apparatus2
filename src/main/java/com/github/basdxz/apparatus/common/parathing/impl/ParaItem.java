@@ -1,5 +1,8 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
+import com.github.basdxz.apparatus.common.loader.ILoader;
+import com.github.basdxz.apparatus.common.loader.ILoadingContext;
+import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
 import com.github.basdxz.apparatus.common.registry.IParaID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
@@ -21,7 +24,6 @@ public class ParaItem implements IParaItem {
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
-
     public ParaItem(@NonNull IParaID paraID, @NonNull String localizedName) {
         this.paraID = paraID;
         this.localizedName = localizedName;
@@ -32,5 +34,14 @@ public class ParaItem implements IParaItem {
         renderers.put(EQUIPPED, renderer);
         renderers.put(EQUIPPED_FIRST_PERSON, renderer);
         renderers.put(INVENTORY, renderer);
+    }
+
+    @NoArgsConstructor
+    @RegisteredLoader(registryName = "test_registry")
+    public static class Loader implements ILoader<ParaItem> {
+        @Override
+        public void preInit(@NonNull ILoadingContext.IPreInit<ParaItem> context) {
+            context.register(new ParaItem(context.newParaID("woag_my_item"), "Woag My Item"));
+        }
     }
 }
