@@ -12,7 +12,7 @@ public interface IParaRegistry {
 
     String registryName();
 
-    String loadersPackage();
+    String loadersPackage();//TODO: perhaps move
 
     Optional<IParaThing> paraThing(@NonNull IParaID paraID);
 

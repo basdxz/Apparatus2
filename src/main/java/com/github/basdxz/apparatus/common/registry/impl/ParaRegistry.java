@@ -6,7 +6,7 @@ import com.github.basdxz.apparatus.common.loader.ILoadingContext;
 import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
 import com.github.basdxz.apparatus.common.registry.IParaID;
-import com.github.basdxz.apparatus.common.registry.IParaIInitializeableRegistry;
+import com.github.basdxz.apparatus.common.registry.IParaInitializeableRegistry;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -20,7 +20,7 @@ import static lombok.AccessLevel.NONE;
 
 @Data
 @Accessors(fluent = true, chain = true)
-public class ParaRegistry implements IParaIInitializeableRegistry {
+public class ParaRegistry implements IParaInitializeableRegistry {
     @NonNull
     protected final IDomain domain;
     @NonNull

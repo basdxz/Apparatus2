@@ -9,6 +9,7 @@ import lombok.experimental.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.github.basdxz.apparatus.common.resource.impl.BlockModel.newDefaultBlockModel;
 import static com.github.basdxz.apparatus.common.resource.impl.SpriteModel.newDefaultSpriteModel;
 
 @Data
@@ -22,5 +23,9 @@ public class Renderer implements IRenderer {
 
     public static IRenderer newDefaultSpriteRenderer(@NonNull IDomain domain, @NonNull String path) {
         return new Renderer(Collections.singletonList(newDefaultSpriteModel(domain, path)));
+    }
+
+    public static IRenderer newDefaultBlockRenderer(@NonNull IDomain domain, @NonNull String path) {
+        return new Renderer(Collections.singletonList(newDefaultBlockModel(domain, path)));
     }
 }

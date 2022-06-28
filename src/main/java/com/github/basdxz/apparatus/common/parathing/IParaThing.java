@@ -8,7 +8,7 @@ import com.github.basdxz.apparatus.common.resource.IRenderer;
 import java.util.Map;
 
 public interface IParaThing {
-    IParaID paraID();
+    IParaID paraID();//TODO: Better delegates
 
     String localizedName();
 

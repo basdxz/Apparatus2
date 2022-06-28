@@ -1,7 +1,5 @@
 package com.github.basdxz.apparatus.common.resource;
 
-public interface ISpriteModel extends IModel {
-    ITextureResource texture();
-
+public interface ISpriteModel extends ITexturedModel {
     float thickness();
 }
