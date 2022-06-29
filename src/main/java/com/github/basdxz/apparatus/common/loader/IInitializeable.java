@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.common.loader;
 
-public interface IIInitializeable {
+public interface IInitializeable {
     void preInit();
 
     void init();

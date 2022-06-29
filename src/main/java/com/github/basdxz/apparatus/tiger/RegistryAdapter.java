@@ -1,16 +1,16 @@
 package com.github.basdxz.apparatus.tiger;
 
-import com.github.basdxz.apparatus.common.loader.IIInitializeable;
+import com.github.basdxz.apparatus.common.loader.IInitializeable;
 import com.github.basdxz.apparatus.common.parathing.IParaBlock;
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
-import com.github.basdxz.apparatus.common.registry.IParaInitializeableRegistry;
+import com.github.basdxz.apparatus.common.registry.IParaManager;
 import lombok.*;
 
-public class RegistryAdapter implements IIInitializeable {
-    protected final IParaInitializeableRegistry registry;
+public class RegistryAdapter implements IInitializeable {
+    protected final IParaManager registry;
 
-    public RegistryAdapter(@NonNull IParaInitializeableRegistry registry) {
+    public RegistryAdapter(@NonNull IParaManager registry) {
         this.registry = registry;
     }
 

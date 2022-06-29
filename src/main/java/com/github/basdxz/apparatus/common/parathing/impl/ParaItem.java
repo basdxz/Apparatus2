@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
-import com.github.basdxz.apparatus.common.loader.ILoader;
-import com.github.basdxz.apparatus.common.loader.ILoadingContext;
+import com.github.basdxz.apparatus.common.loader.IParaLoader;
+import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
 import com.github.basdxz.apparatus.common.registry.IParaID;
@@ -38,9 +38,9 @@ public class ParaItem implements IParaItem {
 
     @NoArgsConstructor
     @RegisteredLoader(registryName = "test_registry")
-    public static class Loader implements ILoader<ParaItem> {
+    public static class Loader implements IParaLoader<ParaItem> {
         @Override
-        public void preInit(@NonNull ILoadingContext.IPreInit<ParaItem> context) {
+        public void preInit(@NonNull IPreInitContext<ParaItem> context) {
             context.register(new ParaItem(context.newParaID("woag_my_item"), "Woag My Item"));
         }
     }

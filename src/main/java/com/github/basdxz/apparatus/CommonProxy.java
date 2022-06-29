@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus;
 
 import com.github.basdxz.apparatus.common.domain.impl.Domain;
-import com.github.basdxz.apparatus.common.registry.impl.ParaRegistry;
+import com.github.basdxz.apparatus.common.registry.impl.ParaManager;
 import com.github.basdxz.apparatus.tiger.RegistryAdapter;
 import cpw.mods.fml.common.event.*;
 import lombok.*;
@@ -15,7 +15,7 @@ public class CommonProxy {
         Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
 
         val domain = new Domain("apparatus");
-        val registry = new ParaRegistry(
+        val registry = new ParaManager(
                 domain,
                 "test_registry",
                 "com.github.basdxz.apparatus.common.parathing.impl"

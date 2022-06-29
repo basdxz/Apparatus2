@@ -12,8 +12,6 @@ public interface IParaRegistry {
 
     String registryName();
 
-    String loadersPackage();//TODO: perhaps move
-
     Optional<IParaThing> paraThing(@NonNull IParaID paraID);
 
     Iterable<IParaThing> paraThings();
