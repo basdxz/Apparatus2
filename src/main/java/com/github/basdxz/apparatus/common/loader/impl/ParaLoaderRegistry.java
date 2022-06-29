@@ -25,6 +25,7 @@ public class ParaLoaderRegistry implements IParaLoaderRegistry {
     public void preInit() {
         populateLoaders();
         loaders.forEach(loader -> loader.preInit(new PreInitContext(this, loader)));
+        finalizeLoadedParaThings();
     }
 
     protected void populateLoaders() {
@@ -68,6 +69,12 @@ public class ParaLoaderRegistry implements IParaLoaderRegistry {
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Failed to create new loader, perhaps missing a no args constructor?", e);//TODO: Proper Exceptions
         }
+    }
+
+    protected void finalizeLoadedParaThings() {
+        for (val loader : loaders)
+            loadedParaThings.computeIfAbsent(loader, key -> Collections.emptyList());
+        loadedParaThings.replaceAll((iParaThingIParaLoader, iParaThings) -> Collections.unmodifiableList(iParaThings));
     }
 
     @Override
