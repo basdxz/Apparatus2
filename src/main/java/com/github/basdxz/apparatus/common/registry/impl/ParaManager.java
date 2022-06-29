@@ -24,19 +24,20 @@ public class ParaManager implements IParaManager {
     protected final String registryName;
     @NonNull
     protected final String loadersPackage;
-    protected final Map<IParaID, IParaThing> paraThingsMap = new HashMap<>();//TODO: Switch to alpha-numeric TreeMap
 
+    @Getter(NONE)
+    protected final Map<IParaID, IParaThing> paraThings = new HashMap<>(); //TODO: Switch to alpha-numeric TreeMap
     @Getter(NONE)
     protected final IParaLoaderRegistry loaderRegistry = new ParaLoaderRegistry(this);
 
     @Override
     public Optional<IParaThing> paraThing(@NonNull IParaID paraID) {
-        return Optional.ofNullable(paraThingsMap.get(paraID));
+        return Optional.ofNullable(paraThings.get(paraID));
     }
 
     @Override
     public Iterable<IParaThing> paraThings() {
-        return paraThingsMap.values();
+        return paraThings.values();
     }
 
     @Override
@@ -52,5 +53,28 @@ public class ParaManager implements IParaManager {
     @Override
     public void postInit() {
         loaderRegistry.postInit();
+    }
+
+    @Override
+    public void register(@NonNull IParaThing paraThing) {
+        ensureValidParaID(paraThing);
+        ensureNoDuplicate(paraThing);
+        addParaThing(paraThing);
+    }
+
+    protected void ensureValidParaID(@NonNull IParaThing paraThing) {
+        if (paraThing.paraID() == null)
+            throw new IllegalArgumentException("ParaID is null"); //TODO: proper exception
+        if (!this.equals(paraThing.paraID().registry()))
+            throw new IllegalArgumentException("Registry doesn't match"); //TODO: proper exception
+    }
+
+    protected void ensureNoDuplicate(@NonNull IParaThing paraThing) {
+        if (paraThings.containsKey(paraThing.paraID()))
+            throw new IllegalArgumentException("ParaThing already registered"); //TODO: proper exception
+    }
+
+    protected void addParaThing(@NonNull IParaThing paraThing) {
+        paraThings.put(paraThing.paraID(), paraThing);
     }
 }

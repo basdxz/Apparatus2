@@ -10,7 +10,7 @@ public class TextureAdapter implements IIcon {
 
     public TextureAdapter(@NonNull ITextureResource texture, @NonNull IIconRegister iconRegister) {
         icon = iconRegister.registerIcon(
-                texture.location().domain() + ":" + texture.location().path()
+                texture.location().domain().domainName() + ":" + texture.location().path()
         );
     }
 

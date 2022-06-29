@@ -5,4 +5,6 @@ import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 
 public interface ILoadingContext<T extends IParaThing> {
     IParaRegistry registry();
+
+    IParaLoader<T> loader();
 }

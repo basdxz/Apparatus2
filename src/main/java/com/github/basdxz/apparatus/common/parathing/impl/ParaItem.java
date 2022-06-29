@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
+import com.github.basdxz.apparatus.common.loader.IInitContext;
 import com.github.basdxz.apparatus.common.loader.IParaLoader;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
@@ -42,6 +43,19 @@ public class ParaItem implements IParaItem {
         @Override
         public void preInit(@NonNull IPreInitContext<ParaItem> context) {
             context.register(new ParaItem(context.newParaID("woag_my_item"), "Woag My Item"));
+            context.register(new ParaItem(context.newParaID("woag_my_item2"), "Woag My Item"));
+            context.register(new ParaItem(context.newParaID("woag_my_item3"), "Woag My Item"));
+        }
+
+        @Override
+        public void init(@NonNull IInitContext<ParaItem> context) {
+            context.registered().forEach(System.out::println);
+            context.registered().forEach(System.out::println);
+            context.registered().forEach(System.out::println);
+            context.registered().forEach(System.out::println);
+            context.registered().forEach(System.out::println);
+            context.registered().forEach(System.out::println);
+            context.registered().forEach(System.out::println);
         }
     }
 }

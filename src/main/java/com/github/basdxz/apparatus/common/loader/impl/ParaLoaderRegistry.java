@@ -2,15 +2,16 @@ package com.github.basdxz.apparatus.common.loader.impl;
 
 import com.github.basdxz.apparatus.common.loader.IParaLoader;
 import com.github.basdxz.apparatus.common.loader.IParaLoaderRegistry;
+import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
+import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @RequiredArgsConstructor
 public class ParaLoaderRegistry implements IParaLoaderRegistry {
@@ -18,12 +19,12 @@ public class ParaLoaderRegistry implements IParaLoaderRegistry {
     protected final IParaManager manager;
 
     protected final Set<IParaLoader<IParaThing>> loaders = new HashSet<>(); //TODO: Switch to alpha-numeric TreeSet
+    protected final Map<IParaLoader<IParaThing>, List<IParaThing>> loadedParaThings = new HashMap<>();
 
     @Override
     public void preInit() {
         populateLoaders();
-        val context = new PreInitContext(manager);
-        loaders.forEach((loader) -> loader.preInit(context));
+        loaders.forEach(loader -> loader.preInit(new PreInitContext(this, loader)));
     }
 
     protected void populateLoaders() {
@@ -71,14 +72,41 @@ public class ParaLoaderRegistry implements IParaLoaderRegistry {
 
     @Override
     public void init() {
-        val context = new InitContext(manager);
-        loaders.forEach((loader) -> loader.init(context));
+        loaders.forEach((loader) -> loader.init(new InitContext(this, loader)));
     }
 
     @Override
     public void postInit() {
-        val context = new PostInitContext(manager);
-        loaders.forEach((loader) -> loader.postInit(context));
+        loaders.forEach((loader) -> loader.postInit(new PostInitContext(this, loader)));
+        cleanup();
+    }
+
+    protected void cleanup() {
         loaders.clear();
+        loadedParaThings.clear();
+    }
+
+    @Override
+    public IParaRegistry registry() {
+        return manager;
+    }
+
+    @Override
+    public void register(@NonNull IPreInitContext<IParaThing> context, @NonNull IParaThing paraThing) {
+        registerInManager(paraThing);
+        addParaThing(context, paraThing);
+    }
+
+    protected void registerInManager(@NonNull IParaThing paraThing) {
+        manager.register(paraThing);
+    }
+
+    protected void addParaThing(@NonNull IPreInitContext<IParaThing> context, @NonNull IParaThing paraThing) {
+        loadedParaThings(context.loader()).add(paraThing);
+    }
+
+    @Override
+    public List<IParaThing> loadedParaThings(@NonNull IParaLoader<IParaThing> loader) {
+        return loadedParaThings.computeIfAbsent(loader, key -> new ArrayList<>());
     }
 }
