@@ -19,11 +19,11 @@ public class RecipeComponent implements IRecipeComponent {
     @NonNull
     protected final IRecipeComponentType type;
 
-    public static IRecipeComponent newItemComponent(@NonNull IParaID paraID) {
+    public static IRecipeComponent newRecipeItem(@NonNull IParaID paraID) {
         return new RecipeComponent(paraID, ITEM);
     }
 
-    public static IRecipeComponent newFluidComponent(@NonNull IParaID paraID) {
+    public static IRecipeComponent newRecipeFluid(@NonNull IParaID paraID) {
         return new RecipeComponent(paraID, FLUID);
     }
 }

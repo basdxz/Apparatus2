@@ -5,6 +5,7 @@ import com.github.basdxz.apparatus.common.loader.IParaLoaderRegistry;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 import io.github.classgraph.ClassGraph;
@@ -115,5 +116,15 @@ public class ParaLoaderRegistry implements IParaLoaderRegistry {
     @Override
     public List<IParaThing> loadedParaThings(@NonNull IParaLoader<IParaThing> loader) {
         return loadedParaThings.computeIfAbsent(loader, key -> new ArrayList<>());
+    }
+
+    @Override
+    public void register(@NonNull IRecipe recipe) {
+        registerInManager(recipe);
+        //TODO: Pass recipes to post-init
+    }
+
+    protected void registerInManager(@NonNull IRecipe recipe) {
+        manager.register(recipe);
     }
 }

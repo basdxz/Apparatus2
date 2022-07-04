@@ -21,6 +21,6 @@ public class InitContext extends LoadingContext implements IInitContext<IParaThi
 
     @Override
     public void register(@NonNull IRecipe recipe) {
-
+        loaderRegistry.register(recipe);
     }
 }

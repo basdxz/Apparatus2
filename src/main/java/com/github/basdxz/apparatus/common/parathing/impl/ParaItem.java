@@ -1,19 +1,24 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
+import com.github.basdxz.apparatus.common.example.Externals;
 import com.github.basdxz.apparatus.common.loader.IInitContext;
 import com.github.basdxz.apparatus.common.loader.IParaLoader;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
 import com.github.basdxz.apparatus.common.parathing.IParaItem;
+import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
+import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
 import com.github.basdxz.apparatus.common.registry.IParaID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
 import lombok.experimental.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.GRID_SHAPELESS;
 import static com.github.basdxz.apparatus.common.render.impl.RendererView.*;
 import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefaultSpriteRenderer;
 
@@ -49,13 +54,16 @@ public class ParaItem implements IParaItem {
 
         @Override
         public void init(@NonNull IInitContext<ParaItem> context) {
-            context.registered().forEach(System.out::println);
-            context.registered().forEach(System.out::println);
-            context.registered().forEach(System.out::println);
-            context.registered().forEach(System.out::println);
-            context.registered().forEach(System.out::println);
-            context.registered().forEach(System.out::println);
-            context.registered().forEach(System.out::println);
+            val stick = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("stick"));
+            val arrow = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("arrow"));
+            val recipe = new Recipe(
+                    GRID_SHAPELESS,
+                    Collections.singletonList(stick),
+                    Collections.singletonList(arrow),
+                    Collections.emptyList()
+            );
+
+            context.register(recipe);
         }
     }
 }

@@ -5,7 +5,6 @@ import com.github.basdxz.apparatus.common.loader.IParaLoaderRegistry;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
 import com.github.basdxz.apparatus.common.registry.IParaID;
-import com.github.basdxz.apparatus.common.registry.impl.ParaID;
 import lombok.*;
 
 public class PreInitContext extends LoadingContext implements IPreInitContext<IParaThing> {
@@ -20,6 +19,6 @@ public class PreInitContext extends LoadingContext implements IPreInitContext<IP
 
     @Override
     public IParaID newParaID(@NonNull String paraName) {
-        return new ParaID(registry(), paraName);
+        return registry().newParaID(paraName);
     }
 }

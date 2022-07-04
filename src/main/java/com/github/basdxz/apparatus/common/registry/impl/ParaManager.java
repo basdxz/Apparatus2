@@ -4,14 +4,13 @@ import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.loader.IParaLoaderRegistry;
 import com.github.basdxz.apparatus.common.loader.impl.ParaLoaderRegistry;
 import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.registry.IParaID;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import lombok.*;
 import lombok.experimental.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static lombok.AccessLevel.NONE;
 
@@ -25,10 +24,18 @@ public class ParaManager implements IParaManager {
     @NonNull
     protected final String loadersPackage;
 
+    //TODO: Make proper finalizers
     @Getter(NONE)
     protected final Map<IParaID, IParaThing> paraThings = new HashMap<>(); //TODO: Switch to alpha-numeric TreeMap
     @Getter(NONE)
+    protected final List<IRecipe> recipes = new ArrayList<>();
+    @Getter(NONE)
     protected final IParaLoaderRegistry loaderRegistry = new ParaLoaderRegistry(this);
+
+    @Override
+    public IParaID newParaID(@NonNull String paraName) {
+        return new ParaID(this, paraName);
+    }
 
     @Override
     public Optional<IParaThing> paraThing(@NonNull IParaID paraID) {
@@ -38,6 +45,11 @@ public class ParaManager implements IParaManager {
     @Override
     public Iterable<IParaThing> paraThings() {
         return paraThings.values();
+    }
+
+    @Override
+    public Iterable<IRecipe> recipes() {
+        return Collections.unmodifiableList(recipes);
     }
 
     @Override
@@ -76,5 +88,11 @@ public class ParaManager implements IParaManager {
 
     protected void addParaThing(@NonNull IParaThing paraThing) {
         paraThings.put(paraThing.paraID(), paraThing);
+    }
+
+    @Override
+    public void register(@NonNull IRecipe recipe) {
+        recipes.add(recipe);
+        //TODO: Sanity checking
     }
 }
