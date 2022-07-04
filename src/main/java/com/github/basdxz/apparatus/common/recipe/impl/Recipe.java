@@ -1,6 +1,9 @@
 package com.github.basdxz.apparatus.common.recipe.impl;
 
-import com.github.basdxz.apparatus.common.recipe.*;
+import com.github.basdxz.apparatus.common.recipe.IRecipe;
+import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
+import com.github.basdxz.apparatus.common.recipe.IRecipeRequirement;
+import com.github.basdxz.apparatus.common.recipe.IRecipeType;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -12,9 +15,9 @@ public class Recipe implements IRecipe {
     @NonNull
     protected final IRecipeType type;
     @NonNull
-    protected final List<IRecipeIngredient> ingredients;
+    protected final List<IRecipeComponent> ingredients;
     @NonNull
-    protected final List<IRecipeResult> results;
+    protected final List<IRecipeComponent> results;
     @NonNull
-    protected final List<IRecipeRequirements> requirements;
+    protected final List<IRecipeRequirement> requirements;
 }

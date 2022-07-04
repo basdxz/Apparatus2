@@ -5,9 +5,9 @@ import java.util.List;
 public interface IRecipe {
     IRecipeType type();
 
-    List<IRecipeIngredient> ingredients();
+    List<IRecipeComponent> ingredients();
 
-    List<IRecipeResult> results();
+    List<IRecipeComponent> results();
 
-    List<IRecipeRequirements> requirements();
+    List<IRecipeRequirement> requirements();
 }
