@@ -1,8 +1,8 @@
 package com.github.basdxz.apparatus.common.recipe.impl;
 
+import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponentType;
-import com.github.basdxz.apparatus.common.registry.IEntityID;
 import lombok.*;
 import lombok.experimental.*;
 

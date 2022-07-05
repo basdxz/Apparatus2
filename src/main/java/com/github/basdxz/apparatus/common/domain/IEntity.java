@@ -1,7 +1,6 @@
-package com.github.basdxz.apparatus.common.parathing;
+package com.github.basdxz.apparatus.common.domain;
 
 
-import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 

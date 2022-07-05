@@ -16,10 +16,10 @@ public class ParaBlockAdapter extends Block {
     public ParaBlockAdapter(@NonNull ITile paraBlock) {
         super(Material.iron); //TODO: IDK, what should this even be??
         this.paraBlock = paraBlock;
-        setBlockName("apparatus." + paraBlock.entityID().paraName());
+        setBlockName("apparatus." + paraBlock.entityID().entityName());
 
-        GameRegistry.registerBlock(this, ParaItemBlockAdapter.class, paraBlock.entityID().paraName()); //TODO: modid is fucked up here currently, find a way to better set it?
-        LangUtil.defaultLocalization("tile.apparatus." + paraBlock.entityID().paraName() + ".name", paraBlock.localizedName());
+        GameRegistry.registerBlock(this, ParaItemBlockAdapter.class, paraBlock.entityID().entityName()); //TODO: modid is fucked up here currently, find a way to better set it?
+        LangUtil.defaultLocalization("tile.apparatus." + paraBlock.entityID().entityName() + ".name", paraBlock.localizedName());
     }
 
     @Override

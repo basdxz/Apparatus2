@@ -19,5 +19,5 @@ public interface IDomain {
 
     String domainName();
 
-    ILocation newLocation(@NonNull String path);
+    ILocation location(@NonNull String path);
 }

@@ -34,7 +34,7 @@ public class ModelProperties implements IModelProperties {
 
     public static IModelProperties newDefaultProperties(@NonNull IDomain domain, @NonNull String path) {
         return new ModelProperties(
-                domain.newLocation(path),
+                domain.location(path),
                 true,
                 true,
                 true,

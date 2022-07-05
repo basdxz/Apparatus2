@@ -1,12 +1,12 @@
 package com.github.basdxz.apparatus.tiger;
 
+import com.github.basdxz.apparatus.common.domain.IEntity;
+import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.loader.IInitializeable;
-import com.github.basdxz.apparatus.common.parathing.IEntity;
 import com.github.basdxz.apparatus.common.parathing.IItem;
 import com.github.basdxz.apparatus.common.parathing.ITile;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
-import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
@@ -96,7 +96,7 @@ public class ManagerAdapter implements IInitializeable {
     }
 
     protected Optional<Item> findItem(@NonNull IEntityID paraID) {
-        return Optional.ofNullable(GameRegistry.findItem(paraID.registry().registryName(), paraID.paraName()));
+        return Optional.ofNullable(GameRegistry.findItem(paraID.registry().registryName(), paraID.entityName()));
     }
 
     @Override

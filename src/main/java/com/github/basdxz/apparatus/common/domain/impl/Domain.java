@@ -5,14 +5,26 @@ import com.github.basdxz.apparatus.common.domain.ILocation;
 import lombok.*;
 import lombok.experimental.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Data
 @Accessors(fluent = true, chain = true)
 public class Domain implements IDomain {
-    @NonNull
+    protected static final Map<String, IDomain> domains = new HashMap<>();
+
     protected final String domainName;
 
+    protected Domain(@NonNull String domainName) {
+        this.domainName = domainName.intern();
+    }
+
+    public static IDomain get(@NonNull String domainName) {
+        return domains.computeIfAbsent(domainName.intern(), Domain::new);
+    }
+
     @Override
-    public ILocation newLocation(@NonNull String path) {
+    public ILocation location(@NonNull String path) {
         return new Location(this, path);
     }
 

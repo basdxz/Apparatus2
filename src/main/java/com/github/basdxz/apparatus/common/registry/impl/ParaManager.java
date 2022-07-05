@@ -1,11 +1,12 @@
 package com.github.basdxz.apparatus.common.registry.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
+import com.github.basdxz.apparatus.common.domain.IEntity;
+import com.github.basdxz.apparatus.common.domain.IEntityID;
+import com.github.basdxz.apparatus.common.domain.impl.EntityID;
 import com.github.basdxz.apparatus.common.loader.IEntityLoaderRegistry;
 import com.github.basdxz.apparatus.common.loader.impl.EntityLoaderRegistry;
-import com.github.basdxz.apparatus.common.parathing.IEntity;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import lombok.*;
 import lombok.experimental.*;

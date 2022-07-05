@@ -1,10 +1,10 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
+import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.loader.EntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.parathing.ITile;
-import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;

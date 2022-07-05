@@ -1,10 +1,10 @@
 package com.github.basdxz.apparatus.common.loader.impl;
 
+import com.github.basdxz.apparatus.common.domain.IEntity;
+import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoaderRegistry;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
-import com.github.basdxz.apparatus.common.parathing.IEntity;
-import com.github.basdxz.apparatus.common.registry.IEntityID;
 import lombok.*;
 
 public class PreInitContext extends LoadingContext implements IPreInitContext<IEntity> {

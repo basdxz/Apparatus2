@@ -16,11 +16,11 @@ public class ParaItemAdapter extends Item {
         this.paraItem = paraItem;
         renderer = new ParaItemRendererAdapter(paraItem.renderers());
 
-        setUnlocalizedName("apparatus." + paraItem.entityID().paraName());
+        setUnlocalizedName("apparatus." + paraItem.entityID().entityName());
         MinecraftForgeClient.registerItemRenderer(this, renderer);
 
-        GameRegistry.registerItem(this, paraItem.entityID().paraName());//TODO: modid is fucked up here currently, find a way to better set it?
-        LangUtil.defaultLocalization("item.apparatus." + paraItem.entityID().paraName() + ".name", paraItem.localizedName());
+        GameRegistry.registerItem(this, paraItem.entityID().entityName());//TODO: modid is fucked up here currently, find a way to better set it?
+        LangUtil.defaultLocalization("item.apparatus." + paraItem.entityID().entityName() + ".name", paraItem.localizedName());
 
         //  True if tool
         //  setFull3D();
