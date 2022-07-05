@@ -3,7 +3,6 @@ package com.github.basdxz.apparatus.common.registry.impl;
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.IEntity;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
-import com.github.basdxz.apparatus.common.domain.impl.EntityID;
 import com.github.basdxz.apparatus.common.loader.IEntityLoaderRegistry;
 import com.github.basdxz.apparatus.common.loader.impl.EntityLoaderRegistry;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
@@ -35,7 +34,8 @@ public class ParaManager implements IParaManager {
 
     @Override
     public IEntityID newParaID(@NonNull String paraName) {
-        return new EntityID(this, paraName);
+//        return new EntityID(this, paraName);//TODO: FIX NOW!
+        return null;
     }
 
     @Override

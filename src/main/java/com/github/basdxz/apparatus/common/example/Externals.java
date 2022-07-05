@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public final class Externals {
     public static final String MINECRAFT_NAME = "minecraft";
-    public static final IDomain MINECRAFT_DOMAIN = new Domain(MINECRAFT_NAME);
+    public static final IDomain MINECRAFT_DOMAIN = Domain.get(MINECRAFT_NAME);
     public static final IParaRegistry MINECRAFT_REGISTRY = new ParaRegistryStub(MINECRAFT_DOMAIN, MINECRAFT_NAME);
 }

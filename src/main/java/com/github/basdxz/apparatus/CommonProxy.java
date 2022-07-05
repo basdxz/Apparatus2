@@ -16,7 +16,7 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
 
-        val domain = new Domain("apparatus");
+        val domain = Domain.get("apparatus");
         val registry = new ParaManager(
                 domain,
                 "test_registry",

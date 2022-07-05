@@ -3,11 +3,20 @@ package com.github.basdxz.apparatus.common.domain;
 
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
+import lombok.*;
 
 import java.util.Map;
 
 public interface IEntity {
-    IEntityID entityID();//TODO: Better delegates
+    default boolean entityEquals(@NonNull IEntity entity) {
+        return entityID().entityIDEquals(entity.entityID());
+    }
+
+    default String entityToString() {
+        return localizedName();
+    }
+
+    IEntityID entityID();
 
     String localizedName();
 

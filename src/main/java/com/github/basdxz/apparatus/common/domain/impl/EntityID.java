@@ -8,13 +8,25 @@ import lombok.experimental.*;
 @Data
 @Accessors(fluent = true, chain = true)
 public class EntityID implements IEntityID {
-    @NonNull
-    protected final IParaRegistry registry;
-    @NonNull
+    protected final IParaRegistry registry; //TODO: Re-link
     protected final String entityName;
+
+    protected EntityID(@NonNull IParaRegistry registry, @NonNull String entityName) {
+        this.registry = registry;
+        this.entityName = entityName.intern();
+    }
 
     @Override
     public String toString() {
-        return toStringParaID();
+        return entityIDToString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof IEntityID))
+            return false;
+        return entityIDEquals((IEntityID) obj);
     }
 }

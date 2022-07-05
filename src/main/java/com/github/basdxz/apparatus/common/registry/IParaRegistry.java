@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface IParaRegistry {
     default String toStringParaRegistry() {
-        return domain().toStringDomain() + ":" + registryName();
+        return domain().domainToString() + ":" + registryName();
     }
 
     IDomain domain();
