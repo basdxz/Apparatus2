@@ -20,15 +20,15 @@ import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefau
 @Getter
 @Accessors(fluent = true, chain = true)
 public class Tile implements ITile {
-    protected final IEntityID paraID;
+    protected final IEntityID entityID;
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
-    public Tile(@NonNull IEntityID paraID, @NonNull String localizedName) {
-        this.paraID = paraID;
+    public Tile(@NonNull IEntityID entityID, @NonNull String localizedName) {
+        this.entityID = entityID;
         this.localizedName = localizedName;
 
-        val renderer = newDefaultBlockRenderer(paraID.registry().domain(), "SwInner");
+        val renderer = newDefaultBlockRenderer(entityID.registry().domain(), "SwInner");
         renderers = new HashMap<>();
         renderers.put(ENTITY, renderer);
         renderers.put(EQUIPPED, renderer);
