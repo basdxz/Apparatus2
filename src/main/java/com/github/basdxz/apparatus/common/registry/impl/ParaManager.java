@@ -14,6 +14,9 @@ import java.util.*;
 
 import static lombok.AccessLevel.NONE;
 
+// Manager Should not exist
+// Replace manager with entity/resource registry
+// Registry should be disposed of once loading is complete.
 @Data
 @Accessors(fluent = true, chain = true)
 public class ParaManager implements IParaManager {
@@ -34,18 +37,17 @@ public class ParaManager implements IParaManager {
 
     @Override
     public IEntityID newParaID(@NonNull String paraName) {
-//        return new EntityID(this, paraName);//TODO: FIX NOW!
-        return null;
+        return domain.entityID(paraName);
     }
 
     @Override
     public Optional<IEntity> paraThing(@NonNull IEntityID paraID) {
-        return Optional.ofNullable(paraThings.get(paraID));
+        return domain.entity(paraID);
     }
 
     @Override
     public Iterable<IEntity> paraThings() {
-        return paraThings.values();
+        return Collections.emptyList();//TODO: FIX NOW
     }
 
     @Override
@@ -78,7 +80,7 @@ public class ParaManager implements IParaManager {
     protected void ensureValidParaID(@NonNull IEntity paraThing) {
         if (paraThing.entityID() == null)
             throw new IllegalArgumentException("ParaID is null"); //TODO: proper exception
-        if (!this.equals(paraThing.entityID().registry()))
+        if (!this.equals(paraThing.entityID().domain()))
             throw new IllegalArgumentException("Registry doesn't match"); //TODO: proper exception
     }
 

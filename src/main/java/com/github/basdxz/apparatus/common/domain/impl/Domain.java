@@ -68,7 +68,7 @@ public class Domain implements IDomain {
     }
 
     protected IEntityID newEntityID(@NonNull String path) {
-        return new EntityID(null/*should be 'this'*/, path);//TODO: FIX NOW
+        return new EntityID(this, path);
     }
 
     @Override

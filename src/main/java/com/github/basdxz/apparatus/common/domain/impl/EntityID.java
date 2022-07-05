@@ -1,18 +1,18 @@
 package com.github.basdxz.apparatus.common.domain.impl;
 
+import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
-import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 import lombok.*;
 import lombok.experimental.*;
 
 @Data
 @Accessors(fluent = true, chain = true)
 public class EntityID implements IEntityID {
-    protected final IParaRegistry registry; //TODO: Re-link
+    protected final IDomain domain;
     protected final String entityName;
 
-    protected EntityID(@NonNull IParaRegistry registry, @NonNull String entityName) {
-        this.registry = registry;
+    protected EntityID(@NonNull IDomain domain, @NonNull String entityName) {
+        this.domain = domain;
         this.entityName = entityName.intern();
     }
 

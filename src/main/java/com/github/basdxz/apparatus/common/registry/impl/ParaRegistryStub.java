@@ -21,8 +21,7 @@ public class ParaRegistryStub implements IParaRegistry {
 
     @Override
     public IEntityID newParaID(@NonNull String paraName) {
-//        return new EntityID(this, paraName);//TODO: FIX NOW
-        return null;
+        return domain.entityID(paraName);
     }
 
     @Override
