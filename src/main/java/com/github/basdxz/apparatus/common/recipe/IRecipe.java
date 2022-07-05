@@ -1,13 +1,18 @@
 package com.github.basdxz.apparatus.common.recipe;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IRecipe {
     IRecipeType type();
 
-    List<IRecipeComponent> ingredients();
+    List<IRecipeComponent> inputs();
 
-    List<IRecipeComponent> results();
+    default IRecipeComponent output() {
+        return outputs().get(0);
+    }
 
-    List<IRecipeRequirement> requirements();
+    List<IRecipeComponent> outputs();
+
+    Set<IRecipeRequirement> requirements();
 }

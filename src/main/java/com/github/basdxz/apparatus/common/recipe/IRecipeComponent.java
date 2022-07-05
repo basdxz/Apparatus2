@@ -6,4 +6,6 @@ public interface IRecipeComponent {
     IParaID paraID();
 
     IRecipeComponentType type();
+
+    int quantity();
 }

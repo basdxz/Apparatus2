@@ -14,11 +14,9 @@ import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
 import lombok.experimental.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.GRID_SHAPELESS;
 import static com.github.basdxz.apparatus.common.render.impl.RendererView.*;
 import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefaultSpriteRenderer;
 
@@ -54,16 +52,24 @@ public class ParaItem implements IParaItem {
 
         @Override
         public void init(@NonNull IInitContext<ParaItem> context) {
+            //give basdxz minecraft:stick 1
             val stick = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("stick"));
             val arrow = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("arrow"));
-            val recipe = new Recipe(
-                    GRID_SHAPELESS,
-                    Collections.singletonList(stick),
-                    Collections.singletonList(arrow),
-                    Collections.emptyList()
-            );
+            val feather = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("feather"));
 
+            val recipe = Recipe.shapelessBuilder()
+                    .in(stick).in(stick).in(stick).in(stick)
+                    .out(arrow)
+                    .build();
             context.register(recipe);
+
+            val recipe2 = Recipe.shapedBuilder()
+                    .in(null).in(feather).in(null)
+                    .in(feather).in(feather).in(null)
+                    .in(null).in(null).in(stick)
+                    .out(arrow)
+                    .build();
+            context.register(recipe2);
         }
     }
 }
