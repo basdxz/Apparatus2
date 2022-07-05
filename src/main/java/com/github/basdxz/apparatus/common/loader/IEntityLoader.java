@@ -1,9 +1,9 @@
 package com.github.basdxz.apparatus.common.loader;
 
-import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.parathing.IEntity;
 import lombok.*;
 
-public interface IParaLoader<T extends IParaThing> {
+public interface IEntityLoader<T extends IEntity> {
     default void preInit(@NonNull IPreInitContext<T> context) {
     }
 

@@ -1,10 +1,10 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
-import com.github.basdxz.apparatus.common.loader.IParaLoader;
+import com.github.basdxz.apparatus.common.loader.EntityLoader;
+import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
-import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
-import com.github.basdxz.apparatus.common.parathing.IParaBlock;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.parathing.ITile;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
@@ -19,12 +19,12 @@ import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefau
 
 @Getter
 @Accessors(fluent = true, chain = true)
-public class ParaBlock implements IParaBlock {
-    protected final IParaID paraID;
+public class Tile implements ITile {
+    protected final IEntityID paraID;
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
-    public ParaBlock(@NonNull IParaID paraID, @NonNull String localizedName) {
+    public Tile(@NonNull IEntityID paraID, @NonNull String localizedName) {
         this.paraID = paraID;
         this.localizedName = localizedName;
 
@@ -37,11 +37,11 @@ public class ParaBlock implements IParaBlock {
     }
 
     @NoArgsConstructor
-    @RegisteredLoader(registryName = "test_registry")
-    public static class Loader implements IParaLoader<ParaBlock> {
+    @EntityLoader(domainName = "test_registry")
+    public static class Loader implements IEntityLoader<Tile> {
         @Override
-        public void preInit(@NonNull IPreInitContext<ParaBlock> context) {
-            context.register(new ParaBlock(context.newParaID("woag_my_block"), "Woag My Block"));
+        public void preInit(@NonNull IPreInitContext<Tile> context) {
+            context.register(new Tile(context.newParaID("woag_my_block"), "Woag My Block"));
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.common.parathing.IParaBlock;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.parathing.ITile;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 
@@ -9,9 +9,9 @@ import java.util.Map;
 
 //Renders as block with different sides
 //Has a slight glow
-public class DirtPlank implements IParaBlock {
+public class DirtPlank implements ITile {
     @Override
-    public IParaID paraID() {
+    public IEntityID entityID() {
         return null;
     }
 

@@ -1,14 +1,14 @@
 package com.github.basdxz.apparatus.common.parathing.impl;
 
 import com.github.basdxz.apparatus.common.example.Externals;
+import com.github.basdxz.apparatus.common.loader.EntityLoader;
+import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IInitContext;
-import com.github.basdxz.apparatus.common.loader.IParaLoader;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
-import com.github.basdxz.apparatus.common.loader.RegisteredLoader;
-import com.github.basdxz.apparatus.common.parathing.IParaItem;
+import com.github.basdxz.apparatus.common.parathing.IItem;
 import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
@@ -23,12 +23,12 @@ import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefau
 
 @Getter
 @Accessors(fluent = true, chain = true)
-public class ParaItem implements IParaItem {
-    protected final IParaID paraID;
+public class Item implements IItem {
+    protected final IEntityID paraID;
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
-    public ParaItem(@NonNull IParaID paraID, @NonNull String localizedName) {
+    public Item(@NonNull IEntityID paraID, @NonNull String localizedName) {
         this.paraID = paraID;
         this.localizedName = localizedName;
 
@@ -41,17 +41,17 @@ public class ParaItem implements IParaItem {
     }
 
     @NoArgsConstructor
-    @RegisteredLoader(registryName = "test_registry")
-    public static class Loader implements IParaLoader<ParaItem> {
+    @EntityLoader(domainName = "test_registry")
+    public static class Loader implements IEntityLoader<Item> {
         @Override
-        public void preInit(@NonNull IPreInitContext<ParaItem> context) {
-            context.register(new ParaItem(context.newParaID("woag_my_item"), "Woag My Item"));
-            context.register(new ParaItem(context.newParaID("woag_my_item2"), "Woag My Item"));
-            context.register(new ParaItem(context.newParaID("woag_my_item3"), "Woag My Item"));
+        public void preInit(@NonNull IPreInitContext<Item> context) {
+            context.register(new Item(context.newParaID("woag_my_item"), "Woag My Item"));
+            context.register(new Item(context.newParaID("woag_my_item2"), "Woag My Item"));
+            context.register(new Item(context.newParaID("woag_my_item3"), "Woag My Item"));
         }
 
         @Override
-        public void init(@NonNull IInitContext<ParaItem> context) {
+        public void init(@NonNull IInitContext<Item> context) {
             //give basdxz minecraft:stick 1
             val stick = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("stick"));
             val arrow = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("arrow"));

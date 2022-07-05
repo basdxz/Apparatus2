@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.tiger;
 
 import com.falsepattern.lib.util.LangUtil;
-import com.github.basdxz.apparatus.common.parathing.IParaBlock;
+import com.github.basdxz.apparatus.common.parathing.ITile;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.block.Block;
@@ -11,15 +11,15 @@ import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ParaBlockAdapter extends Block {
-    protected final IParaBlock paraBlock;
+    protected final ITile paraBlock;
 
-    public ParaBlockAdapter(@NonNull IParaBlock paraBlock) {
+    public ParaBlockAdapter(@NonNull ITile paraBlock) {
         super(Material.iron); //TODO: IDK, what should this even be??
         this.paraBlock = paraBlock;
-        setBlockName("apparatus." + paraBlock.paraID().paraName());
+        setBlockName("apparatus." + paraBlock.entityID().paraName());
 
-        GameRegistry.registerBlock(this, ParaItemBlockAdapter.class, paraBlock.paraID().paraName()); //TODO: modid is fucked up here currently, find a way to better set it?
-        LangUtil.defaultLocalization("tile.apparatus." + paraBlock.paraID().paraName() + ".name", paraBlock.localizedName());
+        GameRegistry.registerBlock(this, ParaItemBlockAdapter.class, paraBlock.entityID().paraName()); //TODO: modid is fucked up here currently, find a way to better set it?
+        LangUtil.defaultLocalization("tile.apparatus." + paraBlock.entityID().paraName() + ".name", paraBlock.localizedName());
     }
 
     @Override

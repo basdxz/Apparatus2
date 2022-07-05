@@ -1,9 +1,9 @@
 package com.github.basdxz.apparatus.common.recipe;
 
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 
 public interface IRecipeComponent {
-    IParaID paraID();
+    IEntityID paraID();
 
     IRecipeComponentType type();
 

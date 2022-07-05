@@ -1,11 +1,11 @@
 package com.github.basdxz.apparatus.common.registry.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.loader.IParaLoaderRegistry;
-import com.github.basdxz.apparatus.common.loader.impl.ParaLoaderRegistry;
-import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.loader.IEntityLoaderRegistry;
+import com.github.basdxz.apparatus.common.loader.impl.EntityLoaderRegistry;
+import com.github.basdxz.apparatus.common.parathing.IEntity;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import lombok.*;
 import lombok.experimental.*;
@@ -26,24 +26,24 @@ public class ParaManager implements IParaManager {
 
     //TODO: Make proper finalizers
     @Getter(NONE)
-    protected final Map<IParaID, IParaThing> paraThings = new HashMap<>(); //TODO: Switch to alpha-numeric TreeMap
+    protected final Map<IEntityID, IEntity> paraThings = new HashMap<>(); //TODO: Switch to alpha-numeric TreeMap
     @Getter(NONE)
     protected final List<IRecipe> recipes = new ArrayList<>();
     @Getter(NONE)
-    protected final IParaLoaderRegistry loaderRegistry = new ParaLoaderRegistry(this);
+    protected final IEntityLoaderRegistry loaderRegistry = new EntityLoaderRegistry(this);
 
     @Override
-    public IParaID newParaID(@NonNull String paraName) {
-        return new ParaID(this, paraName);
+    public IEntityID newParaID(@NonNull String paraName) {
+        return new EntityID(this, paraName);
     }
 
     @Override
-    public Optional<IParaThing> paraThing(@NonNull IParaID paraID) {
+    public Optional<IEntity> paraThing(@NonNull IEntityID paraID) {
         return Optional.ofNullable(paraThings.get(paraID));
     }
 
     @Override
-    public Iterable<IParaThing> paraThings() {
+    public Iterable<IEntity> paraThings() {
         return paraThings.values();
     }
 
@@ -68,26 +68,26 @@ public class ParaManager implements IParaManager {
     }
 
     @Override
-    public void register(@NonNull IParaThing paraThing) {
+    public void register(@NonNull IEntity paraThing) {
         ensureValidParaID(paraThing);
         ensureNoDuplicate(paraThing);
         addParaThing(paraThing);
     }
 
-    protected void ensureValidParaID(@NonNull IParaThing paraThing) {
-        if (paraThing.paraID() == null)
+    protected void ensureValidParaID(@NonNull IEntity paraThing) {
+        if (paraThing.entityID() == null)
             throw new IllegalArgumentException("ParaID is null"); //TODO: proper exception
-        if (!this.equals(paraThing.paraID().registry()))
+        if (!this.equals(paraThing.entityID().registry()))
             throw new IllegalArgumentException("Registry doesn't match"); //TODO: proper exception
     }
 
-    protected void ensureNoDuplicate(@NonNull IParaThing paraThing) {
-        if (paraThings.containsKey(paraThing.paraID()))
+    protected void ensureNoDuplicate(@NonNull IEntity paraThing) {
+        if (paraThings.containsKey(paraThing.entityID()))
             throw new IllegalArgumentException("ParaThing already registered"); //TODO: proper exception
     }
 
-    protected void addParaThing(@NonNull IParaThing paraThing) {
-        paraThings.put(paraThing.paraID(), paraThing);
+    protected void addParaThing(@NonNull IEntity paraThing) {
+        paraThings.put(paraThing.entityID(), paraThing);
     }
 
     @Override

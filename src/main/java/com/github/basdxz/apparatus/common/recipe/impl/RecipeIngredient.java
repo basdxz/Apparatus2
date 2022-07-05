@@ -4,7 +4,7 @@ import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponentType;
 import com.github.basdxz.apparatus.common.recipe.IRecipeIngredient;
 import com.github.basdxz.apparatus.common.recipe.IRecipeIngredientType;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -18,18 +18,18 @@ import static lombok.AccessLevel.PROTECTED;
 @RequiredArgsConstructor(access = PROTECTED)
 public class RecipeIngredient implements IRecipeIngredient {
     @NonNull
-    protected final IParaID paraID;
+    protected final IEntityID paraID;
     @NonNull
     protected final IRecipeComponentType type;
     @NonNull
     protected final IRecipeIngredientType ingredientType;
     protected final int quantity;
 
-    public static IRecipeComponent newRecipeItem(@NonNull IParaID paraID) {
+    public static IRecipeComponent newRecipeItem(@NonNull IEntityID paraID) {
         return new RecipeIngredient(paraID, ITEM, CONSUMABLE, 1);
     }
 
-    public static IRecipeComponent newRecipeFluid(@NonNull IParaID paraID) {
+    public static IRecipeComponent newRecipeFluid(@NonNull IEntityID paraID) {
         return new RecipeIngredient(paraID, FLUID, CONSUMABLE, 1);
     }
 }

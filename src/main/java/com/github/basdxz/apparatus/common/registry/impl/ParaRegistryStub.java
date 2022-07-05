@@ -1,9 +1,9 @@
 package com.github.basdxz.apparatus.common.registry.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.parathing.IEntity;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 import lombok.*;
 import lombok.experimental.*;
@@ -20,17 +20,17 @@ public class ParaRegistryStub implements IParaRegistry {
     protected final String registryName;
 
     @Override
-    public IParaID newParaID(@NonNull String paraName) {
-        return new ParaID(this, paraName);
+    public IEntityID newParaID(@NonNull String paraName) {
+        return new EntityID(this, paraName);
     }
 
     @Override
-    public Optional<IParaThing> paraThing(@NonNull IParaID paraID) {
+    public Optional<IEntity> paraThing(@NonNull IEntityID paraID) {
         return Optional.empty();
     }
 
     @Override
-    public Iterable<IParaThing> paraThings() {
+    public Iterable<IEntity> paraThings() {
         return Collections.emptyList();
     }
 

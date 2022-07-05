@@ -1,12 +1,12 @@
 package com.github.basdxz.apparatus.tiger;
 
 import com.github.basdxz.apparatus.common.loader.IInitializeable;
-import com.github.basdxz.apparatus.common.parathing.IParaBlock;
-import com.github.basdxz.apparatus.common.parathing.IParaItem;
-import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.parathing.IEntity;
+import com.github.basdxz.apparatus.common.parathing.IItem;
+import com.github.basdxz.apparatus.common.parathing.ITile;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
@@ -34,11 +34,11 @@ public class ManagerAdapter implements IInitializeable {
     }
 
     //TODO: Rethink this
-    public Object adapt(@NonNull IParaThing paraThing) {
-        if (paraThing instanceof IParaBlock)
-            return new ParaBlockAdapter((IParaBlock) paraThing);
-        if (paraThing instanceof IParaItem)
-            return new ParaItemAdapter((IParaItem) paraThing);
+    public Object adapt(@NonNull IEntity paraThing) {
+        if (paraThing instanceof ITile)
+            return new ParaBlockAdapter((ITile) paraThing);
+        if (paraThing instanceof IItem)
+            return new ParaItemAdapter((IItem) paraThing);
         return null;
     }
 
@@ -95,7 +95,7 @@ public class ManagerAdapter implements IInitializeable {
         return adaptedInputs.toArray();
     }
 
-    protected Optional<Item> findItem(@NonNull IParaID paraID) {
+    protected Optional<Item> findItem(@NonNull IEntityID paraID) {
         return Optional.ofNullable(GameRegistry.findItem(paraID.registry().registryName(), paraID.paraName()));
     }
 

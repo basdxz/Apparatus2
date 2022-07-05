@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.example;
 
-import com.github.basdxz.apparatus.common.parathing.IParaItem;
-import com.github.basdxz.apparatus.common.registry.IParaID;
+import com.github.basdxz.apparatus.common.parathing.IItem;
+import com.github.basdxz.apparatus.common.registry.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 
@@ -10,9 +10,9 @@ import java.util.Map;
 //Edible
 //Provides Food
 //Gives user speed buff
-public class YummyBacon implements IParaItem {
+public class YummyBacon implements IItem {
     @Override
-    public IParaID paraID() {
+    public IEntityID entityID() {
         return null;
     }
 

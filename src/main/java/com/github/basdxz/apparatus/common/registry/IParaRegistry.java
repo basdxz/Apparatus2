@@ -2,7 +2,7 @@ package com.github.basdxz.apparatus.common.registry;
 
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.parathing.IEntity;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import lombok.*;
 
@@ -17,11 +17,11 @@ public interface IParaRegistry {
 
     String registryName();
 
-    IParaID newParaID(@NonNull String paraName);
+    IEntityID newParaID(@NonNull String paraName);
 
-    Optional<IParaThing> paraThing(@NonNull IParaID paraID);
+    Optional<IEntity> paraThing(@NonNull IEntityID paraID);
 
-    Iterable<IParaThing> paraThings();
+    Iterable<IEntity> paraThings();
 
     Iterable<IRecipe> recipes();
 }

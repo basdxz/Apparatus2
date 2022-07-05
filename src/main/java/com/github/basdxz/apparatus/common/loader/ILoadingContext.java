@@ -1,10 +1,10 @@
 package com.github.basdxz.apparatus.common.loader;
 
-import com.github.basdxz.apparatus.common.parathing.IParaThing;
+import com.github.basdxz.apparatus.common.parathing.IEntity;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
 
-public interface ILoadingContext<T extends IParaThing> {
+public interface ILoadingContext<T extends IEntity> {
     IParaRegistry registry();
 
-    IParaLoader<T> loader();
+    IEntityLoader<T> loader();
 }
