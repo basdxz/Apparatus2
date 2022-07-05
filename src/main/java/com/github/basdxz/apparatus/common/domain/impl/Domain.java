@@ -1,9 +1,9 @@
 package com.github.basdxz.apparatus.common.domain.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.domain.IEntity;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.domain.ILocation;
+import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.resource.IResource;
 import lombok.*;
 import lombok.experimental.*;

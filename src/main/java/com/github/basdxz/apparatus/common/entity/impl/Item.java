@@ -1,12 +1,12 @@
-package com.github.basdxz.apparatus.common.parathing.impl;
+package com.github.basdxz.apparatus.common.entity.impl;
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
+import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.example.Externals;
 import com.github.basdxz.apparatus.common.loader.EntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IInitContext;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
-import com.github.basdxz.apparatus.common.parathing.IItem;
 import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
 import com.github.basdxz.apparatus.common.render.IRendererView;

@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.common.domain;
 
+import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.resource.IResource;
 import lombok.*;
 

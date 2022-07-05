@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.loader;
 
-import com.github.basdxz.apparatus.common.domain.IEntity;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
+import com.github.basdxz.apparatus.common.entity.IEntity;
 import lombok.*;
 
 public interface IPreInitContext<T extends IEntity> extends ILoadingContext<T> {

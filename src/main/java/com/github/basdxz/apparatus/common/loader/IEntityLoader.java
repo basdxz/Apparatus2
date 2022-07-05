@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.common.loader;
 
-import com.github.basdxz.apparatus.common.domain.IEntity;
+import com.github.basdxz.apparatus.common.entity.IEntity;
 import lombok.*;
 
 public interface IEntityLoader<T extends IEntity> {

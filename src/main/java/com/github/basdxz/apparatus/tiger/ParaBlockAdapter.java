@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.tiger;
 
 import com.falsepattern.lib.util.LangUtil;
-import com.github.basdxz.apparatus.common.parathing.ITile;
+import com.github.basdxz.apparatus.common.entity.ITile;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.block.Block;
