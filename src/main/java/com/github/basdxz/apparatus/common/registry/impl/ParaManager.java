@@ -95,4 +95,9 @@ public class ParaManager implements IParaManager {
         recipes.add(recipe);
         //TODO: Sanity checking
     }
+
+    @Override
+    public String toString() {
+        return toStringParaRegistry();
+    }
 }

@@ -9,6 +9,10 @@ import lombok.*;
 import java.util.Optional;
 
 public interface IParaRegistry {
+    default String toStringParaRegistry() {
+        return domain().toStringDomain() + ":" + registryName();
+    }
+
     IDomain domain();
 
     String registryName();

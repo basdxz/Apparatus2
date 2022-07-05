@@ -12,4 +12,9 @@ public class ParaID implements IParaID {
     protected final IParaRegistry registry;
     @NonNull
     protected final String paraName;
+
+    @Override
+    public String toString() {
+        return toStringParaID();
+    }
 }

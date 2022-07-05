@@ -15,4 +15,9 @@ public class Domain implements IDomain {
     public ILocation newLocation(@NonNull String path) {
         return new Location(this, path);
     }
+
+    @Override
+    public String toString() {
+        return toStringDomain();
+    }
 }
