@@ -15,16 +15,16 @@ import static lombok.AccessLevel.PROTECTED;
 @RequiredArgsConstructor(access = PROTECTED)
 public class RecipeComponent implements IRecipeComponent {
     @NonNull
-    protected final IEntityID paraID;
+    protected final IEntityID entityID;
     @NonNull
     protected final IRecipeComponentType type;
     protected final int quantity;
 
-    public static IRecipeComponent newRecipeItem(@NonNull IEntityID paraID) {
-        return new RecipeComponent(paraID, ITEM, 1);
+    public static IRecipeComponent newRecipeItem(@NonNull IEntityID entityID) {
+        return new RecipeComponent(entityID, ITEM, 1);
     }
 
-    public static IRecipeComponent newRecipeFluid(@NonNull IEntityID paraID) {
-        return new RecipeComponent(paraID, FLUID, 1);
+    public static IRecipeComponent newRecipeFluid(@NonNull IEntityID entityID) {
+        return new RecipeComponent(entityID, FLUID, 1);
     }
 }

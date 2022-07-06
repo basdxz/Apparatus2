@@ -51,7 +51,7 @@ public class DomainAdapter implements IInitializeable {
 //        for (IRecipe recipe : manager.recipes()) {
 //            System.out.println(recipe);
 //
-//            val output = findItem(recipe.output().paraID())
+//            val output = findItem(recipe.output().entityID())
 //                    .orElseThrow(() -> new NullPointerException("HAGRID YOU FAT OAF YOU ATE ALL THE FOODS!!"));
 //
 //            if (recipe.type().equals(SHAPELESS)) {
@@ -72,7 +72,7 @@ public class DomainAdapter implements IInitializeable {
             if (component == null)
                 throw new NullPointerException("Components can't be null!");
             adaptedInputs[i] = new ItemStack(
-                    findItem(component.paraID()).orElseThrow(() -> new NullPointerException("Item Remap Failed!")));
+                    findItem(component.entityID()).orElseThrow(() -> new NullPointerException("Item Remap Failed!")));
         }
         return adaptedInputs;
     }
@@ -87,7 +87,7 @@ public class DomainAdapter implements IInitializeable {
             if (component == null)
                 continue;
 
-            val item = findItem(component.paraID());
+            val item = findItem(component.entityID());
             if (!item.isPresent())
                 continue;
 
