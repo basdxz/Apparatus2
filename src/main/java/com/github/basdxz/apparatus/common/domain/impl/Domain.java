@@ -20,10 +20,10 @@ public class Domain implements IDomain {
 
     protected final String domainName;
 
-    protected final Map<String, ILocation> locations = new HashMap<>();
-    protected final Map<String, IEntityID> entityIDs = new HashMap<>();
     protected final Map<ILocation, IResource> resources = new HashMap<>();
+    protected final Map<String, ILocation> locations = new HashMap<>();
     protected final Map<IEntityID, IEntity> entities = new HashMap<>();
+    protected final Map<String, IEntityID> entityIDs = new HashMap<>();
 
     protected Domain(@NonNull String domainName) {
         this.domainName = domainName.intern();
@@ -31,41 +31,6 @@ public class Domain implements IDomain {
 
     public static IDomain get(@NonNull String domainName) {
         return domains.computeIfAbsent(domainName.intern(), Domain::new);
-    }
-
-    @Override
-    public void resource(@NonNull IResource resource) {
-        val location = resource.location();
-        ensureNoDuplicate(location);
-        add(resource, location);
-    }
-
-    protected void ensureNoDuplicate(@NonNull ILocation location) {
-        if (resources.containsKey(location))
-            throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
-    }
-
-    protected void add(@NonNull IResource resource, @NonNull ILocation location) {
-        resources.put(location, resource);
-    }
-
-    @Override
-    public Optional<IResource> resource(@NonNull String path) {
-        return resource(location(path));
-    }
-
-    @Override
-    public Optional<IResource> resource(@NonNull ILocation location) {
-        return Optional.ofNullable(resources.get(location));
-    }
-
-    @Override
-    public ILocation location(@NonNull String path) {
-        return locations.computeIfAbsent(path.intern(), this::newLocation);
-    }
-
-    protected ILocation newLocation(@NonNull String path) {
-        return new Location(this, path);
     }
 
     @Override
@@ -101,6 +66,41 @@ public class Domain implements IDomain {
 
     protected IEntityID newEntityID(@NonNull String path) {
         return new EntityID(this, path);
+    }
+
+    @Override
+    public void resource(@NonNull IResource resource) {
+        val location = resource.location();
+        ensureNoDuplicate(location);
+        add(resource, location);
+    }
+
+    protected void ensureNoDuplicate(@NonNull ILocation location) {
+        if (resources.containsKey(location))
+            throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
+    }
+
+    protected void add(@NonNull IResource resource, @NonNull ILocation location) {
+        resources.put(location, resource);
+    }
+
+    @Override
+    public Optional<IResource> resource(@NonNull String path) {
+        return resource(location(path));
+    }
+
+    @Override
+    public Optional<IResource> resource(@NonNull ILocation location) {
+        return Optional.ofNullable(resources.get(location));
+    }
+
+    @Override
+    public ILocation location(@NonNull String path) {
+        return locations.computeIfAbsent(path.intern(), this::newLocation);
+    }
+
+    protected ILocation newLocation(@NonNull String path) {
+        return new Location(this, path);
     }
 
     @Override

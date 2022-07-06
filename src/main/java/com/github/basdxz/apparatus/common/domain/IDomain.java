@@ -17,14 +17,6 @@ public interface IDomain {
 
     String domainName();
 
-    void resource(@NonNull IResource resource);
-
-    Optional<IResource> resource(@NonNull String path);
-
-    Optional<IResource> resource(@NonNull ILocation location);
-
-    ILocation location(@NonNull String path);
-
     void entity(@NonNull IEntity entity);
 
     Optional<IEntity> entity(@NonNull String entityName);
@@ -32,4 +24,12 @@ public interface IDomain {
     Optional<IEntity> entity(@NonNull IEntityID entityID);
 
     IEntityID entityID(@NonNull String entityName);
+
+    void resource(@NonNull IResource resource);
+
+    Optional<IResource> resource(@NonNull String path);
+
+    Optional<IResource> resource(@NonNull ILocation location);
+
+    ILocation location(@NonNull String path);
 }
