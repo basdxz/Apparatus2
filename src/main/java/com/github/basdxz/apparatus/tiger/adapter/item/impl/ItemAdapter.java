@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus.tiger.item;
+package com.github.basdxz.apparatus.tiger.adapter.item.impl;
 
 import com.falsepattern.lib.util.LangUtil;
 import com.github.basdxz.apparatus.common.entity.IItem;
