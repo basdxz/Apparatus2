@@ -1,13 +1,13 @@
 package com.github.basdxz.apparatus.tiger;
 
 import com.github.basdxz.apparatus.common.IInitializeable;
+import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.entity.ITile;
-import com.github.basdxz.apparatus.common.recipe.IRecipe;
+import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
-import com.github.basdxz.apparatus.common.registry.IParaManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.item.Item;
@@ -17,20 +17,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.SHAPED;
-import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.SHAPELESS;
+public class DomainAdapter implements IInitializeable {
+    protected final IDomain domain;
+    protected final String[] packageNames;
+    protected IDomainLoader loader;
 
-public class ManagerAdapter implements IInitializeable {
-    protected final IParaManager manager;
-
-    public ManagerAdapter(@NonNull IParaManager manager) {
-        this.manager = manager;
+    public DomainAdapter(@NonNull IDomain domain, @NonNull String... packageNames) {
+        this.domain = domain;
+        this.packageNames = packageNames;
     }
 
     @Override
     public void preInit() {
-        manager.preInit();
-        manager.paraThings().forEach(this::adapt);
+        loader = domain.newLoader(packageNames);
+        loader.preInit();
+
+        domain.entities().forEach(this::adapt);
     }
 
     //TODO: Rethink this
@@ -44,23 +46,23 @@ public class ManagerAdapter implements IInitializeable {
 
     @Override
     public void init() {
-        manager.init();
+        loader.init();
 
-        for (IRecipe recipe : manager.recipes()) {
-            System.out.println(recipe);
-
-            val output = findItem(recipe.output().paraID())
-                    .orElseThrow(() -> new NullPointerException("HAGRID YOU FAT OAF YOU ATE ALL THE FOODS!!"));
-
-            if (recipe.type().equals(SHAPELESS)) {
-                GameRegistry.addShapelessRecipe(
-                        new ItemStack(output),
-                        (Object[]) adaptShapelessInputs(recipe.inputs())
-                );
-            } else if (recipe.type().equals(SHAPED)) {
-                GameRegistry.addShapedRecipe(new ItemStack(output), adaptShapedInputs(recipe.inputs()));
-            }
-        }
+//        for (IRecipe recipe : manager.recipes()) {
+//            System.out.println(recipe);
+//
+//            val output = findItem(recipe.output().paraID())
+//                    .orElseThrow(() -> new NullPointerException("HAGRID YOU FAT OAF YOU ATE ALL THE FOODS!!"));
+//
+//            if (recipe.type().equals(SHAPELESS)) {
+//                GameRegistry.addShapelessRecipe(
+//                        new ItemStack(output),
+//                        (Object[]) adaptShapelessInputs(recipe.inputs())
+//                );
+//            } else if (recipe.type().equals(SHAPED)) {
+//                GameRegistry.addShapedRecipe(new ItemStack(output), adaptShapedInputs(recipe.inputs()));
+//            }
+//        }
     }
 
     protected ItemStack[] adaptShapelessInputs(@NonNull List<IRecipeComponent> components) {
@@ -95,12 +97,14 @@ public class ManagerAdapter implements IInitializeable {
         return adaptedInputs.toArray();
     }
 
-    protected Optional<Item> findItem(@NonNull IEntityID paraID) {
-        return Optional.ofNullable(GameRegistry.findItem(paraID.registry().registryName(), paraID.entityName()));
+    protected Optional<Item> findItem(@NonNull IEntityID entityID) {
+        return Optional.ofNullable(GameRegistry.findItem(entityID.domain().domainName(), entityID.entityName()));
     }
 
     @Override
     public void postInit() {
-        manager.postInit();
+        loader.postInit();
+
+        loader = null;
     }
 }

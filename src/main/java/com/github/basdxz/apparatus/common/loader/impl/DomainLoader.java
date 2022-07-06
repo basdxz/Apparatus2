@@ -151,7 +151,7 @@ public class DomainLoader implements IInternalDomainLoader {
     @Override
     public void postInit() {
         postInitEntityLoaders();
-        cleanup();
+        postInitCleanup();
     }
 
     protected void postInitEntityLoaders() {
@@ -166,9 +166,10 @@ public class DomainLoader implements IInternalDomainLoader {
         return new PostInitContext(this, entityLoader);
     }
 
-    protected void cleanup() {
+    protected void postInitCleanup() {
         entityLoaders.clear();
         registeredEntities.clear();
+        registeredRecipes.clear();
     }
 
     @Override

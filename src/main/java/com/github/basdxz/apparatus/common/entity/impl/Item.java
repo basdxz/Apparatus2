@@ -3,10 +3,10 @@ package com.github.basdxz.apparatus.common.entity.impl;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.example.Externals;
-import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.Loader;
 import com.github.basdxz.apparatus.common.loader.context.IInitContext;
 import com.github.basdxz.apparatus.common.loader.context.IPreInitContext;
+import com.github.basdxz.apparatus.common.loader.impl.EntityLoader;
 import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
 import com.github.basdxz.apparatus.common.render.IRendererView;
@@ -41,8 +41,8 @@ public class Item implements IItem {
     }
 
     @NoArgsConstructor
-    @Loader(domainName = "test_registry")
-    public static class ItemLoader implements IEntityLoader<Item> {
+    @Loader(domainName = "apparatus")
+    public static class ItemLoader extends EntityLoader<Item> {
         @Override
         public void preInit(@NonNull IPreInitContext<Item> context) {
             context.register(new Item(context.entityID("woag_my_item"), "Woag My Item"));
@@ -53,9 +53,9 @@ public class Item implements IItem {
         @Override
         public void init(@NonNull IInitContext<Item> context) {
             //give basdxz minecraft:stick 1
-            val stick = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("stick"));
-            val arrow = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("arrow"));
-            val feather = RecipeComponent.newRecipeItem(Externals.MINECRAFT_REGISTRY.newParaID("feather"));
+            val stick = RecipeComponent.newRecipeItem(Externals.MINECRAFT_DOMAIN.entityID("stick"));
+            val arrow = RecipeComponent.newRecipeItem(Externals.MINECRAFT_DOMAIN.entityID("arrow"));
+            val feather = RecipeComponent.newRecipeItem(Externals.MINECRAFT_DOMAIN.entityID("feather"));
 
             val recipe = Recipe.shapelessBuilder()
                     .in(stick).in(stick).in(stick).in(stick)

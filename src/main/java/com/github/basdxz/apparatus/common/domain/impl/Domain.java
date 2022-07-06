@@ -17,11 +17,11 @@ import java.util.Map;
 import java.util.Optional;
 
 // TODO: Allow lookups in the form of minecraft:stick or apparatus:red_square
-@Data
 @Accessors(fluent = true, chain = true)
 public class Domain implements IInternalDomain {
     protected static final Map<String, IDomain> domains = new HashMap<>();
 
+    @Getter
     protected final String domainName;
 
     protected final Map<ILocation, IResource> resources = new HashMap<>();
@@ -40,6 +40,11 @@ public class Domain implements IInternalDomain {
     @Override
     public IDomainLoader newLoader(@NonNull String... packageNames) {
         return new DomainLoader(this, packageNames);
+    }
+
+    @Override
+    public Iterable<IEntity> entities() {
+        return entities.values();
     }
 
     @Override

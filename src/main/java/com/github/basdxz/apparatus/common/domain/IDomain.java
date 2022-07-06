@@ -20,6 +20,9 @@ public interface IDomain {
 
     IDomainLoader newLoader(@NonNull String... packageNames);
 
+    //TODO: Should this be iterable?
+    Iterable<IEntity> entities();
+
     Optional<IEntity> entity(@NonNull String entityName);
 
     Optional<IEntity> entity(@NonNull IEntityID entityID);
