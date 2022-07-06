@@ -2,6 +2,7 @@ package com.github.basdxz.apparatus.common.domain;
 
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
+import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.resource.IResource;
 import lombok.*;
 
@@ -28,6 +29,12 @@ public interface IDomain {
     Optional<IEntity> entity(@NonNull IEntityID entityID);
 
     IEntityID entityID(@NonNull String entityName);
+
+    //TODO: Should this be iterable?
+    Iterable<IRecipe> recipes();
+
+    //TODO: Should this be iterable?
+    Iterable<IResource> resources();
 
     Optional<IResource> resource(@NonNull String path);
 

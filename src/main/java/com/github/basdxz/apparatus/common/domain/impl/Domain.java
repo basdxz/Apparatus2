@@ -12,9 +12,7 @@ import com.github.basdxz.apparatus.common.resource.IResource;
 import lombok.*;
 import lombok.experimental.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 // TODO: Allow lookups in the form of minecraft:stick or apparatus:red_square
 @Accessors(fluent = true, chain = true)
@@ -24,8 +22,10 @@ public class Domain implements IInternalDomain {
     @Getter
     protected final String domainName;
 
+    //TODO: Some of these should be tree sets
     protected final Map<ILocation, IResource> resources = new HashMap<>();
     protected final Map<String, ILocation> locations = new HashMap<>();
+    protected final Set<IRecipe> recipes = new HashSet<>();
     protected final Map<IEntityID, IEntity> entities = new HashMap<>();
     protected final Map<String, IEntityID> entityIDs = new HashMap<>();
 
@@ -67,6 +67,16 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
+    public Iterable<IRecipe> recipes() {
+        return Collections.unmodifiableSet(recipes);
+    }
+
+    @Override
+    public Iterable<IResource> resources() {
+        return resources.values();
+    }
+
+    @Override
     public Optional<IResource> resource(@NonNull String path) {
         return resource(location(path));
     }
@@ -103,7 +113,17 @@ public class Domain implements IInternalDomain {
 
     @Override
     public void register(@NonNull IRecipe recipe) {
-        //TODO: Implement Recipes
+        ensureNoDuplicate(recipe);
+        add(recipe);
+    }
+
+    protected void ensureNoDuplicate(@NonNull IRecipe recipe) {
+        if (recipes.contains(recipe))
+            throw new IllegalArgumentException("Recipe already exists");//TODO: Better exceptions
+    }
+
+    protected void add(@NonNull IRecipe recipe) {
+        recipes.add(recipe);
     }
 
     @Override

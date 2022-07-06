@@ -7,6 +7,7 @@ import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.entity.ITile;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
+import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
@@ -16,6 +17,9 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.SHAPED;
+import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.SHAPELESS;
 
 public class DomainAdapter implements IInitializeable {
     protected final IDomain domain;
@@ -48,21 +52,21 @@ public class DomainAdapter implements IInitializeable {
     public void init() {
         loader.init();
 
-//        for (IRecipe recipe : manager.recipes()) {
-//            System.out.println(recipe);
-//
-//            val output = findItem(recipe.output().entityID())
-//                    .orElseThrow(() -> new NullPointerException("HAGRID YOU FAT OAF YOU ATE ALL THE FOODS!!"));
-//
-//            if (recipe.type().equals(SHAPELESS)) {
-//                GameRegistry.addShapelessRecipe(
-//                        new ItemStack(output),
-//                        (Object[]) adaptShapelessInputs(recipe.inputs())
-//                );
-//            } else if (recipe.type().equals(SHAPED)) {
-//                GameRegistry.addShapedRecipe(new ItemStack(output), adaptShapedInputs(recipe.inputs()));
-//            }
-//        }
+        for (IRecipe recipe : domain.recipes()) {
+            System.out.println(recipe);
+
+            val output = findItem(recipe.output().entityID())
+                    .orElseThrow(() -> new NullPointerException("HAGRID YOU FAT OAF YOU ATE ALL THE FOODS!!"));
+
+            if (recipe.type().equals(SHAPELESS)) {
+                GameRegistry.addShapelessRecipe(
+                        new ItemStack(output),
+                        (Object[]) adaptShapelessInputs(recipe.inputs())
+                );
+            } else if (recipe.type().equals(SHAPED)) {
+                GameRegistry.addShapedRecipe(new ItemStack(output), adaptShapedInputs(recipe.inputs()));
+            }
+        }
     }
 
     protected ItemStack[] adaptShapelessInputs(@NonNull List<IRecipeComponent> components) {
