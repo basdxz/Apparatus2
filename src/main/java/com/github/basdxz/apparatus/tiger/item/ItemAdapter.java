@@ -1,18 +1,19 @@
-package com.github.basdxz.apparatus.tiger;
+package com.github.basdxz.apparatus.tiger.item;
 
 import com.falsepattern.lib.util.LangUtil;
 import com.github.basdxz.apparatus.common.entity.IItem;
+import com.github.basdxz.apparatus.tiger.ParaItemRendererAdapter;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-public class ParaItemAdapter extends Item {
+public class ItemAdapter extends Item {
     protected final IItem paraItem;
     protected final ParaItemRendererAdapter renderer;
 
-    public ParaItemAdapter(@NonNull IItem paraItem) {
+    public ItemAdapter(@NonNull IItem paraItem) {
         this.paraItem = paraItem;
         renderer = new ParaItemRendererAdapter(paraItem.renderers());
 

@@ -19,12 +19,12 @@ import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefau
 
 @Getter
 @Accessors(fluent = true, chain = true)
-public class Tile implements ITile {
+public class TestTile implements ITile {
     protected final IEntityID entityID;
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
-    public Tile(@NonNull IEntityID entityID, @NonNull String localizedName) {
+    public TestTile(@NonNull IEntityID entityID, @NonNull String localizedName) {
         this.entityID = entityID;
         this.localizedName = localizedName;
 
@@ -38,10 +38,10 @@ public class Tile implements ITile {
 
     @NoArgsConstructor
     @Loader(domainName = "apparatus")
-    public static class TileLoader extends EntityLoader<Tile> {
+    public static class TileLoader extends EntityLoader<TestTile> {
         @Override
-        public void preInit(@NonNull IPreInitContext<Tile> context) {
-            context.register(new Tile(context.entityID("woag_my_block"), "Woag My Block"));
+        public void preInit(@NonNull IPreInitContext<TestTile> context) {
+            context.register(new TestTile(context.entityID("woag_my_block"), "Woag My Block"));
         }
     }
 }

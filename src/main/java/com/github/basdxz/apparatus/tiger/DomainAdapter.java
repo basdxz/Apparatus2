@@ -4,11 +4,15 @@ import com.github.basdxz.apparatus.common.IInitializeable;
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IEntity;
+import com.github.basdxz.apparatus.common.entity.IFluid;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.entity.ITile;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
+import com.github.basdxz.apparatus.tiger.fluid.FluidAdapter;
+import com.github.basdxz.apparatus.tiger.item.ItemAdapter;
+import com.github.basdxz.apparatus.tiger.tile.TileAdapter;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.item.Item;
@@ -40,11 +44,13 @@ public class DomainAdapter implements IInitializeable {
     }
 
     //TODO: Rethink this
-    public Object adapt(@NonNull IEntity paraThing) {
-        if (paraThing instanceof ITile)
-            return new ParaBlockAdapter((ITile) paraThing);
-        if (paraThing instanceof IItem)
-            return new ParaItemAdapter((IItem) paraThing);
+    public Object adapt(@NonNull IEntity entity) {
+        if (entity instanceof IFluid)
+            return new FluidAdapter((IFluid) entity);
+        if (entity instanceof ITile)
+            return new TileAdapter((ITile) entity);
+        if (entity instanceof IItem)
+            return new ItemAdapter((IItem) entity);
         return null;
     }
 

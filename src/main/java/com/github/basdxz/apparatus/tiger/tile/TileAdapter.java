@@ -1,7 +1,8 @@
-package com.github.basdxz.apparatus.tiger;
+package com.github.basdxz.apparatus.tiger.tile;
 
 import com.falsepattern.lib.util.LangUtil;
 import com.github.basdxz.apparatus.common.entity.ITile;
+import com.github.basdxz.apparatus.tiger.ParaItemRendererAdapter;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.block.Block;
@@ -10,10 +11,10 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-public class ParaBlockAdapter extends Block {
+public class TileAdapter extends Block {
     protected final ITile paraBlock;
 
-    public ParaBlockAdapter(@NonNull ITile paraBlock) {
+    public TileAdapter(@NonNull ITile paraBlock) {
         super(Material.iron); //TODO: IDK, what should this even be??
         this.paraBlock = paraBlock;
         setBlockName("apparatus." + paraBlock.entityID().entityName());
@@ -33,10 +34,10 @@ public class ParaBlockAdapter extends Block {
         public ParaItemBlockAdapter(@NonNull Block block) {
             super(block);
 
-            if (!(block instanceof ParaBlockAdapter))
+            if (!(block instanceof TileAdapter))
                 throw new IllegalArgumentException("Use only with adapter item things");//TODO: better exception
 
-            val paraBlockAdapter = (ParaBlockAdapter) block;
+            val paraBlockAdapter = (TileAdapter) block;
             renderer = new ParaItemRendererAdapter(paraBlockAdapter.paraBlock.renderers());
             MinecraftForgeClient.registerItemRenderer(this, renderer);
         }

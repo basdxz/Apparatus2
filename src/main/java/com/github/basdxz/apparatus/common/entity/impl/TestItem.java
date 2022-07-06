@@ -23,12 +23,12 @@ import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefau
 
 @Getter
 @Accessors(fluent = true, chain = true)
-public class Item implements IItem {
+public class TestItem implements IItem {
     protected final IEntityID entityID;
     protected final String localizedName;
     protected final Map<IRendererView, IRenderer> renderers;
 
-    public Item(@NonNull IEntityID entityID, @NonNull String localizedName) {
+    public TestItem(@NonNull IEntityID entityID, @NonNull String localizedName) {
         this.entityID = entityID;
         this.localizedName = localizedName;
 
@@ -42,16 +42,16 @@ public class Item implements IItem {
 
     @NoArgsConstructor
     @Loader(domainName = "apparatus")
-    public static class ItemLoader extends EntityLoader<Item> {
+    public static class ItemLoader extends EntityLoader<TestItem> {
         @Override
-        public void preInit(@NonNull IPreInitContext<Item> context) {
-            context.register(new Item(context.entityID("woag_my_item"), "Woag My Item"));
-            context.register(new Item(context.entityID("woag_my_item2"), "Woag My Item"));
-            context.register(new Item(context.entityID("woag_my_item3"), "Woag My Item"));
+        public void preInit(@NonNull IPreInitContext<TestItem> context) {
+            context.register(new TestItem(context.entityID("woag_my_item"), "Woag My Item"));
+            context.register(new TestItem(context.entityID("woag_my_item2"), "Woag My Item"));
+            context.register(new TestItem(context.entityID("woag_my_item3"), "Woag My Item"));
         }
 
         @Override
-        public void init(@NonNull IInitContext<Item> context) {
+        public void init(@NonNull IInitContext<TestItem> context) {
             //give basdxz minecraft:stick 1
             val stick = RecipeComponent.newRecipeItem(Externals.MINECRAFT_DOMAIN.entityID("stick"));
             val arrow = RecipeComponent.newRecipeItem(Externals.MINECRAFT_DOMAIN.entityID("arrow"));

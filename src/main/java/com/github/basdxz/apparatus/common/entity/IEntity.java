@@ -17,6 +17,10 @@ public interface IEntity {
         return localizedName();
     }
 
+    default String entityName() {
+        return entityID().entityName();
+    }
+
     IEntityID entityID();
 
     String localizedName();
