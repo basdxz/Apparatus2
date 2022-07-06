@@ -1,10 +1,10 @@
 package com.github.basdxz.apparatus.tiger;
 
+import com.github.basdxz.apparatus.common.IInitializeable;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.entity.ITile;
-import com.github.basdxz.apparatus.common.loader.IInitializeable;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
 import com.github.basdxz.apparatus.common.registry.IParaManager;

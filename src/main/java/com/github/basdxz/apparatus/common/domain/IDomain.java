@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.common.domain;
 
 import com.github.basdxz.apparatus.common.entity.IEntity;
+import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.resource.IResource;
 import lombok.*;
 
@@ -17,16 +18,13 @@ public interface IDomain {
 
     String domainName();
 
-
-    void entity(@NonNull IEntity entity);
+    IDomainLoader newLoader(@NonNull String... packageNames);
 
     Optional<IEntity> entity(@NonNull String entityName);
 
     Optional<IEntity> entity(@NonNull IEntityID entityID);
 
     IEntityID entityID(@NonNull String entityName);
-
-    void resource(@NonNull IResource resource);
 
     Optional<IResource> resource(@NonNull String path);
 

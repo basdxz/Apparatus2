@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus.common.loader;
+package com.github.basdxz.apparatus.common;
 
 public interface IInitializeable {
     void preInit();

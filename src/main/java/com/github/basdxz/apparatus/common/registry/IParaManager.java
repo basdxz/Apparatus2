@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.registry;
 
+import com.github.basdxz.apparatus.common.IInitializeable;
 import com.github.basdxz.apparatus.common.entity.IEntity;
-import com.github.basdxz.apparatus.common.loader.IInitializeable;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import lombok.*;
 

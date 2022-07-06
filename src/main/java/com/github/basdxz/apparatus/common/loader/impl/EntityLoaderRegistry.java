@@ -3,8 +3,11 @@ package com.github.basdxz.apparatus.common.loader.impl;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoaderRegistry;
-import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.Loader;
+import com.github.basdxz.apparatus.common.loader.context.IPreInitContext;
+import com.github.basdxz.apparatus.common.loader.context.impl.InitContext;
+import com.github.basdxz.apparatus.common.loader.context.impl.PostInitContext;
+import com.github.basdxz.apparatus.common.loader.context.impl.PreInitContext;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
@@ -74,7 +77,7 @@ public class EntityLoaderRegistry implements IEntityLoaderRegistry {
 
     protected void finalizeLoadedParaThings() {
         for (val loader : loaders)
-            loadedParaThings.computeIfAbsent(loader, key -> Collections.emptyList());
+            loadedParaThings.putIfAbsent(loader, Collections.emptyList());
         loadedParaThings.replaceAll((iParaThingIParaLoader, iParaThings) -> Collections.unmodifiableList(iParaThings));
     }
 
@@ -110,7 +113,7 @@ public class EntityLoaderRegistry implements IEntityLoaderRegistry {
     }
 
     protected void addParaThing(@NonNull IPreInitContext<IEntity> context, @NonNull IEntity paraThing) {
-        loadedParaThings(context.loader()).add(paraThing);
+        loadedParaThings(context.entityLoader()).add(paraThing);
     }
 
     @Override
@@ -121,7 +124,6 @@ public class EntityLoaderRegistry implements IEntityLoaderRegistry {
     @Override
     public void register(@NonNull IRecipe recipe) {
         registerInManager(recipe);
-        //TODO: Pass recipes to post-init
     }
 
     protected void registerInManager(@NonNull IRecipe recipe) {

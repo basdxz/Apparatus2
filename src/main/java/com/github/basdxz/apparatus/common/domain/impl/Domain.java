@@ -2,8 +2,12 @@ package com.github.basdxz.apparatus.common.domain.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
+import com.github.basdxz.apparatus.common.domain.IInternalDomain;
 import com.github.basdxz.apparatus.common.domain.ILocation;
 import com.github.basdxz.apparatus.common.entity.IEntity;
+import com.github.basdxz.apparatus.common.loader.IDomainLoader;
+import com.github.basdxz.apparatus.common.loader.impl.DomainLoader;
+import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.resource.IResource;
 import lombok.*;
 import lombok.experimental.*;
@@ -15,7 +19,7 @@ import java.util.Optional;
 // TODO: Allow lookups in the form of minecraft:stick or apparatus:red_square
 @Data
 @Accessors(fluent = true, chain = true)
-public class Domain implements IDomain {
+public class Domain implements IInternalDomain {
     protected static final Map<String, IDomain> domains = new HashMap<>();
 
     protected final String domainName;
@@ -34,19 +38,8 @@ public class Domain implements IDomain {
     }
 
     @Override
-    public void entity(@NonNull IEntity entity) {
-        val entityID = entity.entityID();
-        ensureNoDuplicate(entityID);
-        add(entity, entityID);
-    }
-
-    protected void add(@NonNull IEntity entity, @NonNull IEntityID entityID) {
-        entities.put(entityID, entity);
-    }
-
-    protected void ensureNoDuplicate(@NonNull IEntityID entityID) {
-        if (entities.containsKey(entityID))
-            throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
+    public IDomainLoader newLoader(@NonNull String... packageNames) {
+        return new DomainLoader(this, packageNames);
     }
 
     @Override
@@ -69,22 +62,6 @@ public class Domain implements IDomain {
     }
 
     @Override
-    public void resource(@NonNull IResource resource) {
-        val location = resource.location();
-        ensureNoDuplicate(location);
-        add(resource, location);
-    }
-
-    protected void ensureNoDuplicate(@NonNull ILocation location) {
-        if (resources.containsKey(location))
-            throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
-    }
-
-    protected void add(@NonNull IResource resource, @NonNull ILocation location) {
-        resources.put(location, resource);
-    }
-
-    @Override
     public Optional<IResource> resource(@NonNull String path) {
         return resource(location(path));
     }
@@ -101,6 +78,43 @@ public class Domain implements IDomain {
 
     protected ILocation newLocation(@NonNull String path) {
         return new Location(this, path);
+    }
+
+    @Override
+    public void register(@NonNull IEntity entity) {
+        val entityID = entity.entityID();
+        ensureNoDuplicate(entityID);
+        add(entity, entityID);
+    }
+
+    protected void add(@NonNull IEntity entity, @NonNull IEntityID entityID) {
+        entities.put(entityID, entity);
+    }
+
+    protected void ensureNoDuplicate(@NonNull IEntityID entityID) {
+        if (entities.containsKey(entityID))
+            throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
+    }
+
+    @Override
+    public void register(@NonNull IRecipe recipe) {
+        //TODO: Implement Recipes
+    }
+
+    @Override
+    public void register(@NonNull IResource resource) {
+        val location = resource.location();
+        ensureNoDuplicate(location);
+        add(resource, location);
+    }
+
+    protected void ensureNoDuplicate(@NonNull ILocation location) {
+        if (resources.containsKey(location))
+            throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
+    }
+
+    protected void add(@NonNull IResource resource, @NonNull ILocation location) {
+        resources.put(location, resource);
     }
 
     @Override

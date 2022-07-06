@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus;
 
+import com.github.basdxz.apparatus.common.IInitializeable;
 import com.github.basdxz.apparatus.common.domain.impl.Domain;
-import com.github.basdxz.apparatus.common.loader.IInitializeable;
 import com.github.basdxz.apparatus.common.registry.impl.ParaManager;
 import com.github.basdxz.apparatus.tiger.ManagerAdapter;
 import cpw.mods.fml.common.event.*;

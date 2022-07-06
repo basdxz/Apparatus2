@@ -4,9 +4,9 @@ import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.example.Externals;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
-import com.github.basdxz.apparatus.common.loader.IInitContext;
-import com.github.basdxz.apparatus.common.loader.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.Loader;
+import com.github.basdxz.apparatus.common.loader.context.IInitContext;
+import com.github.basdxz.apparatus.common.loader.context.IPreInitContext;
 import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
 import com.github.basdxz.apparatus.common.render.IRendererView;
@@ -45,9 +45,9 @@ public class Item implements IItem {
     public static class ItemLoader implements IEntityLoader<Item> {
         @Override
         public void preInit(@NonNull IPreInitContext<Item> context) {
-            context.register(new Item(context.newParaID("woag_my_item"), "Woag My Item"));
-            context.register(new Item(context.newParaID("woag_my_item2"), "Woag My Item"));
-            context.register(new Item(context.newParaID("woag_my_item3"), "Woag My Item"));
+            context.register(new Item(context.entityID("woag_my_item"), "Woag My Item"));
+            context.register(new Item(context.entityID("woag_my_item2"), "Woag My Item"));
+            context.register(new Item(context.entityID("woag_my_item3"), "Woag My Item"));
         }
 
         @Override
