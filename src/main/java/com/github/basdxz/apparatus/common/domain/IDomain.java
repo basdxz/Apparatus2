@@ -17,15 +17,19 @@ public interface IDomain {
 
     String domainName();
 
-    ILocation location(@NonNull String path);
-
     void resource(@NonNull IResource resource);
+
+    Optional<IResource> resource(@NonNull String path);
 
     Optional<IResource> resource(@NonNull ILocation location);
 
-    IEntityID entityID(@NonNull String entityName);
+    ILocation location(@NonNull String path);
 
     void entity(@NonNull IEntity entity);
 
+    Optional<IEntity> entity(@NonNull String entityName);
+
     Optional<IEntity> entity(@NonNull IEntityID entityID);
+
+    IEntityID entityID(@NonNull String entityName);
 }

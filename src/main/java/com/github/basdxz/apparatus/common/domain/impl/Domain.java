@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+// TODO: Allow lookups in the form of minecraft:stick or apparatus:red_square
 @Data
 @Accessors(fluent = true, chain = true)
 public class Domain implements IDomain {
@@ -20,8 +21,8 @@ public class Domain implements IDomain {
     protected final String domainName;
 
     protected final Map<String, ILocation> locations = new HashMap<>();
-    protected final Map<ILocation, IResource> resources = new HashMap<>();
     protected final Map<String, IEntityID> entityIDs = new HashMap<>();
+    protected final Map<ILocation, IResource> resources = new HashMap<>();
     protected final Map<IEntityID, IEntity> entities = new HashMap<>();
 
     protected Domain(@NonNull String domainName) {
@@ -30,15 +31,6 @@ public class Domain implements IDomain {
 
     public static IDomain get(@NonNull String domainName) {
         return domains.computeIfAbsent(domainName.intern(), Domain::new);
-    }
-
-    @Override
-    public ILocation location(@NonNull String path) {
-        return locations.computeIfAbsent(path.intern(), this::newLocation);
-    }
-
-    protected ILocation newLocation(@NonNull String path) {
-        return new Location(this, path);
     }
 
     @Override
@@ -58,17 +50,22 @@ public class Domain implements IDomain {
     }
 
     @Override
+    public Optional<IResource> resource(@NonNull String path) {
+        return resource(location(path));
+    }
+
+    @Override
     public Optional<IResource> resource(@NonNull ILocation location) {
         return Optional.ofNullable(resources.get(location));
     }
 
     @Override
-    public IEntityID entityID(@NonNull String entityName) {
-        return entityIDs.computeIfAbsent(entityName.intern(), this::newEntityID);
+    public ILocation location(@NonNull String path) {
+        return locations.computeIfAbsent(path.intern(), this::newLocation);
     }
 
-    protected IEntityID newEntityID(@NonNull String path) {
-        return new EntityID(this, path);
+    protected ILocation newLocation(@NonNull String path) {
+        return new Location(this, path);
     }
 
     @Override
@@ -88,8 +85,22 @@ public class Domain implements IDomain {
     }
 
     @Override
+    public Optional<IEntity> entity(@NonNull String entityName) {
+        return entity(entityID(entityName));
+    }
+
+    @Override
     public Optional<IEntity> entity(@NonNull IEntityID entityID) {
         return Optional.ofNullable(entities.get(entityID));
+    }
+
+    @Override
+    public IEntityID entityID(@NonNull String entityName) {
+        return entityIDs.computeIfAbsent(entityName.intern(), this::newEntityID);
+    }
+
+    protected IEntityID newEntityID(@NonNull String path) {
+        return new EntityID(this, path);
     }
 
     @Override
