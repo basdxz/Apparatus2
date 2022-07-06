@@ -17,6 +17,7 @@ public interface IDomain {
 
     String domainName();
 
+
     void entity(@NonNull IEntity entity);
 
     Optional<IEntity> entity(@NonNull String entityName);
