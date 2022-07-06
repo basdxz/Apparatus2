@@ -2,9 +2,9 @@ package com.github.basdxz.apparatus.common.entity.impl;
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.ITile;
-import com.github.basdxz.apparatus.common.loader.EntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
+import com.github.basdxz.apparatus.common.loader.Loader;
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import lombok.*;
@@ -28,7 +28,7 @@ public class Tile implements ITile {
         this.entityID = entityID;
         this.localizedName = localizedName;
 
-        val renderer = newDefaultBlockRenderer(entityID.registry().domain(), "SwInner");
+        val renderer = newDefaultBlockRenderer(entityID.domain(), "SwInner");
         renderers = new HashMap<>();
         renderers.put(ENTITY, renderer);
         renderers.put(EQUIPPED, renderer);
@@ -37,8 +37,8 @@ public class Tile implements ITile {
     }
 
     @NoArgsConstructor
-    @EntityLoader(domainName = "test_registry")
-    public static class Loader implements IEntityLoader<Tile> {
+    @Loader(domainName = "test_registry")
+    public static class TileLoader implements IEntityLoader<Tile> {
         @Override
         public void preInit(@NonNull IPreInitContext<Tile> context) {
             context.register(new Tile(context.newParaID("woag_my_block"), "Woag My Block"));

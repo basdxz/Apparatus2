@@ -1,10 +1,10 @@
 package com.github.basdxz.apparatus.common.loader.impl;
 
 import com.github.basdxz.apparatus.common.entity.IEntity;
-import com.github.basdxz.apparatus.common.loader.EntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoaderRegistry;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
+import com.github.basdxz.apparatus.common.loader.Loader;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.registry.IParaManager;
 import com.github.basdxz.apparatus.common.registry.IParaRegistry;
@@ -35,7 +35,7 @@ public class EntityLoaderRegistry implements IEntityLoaderRegistry {
                 .acceptPackages(manager.loadersPackage())
                 .scan();
 
-        for (val loaderClassInfo : scanResult.getClassesWithAnnotation(EntityLoader.class)) {
+        for (val loaderClassInfo : scanResult.getClassesWithAnnotation(Loader.class)) {
             val loaderAnnotation = instantiateLoaderAnnotation(loaderClassInfo);
             if (!sameRegistryName(loaderAnnotation))
                 continue;
@@ -45,12 +45,12 @@ public class EntityLoaderRegistry implements IEntityLoaderRegistry {
         }
     }
 
-    protected EntityLoader instantiateLoaderAnnotation(@NonNull ClassInfo loaderClassInfo) {
-        val annotationInfo = loaderClassInfo.getAnnotationInfo(EntityLoader.class);
-        return (EntityLoader) annotationInfo.loadClassAndInstantiate();
+    protected Loader instantiateLoaderAnnotation(@NonNull ClassInfo loaderClassInfo) {
+        val annotationInfo = loaderClassInfo.getAnnotationInfo(Loader.class);
+        return (Loader) annotationInfo.loadClassAndInstantiate();
     }
 
-    protected boolean sameRegistryName(@NonNull EntityLoader loaderAnnotation) {
+    protected boolean sameRegistryName(@NonNull Loader loaderAnnotation) {
         return manager.registryName().equals(loaderAnnotation.domainName());
     }
 

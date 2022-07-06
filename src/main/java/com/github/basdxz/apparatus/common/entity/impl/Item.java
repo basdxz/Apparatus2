@@ -3,10 +3,10 @@ package com.github.basdxz.apparatus.common.entity.impl;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.example.Externals;
-import com.github.basdxz.apparatus.common.loader.EntityLoader;
 import com.github.basdxz.apparatus.common.loader.IEntityLoader;
 import com.github.basdxz.apparatus.common.loader.IInitContext;
 import com.github.basdxz.apparatus.common.loader.IPreInitContext;
+import com.github.basdxz.apparatus.common.loader.Loader;
 import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
 import com.github.basdxz.apparatus.common.render.IRendererView;
@@ -32,7 +32,7 @@ public class Item implements IItem {
         this.entityID = entityID;
         this.localizedName = localizedName;
 
-        val renderer = newDefaultSpriteRenderer(entityID.registry().domain(), "SwInner");
+        val renderer = newDefaultSpriteRenderer(entityID.domain(), "SwInner");
         renderers = new HashMap<>();
         renderers.put(ENTITY, renderer);
         renderers.put(EQUIPPED, renderer);
@@ -41,8 +41,8 @@ public class Item implements IItem {
     }
 
     @NoArgsConstructor
-    @EntityLoader(domainName = "test_registry")
-    public static class Loader implements IEntityLoader<Item> {
+    @Loader(domainName = "test_registry")
+    public static class ItemLoader implements IEntityLoader<Item> {
         @Override
         public void preInit(@NonNull IPreInitContext<Item> context) {
             context.register(new Item(context.newParaID("woag_my_item"), "Woag My Item"));
