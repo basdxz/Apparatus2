@@ -12,7 +12,7 @@ public class PreInitContext extends LoadingContext implements IPreInitContext<IE
     }
 
     @Override
-    public void register(@NonNull IEntity paraThing) {
-        domainLoader.register(this, paraThing);
+    public void register(@NonNull IEntity entity) {
+        domainLoader.register(this, entity);
     }
 }
