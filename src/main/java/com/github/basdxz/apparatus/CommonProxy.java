@@ -2,7 +2,7 @@ package com.github.basdxz.apparatus;
 
 import com.github.basdxz.apparatus.adapter.domain.impl.DomainAdapter;
 import com.github.basdxz.apparatus.common.IInitializeable;
-import com.github.basdxz.apparatus.common.domain.impl.Domain;
+import com.github.basdxz.apparatus.common.domain.impl.DomainRegistry;
 import cpw.mods.fml.common.event.*;
 import lombok.*;
 
@@ -15,7 +15,9 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
 
-        registryAdapter = new DomainAdapter(Domain.get("apparatus"), "com.github.basdxz.apparatus.common.entity.impl");
+        val domain = DomainRegistry.INSTANCE.getDomain("apparatus");
+        domain.addLoaderPackages("com.github.basdxz.apparatus.common.entity.impl");
+        registryAdapter = new DomainAdapter(domain);
         registryAdapter.preInit();
     }
 

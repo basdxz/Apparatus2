@@ -19,7 +19,9 @@ public interface IDomain {
 
     String domainName();
 
-    IDomainLoader newLoader(@NonNull String... packageNames);
+    void addLoaderPackages(@NonNull String... packageNames);
+
+    IDomainLoader newLoader();
 
     //TODO: Should this be iterable?
     Iterable<IEntity> entities();

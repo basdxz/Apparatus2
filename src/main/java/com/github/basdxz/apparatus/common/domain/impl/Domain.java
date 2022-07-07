@@ -1,9 +1,6 @@
 package com.github.basdxz.apparatus.common.domain.impl;
 
-import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.domain.IEntityID;
-import com.github.basdxz.apparatus.common.domain.IInternalDomain;
-import com.github.basdxz.apparatus.common.domain.ILocation;
+import com.github.basdxz.apparatus.common.domain.*;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.loader.impl.DomainLoader;
@@ -14,32 +11,35 @@ import lombok.experimental.*;
 
 import java.util.*;
 
-// TODO: Allow lookups in the form of minecraft:stick or apparatus:red_square
+
 @Accessors(fluent = true, chain = true)
 public class Domain implements IInternalDomain {
-    protected static final Map<String, IDomain> domains = new HashMap<>();
-
     @Getter
     protected final String domainName;
+    protected final IInternalDomainRegistry registry;
 
     //TODO: Some of these should be tree sets
+    @Getter
+    protected final List<String> loaderPackages = new ArrayList<>();
     protected final Map<ILocation, IResource> resources = new HashMap<>();
     protected final Map<String, ILocation> locations = new HashMap<>();
     protected final Set<IRecipe> recipes = new HashSet<>();
     protected final Map<IEntityID, IEntity> entities = new HashMap<>();
     protected final Map<String, IEntityID> entityIDs = new HashMap<>();
 
-    protected Domain(@NonNull String domainName) {
+    protected Domain(@NonNull String domainName, @NonNull IInternalDomainRegistry registry) {
         this.domainName = domainName.intern();
-    }
-
-    public static IDomain get(@NonNull String domainName) {
-        return domains.computeIfAbsent(domainName.intern(), Domain::new);
+        this.registry = registry;
     }
 
     @Override
-    public IDomainLoader newLoader(@NonNull String... packageNames) {
-        return new DomainLoader(this, packageNames);
+    public void addLoaderPackages(@NonNull String... packageNames) {
+        loaderPackages.addAll(Arrays.asList(packageNames));
+    }
+
+    @Override
+    public IDomainLoader newLoader() {
+        return new DomainLoader(this);
     }
 
     @Override
@@ -100,10 +100,7 @@ public class Domain implements IInternalDomain {
         val entityID = entity.entityID();
         ensureNoDuplicate(entityID);
         add(entity, entityID);
-    }
-
-    protected void add(@NonNull IEntity entity, @NonNull IEntityID entityID) {
-        entities.put(entityID, entity);
+        registerInRegistry(entity);
     }
 
     protected void ensureNoDuplicate(@NonNull IEntityID entityID) {
@@ -111,10 +108,19 @@ public class Domain implements IInternalDomain {
             throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
     }
 
+    protected void add(@NonNull IEntity entity, @NonNull IEntityID entityID) {
+        entities.put(entityID, entity);
+    }
+
+    protected void registerInRegistry(@NonNull IEntity entity) {
+        registry.register(entity);
+    }
+
     @Override
     public void register(@NonNull IRecipe recipe) {
         ensureNoDuplicate(recipe);
         add(recipe);
+        registerInRegistry(recipe);
     }
 
     protected void ensureNoDuplicate(@NonNull IRecipe recipe) {
@@ -126,11 +132,16 @@ public class Domain implements IInternalDomain {
         recipes.add(recipe);
     }
 
+    protected void registerInRegistry(@NonNull IRecipe recipe) {
+        registry.register(recipe);
+    }
+
     @Override
     public void register(@NonNull IResource resource) {
         val location = resource.location();
         ensureNoDuplicate(location);
         add(resource, location);
+        registerInRegistry(resource);
     }
 
     protected void ensureNoDuplicate(@NonNull ILocation location) {
@@ -140,6 +151,10 @@ public class Domain implements IInternalDomain {
 
     protected void add(@NonNull IResource resource, @NonNull ILocation location) {
         resources.put(location, resource);
+    }
+
+    protected void registerInRegistry(@NonNull IResource resource) {
+        registry.register(resource);
     }
 
     @Override

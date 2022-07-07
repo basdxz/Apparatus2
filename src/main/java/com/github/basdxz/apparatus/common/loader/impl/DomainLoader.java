@@ -26,8 +26,6 @@ public class DomainLoader implements IInternalDomainLoader {
     @Getter
     @NonNull
     protected final IInternalDomain domain;
-    @NonNull
-    protected final String[] packageNames;
 
     protected boolean postInitComplete = false;
     protected boolean initComplete = false;
@@ -63,7 +61,7 @@ public class DomainLoader implements IInternalDomainLoader {
     protected void populateLoaders() {
         @Cleanup val scanResult = new ClassGraph()
                 .enableAnnotationInfo()
-                .acceptPackages(packageNames)
+                .acceptPackages(domain.loaderPackages().toArray(new String[0]))
                 .scan();
         for (val loaderClassInfo : scanResult.getClassesWithAnnotation(Loader.class)) {
             val loaderAnnotation = instantiateLoaderAnnotation(loaderClassInfo);

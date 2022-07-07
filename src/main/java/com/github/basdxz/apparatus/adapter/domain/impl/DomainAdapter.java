@@ -27,17 +27,15 @@ import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.SHAPELES
 
 public class DomainAdapter implements IInitializeable {
     protected final IDomain domain;
-    protected final String[] packageNames;
     protected IDomainLoader loader;
 
-    public DomainAdapter(@NonNull IDomain domain, @NonNull String... packageNames) {
+    public DomainAdapter(@NonNull IDomain domain) {
         this.domain = domain;
-        this.packageNames = packageNames;
     }
 
     @Override
     public void preInit() {
-        loader = domain.newLoader(packageNames);
+        loader = domain.newLoader();
         loader.preInit();
 
         domain.entities().forEach(this::adapt);
