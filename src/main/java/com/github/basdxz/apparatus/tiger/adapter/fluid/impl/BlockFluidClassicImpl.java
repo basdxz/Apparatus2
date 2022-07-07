@@ -22,6 +22,6 @@ public class BlockFluidClassicImpl extends BlockFluidClassic implements IFluidBl
     }
 
     protected void register(@NonNull Class<? extends ItemBlock> itemBlockClass) {
-        GameRegistry.registerBlock(this, fluidAdapter.fluid().entityName());
+        GameRegistry.registerBlock(this, fluidAdapter.fluid().entityName());//TODO: use the other method for this with extra args
     }
 }

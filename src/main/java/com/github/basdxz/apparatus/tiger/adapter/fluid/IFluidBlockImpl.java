@@ -1,5 +1,13 @@
 package com.github.basdxz.apparatus.tiger.adapter.fluid;
 
-public interface IFluidBlockImpl {
+import com.github.basdxz.apparatus.tiger.adapter.tile.IBlockImpl;
+import com.github.basdxz.apparatus.tiger.adapter.tile.ITileAdapter;
+
+public interface IFluidBlockImpl extends IBlockImpl {
+    @Override
+    default ITileAdapter tileAdapter() {
+        return fluidAdapter();
+    }
+
     IFluidAdapter fluidAdapter();
 }

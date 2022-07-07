@@ -1,35 +1,31 @@
 package com.github.basdxz.apparatus.tiger.adapter.item.impl;
 
-import com.falsepattern.lib.util.LangUtil;
 import com.github.basdxz.apparatus.common.entity.IItem;
-import com.github.basdxz.apparatus.tiger.ParaItemRendererAdapter;
-import cpw.mods.fml.common.registry.GameRegistry;
+import com.github.basdxz.apparatus.tiger.adapter.item.IItemAdapter;
+import com.github.basdxz.apparatus.tiger.adapter.render.IItemRendererImpl;
+import com.github.basdxz.apparatus.tiger.adapter.render.impl.ItemRendererImpl;
 import lombok.*;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import lombok.experimental.*;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.MinecraftForgeClient;
 
-public class ItemAdapter extends Item {
-    protected final IItem paraItem;
-    protected final ParaItemRendererAdapter renderer;
+@Getter
+@Accessors(fluent = true, chain = true)
+public class ItemAdapter implements IItemAdapter {
+    protected final IItem item;
+    protected final Item minecraftItem;
+    protected final IItemRendererImpl itemRenderer;
 
-    public ItemAdapter(@NonNull IItem paraItem) {
-        this.paraItem = paraItem;
-        renderer = new ParaItemRendererAdapter(paraItem.renderers());
-
-        setUnlocalizedName("apparatus." + paraItem.entityID().entityName());
-        MinecraftForgeClient.registerItemRenderer(this, renderer);
-
-        GameRegistry.registerItem(this, paraItem.entityID().entityName());//TODO: modid is fucked up here currently, find a way to better set it?
-        LangUtil.defaultLocalization("item.apparatus." + paraItem.entityID().entityName() + ".name", paraItem.localizedName());
-
-        //  True if tool
-        //  setFull3D();
+    public ItemAdapter(@NonNull IItem item) {
+        this.item = item;
+        minecraftItem = newMinecraftItem();
+        itemRenderer = newItemRenderer();
     }
 
-    @Override
-    public void registerIcons(IIconRegister iconRegister) {
-        renderer.register(iconRegister);
-        itemIcon = renderer.fallbackIcon();
+    protected Item newMinecraftItem() {
+        return new ItemImpl(this);
+    }
+
+    protected IItemRendererImpl newItemRenderer() {
+        return new ItemRendererImpl(this);
     }
 }

@@ -12,11 +12,11 @@ public class FluidItemBlockImpl extends ItemBlock {
     public FluidItemBlockImpl(@NonNull Block block) {
         super(block);
         ensureValidBlock(block);
-        fluidAdapter = (IFluidAdapter) block;
+        fluidAdapter = ((IFluidBlockImpl) block).fluidAdapter();
     }
 
     protected void ensureValidBlock(@NonNull Block block) {
-        if (block instanceof IFluidBlockImpl)
+        if (!(block instanceof IFluidBlockImpl))
             throw new IllegalArgumentException("Block must implement IFluidBlockImpl"); //TODO: Better exceptions
     }
 }

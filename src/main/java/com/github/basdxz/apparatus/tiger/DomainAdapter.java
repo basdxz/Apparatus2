@@ -12,7 +12,7 @@ import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
 import com.github.basdxz.apparatus.tiger.adapter.fluid.impl.FluidAdapter;
 import com.github.basdxz.apparatus.tiger.adapter.item.impl.ItemAdapter;
-import com.github.basdxz.apparatus.tiger.adapter.tile.impl.BlockImpl;
+import com.github.basdxz.apparatus.tiger.adapter.tile.impl.TileAdapter;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.item.Item;
@@ -48,7 +48,7 @@ public class DomainAdapter implements IInitializeable {
         if (entity instanceof IFluid)
             return new FluidAdapter((IFluid) entity);
         if (entity instanceof ITile)
-            return new BlockImpl((ITile) entity);
+            return new TileAdapter((ITile) entity);
         if (entity instanceof IItem)
             return new ItemAdapter((IItem) entity);
         return null;

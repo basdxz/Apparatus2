@@ -1,8 +1,11 @@
-package com.github.basdxz.apparatus.tiger;
+package com.github.basdxz.apparatus.tiger.adapter.render.impl;
 
 import com.github.basdxz.apparatus.common.render.IRendererView;
 import com.github.basdxz.apparatus.common.resource.IRenderer;
 import com.github.basdxz.apparatus.cool.TempRenderItemOld;
+import com.github.basdxz.apparatus.tiger.RendererAdapter;
+import com.github.basdxz.apparatus.tiger.adapter.item.IItemAdapter;
+import com.github.basdxz.apparatus.tiger.adapter.render.IItemRendererImpl;
 import lombok.*;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -11,15 +14,17 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.github.basdxz.apparatus.common.render.impl.RendererView.*;
 
-public class ParaItemRendererAdapter implements IItemRenderer {
+public class ItemRendererImpl implements IItemRendererImpl {
+    protected final IItemAdapter itemAdapter;
     protected final Map<IRendererView, IRenderer> renderers;
+
     protected final Map<IRendererView, RendererAdapter> adaptedRenderers = new HashMap<>();
     protected final TempRenderItemOld tempRenderItemOld = new TempRenderItemOld();
 
@@ -27,18 +32,14 @@ public class ParaItemRendererAdapter implements IItemRenderer {
         tempRenderItemOld.setRenderManager(RenderManager.instance);
     }
 
-    public ParaItemRendererAdapter(@NonNull Map<IRendererView, IRenderer> renderers) {
-        this.renderers = renderers;
+    public ItemRendererImpl(@NonNull IItemAdapter itemAdapter) {
+        this.itemAdapter = itemAdapter;
+        this.renderers = itemAdapter.item().renderers();
+        register();
     }
 
-    @Override
-    public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        return true;
-    }
-
-    @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-        return false;
+    protected void register() {
+        MinecraftForgeClient.registerItemRenderer(itemAdapter.minecraftItem(), this);
     }
 
     @Override
@@ -82,6 +83,7 @@ public class ParaItemRendererAdapter implements IItemRenderer {
         adaptedRenderers.getOrDefault(INVENTORY, RendererAdapter.EMPTY_INSTANCE).render();
     }
 
+    @Override
     public void register(@NonNull IIconRegister iconRegister) {
         adaptedRenderers.clear();
         for (val entry : renderers.entrySet()) {
@@ -92,6 +94,7 @@ public class ParaItemRendererAdapter implements IItemRenderer {
         }
     }
 
+    @Override
     public IIcon fallbackIcon() {
         return null;
     }
