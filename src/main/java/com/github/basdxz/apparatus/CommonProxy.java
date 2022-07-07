@@ -1,34 +1,31 @@
 package com.github.basdxz.apparatus;
 
-import com.github.basdxz.apparatus.adapter.domain.impl.DomainAdapter;
-import com.github.basdxz.apparatus.common.IInitializeable;
+import com.github.basdxz.apparatus.adapter.registry.impl.RegistryAdapter;
 import com.github.basdxz.apparatus.common.domain.impl.DomainRegistry;
+import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import cpw.mods.fml.common.event.*;
 import lombok.*;
 
 public class CommonProxy {
-    IInitializeable registryAdapter;
+    protected IDomainLoader domainLoader;
 
-    // preInit "Run before anything else. Read your config, create blocks, items,
-    // etc, and register them with the GameRegistry."
-    @SneakyThrows
     public void preInit(FMLPreInitializationEvent event) {
-        Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
+        DomainRegistry.INSTANCE.add(RegistryAdapter.INSTANCE);
 
         val domain = DomainRegistry.INSTANCE.getDomain("apparatus");
         domain.addLoaderPackages("com.github.basdxz.apparatus.common.entity.impl");
-        registryAdapter = new DomainAdapter(domain);
-        registryAdapter.preInit();
+
+        domainLoader = domain.newLoader();
+        domainLoader.preInit();
     }
 
-    // load "Do your mod setup. Build whatever data structures you care about. Register recipes."
     public void init(FMLInitializationEvent event) {
-        registryAdapter.init();
+        domainLoader.init();
     }
 
-    // postInit "Handle interaction with other mods, complete your setup based on this."
     public void postInit(FMLPostInitializationEvent event) {
-        registryAdapter.postInit();
+        domainLoader.postInit();
+        domainLoader = null;
     }
 
     public void serverAboutToStart(FMLServerAboutToStartEvent event) {

@@ -1,75 +1,74 @@
-package com.github.basdxz.apparatus.adapter.domain.impl;
+package com.github.basdxz.apparatus.adapter.registry.impl;
 
+import com.github.basdxz.apparatus.adapter.entity.IEntityAdapter;
 import com.github.basdxz.apparatus.adapter.fluid.impl.FluidAdapter;
 import com.github.basdxz.apparatus.adapter.item.impl.ItemAdapter;
+import com.github.basdxz.apparatus.adapter.registry.IRegistryAdapter;
 import com.github.basdxz.apparatus.adapter.tile.impl.TileAdapter;
-import com.github.basdxz.apparatus.common.IInitializeable;
-import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.entity.IFluid;
 import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.entity.ITile;
-import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
+import com.github.basdxz.apparatus.common.resource.IResource;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.SHAPED;
 import static com.github.basdxz.apparatus.common.recipe.impl.RecipeType.SHAPELESS;
+import static lombok.AccessLevel.PROTECTED;
 
-public class DomainAdapter implements IInitializeable {
-    protected final IDomain domain;
-    protected IDomainLoader loader;
+@NoArgsConstructor(access = PROTECTED)
+public class RegistryAdapter implements IRegistryAdapter {
+    public static final IRegistryAdapter INSTANCE = new RegistryAdapter();
 
-    public DomainAdapter(@NonNull IDomain domain) {
-        this.domain = domain;
+    protected static final String REGISTRY_ADAPTER_NAME = "minecraft_forge_adapter";
+
+    protected final List<IEntityAdapter> entityAdapters = new ArrayList<>();
+
+    @Override
+    public String registryName() {
+        return REGISTRY_ADAPTER_NAME;
     }
 
     @Override
-    public void preInit() {
-        loader = domain.newLoader();
-        loader.preInit();
-
-        domain.entities().forEach(this::adapt);
+    public void register(@NonNull IEntity entity) {
+        adapt(entity).ifPresent(entityAdapters::add);
     }
 
     //TODO: Rethink this
-    public Object adapt(@NonNull IEntity entity) {
+    protected Optional<IEntityAdapter> adapt(@NonNull IEntity entity) {
         if (entity instanceof IFluid)
-            return new FluidAdapter((IFluid) entity);
+            return Optional.of(new FluidAdapter((IFluid) entity));
         if (entity instanceof ITile)
-            return new TileAdapter((ITile) entity);
+            return Optional.of(new TileAdapter((ITile) entity));
         if (entity instanceof IItem)
-            return new ItemAdapter((IItem) entity);
-        return null;
+            return Optional.of(new ItemAdapter((IItem) entity));
+        return Optional.empty();
     }
 
     @Override
-    public void init() {
-        loader.init();
+    public void register(@NonNull IRecipe recipe) {
+        System.out.println(recipe);
+        val output = findItem(recipe.output().entityID())
+                .orElseThrow(() -> new NullPointerException("HAGRID YOU FAT OAF YOU ATE ALL THE FOODS!!"));
 
-        for (IRecipe recipe : domain.recipes()) {
-            System.out.println(recipe);
-
-            val output = findItem(recipe.output().entityID())
-                    .orElseThrow(() -> new NullPointerException("HAGRID YOU FAT OAF YOU ATE ALL THE FOODS!!"));
-
-            if (recipe.type().equals(SHAPELESS)) {
-                GameRegistry.addShapelessRecipe(
-                        new ItemStack(output),
-                        (Object[]) adaptShapelessInputs(recipe.inputs())
-                );
-            } else if (recipe.type().equals(SHAPED)) {
-                GameRegistry.addShapedRecipe(new ItemStack(output), adaptShapedInputs(recipe.inputs()));
-            }
+        if (recipe.type().equals(SHAPELESS)) {
+            GameRegistry.addShapelessRecipe(
+                    new ItemStack(output),
+                    (Object[]) adaptShapelessInputs(recipe.inputs())
+            );
+        } else if (recipe.type().equals(SHAPED)) {
+            GameRegistry.addShapedRecipe(new ItemStack(output), adaptShapedInputs(recipe.inputs()));
         }
     }
 
@@ -110,9 +109,26 @@ public class DomainAdapter implements IInitializeable {
     }
 
     @Override
-    public void postInit() {
-        loader.postInit();
+    public void register(@NonNull IResource resource) {
+    }
 
-        loader = null;
+    @Override
+    public List<IEntityAdapter> entityAdapters() {
+        return Collections.unmodifiableList(entityAdapters);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return registryToString();
     }
 }

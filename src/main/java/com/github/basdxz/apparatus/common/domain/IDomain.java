@@ -9,6 +9,7 @@ import lombok.*;
 import java.util.Optional;
 
 public interface IDomain {
+    //TODO: Add Hash too
     default boolean domainEquals(@NonNull IDomain domain) {
         return domainName().equals(domain.domainName());
     }

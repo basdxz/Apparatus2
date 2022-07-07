@@ -19,7 +19,6 @@ public class Domain implements IInternalDomain {
     protected final IInternalDomainRegistry registry;
 
     //TODO: Some of these should be tree sets
-    @Getter
     protected final List<String> loaderPackages = new ArrayList<>();
     protected final Map<ILocation, IResource> resources = new HashMap<>();
     protected final Map<String, ILocation> locations = new HashMap<>();
@@ -158,8 +157,8 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public String toString() {
-        return domainToString();
+    public List<String> loaderPackages() {
+        return Collections.unmodifiableList(loaderPackages);
     }
 
     @Override
@@ -169,5 +168,10 @@ public class Domain implements IInternalDomain {
         if (!(obj instanceof IDomain))
             return false;
         return domainEquals((IDomain) obj);
+    }
+
+    @Override
+    public String toString() {
+        return domainToString();
     }
 }
