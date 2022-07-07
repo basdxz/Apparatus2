@@ -41,4 +41,9 @@ public class BlockImpl extends Block implements IBlockImpl {
     @Override
     public void registerBlockIcons(@NonNull IIconRegister iconRegister) {
     }
+
+    @Override
+    public String getUnlocalizedName() {
+        return tileAdapter.unlocalizedName();
+    }
 }

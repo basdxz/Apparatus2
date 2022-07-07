@@ -6,6 +6,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class ItemImpl extends Item {
     protected final IItemAdapter itemAdapter;
@@ -30,6 +31,17 @@ public class ItemImpl extends Item {
 
     protected void register() {
         GameRegistry.registerItem(this, itemAdapter.item().entityID().entityName());
+    }
+
+
+    @Override
+    public String getUnlocalizedName(ItemStack itemStack) {
+        return getUnlocalizedName();
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return itemAdapter.unlocalizedName();
     }
 
     @Override

@@ -24,4 +24,9 @@ public class BlockFluidFiniteImpl extends BlockFluidFinite implements IFluidBloc
     protected void register(@NonNull Class<? extends ItemBlock> itemBlockClass) {
         GameRegistry.registerBlock(this, itemBlockClass, fluidAdapter.fluid().entityName());
     }
+
+    @Override
+    public String getUnlocalizedName() {
+        return fluidAdapter.unlocalizedName();
+    }
 }
