@@ -2,6 +2,7 @@ package com.github.basdxz.apparatus.common.resourceold;
 
 import java.util.List;
 
-public interface IRenderer {
+@Deprecated
+public interface IRendererOld {
     List<IModel> models();
 }

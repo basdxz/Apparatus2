@@ -2,8 +2,8 @@ package com.github.basdxz.apparatus.common.example;
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IItem;
-import com.github.basdxz.apparatus.common.render.IRendererView;
-import com.github.basdxz.apparatus.common.resourceold.IRenderer;
+import com.github.basdxz.apparatus.common.render.IRenderView;
+import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class YummyBacon implements IItem {
     }
 
     @Override
-    public Map<IRendererView, IRenderer> renderers() {
+    public Map<IRenderView, IRendererOld> renderersOld() {
         return null;
     }
 }

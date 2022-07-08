@@ -2,8 +2,8 @@ package com.github.basdxz.apparatus.adapter.render.impl;
 
 import com.github.basdxz.apparatus.adapter.item.IItemAdapter;
 import com.github.basdxz.apparatus.adapter.render.IItemRendererImpl;
-import com.github.basdxz.apparatus.common.render.IRendererView;
-import com.github.basdxz.apparatus.common.resourceold.IRenderer;
+import com.github.basdxz.apparatus.common.render.IRenderView;
+import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import lombok.*;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -17,13 +17,13 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.github.basdxz.apparatus.common.render.impl.RendererView.*;
+import static com.github.basdxz.apparatus.common.render.impl.RenderView.*;
 
 public class ItemRendererImpl implements IItemRendererImpl {
     protected final IItemAdapter itemAdapter;
-    protected final Map<IRendererView, IRenderer> renderers;
+    protected final Map<IRenderView, IRendererOld> renderers;
 
-    protected final Map<IRendererView, RendererAdapter> adaptedRenderers = new HashMap<>();
+    protected final Map<IRenderView, RendererAdapter> adaptedRenderers = new HashMap<>();
     protected final TempRenderItemOld tempRenderItemOld = new TempRenderItemOld();
 
     {
@@ -32,7 +32,7 @@ public class ItemRendererImpl implements IItemRendererImpl {
 
     public ItemRendererImpl(@NonNull IItemAdapter itemAdapter) {
         this.itemAdapter = itemAdapter;
-        this.renderers = itemAdapter.item().renderers();
+        this.renderers = itemAdapter.item().renderersOld();
         register();
     }
 

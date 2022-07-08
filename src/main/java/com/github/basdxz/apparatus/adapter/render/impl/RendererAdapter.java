@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.adapter.render.impl;
 import com.github.basdxz.apparatus.adapter.render.IRendererAdapter;
 import com.github.basdxz.apparatus.adapter.render.ModelAdapter;
 import com.github.basdxz.apparatus.common.resourceold.IModel;
-import com.github.basdxz.apparatus.common.resourceold.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import com.github.basdxz.apparatus.common.resourceold.ISpriteModel;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,7 +17,7 @@ public class RendererAdapter implements IRendererAdapter {
 
     protected final List<ModelAdapter> modelAdapters;
 
-    public RendererAdapter(@NonNull IRenderer renderer, @NonNull IIconRegister iconRegister) {
+    public RendererAdapter(@NonNull IRendererOld renderer, @NonNull IIconRegister iconRegister) {
         modelAdapters = Collections.unmodifiableList(renderer.models().stream()
                 .map((m) -> adapt(m, iconRegister))
                 .collect(Collectors.toList()));

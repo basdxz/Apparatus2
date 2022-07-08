@@ -2,7 +2,7 @@ package com.github.basdxz.apparatus.common.resourceold.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.resourceold.IModel;
-import com.github.basdxz.apparatus.common.resourceold.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -14,18 +14,18 @@ import static com.github.basdxz.apparatus.common.resourceold.impl.SpriteModel.ne
 
 @Data
 @Accessors(fluent = true, chain = true)
-public class Renderer implements IRenderer {
+public class RendererOld implements IRendererOld {
     protected final List<IModel> models;
 
-    public Renderer(@NonNull List<IModel> models) {
+    public RendererOld(@NonNull List<IModel> models) {
         this.models = Collections.unmodifiableList(models);
     }
 
-    public static IRenderer newDefaultSpriteRenderer(@NonNull IDomain domain, @NonNull String path) {
-        return new Renderer(Collections.singletonList(newDefaultSpriteModel(domain, path)));
+    public static IRendererOld newDefaultSpriteRenderer(@NonNull IDomain domain, @NonNull String path) {
+        return new RendererOld(Collections.singletonList(newDefaultSpriteModel(domain, path)));
     }
 
-    public static IRenderer newDefaultBlockRenderer(@NonNull IDomain domain, @NonNull String path) {
-        return new Renderer(Collections.singletonList(newDefaultBlockModel(domain, path)));
+    public static IRendererOld newDefaultBlockRenderer(@NonNull IDomain domain, @NonNull String path) {
+        return new RendererOld(Collections.singletonList(newDefaultBlockModel(domain, path)));
     }
 }
