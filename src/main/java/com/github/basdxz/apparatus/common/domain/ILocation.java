@@ -2,6 +2,7 @@ package com.github.basdxz.apparatus.common.domain;
 
 import lombok.*;
 
+//TODO: Add extension
 public interface ILocation {
     default boolean locationEquals(@NonNull ILocation location) {
         return domain().domainEquals(location.domain()) && path().equals(location.path());
