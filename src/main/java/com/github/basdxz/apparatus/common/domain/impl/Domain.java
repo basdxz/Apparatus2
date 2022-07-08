@@ -90,8 +90,9 @@ public class Domain implements IInternalDomain {
         return locations.computeIfAbsent(path.intern(), this::newLocation);
     }
 
+    //TODO: Fix
     protected ILocation newLocation(@NonNull String path) {
-        return new Location(this, path);
+        return new Location(this, path, null);
     }
 
     @Override

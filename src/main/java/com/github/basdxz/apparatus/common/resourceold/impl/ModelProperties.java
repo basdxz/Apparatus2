@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.common.resourceold.impl;
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.ILocation;
 import com.github.basdxz.apparatus.common.resourceold.IModelProperties;
-import com.github.basdxz.apparatus.common.resourceold.IResourceType;
+import com.github.basdxz.apparatus.common.resourceold.IResourceTypeOld;
 import lombok.*;
 import lombok.experimental.*;
 import org.joml.Quaternionf;
@@ -13,7 +13,7 @@ import org.joml.Vector3fc;
 
 import java.awt.*;
 
-import static com.github.basdxz.apparatus.common.resourceold.impl.ResourceType.MODEL_PROPERTIES;
+import static com.github.basdxz.apparatus.common.resourceold.impl.ResourceTypeOld.MODEL_PROPERTIES;
 
 @Data
 @Accessors(fluent = true, chain = true)
@@ -46,7 +46,7 @@ public class ModelProperties implements IModelProperties {
     }
 
     @Override
-    public IResourceType type() {
+    public IResourceTypeOld type() {
         return MODEL_PROPERTIES;
     }
 }

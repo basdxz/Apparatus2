@@ -1,13 +1,13 @@
 package com.github.basdxz.apparatus.common.resourceold.impl;
 
-import com.github.basdxz.apparatus.common.resourceold.IResourceType;
+import com.github.basdxz.apparatus.common.resourceold.IResourceTypeOld;
 import lombok.*;
 import lombok.experimental.*;
 
 @Getter
 @RequiredArgsConstructor
 @Accessors(fluent = true, chain = true)
-public enum ResourceType implements IResourceType {
+public enum ResourceTypeOld implements IResourceTypeOld {
     MODEL_PROPERTIES("json"),
     TEXTURE("png"),
     MESH("obj");
