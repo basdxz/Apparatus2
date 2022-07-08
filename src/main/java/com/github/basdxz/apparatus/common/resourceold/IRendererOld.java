@@ -4,5 +4,5 @@ import java.util.List;
 
 @Deprecated
 public interface IRendererOld {
-    List<IModel> models();
+    List<IModelOld> models();
 }

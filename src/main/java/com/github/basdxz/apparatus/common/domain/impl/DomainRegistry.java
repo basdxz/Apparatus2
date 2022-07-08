@@ -6,7 +6,7 @@ import com.github.basdxz.apparatus.common.domain.IInternalDomainRegistry;
 import com.github.basdxz.apparatus.common.domain.IRegistry;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.resourceold.IResource;
+import com.github.basdxz.apparatus.common.resourceold.IResourceOld;
 import lombok.*;
 
 import java.util.HashMap;
@@ -57,10 +57,9 @@ public class DomainRegistry implements IInternalDomainRegistry {
     }
 
     @Override
-    public void register(@NonNull IResource resource) {
+    public void register(@NonNull IResourceOld resource) {
         registries.forEach(registry -> registry.register(resource));
     }
-
 
     @Override
     public String toString() {

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.*;
 
 @Getter
+@Deprecated
 @RequiredArgsConstructor
 @Accessors(fluent = true, chain = true)
 public enum ResourceTypeOld implements IResourceTypeOld {

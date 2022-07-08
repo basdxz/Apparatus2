@@ -1,7 +1,6 @@
 package com.github.basdxz.apparatus.common.resource;
 
 import com.github.basdxz.apparatus.common.domain.ILocation;
-import com.github.basdxz.apparatus.common.resourceold.IResource;
 import lombok.*;
 
 import java.util.Optional;

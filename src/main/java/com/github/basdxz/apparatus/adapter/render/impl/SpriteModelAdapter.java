@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
 import com.github.basdxz.apparatus.adapter.render.ModelAdapter;
-import com.github.basdxz.apparatus.common.resourceold.ISpriteModel;
+import com.github.basdxz.apparatus.common.resourceold.ISpriteModelOld;
 import lombok.*;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,10 +10,10 @@ import org.lwjgl.opengl.*;
 public class SpriteModelAdapter extends ModelAdapter {
     protected final static float SPRITE_UNIT_THICKNESS = 1F / 16F;
 
-    protected final ISpriteModel sprite;
+    protected final ISpriteModelOld sprite;
     protected final TextureAdapter textureAdapter;
 
-    public SpriteModelAdapter(@NonNull ISpriteModel sprite, @NonNull IIconRegister iconRegister) {
+    public SpriteModelAdapter(@NonNull ISpriteModelOld sprite, @NonNull IIconRegister iconRegister) {
         this.sprite = sprite;
         textureAdapter = new TextureAdapter(sprite.texture(), iconRegister);
     }

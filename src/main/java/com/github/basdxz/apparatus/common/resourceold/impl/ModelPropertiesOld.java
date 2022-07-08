@@ -16,8 +16,9 @@ import java.awt.*;
 import static com.github.basdxz.apparatus.common.resourceold.impl.ResourceTypeOld.MODEL_PROPERTIES;
 
 @Data
+@Deprecated
 @Accessors(fluent = true, chain = true)
-public class ModelProperties implements IModelProperties {
+public class ModelPropertiesOld implements IModelProperties {
     @NonNull
     protected final ILocation location;
     protected final boolean hasAlpha;
@@ -33,7 +34,7 @@ public class ModelProperties implements IModelProperties {
     protected final Vector3fc scale;
 
     public static IModelProperties newDefaultProperties(@NonNull IDomain domain, @NonNull String path) {
-        return new ModelProperties(
+        return new ModelPropertiesOld(
                 domain.location(path),
                 true,
                 true,

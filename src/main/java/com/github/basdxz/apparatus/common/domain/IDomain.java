@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.common.domain;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.resourceold.IResource;
+import com.github.basdxz.apparatus.common.resourceold.IResourceOld;
 import lombok.*;
 
 import java.util.Optional;
@@ -37,11 +37,11 @@ public interface IDomain {
     Iterable<IRecipe> recipes();
 
     //TODO: Should this be iterable?
-    Iterable<IResource> resources();
+    Iterable<IResourceOld> resources();
 
-    Optional<IResource> resource(@NonNull String path);
+    Optional<IResourceOld> resource(@NonNull String path);
 
-    Optional<IResource> resource(@NonNull ILocation location);
+    Optional<IResourceOld> resource(@NonNull ILocation location);
 
     ILocation location(@NonNull String path);
 }

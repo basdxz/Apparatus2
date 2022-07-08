@@ -2,9 +2,9 @@ package com.github.basdxz.apparatus.adapter.render.impl;
 
 import com.github.basdxz.apparatus.adapter.render.IRendererAdapter;
 import com.github.basdxz.apparatus.adapter.render.ModelAdapter;
-import com.github.basdxz.apparatus.common.resourceold.IModel;
+import com.github.basdxz.apparatus.common.resourceold.IModelOld;
 import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
-import com.github.basdxz.apparatus.common.resourceold.ISpriteModel;
+import com.github.basdxz.apparatus.common.resourceold.ISpriteModelOld;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 
@@ -23,9 +23,9 @@ public class RendererAdapter implements IRendererAdapter {
                 .collect(Collectors.toList()));
     }
 
-    public static ModelAdapter adapt(@NonNull IModel model, @NonNull IIconRegister iconRegister) {
-        if (model instanceof ISpriteModel)
-            return new SpriteModelAdapter((ISpriteModel) model, iconRegister);
+    public static ModelAdapter adapt(@NonNull IModelOld model, @NonNull IIconRegister iconRegister) {
+        if (model instanceof ISpriteModelOld)
+            return new SpriteModelAdapter((ISpriteModelOld) model, iconRegister);
         return new ModelAdapter.EmptyModelAdapter();
     }
 

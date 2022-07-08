@@ -2,7 +2,7 @@ package com.github.basdxz.apparatus.common.domain;
 
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.resourceold.IResource;
+import com.github.basdxz.apparatus.common.resourceold.IResourceOld;
 import lombok.*;
 
 public interface IRegistry {
@@ -20,5 +20,5 @@ public interface IRegistry {
 
     void register(@NonNull IRecipe recipe);
 
-    void register(@NonNull IResource resource);
+    void register(@NonNull IResourceOld resource);
 }

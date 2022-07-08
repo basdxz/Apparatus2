@@ -5,7 +5,7 @@ import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.loader.impl.DomainLoader;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.resourceold.IResource;
+import com.github.basdxz.apparatus.common.resourceold.IResourceOld;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -20,7 +20,7 @@ public class Domain implements IInternalDomain {
 
     //TODO: Some of these should be tree sets
     protected final List<String> loaderPackages = new ArrayList<>();
-    protected final Map<ILocation, IResource> resources = new HashMap<>();
+    protected final Map<ILocation, IResourceOld> resources = new HashMap<>();
     protected final Map<String, ILocation> locations = new HashMap<>();
     protected final Set<IRecipe> recipes = new HashSet<>();
     protected final Map<IEntityID, IEntity> entities = new HashMap<>();
@@ -71,17 +71,17 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public Iterable<IResource> resources() {
+    public Iterable<IResourceOld> resources() {
         return resources.values();
     }
 
     @Override
-    public Optional<IResource> resource(@NonNull String path) {
+    public Optional<IResourceOld> resource(@NonNull String path) {
         return resource(location(path));
     }
 
     @Override
-    public Optional<IResource> resource(@NonNull ILocation location) {
+    public Optional<IResourceOld> resource(@NonNull ILocation location) {
         return Optional.ofNullable(resources.get(location));
     }
 
@@ -137,7 +137,7 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public void register(@NonNull IResource resource) {
+    public void register(@NonNull IResourceOld resource) {
         val location = resource.location();
         ensureNoDuplicate(location);
         add(resource, location);
@@ -149,11 +149,11 @@ public class Domain implements IInternalDomain {
             throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
     }
 
-    protected void add(@NonNull IResource resource, @NonNull ILocation location) {
+    protected void add(@NonNull IResourceOld resource, @NonNull ILocation location) {
         resources.put(location, resource);
     }
 
-    protected void registerInRegistry(@NonNull IResource resource) {
+    protected void registerInRegistry(@NonNull IResourceOld resource) {
         registry.register(resource);
     }
 

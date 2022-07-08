@@ -1,5 +1,6 @@
 package com.github.basdxz.apparatus.common.resourceold;
 
-public interface ISpriteModel extends ITexturedModel {
+@Deprecated
+public interface ISpriteModelOld extends ITexturedModelOld {
     float thickness();
 }

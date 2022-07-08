@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
-import com.github.basdxz.apparatus.common.resourceold.ITextureResource;
+import com.github.basdxz.apparatus.common.resourceold.ITextureResourceOld;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
@@ -8,7 +8,7 @@ import net.minecraft.util.IIcon;
 public class TextureAdapter implements IIcon {
     protected final IIcon icon;
 
-    public TextureAdapter(@NonNull ITextureResource texture, @NonNull IIconRegister iconRegister) {
+    public TextureAdapter(@NonNull ITextureResourceOld texture, @NonNull IIconRegister iconRegister) {
         icon = iconRegister.registerIcon(
                 texture.location().domain().domainName() + ":" + texture.location().path()
         );

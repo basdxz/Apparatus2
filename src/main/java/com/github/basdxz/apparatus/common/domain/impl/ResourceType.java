@@ -12,5 +12,5 @@ public enum ResourceType implements IResourceType {
     TEXTURE("png"),
     MESH("obj");
 
-    private final String extensionName;
+    private final String extension;
 }

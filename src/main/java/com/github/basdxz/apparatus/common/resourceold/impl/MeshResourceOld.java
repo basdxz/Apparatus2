@@ -9,8 +9,9 @@ import lombok.experimental.*;
 import static com.github.basdxz.apparatus.common.resourceold.impl.ResourceTypeOld.MESH;
 
 @Data
+@Deprecated
 @Accessors(fluent = true, chain = true)
-public class MeshResource implements IMeshResource {
+public class MeshResourceOld implements IMeshResource {
     protected final ILocation location;
 
     @Override

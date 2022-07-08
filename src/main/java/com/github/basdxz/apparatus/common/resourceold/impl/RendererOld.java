@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.resourceold.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.resourceold.IModel;
+import com.github.basdxz.apparatus.common.resourceold.IModelOld;
 import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import lombok.*;
 import lombok.experimental.*;
@@ -9,15 +9,16 @@ import lombok.experimental.*;
 import java.util.Collections;
 import java.util.List;
 
-import static com.github.basdxz.apparatus.common.resourceold.impl.BlockModel.newDefaultBlockModel;
-import static com.github.basdxz.apparatus.common.resourceold.impl.SpriteModel.newDefaultSpriteModel;
+import static com.github.basdxz.apparatus.common.resourceold.impl.BlockModelOld.newDefaultBlockModel;
+import static com.github.basdxz.apparatus.common.resourceold.impl.SpriteModelOld.newDefaultSpriteModel;
 
 @Data
+@Deprecated
 @Accessors(fluent = true, chain = true)
 public class RendererOld implements IRendererOld {
-    protected final List<IModel> models;
+    protected final List<IModelOld> models;
 
-    public RendererOld(@NonNull List<IModel> models) {
+    public RendererOld(@NonNull List<IModelOld> models) {
         this.models = Collections.unmodifiableList(models);
     }
 
