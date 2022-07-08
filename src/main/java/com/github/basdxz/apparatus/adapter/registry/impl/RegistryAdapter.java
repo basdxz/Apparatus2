@@ -12,7 +12,7 @@ import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.entity.ITile;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
-import com.github.basdxz.apparatus.common.resource.IResource;
+import com.github.basdxz.apparatus.common.resourceold.IResource;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.item.Item;

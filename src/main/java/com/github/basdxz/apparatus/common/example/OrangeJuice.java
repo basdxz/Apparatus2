@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.common.example;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IFluid;
 import com.github.basdxz.apparatus.common.render.IRendererView;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.IRenderer;
 
 import java.util.Map;
 

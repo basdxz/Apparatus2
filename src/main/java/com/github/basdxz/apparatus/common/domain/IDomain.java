@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.common.domain;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.resource.IResource;
+import com.github.basdxz.apparatus.common.resourceold.IResource;
 import lombok.*;
 
 import java.util.Optional;

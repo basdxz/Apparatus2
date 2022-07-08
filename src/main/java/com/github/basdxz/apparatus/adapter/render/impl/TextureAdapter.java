@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
-import com.github.basdxz.apparatus.common.resource.ITextureResource;
+import com.github.basdxz.apparatus.common.resourceold.ITextureResource;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;

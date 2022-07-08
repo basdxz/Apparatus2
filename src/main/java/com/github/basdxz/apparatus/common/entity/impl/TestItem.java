@@ -10,7 +10,7 @@ import com.github.basdxz.apparatus.common.loader.impl.EntityLoader;
 import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
 import com.github.basdxz.apparatus.common.render.IRendererView;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.IRenderer;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.github.basdxz.apparatus.common.render.impl.RendererView.*;
-import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefaultSpriteRenderer;
+import static com.github.basdxz.apparatus.common.resourceold.impl.Renderer.newDefaultSpriteRenderer;
 
 
 @Getter

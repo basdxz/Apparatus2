@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.adapter.render.impl;
 import com.github.basdxz.apparatus.adapter.item.IItemAdapter;
 import com.github.basdxz.apparatus.adapter.render.IItemRendererImpl;
 import com.github.basdxz.apparatus.common.render.IRendererView;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.IRenderer;
 import lombok.*;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;

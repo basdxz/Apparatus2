@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.common.entity;
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRendererView;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.IRenderer;
 import lombok.*;
 
 import java.util.Map;

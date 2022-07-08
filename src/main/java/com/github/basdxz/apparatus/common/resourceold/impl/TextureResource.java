@@ -1,13 +1,13 @@
-package com.github.basdxz.apparatus.common.resource.impl;
+package com.github.basdxz.apparatus.common.resourceold.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.ILocation;
-import com.github.basdxz.apparatus.common.resource.IResourceType;
-import com.github.basdxz.apparatus.common.resource.ITextureResource;
+import com.github.basdxz.apparatus.common.resourceold.IResourceType;
+import com.github.basdxz.apparatus.common.resourceold.ITextureResource;
 import lombok.*;
 import lombok.experimental.*;
 
-import static com.github.basdxz.apparatus.common.resource.impl.ResourceType.TEXTURE;
+import static com.github.basdxz.apparatus.common.resourceold.impl.ResourceType.TEXTURE;
 
 @Data
 @Accessors(fluent = true, chain = true)

@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.render;
 
-import com.github.basdxz.apparatus.common.resource.IResource;
-import com.github.basdxz.apparatus.common.resource.IResourceProvider;
+import com.github.basdxz.apparatus.common.resourceold.IResource;
+import com.github.basdxz.apparatus.common.resourceold.IResourceProvider;
 import lombok.*;
 
 import java.util.Set;

@@ -6,7 +6,7 @@ import com.github.basdxz.apparatus.common.loader.Loader;
 import com.github.basdxz.apparatus.common.loader.context.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.impl.EntityLoader;
 import com.github.basdxz.apparatus.common.render.IRendererView;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.IRenderer;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.github.basdxz.apparatus.common.render.impl.RendererView.*;
-import static com.github.basdxz.apparatus.common.resource.impl.Renderer.newDefaultBlockRenderer;
+import static com.github.basdxz.apparatus.common.resourceold.impl.Renderer.newDefaultBlockRenderer;
 
 
 @Getter

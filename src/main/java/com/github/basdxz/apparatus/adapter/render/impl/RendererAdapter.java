@@ -2,9 +2,9 @@ package com.github.basdxz.apparatus.adapter.render.impl;
 
 import com.github.basdxz.apparatus.adapter.render.IRendererAdapter;
 import com.github.basdxz.apparatus.adapter.render.ModelAdapter;
-import com.github.basdxz.apparatus.common.resource.IModel;
-import com.github.basdxz.apparatus.common.resource.IRenderer;
-import com.github.basdxz.apparatus.common.resource.ISpriteModel;
+import com.github.basdxz.apparatus.common.resourceold.IModel;
+import com.github.basdxz.apparatus.common.resourceold.IRenderer;
+import com.github.basdxz.apparatus.common.resourceold.ISpriteModel;
 import lombok.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 

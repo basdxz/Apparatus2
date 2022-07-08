@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus.common.resource;
+package com.github.basdxz.apparatus.common.resourceold;
 
 public interface ITextureResource extends IResource {
 }

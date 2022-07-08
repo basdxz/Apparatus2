@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
 import com.github.basdxz.apparatus.adapter.render.ModelAdapter;
-import com.github.basdxz.apparatus.common.resource.ISpriteModel;
+import com.github.basdxz.apparatus.common.resourceold.ISpriteModel;
 import lombok.*;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;

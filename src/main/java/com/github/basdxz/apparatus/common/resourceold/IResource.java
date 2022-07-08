@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus.common.resource;
+package com.github.basdxz.apparatus.common.resourceold;
 
 import com.github.basdxz.apparatus.common.domain.ILocation;
 
