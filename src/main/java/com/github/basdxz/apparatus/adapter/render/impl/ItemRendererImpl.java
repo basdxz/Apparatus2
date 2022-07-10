@@ -42,23 +42,24 @@ public class ItemRendererImpl implements IItemRendererImpl {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        switch (type) {
-            case ENTITY:
-                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityItem)
-                    renderAsEntity((RenderBlocks) data[0], (EntityItem) data[1]);
-                break;
-            case EQUIPPED:
-                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase)
-                    renderAsEquipped((RenderBlocks) data[0], (EntityLivingBase) data[1]);
-                break;
-            case EQUIPPED_FIRST_PERSON:
-                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase)
-                    renderAsEquippedFirstPerson((RenderBlocks) data[0], (EntityLivingBase) data[1]);
-                break;
-            case INVENTORY:
-                if (data[0] instanceof RenderBlocks)
-                    renderInInventory((RenderBlocks) data[0]);
-        }
+        itemAdapter.item().renderer().render(TestRenderHandler.INSTANCE, ENTITY);
+//        switch (type) {
+//            case ENTITY:
+//                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityItem)
+//                    renderAsEntity((RenderBlocks) data[0], (EntityItem) data[1]);
+//                break;
+//            case EQUIPPED:
+//                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase)
+//                    renderAsEquipped((RenderBlocks) data[0], (EntityLivingBase) data[1]);
+//                break;
+//            case EQUIPPED_FIRST_PERSON:
+//                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityLivingBase)
+//                    renderAsEquippedFirstPerson((RenderBlocks) data[0], (EntityLivingBase) data[1]);
+//                break;
+//            case INVENTORY:
+//                if (data[0] instanceof RenderBlocks)
+//                    renderInInventory((RenderBlocks) data[0]);
+//        }
     }
 
     protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {

@@ -92,7 +92,12 @@ public class Domain implements IInternalDomain {
 
     //TODO: Fix
     protected ILocation newLocation(@NonNull String path) {
-        return new Location(this, path, null);
+        return new Location(this, path, new IResourceType() {
+            @Override
+            public String extension() {
+                return "null";//TODO: Technically not null :>
+            }
+        });
     }
 
     @Override

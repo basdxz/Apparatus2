@@ -4,6 +4,7 @@ package com.github.basdxz.apparatus.common.entity;
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRenderView;
 import com.github.basdxz.apparatus.common.render.IRenderer;
+import com.github.basdxz.apparatus.common.render.impl.TestRenderer;
 import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import lombok.*;
 
@@ -49,6 +50,6 @@ public interface IEntity {
 
     //TODO: make not default
     default IRenderer renderer() {
-        return null;
+        return TestRenderer.INSTANCE;
     }
 }
