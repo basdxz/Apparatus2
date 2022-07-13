@@ -2,7 +2,6 @@ package com.github.basdxz.apparatus.common.entity.impl;
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.entity.IItem;
-import com.github.basdxz.apparatus.common.example.Externals;
 import com.github.basdxz.apparatus.common.loader.Loader;
 import com.github.basdxz.apparatus.common.loader.context.IInitContext;
 import com.github.basdxz.apparatus.common.loader.context.IPreInitContext;
@@ -11,6 +10,7 @@ import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
 import com.github.basdxz.apparatus.common.render.IRenderView;
 import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
+import com.github.basdxz.apparatus.example.Externals;
 import lombok.*;
 import lombok.experimental.*;
 

@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus.common.example;
+package com.github.basdxz.apparatus.example;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.impl.DomainRegistry;

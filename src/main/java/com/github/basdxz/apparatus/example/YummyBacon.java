@@ -1,14 +1,16 @@
-package com.github.basdxz.apparatus.common.example;
+package com.github.basdxz.apparatus.example;
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
-import com.github.basdxz.apparatus.common.entity.IFluid;
+import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.render.IRenderView;
 import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 
 import java.util.Map;
 
-//Creates a fluid
-public class OrangeJuice implements IFluid {
+//Edible
+//Provides Food
+//Gives user speed buff
+public class YummyBacon implements IItem {
     @Override
     public IEntityID entityID() {
         return null;

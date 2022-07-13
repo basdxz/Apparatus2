@@ -1,6 +1,5 @@
 package com.github.basdxz.apparatus.common.render.impl;
 
-import com.github.basdxz.apparatus.common.render.BufferedModelUtil;
 import com.github.basdxz.apparatus.common.render.IBufferedModel;
 import com.github.basdxz.apparatus.common.render.IModel;
 import lombok.*;
@@ -9,7 +8,7 @@ import lombok.experimental.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.VERTEX_FLOAT_SIZE;
+import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
 
 @Data
 @Accessors(fluent = true, chain = true)
@@ -32,10 +31,10 @@ public class TestBufferedModel implements IBufferedModel {
             for (int j = 0; j < 3; j++) {
                 val vertex = face.verts().get(j);
                 val vertexIndex = vertexIndex(i, j);
-                vertex.position().get(BufferedModelUtil.floatPositionOffset(vertexIndex), floatBuffer);
-                vertex.normal().get(BufferedModelUtil.floatNormalOffset(vertexIndex), floatBuffer);
-                vertex.color().get(BufferedModelUtil.floatColorOffset(vertexIndex), floatBuffer);
-                vertex.texture().get(BufferedModelUtil.floatTextureOffset(vertexIndex), floatBuffer);
+                vertex.position().get(floatPositionOffset(vertexIndex), floatBuffer);
+                vertex.normal().get(floatNormalOffset(vertexIndex), floatBuffer);
+                vertex.color().get(floatColorOffset(vertexIndex), floatBuffer);
+                vertex.texture().get(floatTextureOffset(vertexIndex), floatBuffer);
             }
         }
     }
