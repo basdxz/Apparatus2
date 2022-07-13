@@ -2,6 +2,6 @@ package com.github.basdxz.apparatus.common.render;
 
 import lombok.*;
 
-public interface IRenderHandler {
+public interface IRenderHandlerOld {
     void render(@NonNull IModel model);
 }

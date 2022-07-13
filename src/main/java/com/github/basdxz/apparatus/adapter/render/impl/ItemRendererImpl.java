@@ -42,7 +42,7 @@ public class ItemRendererImpl implements IItemRendererImpl {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        itemAdapter.item().renderer().render(TestRenderHandler.INSTANCE, ENTITY);
+        itemAdapter.item().renderer().render(TestRenderContext.INSTANCE);
 //        switch (type) {
 //            case ENTITY:
 //                if (data[0] instanceof RenderBlocks && data[1] instanceof EntityItem)

@@ -1,15 +1,15 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
 import com.github.basdxz.apparatus.common.render.IModel;
-import com.github.basdxz.apparatus.common.render.IRenderHandler;
+import com.github.basdxz.apparatus.common.render.IRenderHandlerOld;
 import com.github.basdxz.apparatus.common.render.IVertex;
 import lombok.*;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import org.lwjgl.opengl.*;
 
-public class TestRenderHandler implements IRenderHandler {
-    public static IRenderHandler INSTANCE = new TestRenderHandler();
+public class TestRenderHandlerOld implements IRenderHandlerOld {
+    public static IRenderHandlerOld INSTANCE = new TestRenderHandlerOld();
 
     @Override
     public void render(@NonNull IModel model) {

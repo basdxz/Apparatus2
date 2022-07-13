@@ -1,10 +1,9 @@
 package com.github.basdxz.apparatus.common.render;
 
-import com.github.basdxz.apparatus.common.resource.IResourceProvider;
 import lombok.*;
 
 public interface IRenderer {
-    void register(@NonNull IResourceProvider resourceProvider);
+    IRendererInfo info();
 
-    void render(@NonNull IRenderHandler renderHandler, @NonNull IRenderView rendererView);
+    void render(@NonNull IRenderContext context);
 }

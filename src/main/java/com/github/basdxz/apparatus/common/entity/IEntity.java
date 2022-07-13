@@ -5,7 +5,6 @@ import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.render.IRenderView;
 import com.github.basdxz.apparatus.common.render.IRenderer;
 import com.github.basdxz.apparatus.common.render.impl.TestRenderer;
-import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import lombok.*;
 
 import java.util.Map;
@@ -46,7 +45,7 @@ public interface IEntity {
 
     String localizedName();
 
-    Map<IRenderView, IRendererOld> renderersOld();
+    Map<IRenderView, com.github.basdxz.apparatus.common.resourceold.IRendererOld> renderersOld();
 
     //TODO: make not default
     default IRenderer renderer() {
