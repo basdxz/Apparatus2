@@ -94,5 +94,7 @@ public interface IBufferedModel {
         return floatBuffer().get(floatTextureVIndex(index));
     }
 
+    IRenderBuffer renderBuffer();
+
     FloatBuffer floatBuffer();
 }

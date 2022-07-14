@@ -1,7 +1,6 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
-import com.github.basdxz.apparatus.common.render.IBufferedModel;
-import com.github.basdxz.apparatus.common.render.IRenderContext;
+import com.github.basdxz.apparatus.common.render.*;
 import lombok.*;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
@@ -9,14 +8,22 @@ import org.lwjgl.opengl.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class TestRenderContext implements IRenderContext {
     public static IRenderContext INSTANCE = new TestRenderContext();
 
+    protected final Map<IRenderBufferInfo, IRenderBuffer> buffers = new HashMap<>();
+
     @Override
-    public ByteBuffer byteBuffer(int byteSize) {
-        return newByteBuffer(byteSize);
+    public IRenderBuffer byteBuffer(@NonNull IRenderBufferInfo bufferInfo) {
+        return buffers.computeIfAbsent(bufferInfo, this::newRenderBuffer);
+    }
+
+    protected IRenderBuffer newRenderBuffer(@NonNull IRenderBufferInfo bufferInfo) {
+        return new RenderBuffer(bufferInfo, newByteBuffer(bufferInfo.byteSize()));
     }
 
     protected ByteBuffer newByteBuffer(int byteSize) {

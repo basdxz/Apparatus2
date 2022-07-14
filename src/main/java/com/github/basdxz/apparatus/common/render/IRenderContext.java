@@ -2,10 +2,8 @@ package com.github.basdxz.apparatus.common.render;
 
 import lombok.*;
 
-import java.nio.ByteBuffer;
-
 public interface IRenderContext {
-    ByteBuffer byteBuffer(int byteSize);
+    IRenderBuffer byteBuffer(@NonNull IRenderBufferInfo bufferInfo);
 
     void render(@NonNull IBufferedModel bufferedModel);
 }

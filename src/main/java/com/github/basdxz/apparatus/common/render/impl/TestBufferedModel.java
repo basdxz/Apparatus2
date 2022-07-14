@@ -2,10 +2,10 @@ package com.github.basdxz.apparatus.common.render.impl;
 
 import com.github.basdxz.apparatus.common.render.IBufferedModel;
 import com.github.basdxz.apparatus.common.render.IModel;
+import com.github.basdxz.apparatus.common.render.IRenderBuffer;
 import lombok.*;
 import lombok.experimental.*;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
@@ -13,15 +13,19 @@ import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
 @Data
 @Accessors(fluent = true, chain = true)
 public class TestBufferedModel implements IBufferedModel {
+    protected final IRenderBuffer renderBuffer;
     protected final FloatBuffer floatBuffer;
 
-    public TestBufferedModel(@NonNull ByteBuffer byteBuffer, @NonNull IModel model) {
-        this.floatBuffer = byteBuffer.asFloatBuffer();
-
-        if (floatBuffer.capacity() < model.faces().size() * 3 * VERTEX_FLOAT_SIZE)
-            throw new RuntimeException("buffer too small lmao"); //TODO: better exceptions
-
+    public TestBufferedModel(@NonNull IRenderBuffer renderBuffer, @NonNull IModel model) {
+        this.renderBuffer = renderBuffer;
+        ensureBufferCapacity(model);
+        this.floatBuffer = renderBuffer.byteBuffer().asFloatBuffer();
         copyModel(model);
+    }
+
+    protected void ensureBufferCapacity(@NonNull IModel model) {
+        if (renderBuffer.byteSize() < model.faces().size() * 3 * VERTEX_FLOAT_SIZE * 4)
+            throw new RuntimeException("buffer too small lmao"); //TODO: better exceptions
     }
 
     protected void copyModel(@NonNull IModel model) {
