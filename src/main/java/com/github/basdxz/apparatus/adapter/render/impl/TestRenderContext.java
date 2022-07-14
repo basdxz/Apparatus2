@@ -4,18 +4,22 @@ import com.github.basdxz.apparatus.common.render.*;
 import lombok.*;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.lwjgl.opengl.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
+
+import static org.apache.commons.collections4.map.AbstractReferenceMap.ReferenceStrength.HARD;
+import static org.apache.commons.collections4.map.AbstractReferenceMap.ReferenceStrength.WEAK;
 
 public class TestRenderContext implements IRenderContext {
     public static IRenderContext INSTANCE = new TestRenderContext();
 
-    protected final Map<IRenderBufferInfo, IRenderBuffer> buffers = new HashMap<>();
+    //TODO: Decide on if this should be a WEAK or SOFT Reference, document intent???
+    protected final Map<IRenderBufferInfo, IRenderBuffer> buffers = new ReferenceMap<>(HARD, WEAK, true);
 
     @Override
     public IRenderBuffer byteBuffer(@NonNull IRenderBufferInfo bufferInfo) {
