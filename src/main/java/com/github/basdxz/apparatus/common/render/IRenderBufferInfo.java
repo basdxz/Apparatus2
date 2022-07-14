@@ -4,14 +4,14 @@ import lombok.*;
 
 //TODO: hash
 public interface IRenderBufferInfo {
-    default boolean renderBufferInfoEqual(@NonNull IRenderBufferInfo renderBufferInfo) {
-        return renderBufferName().equals(renderBufferInfo.renderBufferName()) ||
-                layout().renderBufferLayoutEqual(renderBufferInfo.layout());
+    default boolean renderBufferInfoEqual(@NonNull IRenderBufferInfo bufferInfo) {
+        return bufferName().equals(bufferInfo.bufferName()) &&
+                layout().renderBufferLayoutEqual(bufferInfo.layout());
     }
 
     IRenderBufferLayout layout();
 
-    String renderBufferName();
+    String bufferName();
 
     int byteSize();
 }
