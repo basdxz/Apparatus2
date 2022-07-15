@@ -21,6 +21,6 @@ public class TestRenderBufferInfo implements IRenderBufferInfo {
 
     @Override
     public int byteSize() {
-        return TestModel.requiredBufferByteSize();
+        return TestRenderModel.requiredBufferByteSize();
     }
 }

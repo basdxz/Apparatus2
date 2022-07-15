@@ -16,6 +16,6 @@ public class TestRendererOld implements IRendererOld {
 
     @Override
     public void render(@NonNull IRenderHandlerOld renderHandler, @NonNull IRenderView rendererView) {
-        renderHandler.render(TestModel.INSTANCE);
+        renderHandler.render(TestModelOld.INSTANCE);
     }
 }

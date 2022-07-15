@@ -1,6 +1,6 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
-import com.github.basdxz.apparatus.common.render.IModel;
+import com.github.basdxz.apparatus.common.render.IModelOld;
 import com.github.basdxz.apparatus.common.render.IRenderHandlerOld;
 import com.github.basdxz.apparatus.common.render.IVertex;
 import lombok.*;
@@ -12,7 +12,7 @@ public class TestRenderHandlerOld implements IRenderHandlerOld {
     public static IRenderHandlerOld INSTANCE = new TestRenderHandlerOld();
 
     @Override
-    public void render(@NonNull IModel model) {
+    public void render(@NonNull IModelOld model) {
 //        renderIcon(0, 0, Items.apple.getIconFromDamage(0), 16, 16);
 //        renderSquare(0, 0, 16, 16);
 
@@ -20,11 +20,11 @@ public class TestRenderHandlerOld implements IRenderHandlerOld {
     }
 
 
-    public void renderModel(@NonNull IModel model) {
+    public void renderModel(@NonNull IModelOld model) {
         Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
         model.faces().stream()
-                .flatMap((face) -> face.verts().stream())
-                .forEach(this::addVert);
+             .flatMap((face) -> face.verts().stream())
+             .forEach(this::addVert);
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         Tessellator.instance.draw();

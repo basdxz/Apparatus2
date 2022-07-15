@@ -39,7 +39,6 @@ public class TestRenderContext implements IRenderContext {
         renderModel(bufferedModel);
     }
 
-
     public void renderModel(@NonNull IBufferedModel bufferedModel) {
         Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
 

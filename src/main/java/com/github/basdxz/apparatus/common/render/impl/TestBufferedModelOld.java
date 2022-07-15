@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.common.render.impl;
 
 import com.github.basdxz.apparatus.common.render.IBufferedModel;
-import com.github.basdxz.apparatus.common.render.IModel;
+import com.github.basdxz.apparatus.common.render.IModelOld;
 import com.github.basdxz.apparatus.common.render.IRenderBuffer;
 import lombok.*;
 import lombok.experimental.*;
@@ -12,23 +12,23 @@ import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
 
 @Data
 @Accessors(fluent = true, chain = true)
-public class TestBufferedModel implements IBufferedModel {
+public class TestBufferedModelOld implements IBufferedModel {
     protected final IRenderBuffer renderBuffer;
     protected final FloatBuffer floatBuffer;
 
-    public TestBufferedModel(@NonNull IRenderBuffer renderBuffer, @NonNull IModel model) {
+    public TestBufferedModelOld(@NonNull IRenderBuffer renderBuffer, @NonNull IModelOld model) {
         this.renderBuffer = renderBuffer;
         ensureBufferCapacity(model);
         this.floatBuffer = renderBuffer.byteBuffer().asFloatBuffer();
         copyModel(model);
     }
 
-    protected void ensureBufferCapacity(@NonNull IModel model) {
+    protected void ensureBufferCapacity(@NonNull IModelOld model) {
         if (renderBuffer.byteSize() < model.faces().size() * 3 * VERTEX_FLOAT_SIZE * 4)
             throw new RuntimeException("buffer too small lmao"); //TODO: better exceptions
     }
 
-    protected void copyModel(@NonNull IModel model) {
+    protected void copyModel(@NonNull IModelOld model) {
         val faceCount = model.faces().size();
         for (int i = 0; i < faceCount; i++) {
             val face = model.faces().get(i);

@@ -8,6 +8,8 @@ import lombok.*;
 public class TestRenderer implements IRenderer {
     public static IRenderer INSTANCE = new TestRenderer();
 
+    protected TestRenderModel.TestRenderModelInfo modelInfo = TestRenderModel.INSTANCE.newModelInfo();
+
     @Override
     public IRendererInfo info() {
         return new IRendererInfo() {
@@ -18,15 +20,16 @@ public class TestRenderer implements IRenderer {
 
             @Override
             public int maxBufferByteSize() {
-                return TestModel.requiredBufferByteSize();
+                return TestRenderModel.requiredBufferByteSize();
             }
         };
     }
 
     @Override
     public void render(@NonNull IRenderContext context) {
-        val byteBuffer = context.byteBuffer(TestRenderBufferInfo.INSTANCE);
-
-        context.render(new TestBufferedModel(byteBuffer, TestModel.INSTANCE));
+        modelInfo.color().set(0F, 1F, 1F, 1F);
+        context.render(TestRenderModel.INSTANCE.bufferModel(
+                context.byteBuffer(TestRenderBufferInfo.INSTANCE),
+                modelInfo));
     }
 }
