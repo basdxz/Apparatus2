@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
+import static lombok.AccessLevel.NONE;
 
-public class TestRenderModel implements IRenderModel<BasicRenderBufferLayout, TestRenderModel.TestRenderModelInfo> {
+public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderModelInstance> {
     public static TestRenderModel INSTANCE = new TestRenderModel();
 
     protected static int VERTICES_PER_FACE = 3;
@@ -59,23 +60,11 @@ public class TestRenderModel implements IRenderModel<BasicRenderBufferLayout, Te
     }
 
     @Override
-    public IRenderBufferID<BasicRenderBufferLayout> newRenderBufferID() {
-        return new RenderBufferID<>(BasicTestRenderBufferInfo.INSTANCE, "test_buffer");
+    public TestRenderModelInstance newModelInstance() {
+        return new TestRenderModelInstance();
     }
 
-    @Override
-    public TestRenderModelInfo newModelInfo() {
-        return new TestRenderModelInfo();
-    }
-
-    @Override
-    public IBufferedModel bufferModel(@NonNull IRenderBuffer renderBuffer, @NonNull TestRenderModelInfo modelInfo) {
-        val floatBuffer = renderBuffer.byteBuffer().asFloatBuffer();
-        copyModel(floatBuffer, modelInfo);
-        return new BufferedModel(renderBuffer, floatBuffer);
-    }
-
-    protected void copyModel(@NonNull FloatBuffer floatBuffer, @NonNull TestRenderModelInfo modelInfo) {
+    protected void copyModel(@NonNull FloatBuffer floatBuffer, @NonNull TestRenderModel.TestRenderModelInstance modelInfo) {
         val faceCount = faces.size();
         for (int i = 0; i < faceCount; i++) {
             val face = faces.get(i);
@@ -96,7 +85,26 @@ public class TestRenderModel implements IRenderModel<BasicRenderBufferLayout, Te
 
     @Getter
     @Accessors(fluent = true, chain = true)
-    protected static class TestRenderModelInfo implements IRenderModelInfo {
+    protected class TestRenderModelInstance implements IRenderModelInstance {
+        @Getter(NONE)
+        protected final IRenderBufferID<BasicRenderBufferLayout> bufferID = newRenderBufferID();
+
         protected final Vector4f color = new Vector4f();
+
+        @Override
+        public void render(@NonNull IRenderContext context) {
+            context.render(bufferModel(context.getRenderBuffer(bufferID), this));
+        }
+    }
+
+    protected IRenderBufferID<BasicRenderBufferLayout> newRenderBufferID() {
+        return new RenderBufferID<>(BasicTestRenderBufferInfo.INSTANCE, "test_buffer");
+    }
+
+    protected IBufferedModel bufferModel(@NonNull IRenderBuffer<BasicRenderBufferLayout> renderBuffer,
+                                         @NonNull TestRenderModel.TestRenderModelInstance modelInstance) {
+        val floatBuffer = renderBuffer.byteBuffer().asFloatBuffer();
+        copyModel(floatBuffer, modelInstance);
+        return new BufferedModel(renderBuffer, floatBuffer);
     }
 }

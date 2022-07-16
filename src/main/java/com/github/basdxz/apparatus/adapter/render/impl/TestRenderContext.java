@@ -22,7 +22,7 @@ public class TestRenderContext implements IRenderContext {
     protected final Map<IRenderBufferID<BasicRenderBufferLayout>, IRenderBuffer<BasicRenderBufferLayout>> buffers = new ReferenceMap<>(HARD, WEAK, true);
 
     @Override
-    public IRenderBuffer<BasicRenderBufferLayout> byteBuffer(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
+    public IRenderBuffer<BasicRenderBufferLayout> getRenderBuffer(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
         return buffers.computeIfAbsent(bufferID, this::newRenderBuffer);
     }
 
@@ -37,6 +37,10 @@ public class TestRenderContext implements IRenderContext {
     @Override
     public void render(@NonNull IBufferedModel bufferedModel) {
         renderModel(bufferedModel);
+    }
+
+    @Override
+    public void render(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
     }
 
     public void renderModel(@NonNull IBufferedModel bufferedModel) {
