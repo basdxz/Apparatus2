@@ -1,14 +1,13 @@
 package com.github.basdxz.apparatus.common.render.impl;
 
-import com.github.basdxz.apparatus.common.render.IRenderContext;
-import com.github.basdxz.apparatus.common.render.IRenderer;
-import com.github.basdxz.apparatus.common.render.IRendererInfo;
+import com.github.basdxz.apparatus.common.render.*;
 import lombok.*;
 
 public class TestRenderer implements IRenderer {
     public static IRenderer INSTANCE = new TestRenderer();
 
-    protected TestRenderModel.TestRenderModelInfo modelInfo = TestRenderModel.INSTANCE.newModelInfo();
+    protected final IRenderBufferID<BasicRenderBufferLayout> bufferID = TestRenderModel.INSTANCE.newRenderBufferID();
+    protected final TestRenderModel.TestRenderModelInfo modelInfo = TestRenderModel.INSTANCE.newModelInfo();
 
     @Override
     public IRendererInfo info() {
@@ -29,7 +28,7 @@ public class TestRenderer implements IRenderer {
     public void render(@NonNull IRenderContext context) {
         modelInfo.color().set(0F, 1F, 1F, 1F);
         context.render(TestRenderModel.INSTANCE.bufferModel(
-                context.byteBuffer(TestRenderBufferInfo.INSTANCE),
+                context.byteBuffer(bufferID),
                 modelInfo));
     }
 }

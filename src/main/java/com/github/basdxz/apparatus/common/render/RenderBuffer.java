@@ -7,12 +7,12 @@ import java.nio.ByteBuffer;
 
 @Getter
 @Accessors(fluent = true, chain = true)
-public class RenderBuffer implements IRenderBuffer {
-    protected final IRenderBufferInfo bufferInfo;
+public class RenderBuffer<LAYOUT extends IRenderBufferLayout> implements IRenderBuffer<LAYOUT> {
+    protected final IRenderBufferID<LAYOUT> bufferID;
     protected final ByteBuffer byteBuffer;
 
-    public RenderBuffer(@NonNull IRenderBufferInfo bufferInfo, @NonNull ByteBuffer byteBuffer) {
-        this.bufferInfo = bufferInfo;
+    public RenderBuffer(@NonNull IRenderBufferID<LAYOUT> bufferID, @NonNull ByteBuffer byteBuffer) {
+        this.bufferID = bufferID;
         this.byteBuffer = byteBuffer;
         ensureByteBufferSize();
     }

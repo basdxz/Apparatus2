@@ -13,14 +13,14 @@ import java.util.List;
 
 import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
 
-public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderModelInfo> {
+public class TestRenderModel implements IRenderModel<BasicRenderBufferLayout, TestRenderModel.TestRenderModelInfo> {
     public static TestRenderModel INSTANCE = new TestRenderModel();
 
     protected static int VERTICES_PER_FACE = 3;
     protected static int FLOAT_SIZE_BYTES = 4;
 
     public static int requiredBufferByteSize() {
-        return TestModelOld.INSTANCE.faces().size() * VERTICES_PER_FACE * VERTEX_FLOAT_SIZE * FLOAT_SIZE_BYTES;
+        return INSTANCE.faces.size() * VERTICES_PER_FACE * VERTEX_FLOAT_SIZE * FLOAT_SIZE_BYTES;
     }
 
     protected final List<IFace> faces = newSquare();
@@ -56,6 +56,11 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
         faces.add(faceB);
 
         return faces;
+    }
+
+    @Override
+    public IRenderBufferID<BasicRenderBufferLayout> newRenderBufferID() {
+        return new RenderBufferID<>(BasicTestRenderBufferInfo.INSTANCE, "test_buffer");
     }
 
     @Override

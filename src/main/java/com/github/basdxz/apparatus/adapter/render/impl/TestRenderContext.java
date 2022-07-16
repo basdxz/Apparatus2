@@ -19,15 +19,15 @@ public class TestRenderContext implements IRenderContext {
     public static IRenderContext INSTANCE = new TestRenderContext();
 
     //TODO: Decide on if this should be a WEAK or SOFT Reference, document intent???
-    protected final Map<IRenderBufferInfo, IRenderBuffer> buffers = new ReferenceMap<>(HARD, WEAK, true);
+    protected final Map<IRenderBufferID<BasicRenderBufferLayout>, IRenderBuffer<BasicRenderBufferLayout>> buffers = new ReferenceMap<>(HARD, WEAK, true);
 
     @Override
-    public IRenderBuffer byteBuffer(@NonNull IRenderBufferInfo bufferInfo) {
-        return buffers.computeIfAbsent(bufferInfo, this::newRenderBuffer);
+    public IRenderBuffer<BasicRenderBufferLayout> byteBuffer(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
+        return buffers.computeIfAbsent(bufferID, this::newRenderBuffer);
     }
 
-    protected IRenderBuffer newRenderBuffer(@NonNull IRenderBufferInfo bufferInfo) {
-        return new RenderBuffer(bufferInfo, newByteBuffer(bufferInfo.byteSize()));
+    protected IRenderBuffer<BasicRenderBufferLayout> newRenderBuffer(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
+        return new RenderBuffer<>(bufferID, newByteBuffer(bufferID.byteSize()));
     }
 
     protected ByteBuffer newByteBuffer(int byteSize) {

@@ -2,8 +2,10 @@ package com.github.basdxz.apparatus.common.render;
 
 import lombok.*;
 
-public interface IRenderModel<MODEL_INFO extends IRenderModelInfo> {
-    MODEL_INFO newModelInfo();
+public interface IRenderModel<LAYOUT extends IRenderBufferLayout, INFO extends IRenderModelInfo> {
+    IRenderBufferID<LAYOUT> newRenderBufferID();
 
-    IBufferedModel bufferModel(@NonNull IRenderBuffer renderBuffer, @NonNull MODEL_INFO modelInfo);
+    INFO newModelInfo();
+
+    IBufferedModel bufferModel(@NonNull IRenderBuffer<LAYOUT> renderBuffer, @NonNull INFO modelInfo);
 }
