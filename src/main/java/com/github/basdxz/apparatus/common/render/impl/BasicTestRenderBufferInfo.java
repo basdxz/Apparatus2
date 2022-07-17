@@ -1,6 +1,5 @@
 package com.github.basdxz.apparatus.common.render.impl;
 
-import com.github.basdxz.apparatus.common.render.BasicRenderBufferLayout;
 import com.github.basdxz.apparatus.common.render.IRenderBufferInfo;
 import lombok.*;
 
@@ -11,7 +10,7 @@ public class BasicTestRenderBufferInfo implements IRenderBufferInfo<BasicRenderB
     public static final IRenderBufferInfo<BasicRenderBufferLayout> INSTANCE = new BasicTestRenderBufferInfo();
 
     @Override
-    public BasicRenderBufferLayout layout() {
+    public BasicRenderBufferLayout bufferLayout() {
         return BasicRenderBufferLayout.INSTANCE;
     }
 

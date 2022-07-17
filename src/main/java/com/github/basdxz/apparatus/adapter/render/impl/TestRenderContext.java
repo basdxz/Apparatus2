@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.adapter.render.impl;
 
 import com.github.basdxz.apparatus.common.render.*;
+import com.github.basdxz.apparatus.common.render.impl.BasicRenderBufferLayout;
 import lombok.*;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
@@ -35,15 +36,24 @@ public class TestRenderContext implements IRenderContext {
     }
 
     @Override
-    public void render(@NonNull IBufferedModel bufferedModel) {
+    public void render(@NonNull IBufferedModelOld bufferedModel) {
         renderModel(bufferedModel);
     }
 
     @Override
-    public void render(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
+    public void render(@NonNull IRenderBufferID<?> bufferID) {
+        val bufferLayout = bufferID.bufferLayout();
+
+        if (bufferLayout instanceof BasicRenderBufferLayout) {
+
+        }
     }
 
-    public void renderModel(@NonNull IBufferedModel bufferedModel) {
+    protected void renderBasicRenderBufferLayout(@NonNull IRenderBuffer<?> Buffer) {
+
+    }
+
+    public void renderModel(@NonNull IBufferedModelOld bufferedModel) {
         Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
 
         IntStream.range(0, bufferedModel.vertexCount()).forEach(i -> addVertex(bufferedModel, i));
@@ -53,12 +63,12 @@ public class TestRenderContext implements IRenderContext {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
-    protected void addVertex(@NonNull IBufferedModel bufferedModel, int index) {
+    protected void addVertex(@NonNull IBufferedModelOld bufferedModel, int index) {
         Tessellator.instance.setNormal(
                 bufferedModel.normalX(index),
                 bufferedModel.normalY(index),
                 bufferedModel.normalZ(index)
-        );
+                                      );
         Tessellator.instance.setColorRGBA_F(
                 bufferedModel.colorR(index),
                 bufferedModel.colorG(index),

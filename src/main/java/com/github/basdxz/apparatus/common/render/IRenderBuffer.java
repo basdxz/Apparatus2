@@ -13,7 +13,7 @@ public interface IRenderBuffer<LAYOUT extends IRenderBufferLayout> {
     }
 
     default LAYOUT layout() {
-        return bufferInfo().layout();
+        return bufferInfo().bufferLayout();
     }
 
     default IRenderBufferInfo<LAYOUT> bufferInfo() {

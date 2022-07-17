@@ -6,10 +6,10 @@ import lombok.*;
 public interface IRenderBufferInfo<LAYOUT extends IRenderBufferLayout> {
     default boolean renderBufferInfoEqual(@NonNull IRenderBufferInfo<LAYOUT> bufferInfo) {
         return byteSize() == byteSize() &&
-               layout().renderBufferLayoutEqual(bufferInfo.layout());
+               bufferLayout().renderBufferLayoutEqual(bufferInfo.bufferLayout());
     }
 
-    LAYOUT layout();
+    LAYOUT bufferLayout();
 
     int byteSize();
 }

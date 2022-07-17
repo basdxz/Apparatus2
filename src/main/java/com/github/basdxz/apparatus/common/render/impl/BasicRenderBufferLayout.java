@@ -1,4 +1,6 @@
-package com.github.basdxz.apparatus.common.render;
+package com.github.basdxz.apparatus.common.render.impl;
+
+import com.github.basdxz.apparatus.common.render.IRenderBufferLayout;
 
 public class BasicRenderBufferLayout implements IRenderBufferLayout {
     protected final static String BASIC_RENDER_BUFFER_LAYOUT_NAME = "basic_render_buffer_layout";

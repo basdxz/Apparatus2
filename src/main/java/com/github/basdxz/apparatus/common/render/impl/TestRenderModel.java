@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
-import static lombok.AccessLevel.NONE;
 
 public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderModelInstance> {
     public static TestRenderModel INSTANCE = new TestRenderModel();
@@ -86,14 +85,15 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
     @Getter
     @Accessors(fluent = true, chain = true)
     protected class TestRenderModelInstance implements IRenderModelInstance {
-        @Getter(NONE)
         protected final IRenderBufferID<BasicRenderBufferLayout> bufferID = newRenderBufferID();
 
         protected final Vector4f color = new Vector4f();
 
         @Override
         public void render(@NonNull IRenderContext context) {
-            context.render(bufferModel(context.getRenderBuffer(bufferID), this));
+            val bufferedModel = bufferModel(context.getRenderBuffer(bufferID), this);
+            context.render(bufferedModel);
+//            context.render(bufferID);
         }
     }
 
@@ -101,10 +101,10 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
         return new RenderBufferID<>(BasicTestRenderBufferInfo.INSTANCE, "test_buffer");
     }
 
-    protected IBufferedModel bufferModel(@NonNull IRenderBuffer<BasicRenderBufferLayout> renderBuffer,
-                                         @NonNull TestRenderModel.TestRenderModelInstance modelInstance) {
+    protected IBufferedModelOld bufferModel(@NonNull IRenderBuffer<BasicRenderBufferLayout> renderBuffer,
+                                            @NonNull TestRenderModel.TestRenderModelInstance modelInstance) {
         val floatBuffer = renderBuffer.byteBuffer().asFloatBuffer();
         copyModel(floatBuffer, modelInstance);
-        return new BufferedModel(renderBuffer, floatBuffer);
+        return new BufferedModelOld(renderBuffer, floatBuffer);
     }
 }

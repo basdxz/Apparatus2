@@ -6,6 +6,10 @@ public interface IRenderBufferID<LAYOUT extends IRenderBufferLayout> {
         return bufferInfo().byteSize();
     }
 
+    default LAYOUT bufferLayout() {
+        return bufferInfo().bufferLayout();
+    }
+
     IRenderBufferInfo<LAYOUT> bufferInfo();
 
     String bufferName();

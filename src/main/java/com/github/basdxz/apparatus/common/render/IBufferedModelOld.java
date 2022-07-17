@@ -9,7 +9,8 @@ import java.nio.FloatBuffer;
 
 import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
 
-public interface IBufferedModel {
+@Deprecated
+public interface IBufferedModelOld {
     default int vertexCount() {
         return floatBuffer().capacity() / VERTEX_FLOAT_SIZE;
     }
