@@ -16,12 +16,9 @@ import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
 public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderModelInstance> {
     public static TestRenderModel INSTANCE = new TestRenderModel();
 
-    protected static int VERTICES_PER_FACE = 3;
-    protected static int FLOAT_SIZE_BYTES = 4;
-
-    public static int requiredBufferByteSize() {
-        return INSTANCE.faces.size() * VERTICES_PER_FACE * VERTEX_FLOAT_SIZE * FLOAT_SIZE_BYTES;
-    }
+    protected final static int VERTICES_PER_FACE = 3;
+    protected final static BasicRenderBufferLayout BUFFER_LAYOUT = BasicRenderBufferLayout.INSTANCE;
+    protected final static IRenderBufferInfo<BasicRenderBufferLayout> BUFFER_INFO = new RenderBufferInfo<>(BUFFER_LAYOUT, INSTANCE.faces.size() * VERTICES_PER_FACE);
 
     protected final List<IFace> faces = newSquare();
 
@@ -97,7 +94,7 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
     }
 
     protected IRenderBufferID<BasicRenderBufferLayout> newRenderBufferID() {
-        return new RenderBufferID<>(BasicTestRenderBufferInfo.INSTANCE, "test_buffer");
+        return new RenderBufferID<>(BUFFER_INFO, "test_buffer");
     }
 
     protected IBufferedModelOld bufferModel(@NonNull IRenderBuffer<BasicRenderBufferLayout> renderBuffer,

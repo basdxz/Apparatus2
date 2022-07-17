@@ -61,21 +61,21 @@ public class TestRenderContext implements IRenderContext {
 
         for (var i = 0; i < vertexCount; i++) {
             Tessellator.instance.setNormal(
-                    layout.normalX(buffer, i),
-                    layout.normalY(buffer, i),
-                    layout.normalZ(buffer, i));
+                    layout.getNormalX(buffer, i),
+                    layout.getNormalY(buffer, i),
+                    layout.getNormalZ(buffer, i));
             Tessellator.instance.setColorRGBA_F(
-                    layout.colorR(buffer, i),
-                    layout.colorG(buffer, i),
-                    layout.colorB(buffer, i),
-                    layout.colorA(buffer, i));
+                    layout.getColorR(buffer, i),
+                    layout.getColorG(buffer, i),
+                    layout.getColorB(buffer, i),
+                    layout.getColorA(buffer, i));
             Tessellator.instance.setTextureUV(
-                    layout.textureU(buffer, i),
-                    layout.textureV(buffer, i));
+                    layout.getTextureU(buffer, i),
+                    layout.getTextureV(buffer, i));
             Tessellator.instance.addVertex(
-                    layout.positionX(buffer, i),
-                    layout.positionY(buffer, i),
-                    layout.positionZ(buffer, i));
+                    layout.getPositionX(buffer, i),
+                    layout.getPositionY(buffer, i),
+                    layout.getPositionZ(buffer, i));
         }
     }
 
