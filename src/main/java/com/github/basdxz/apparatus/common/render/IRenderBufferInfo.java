@@ -12,4 +12,6 @@ public interface IRenderBufferInfo<LAYOUT extends IRenderBufferLayout> {
     LAYOUT bufferLayout();
 
     int byteSize();
+
+    int vertexCount();
 }

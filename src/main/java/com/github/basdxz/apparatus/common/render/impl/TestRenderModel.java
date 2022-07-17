@@ -92,8 +92,7 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
         @Override
         public void render(@NonNull IRenderContext context) {
             val bufferedModel = bufferModel(context.getRenderBuffer(bufferID), this);
-            context.render(bufferedModel);
-//            context.render(bufferID);
+            context.render(bufferID);
         }
     }
 

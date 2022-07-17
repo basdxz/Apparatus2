@@ -11,7 +11,6 @@ import org.lwjgl.opengl.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 import static org.apache.commons.collections4.map.AbstractReferenceMap.ReferenceStrength.HARD;
 import static org.apache.commons.collections4.map.AbstractReferenceMap.ReferenceStrength.WEAK;
@@ -20,14 +19,15 @@ public class TestRenderContext implements IRenderContext {
     public static IRenderContext INSTANCE = new TestRenderContext();
 
     //TODO: Decide on if this should be a WEAK or SOFT Reference, document intent???
-    protected final Map<IRenderBufferID<BasicRenderBufferLayout>, IRenderBuffer<BasicRenderBufferLayout>> buffers = new ReferenceMap<>(HARD, WEAK, true);
+    protected final Map<IRenderBufferID<?>, IRenderBuffer<?>> buffers = new ReferenceMap<>(HARD, WEAK, true);
 
     @Override
-    public IRenderBuffer<BasicRenderBufferLayout> getRenderBuffer(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
-        return buffers.computeIfAbsent(bufferID, this::newRenderBuffer);
+    @SuppressWarnings("unchecked")
+    public <T extends IRenderBufferLayout> IRenderBuffer<T> getRenderBuffer(@NonNull IRenderBufferID<T> bufferID) {
+        return (IRenderBuffer<T>) buffers.computeIfAbsent(bufferID, this::newRenderBuffer);
     }
 
-    protected IRenderBuffer<BasicRenderBufferLayout> newRenderBuffer(@NonNull IRenderBufferID<BasicRenderBufferLayout> bufferID) {
+    protected <T extends IRenderBufferLayout> IRenderBuffer<T> newRenderBuffer(@NonNull IRenderBufferID<T> bufferID) {
         return new RenderBuffer<>(bufferID, newByteBuffer(bufferID.byteSize()));
     }
 
@@ -36,54 +36,47 @@ public class TestRenderContext implements IRenderContext {
     }
 
     @Override
-    public void render(@NonNull IBufferedModelOld bufferedModel) {
-        renderModel(bufferedModel);
-    }
-
-    @Override
     public void render(@NonNull IRenderBufferID<?> bufferID) {
-        val bufferLayout = bufferID.bufferLayout();
-
-        if (bufferLayout instanceof BasicRenderBufferLayout) {
-
-        }
+        adapt(buffers.get(bufferID));//TODO: null check, with registration error
     }
 
-    protected void renderBasicRenderBufferLayout(@NonNull IRenderBuffer<?> Buffer) {
-
+    @SuppressWarnings("unchecked")
+    protected void adapt(@NonNull IRenderBuffer<?> buffer) {
+        val bufferLayout = buffer.bufferLayout();
+        if (bufferLayout instanceof BasicRenderBufferLayout)
+            renderBuffer((IRenderBuffer<BasicRenderBufferLayout>) buffer);
     }
 
-    public void renderModel(@NonNull IBufferedModelOld bufferedModel) {
+    protected void renderBuffer(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer) {
         Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
-
-        IntStream.range(0, bufferedModel.vertexCount()).forEach(i -> addVertex(bufferedModel, i));
-
+        addVertices(buffer);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         Tessellator.instance.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
-    protected void addVertex(@NonNull IBufferedModelOld bufferedModel, int index) {
-        Tessellator.instance.setNormal(
-                bufferedModel.normalX(index),
-                bufferedModel.normalY(index),
-                bufferedModel.normalZ(index)
-                                      );
-        Tessellator.instance.setColorRGBA_F(
-                bufferedModel.colorR(index),
-                bufferedModel.colorG(index),
-                bufferedModel.colorB(index),
-                bufferedModel.colorA(index)
-        );
-        Tessellator.instance.setTextureUV(
-                bufferedModel.textureU(index),
-                bufferedModel.textureV(index)
-        );
-        Tessellator.instance.addVertex(
-                bufferedModel.positionX(index),
-                bufferedModel.positionY(index),
-                bufferedModel.positionZ(index)
-        );
+    protected void addVertices(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer) {
+        val layout = buffer.bufferLayout();
+        val vertexCount = buffer.vertexCount();
+
+        for (var i = 0; i < vertexCount; i++) {
+            Tessellator.instance.setNormal(
+                    layout.normalX(buffer, i),
+                    layout.normalY(buffer, i),
+                    layout.normalZ(buffer, i));
+            Tessellator.instance.setColorRGBA_F(
+                    layout.colorR(buffer, i),
+                    layout.colorG(buffer, i),
+                    layout.colorB(buffer, i),
+                    layout.colorA(buffer, i));
+            Tessellator.instance.setTextureUV(
+                    layout.textureU(buffer, i),
+                    layout.textureV(buffer, i));
+            Tessellator.instance.addVertex(
+                    layout.positionX(buffer, i),
+                    layout.positionY(buffer, i),
+                    layout.positionZ(buffer, i));
+        }
     }
 
     public void renderSquare(int posX, int posY, int width, int height) {

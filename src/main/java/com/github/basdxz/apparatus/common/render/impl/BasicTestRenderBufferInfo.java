@@ -18,4 +18,9 @@ public class BasicTestRenderBufferInfo implements IRenderBufferInfo<BasicRenderB
     public int byteSize() {
         return TestRenderModel.requiredBufferByteSize();
     }
+
+    @Override
+    public int vertexCount() {
+        return TestRenderModel.requiredBufferByteSize() / BasicRenderBufferLayout.INSTANCE.vertexByteSize();
+    }
 }

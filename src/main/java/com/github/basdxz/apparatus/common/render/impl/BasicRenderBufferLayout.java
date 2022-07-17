@@ -1,6 +1,8 @@
 package com.github.basdxz.apparatus.common.render.impl;
 
+import com.github.basdxz.apparatus.common.render.IRenderBuffer;
 import com.github.basdxz.apparatus.common.render.IRenderBufferLayout;
+import lombok.*;
 
 public class BasicRenderBufferLayout implements IRenderBufferLayout {
     protected final static String BASIC_RENDER_BUFFER_LAYOUT_NAME = "basic_render_buffer_layout";
@@ -44,12 +46,24 @@ public class BasicRenderBufferLayout implements IRenderBufferLayout {
         return VERTEX_BYTE_SIZE;
     }
 
+    public float positionX(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatPositionXIndex(index));
+    }
+
     private static int floatPositionXIndex(int index) {
         return floatPositionOffset(index) + POSITION_X_INDEX;
     }
 
+    public float positionY(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatPositionYIndex(index));
+    }
+
     private static int floatPositionYIndex(int index) {
         return floatPositionOffset(index) + POSITION_Y_INDEX;
+    }
+
+    public float positionZ(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatPositionZIndex(index));
     }
 
     private static int floatPositionZIndex(int index) {
@@ -60,12 +74,24 @@ public class BasicRenderBufferLayout implements IRenderBufferLayout {
         return floatVertexOffset(index) + POSITION_FLOAT_OFFSET;
     }
 
+    public float normalX(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatNormalXIndex(index));
+    }
+
     private static int floatNormalXIndex(int index) {
         return floatNormalOffset(index) + NORMAL_X_INDEX;
     }
 
+    public float normalY(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatNormalYIndex(index));
+    }
+
     private static int floatNormalYIndex(int index) {
         return floatNormalOffset(index) + NORMAL_Y_INDEX;
+    }
+
+    public float normalZ(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatNormalZIndex(index));
     }
 
     private static int floatNormalZIndex(int index) {
@@ -76,16 +102,32 @@ public class BasicRenderBufferLayout implements IRenderBufferLayout {
         return floatVertexOffset(index) + NORMAL_FLOAT_OFFSET;
     }
 
+    public float colorR(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatColorRIndex(index));
+    }
+
     private static int floatColorRIndex(int index) {
         return floatColorOffset(index) + COLOR_R_INDEX;
+    }
+
+    public float colorG(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatColorGIndex(index));
     }
 
     private static int floatColorGIndex(int index) {
         return floatColorOffset(index) + COLOR_G_INDEX;
     }
 
+    public float colorB(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatColorBIndex(index));
+    }
+
     private static int floatColorBIndex(int index) {
         return floatColorOffset(index) + COLOR_B_INDEX;
+    }
+
+    public float colorA(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatColorAIndex(index));
     }
 
     private static int floatColorAIndex(int index) {
@@ -96,8 +138,16 @@ public class BasicRenderBufferLayout implements IRenderBufferLayout {
         return floatVertexOffset(index) + COLOR_FLOAT_OFFSET;
     }
 
+    public float textureU(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatTextureUIndex(index));
+    }
+
     private static int floatTextureUIndex(int index) {
         return floatTextureOffset(index) + TEXTURE_U_INDEX;
+    }
+
+    public float textureV(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer, int index) {
+        return buffer.floatBuffer().get(floatTextureVIndex(index));
     }
 
     private static int floatTextureVIndex(int index) {
@@ -109,6 +159,6 @@ public class BasicRenderBufferLayout implements IRenderBufferLayout {
     }
 
     private static int floatVertexOffset(int index) {
-        return VERTEX_BYTE_SIZE * index;
+        return VERTEX_FLOAT_SIZE * index;
     }
 }

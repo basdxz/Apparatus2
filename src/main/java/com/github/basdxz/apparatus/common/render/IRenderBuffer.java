@@ -3,6 +3,9 @@ package com.github.basdxz.apparatus.common.render;
 import lombok.*;
 
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 
 //TODO: hash and toString
 public interface IRenderBuffer<LAYOUT extends IRenderBufferLayout> {
@@ -12,7 +15,7 @@ public interface IRenderBuffer<LAYOUT extends IRenderBufferLayout> {
                bufferInfo().renderBufferInfoEqual(buffer.bufferInfo());
     }
 
-    default LAYOUT layout() {
+    default LAYOUT bufferLayout() {
         return bufferInfo().bufferLayout();
     }
 
@@ -37,5 +40,15 @@ public interface IRenderBuffer<LAYOUT extends IRenderBufferLayout> {
         return bufferInfo().byteSize();
     }
 
+    default int vertexCount() {
+        return bufferInfo().vertexCount();
+    }
+
     ByteBuffer byteBuffer();
+
+    ShortBuffer shortBuffer();
+
+    IntBuffer intBuffer();
+
+    FloatBuffer floatBuffer();
 }
