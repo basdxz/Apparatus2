@@ -1,5 +1,8 @@
-package com.github.basdxz.apparatus.common.render;
+package com.github.basdxz.apparatus.common.render.impl;
 
+import com.github.basdxz.apparatus.common.render.IRenderBuffer;
+import com.github.basdxz.apparatus.common.render.IRenderBufferID;
+import com.github.basdxz.apparatus.common.render.IRenderBufferLayout;
 import lombok.*;
 import lombok.experimental.*;
 
