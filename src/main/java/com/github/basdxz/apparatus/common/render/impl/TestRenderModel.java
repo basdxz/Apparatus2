@@ -23,7 +23,7 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
     public static List<IFace> newSquare() {
         val faces = new ArrayList<IFace>();
 
-        val normal = new Vector3f();
+        val normal = new Vector3f(0F, 0F, 1F);
         val color = new Vector4f(1F, 0F, 0F, 1F);
         val texture = new Vector2f();
 
