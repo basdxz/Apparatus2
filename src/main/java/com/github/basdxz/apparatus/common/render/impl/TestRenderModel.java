@@ -7,18 +7,16 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.github.basdxz.apparatus.common.render.BufferedModelUtil.*;
 
 public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderModelInstance> {
     public static TestRenderModel INSTANCE = new TestRenderModel();
 
     protected final static int VERTICES_PER_FACE = 3;
     protected final static BasicRenderBufferLayout BUFFER_LAYOUT = BasicRenderBufferLayout.INSTANCE;
-    protected final static IRenderBufferInfo<BasicRenderBufferLayout> BUFFER_INFO = new RenderBufferInfo<>(BUFFER_LAYOUT, INSTANCE.faces.size() * VERTICES_PER_FACE);
+    protected final static IRenderBufferInfo<BasicRenderBufferLayout> BUFFER_INFO =
+            new RenderBufferInfo<>(BUFFER_LAYOUT, INSTANCE.faces.size() * VERTICES_PER_FACE);
 
     protected final List<IFace> faces = newSquare();
 
@@ -60,21 +58,6 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
         return new TestRenderModelInstance();
     }
 
-    protected void copyModel(@NonNull FloatBuffer floatBuffer, @NonNull TestRenderModel.TestRenderModelInstance modelInfo) {
-        val faceCount = faces.size();
-        for (int i = 0; i < faceCount; i++) {
-            val face = faces.get(i);
-            for (int j = 0; j < 3; j++) {
-                val vertex = face.verts().get(j);
-                val vertexIndex = vertexIndex(i, j);
-                vertex.position().get(floatPositionOffset(vertexIndex), floatBuffer);
-                vertex.normal().get(floatNormalOffset(vertexIndex), floatBuffer);
-                modelInfo.color().get(floatColorOffset(vertexIndex), floatBuffer);
-                vertex.texture().get(floatTextureOffset(vertexIndex), floatBuffer);
-            }
-        }
-    }
-
     protected int vertexIndex(int faceIndex, int faceVertexIndex) {
         return faceIndex * 3 + faceVertexIndex;
     }
@@ -83,12 +66,11 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
     @Accessors(fluent = true, chain = true)
     protected class TestRenderModelInstance implements IRenderModelInstance {
         protected final IRenderBufferID<BasicRenderBufferLayout> bufferID = newRenderBufferID();
-
         protected final Vector4f color = new Vector4f();
 
         @Override
         public void render(@NonNull IRenderContext context) {
-            val bufferedModel = bufferModel(context.getRenderBuffer(bufferID), this);
+            putModel(context.getRenderBuffer(bufferID), this);
             context.render(bufferID);
         }
     }
@@ -97,10 +79,20 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
         return new RenderBufferID<>(BUFFER_INFO, "test_buffer");
     }
 
-    protected IBufferedModelOld bufferModel(@NonNull IRenderBuffer<BasicRenderBufferLayout> renderBuffer,
-                                            @NonNull TestRenderModel.TestRenderModelInstance modelInstance) {
-        val floatBuffer = renderBuffer.byteBuffer().asFloatBuffer();
-        copyModel(floatBuffer, modelInstance);
-        return new BufferedModelOld(renderBuffer, floatBuffer);
+    protected void putModel(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer,
+                            @NonNull TestRenderModel.TestRenderModelInstance instance) {
+        val bufferLayout = buffer.bufferLayout();
+        val faceCount = faces.size();
+        for (int i = 0; i < faceCount; i++) {
+            val face = faces.get(i);
+            for (int j = 0; j < 3; j++) {
+                val vertex = face.verts().get(j);
+                val vertexIndex = vertexIndex(i, j);
+                bufferLayout.putPosition(buffer, vertexIndex, vertex.position())
+                            .putNormal(buffer, vertexIndex, vertex.normal())
+                            .putColor(buffer, vertexIndex, instance.color())
+                            .putTexture(buffer, vertexIndex, vertex.texture());
+            }
+        }
     }
 }
