@@ -43,7 +43,7 @@ public interface IRenderBuffer<LAYOUT extends IRenderBufferLayout> {
     default void ensureIndexBounds(int index) {
         if (index < 0)
             throw new IllegalStateException("Index can't be less than 0");//TODO: Better exceptions;
-        if (index > vertexCount())
+        if (index > vertexCount() - 1)
             throw new IllegalStateException("Index out of range");//TODO: Better exceptions;
     }
 
