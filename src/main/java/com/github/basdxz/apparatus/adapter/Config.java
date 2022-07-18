@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus;
+package com.github.basdxz.apparatus.adapter;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;

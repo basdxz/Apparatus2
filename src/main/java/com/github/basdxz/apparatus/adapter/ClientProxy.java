@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus;
+package com.github.basdxz.apparatus.adapter;
 
 import cpw.mods.fml.common.event.*;
 

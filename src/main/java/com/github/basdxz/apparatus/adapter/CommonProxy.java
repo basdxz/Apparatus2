@@ -1,4 +1,4 @@
-package com.github.basdxz.apparatus;
+package com.github.basdxz.apparatus.adapter;
 
 import com.github.basdxz.apparatus.adapter.registry.impl.RegistryAdapter;
 import com.github.basdxz.apparatus.common.domain.impl.DomainRegistry;
