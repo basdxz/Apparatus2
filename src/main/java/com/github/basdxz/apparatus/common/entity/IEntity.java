@@ -2,9 +2,9 @@ package com.github.basdxz.apparatus.common.entity;
 
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
+import com.github.basdxz.apparatus.common.render.IEntityRenderer;
 import com.github.basdxz.apparatus.common.render.IRenderView;
-import com.github.basdxz.apparatus.common.render.IRenderer;
-import com.github.basdxz.apparatus.common.render.impl.TestRenderer;
+import com.github.basdxz.apparatus.common.render.impl.TestEntityRenderer;
 import lombok.*;
 
 import java.util.Map;
@@ -48,7 +48,7 @@ public interface IEntity {
     Map<IRenderView, com.github.basdxz.apparatus.common.resourceold.IRendererOld> renderersOld();
 
     //TODO: make not default
-    default IRenderer renderer() {
-        return TestRenderer.INSTANCE;
+    default IEntityRenderer entityRenderer() {
+        return TestEntityRenderer.INSTANCE;
     }
 }

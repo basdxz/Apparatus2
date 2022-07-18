@@ -6,13 +6,16 @@ import com.github.basdxz.apparatus.common.render.IRenderer;
 import lombok.*;
 import lombok.experimental.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @Accessors(fluent = true, chain = true)
 public class TestRenderer implements IRenderer {
     public static IRenderer INSTANCE = new TestRenderer();
+    protected final Random random = new Random();
 
     @Getter
     protected final List<IRenderBufferID<?>> bufferIDs;
@@ -26,7 +29,10 @@ public class TestRenderer implements IRenderer {
 
     @Override
     public void render(@NonNull IRenderContext context) {
-        modelInstance.color().set(0F, 1F, 1F, 1F);
+        float exactSecond = (float) ((System.nanoTime() % 1E9) / 1E9F);
+        val colArr = Color.getHSBColor(exactSecond, 1F, 1F).getComponents(new float[4]);
+
+        modelInstance.color().set(colArr[0], colArr[1], colArr[2], 1F);
         modelInstance.render(context);
     }
 }
