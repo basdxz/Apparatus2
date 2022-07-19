@@ -24,10 +24,10 @@ public class ItemRendererImpl implements IItemRendererImpl {
     protected final Map<IRenderView, IRendererOld> renderers;
 
     protected final Map<IRenderView, RendererAdapter> adaptedRenderers = new HashMap<>();
-    protected final TempRenderItemOld tempRenderItemOld = new TempRenderItemOld();
+    protected final TestRenderItem testRenderItem = new TestRenderItem();
 
     {
-        tempRenderItemOld.setRenderManager(RenderManager.instance);
+        testRenderItem.setRenderManager(RenderManager.instance);
     }
 
     public ItemRendererImpl(@NonNull IItemAdapter itemAdapter) {
@@ -63,7 +63,7 @@ public class ItemRendererImpl implements IItemRendererImpl {
     }
 
     protected void renderAsEntity(@NonNull RenderBlocks renderBlocks, @NonNull EntityItem entityItem) {
-        tempRenderItemOld.actualRender(entityItem, this::renderAsEntity);
+        testRenderItem.actualRender(entityItem, this::renderAsEntity);
     }
 
     private void renderAsEntity() {

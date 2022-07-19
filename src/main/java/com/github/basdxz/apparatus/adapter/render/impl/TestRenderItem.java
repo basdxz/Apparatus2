@@ -35,7 +35,7 @@ import java.util.concurrent.Callable;
 import static com.falsepattern.lib.util.RenderUtil.partialTick;
 
 
-public class TempRenderItemOld extends RenderItem {
+public class TestRenderItem extends RenderItem {
     protected static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     protected final RenderBlocks renderBlocks = new RenderBlocks();
     protected final Random random = new Random();
