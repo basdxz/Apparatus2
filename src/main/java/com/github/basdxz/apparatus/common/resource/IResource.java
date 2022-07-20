@@ -1,13 +1,12 @@
 package com.github.basdxz.apparatus.common.resource;
 
 import com.github.basdxz.apparatus.common.domain.ILocation;
-import com.github.basdxz.apparatus.common.domain.IResourceType;
 
 //TODO: Hash/Equals/toString
-public interface IResource {
-    default IResourceType resourceType() {
+public interface IResource<RESOURCE_TYPE extends IResourceType> {
+    default RESOURCE_TYPE resourceType() {
         return location().resourceType();
     }
 
-    ILocation location();
+    ILocation<RESOURCE_TYPE> location();
 }

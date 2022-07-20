@@ -5,7 +5,8 @@ import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.loader.IDomainLoader;
 import com.github.basdxz.apparatus.common.loader.impl.DomainLoader;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.resourceold.IResourceOld;
+import com.github.basdxz.apparatus.common.resource.IResource;
+import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -20,8 +21,7 @@ public class Domain implements IInternalDomain {
 
     //TODO: Some of these should be tree sets
     protected final List<String> loaderPackages = new ArrayList<>();
-    protected final Map<ILocation, IResourceOld> resources = new HashMap<>();
-    protected final Map<String, ILocation> locations = new HashMap<>();
+    protected final Map<ILocation<?>, IResourceContainer<?, ?>> resourceContainers = new HashMap<>();
     protected final Set<IRecipe> recipes = new HashSet<>();
     protected final Map<IEntityID, IEntity> entities = new HashMap<>();
     protected final Map<String, IEntityID> entityIDs = new HashMap<>();
@@ -37,7 +37,7 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public IDomainLoader newLoader() {
+    public IDomainLoader newLoader() {//TODO: only give 1
         return new DomainLoader(this);
     }
 
@@ -71,33 +71,39 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public Iterable<IResourceOld> resources() {
-        return resources.values();
+    public void resetResources() {
+        resourceContainers.values().forEach(IResourceContainer::reset);
     }
 
     @Override
-    public Optional<IResourceOld> resource(@NonNull String path) {
-        return resource(location(path));
+    public void registerResources(@NonNull IResourceProvider provider) {
+        resourceContainers.values().stream()
+                          .filter(IResourceContainer::isEmpty)
+                          .forEach(provider::tryProviding);
     }
 
     @Override
-    public Optional<IResourceOld> resource(@NonNull ILocation location) {
-        return Optional.ofNullable(resources.get(location));
+    public void ensureAllResourcesRegistered() {
+        resourceContainers.values().forEach(IResourceContainer::ensureNotEmpty);
     }
 
     @Override
-    public ILocation location(@NonNull String path) {
-        return locations.computeIfAbsent(path.intern(), this::newLocation);
+    @SuppressWarnings("unchecked")
+    public <RESOURCE_TYPE extends IResourceType, RESOURCE extends IResource<RESOURCE_TYPE>>
+    IResourceContainer<RESOURCE_TYPE, RESOURCE> resourceContainer(@NonNull String path,
+                                                                  @NonNull RESOURCE_TYPE resourceType) {
+        return (IResourceContainer<RESOURCE_TYPE, RESOURCE>) resourceContainers.computeIfAbsent(
+                newLocation(path, resourceType), this::newResourceContainer);
     }
 
-    //TODO: Fix
-    protected ILocation newLocation(@NonNull String path) {
-        return new Location(this, path, new IResourceType() {
-            @Override
-            public String extension() {
-                return "null";//TODO: Technically not null :>
-            }
-        });
+    protected <RESOURCE_TYPE extends IResourceType> ILocation<RESOURCE_TYPE>
+    newLocation(@NonNull String path, @NonNull RESOURCE_TYPE resourceType) {
+        return new Location<>(this, path, resourceType);
+    }
+
+    public <RESOURCE_TYPE extends IResourceType, RESOURCE extends IResource<RESOURCE_TYPE>>
+    IResourceContainer<RESOURCE_TYPE, RESOURCE> newResourceContainer(@NonNull ILocation<RESOURCE_TYPE> location) {
+        return new ResourceContainer<>(location);
     }
 
     @Override
@@ -139,27 +145,6 @@ public class Domain implements IInternalDomain {
 
     protected void registerInRegistry(@NonNull IRecipe recipe) {
         registry.register(recipe);
-    }
-
-    @Override
-    public void register(@NonNull IResourceOld resource) {
-        val location = resource.location();
-        ensureNoDuplicate(location);
-        add(resource, location);
-        registerInRegistry(resource);
-    }
-
-    protected void ensureNoDuplicate(@NonNull ILocation location) {
-        if (resources.containsKey(location))
-            throw new IllegalArgumentException("Entity already exists");//TODO: Better exceptions
-    }
-
-    protected void add(@NonNull IResourceOld resource, @NonNull ILocation location) {
-        resources.put(location, resource);
-    }
-
-    protected void registerInRegistry(@NonNull IResourceOld resource) {
-        registry.register(resource);
     }
 
     @Override

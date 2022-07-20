@@ -1,9 +1,9 @@
-package com.github.basdxz.apparatus.common.domain;
+package com.github.basdxz.apparatus.common.resource;
 
 
 //TODO: Hash/Equals
 public interface IResourceType {
-    default String resourceToString() {
+    default String resourceTypeToString() {
         return extension();
     }
 

@@ -46,8 +46,5 @@ public class ItemImpl extends Item {
 
     @Override
     public void registerIcons(IIconRegister iconRegister) {
-        val itemRenderer = itemAdapter.itemRenderer();
-        itemRenderer.register(iconRegister);
-        itemIcon = itemRenderer.fallbackIcon();
     }
 }

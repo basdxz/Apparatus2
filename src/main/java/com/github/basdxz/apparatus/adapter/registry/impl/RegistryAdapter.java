@@ -12,7 +12,6 @@ import com.github.basdxz.apparatus.common.entity.IItem;
 import com.github.basdxz.apparatus.common.entity.ITile;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
 import com.github.basdxz.apparatus.common.recipe.IRecipeComponent;
-import com.github.basdxz.apparatus.common.resourceold.IResourceOld;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.*;
 import net.minecraft.item.Item;
@@ -106,10 +105,6 @@ public class RegistryAdapter implements IRegistryAdapter {
 
     protected Optional<Item> findItem(@NonNull IEntityID entityID) {
         return Optional.ofNullable(GameRegistry.findItem(entityID.domain().domainName(), entityID.entityName()));
-    }
-
-    @Override
-    public void register(@NonNull IResourceOld resource) {
     }
 
     @Override

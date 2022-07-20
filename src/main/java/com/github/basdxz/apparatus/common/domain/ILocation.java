@@ -1,22 +1,23 @@
 package com.github.basdxz.apparatus.common.domain;
 
+import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 
 //TODO: Add hash
-public interface ILocation {
-    default boolean locationEquals(@NonNull ILocation location) {
-        return domain().domainEquals(location.domain()) &&
-                path().equals(location.path()) &&
-                resourceType().equals(location.resourceType());
+public interface ILocation<RESOURCE_TYPE extends IResourceType> {
+    default boolean locationEquals(@NonNull ILocation<?> location) {
+        return resourceType().equals(location.resourceType()) &&
+               domain().domainEquals(location.domain()) &&
+               path().equals(location.path());
     }
 
     default String locationToString() {
-        return domain().domainToString() + ":" + path() + "." + resourceType().resourceToString();
+        return domain().domainToString() + ":" + path() + "." + resourceType().resourceTypeToString();
     }
 
     IDomain domain();
 
-    String path();
+    RESOURCE_TYPE resourceType();
 
-    IResourceType resourceType();
+    String path();
 }

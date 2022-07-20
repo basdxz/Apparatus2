@@ -1,6 +1,6 @@
-package com.github.basdxz.apparatus.common.domain.impl;
+package com.github.basdxz.apparatus.common.resource.impl;
 
-import com.github.basdxz.apparatus.common.domain.IResourceType;
+import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 import lombok.experimental.*;
 

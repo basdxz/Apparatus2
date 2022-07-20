@@ -8,17 +8,9 @@ import com.github.basdxz.apparatus.common.loader.context.IPreInitContext;
 import com.github.basdxz.apparatus.common.loader.impl.EntityLoader;
 import com.github.basdxz.apparatus.common.recipe.impl.Recipe;
 import com.github.basdxz.apparatus.common.recipe.impl.RecipeComponent;
-import com.github.basdxz.apparatus.common.render.IRenderView;
-import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import com.github.basdxz.apparatus.example.Externals;
 import lombok.*;
 import lombok.experimental.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.github.basdxz.apparatus.common.render.impl.RenderView.*;
-import static com.github.basdxz.apparatus.common.resourceold.impl.RendererOld.newDefaultSpriteRenderer;
 
 
 @Getter
@@ -26,18 +18,10 @@ import static com.github.basdxz.apparatus.common.resourceold.impl.RendererOld.ne
 public class TestItem implements IItem {
     protected final IEntityID entityID;
     protected final String localizedName;
-    protected final Map<IRenderView, IRendererOld> renderersOld;
 
     public TestItem(@NonNull IEntityID entityID, @NonNull String localizedName) {
         this.entityID = entityID;
         this.localizedName = localizedName;
-
-        val renderer = newDefaultSpriteRenderer(entityID.domain(), "SwInner");
-        renderersOld = new HashMap<>();
-        renderersOld.put(ENTITY, renderer);
-        renderersOld.put(EQUIPPED, renderer);
-        renderersOld.put(EQUIPPED_FIRST_PERSON, renderer);
-        renderersOld.put(INVENTORY, renderer);
     }
 
     @NoArgsConstructor

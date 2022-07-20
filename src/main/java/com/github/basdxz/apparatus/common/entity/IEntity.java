@@ -3,11 +3,8 @@ package com.github.basdxz.apparatus.common.entity;
 
 import com.github.basdxz.apparatus.common.domain.IEntityID;
 import com.github.basdxz.apparatus.common.render.IEntityRenderer;
-import com.github.basdxz.apparatus.common.render.IRenderView;
 import com.github.basdxz.apparatus.common.render.impl.TestEntityRenderer;
 import lombok.*;
-
-import java.util.Map;
 
 public interface IEntity {
     String ENTITY_TYPE_NAME = "entity";
@@ -44,9 +41,6 @@ public interface IEntity {
     IEntityID entityID();
 
     String localizedName();
-
-    Map<IRenderView, com.github.basdxz.apparatus.common.resourceold.IRendererOld> renderersOld();
-
     //TODO: make not default
     default IEntityRenderer entityRenderer() {
         return TestEntityRenderer.INSTANCE;

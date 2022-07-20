@@ -3,11 +3,9 @@ package com.github.basdxz.apparatus.adapter.render.impl;
 import com.github.basdxz.apparatus.adapter.item.IItemAdapter;
 import com.github.basdxz.apparatus.adapter.render.IItemRendererImpl;
 import com.github.basdxz.apparatus.common.render.IRenderView;
-import com.github.basdxz.apparatus.common.resourceold.IRendererOld;
 import lombok.*;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -21,7 +19,6 @@ import static com.github.basdxz.apparatus.common.render.impl.RenderView.*;
 
 public class ItemRendererImpl implements IItemRendererImpl {
     protected final IItemAdapter itemAdapter;
-    protected final Map<IRenderView, IRendererOld> renderers;
 
     protected final Map<IRenderView, RendererAdapter> adaptedRenderers = new HashMap<>();
     protected final TestRenderItem testRenderItem = new TestRenderItem();
@@ -32,7 +29,6 @@ public class ItemRendererImpl implements IItemRendererImpl {
 
     public ItemRendererImpl(@NonNull IItemAdapter itemAdapter) {
         this.itemAdapter = itemAdapter;
-        this.renderers = itemAdapter.item().renderersOld();
         register();
     }
 
@@ -80,17 +76,6 @@ public class ItemRendererImpl implements IItemRendererImpl {
 
     protected void renderInInventory(@NonNull RenderBlocks renderBlocks) {
         adaptedRenderers.getOrDefault(INVENTORY, RendererAdapter.EMPTY_INSTANCE).render();
-    }
-
-    @Override
-    public void register(@NonNull IIconRegister iconRegister) {
-        adaptedRenderers.clear();
-        for (val entry : renderers.entrySet()) {
-            val view = entry.getKey();
-            val renderer = entry.getValue();
-            if (view == ENTITY)
-                adaptedRenderers.put(ENTITY, new RendererAdapter(renderer, iconRegister));
-        }
     }
 
     @Override

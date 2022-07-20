@@ -2,18 +2,18 @@ package com.github.basdxz.apparatus.common.domain.impl;
 
 import com.github.basdxz.apparatus.common.domain.IDomain;
 import com.github.basdxz.apparatus.common.domain.ILocation;
-import com.github.basdxz.apparatus.common.domain.IResourceType;
+import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 import lombok.experimental.*;
 
 @Data
 @Accessors(fluent = true, chain = true)
-public class Location implements ILocation {
+public class Location<RESOURCE_TYPE extends IResourceType> implements ILocation<RESOURCE_TYPE> {
     protected final IDomain domain;
     protected final String path;
-    protected final IResourceType resourceType;
+    protected final RESOURCE_TYPE resourceType;
 
-    protected Location(@NonNull IDomain domain, @NonNull String path, @NonNull IResourceType resourceType) {
+    protected Location(@NonNull IDomain domain, @NonNull String path, @NonNull RESOURCE_TYPE resourceType) {
         this.domain = domain;
         this.path = path.intern();
         this.resourceType = resourceType;

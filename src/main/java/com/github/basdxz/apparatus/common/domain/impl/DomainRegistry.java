@@ -1,12 +1,8 @@
 package com.github.basdxz.apparatus.common.domain.impl;
 
-import com.github.basdxz.apparatus.common.domain.IDomain;
-import com.github.basdxz.apparatus.common.domain.IDomainRegistry;
-import com.github.basdxz.apparatus.common.domain.IInternalDomainRegistry;
-import com.github.basdxz.apparatus.common.domain.IRegistry;
+import com.github.basdxz.apparatus.common.domain.*;
 import com.github.basdxz.apparatus.common.entity.IEntity;
 import com.github.basdxz.apparatus.common.recipe.IRecipe;
-import com.github.basdxz.apparatus.common.resourceold.IResourceOld;
 import lombok.*;
 
 import java.util.HashMap;
@@ -24,15 +20,30 @@ public class DomainRegistry implements IInternalDomainRegistry {
 
     protected static final String DEFAULT_DOMAIN_MANAGER_NAME = "apparatus_domain_manager";
 
-    protected final Map<String, IDomain> domains = new HashMap<>();
+    protected final Map<String, IInternalDomain> domains = new HashMap<>();
     protected final Set<IRegistry> registries = new HashSet<>();
+
+    @Override
+    public void resetResources() {
+        domains.values().forEach(IResourceContainerRegistry::resetResources);
+    }
+
+    @Override
+    public void registerResources(@NonNull IResourceProvider provider) {
+        domains.values().forEach(domain -> domain.registerResources(provider));
+    }
+
+    @Override
+    public void ensureAllResourcesRegistered() {
+        domains.values().forEach(IResourceContainerRegistry::ensureAllResourcesRegistered);
+    }
 
     @Override
     public IDomain getDomain(@NonNull String domainName) {
         return domains.computeIfAbsent(domainName.intern(), this::newDomain);
     }
 
-    protected IDomain newDomain(@NonNull String domainName) {
+    protected IInternalDomain newDomain(@NonNull String domainName) {
         return new Domain(domainName, this);
     }
 
@@ -54,11 +65,6 @@ public class DomainRegistry implements IInternalDomainRegistry {
     @Override
     public void register(@NonNull IRecipe recipe) {
         registries.forEach(registry -> registry.register(recipe));
-    }
-
-    @Override
-    public void register(@NonNull IResourceOld resource) {
-        registries.forEach(registry -> registry.register(resource));
     }
 
     @Override
