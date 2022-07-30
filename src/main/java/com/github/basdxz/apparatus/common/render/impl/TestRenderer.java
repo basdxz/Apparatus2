@@ -1,8 +1,12 @@
 package com.github.basdxz.apparatus.common.render.impl;
 
+import com.github.basdxz.apparatus.common.domain.IResourceContainer;
 import com.github.basdxz.apparatus.common.render.IRenderBufferID;
 import com.github.basdxz.apparatus.common.render.IRenderContext;
 import com.github.basdxz.apparatus.common.render.IRenderer;
+import com.github.basdxz.apparatus.common.resource.IResource;
+import com.github.basdxz.apparatus.common.resource.impl.ResourceType;
+import com.github.basdxz.apparatus.example.Externals;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -16,6 +20,8 @@ import java.util.Random;
 public class TestRenderer implements IRenderer {
     public static IRenderer INSTANCE = new TestRenderer();
     protected final Random random = new Random();
+
+    protected final IResourceContainer<ResourceType, IResource<ResourceType>> thingy = Externals.MINECRAFT_DOMAIN.resourceContainer("textures/items/apple", ResourceType.TEXTURE);
 
     @Getter
     protected final List<IRenderBufferID<?>> bufferIDs;

@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.adapter.resource.impl;
 
 import com.github.basdxz.apparatus.common.domain.impl.DomainRegistry;
+import com.github.basdxz.apparatus.common.render.impl.TestRenderer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import lombok.*;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -9,8 +10,14 @@ import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraftforge.client.event.TextureStitchEvent;
 
 //TODO: Replace all this with Mixin hooks
+//TODO: Add stuff like lang/audio?
 public class ResourceAdapter implements IResourceManagerReloadListener {
     public static final ResourceAdapter INSTANCE = new ResourceAdapter();
+
+    {
+        //noinspection ResultOfMethodCallIgnored
+        TestRenderer.INSTANCE.toString();//TODO: Remove, this is here just to keep it loaded early enough for resources to load properly.
+    }
 
     @Override
     public void onResourceManagerReload(@NonNull IResourceManager resourceManager) {
@@ -36,7 +43,7 @@ public class ResourceAdapter implements IResourceManagerReloadListener {
     }
 
     protected void registerTextures(@NonNull IResourceManager resourceManager) {
-        System.out.println("(4) Register Textures!");
+        System.out.println("(6) Register Textures!");
         DomainRegistry.INSTANCE.registerResources(System.out::println);
     }
 
@@ -52,12 +59,12 @@ public class ResourceAdapter implements IResourceManagerReloadListener {
     }
 
     protected void registerBlockIcons(@NonNull TextureMap textureMap) {
-        System.out.println("(5) Registering block icons!");
+        System.out.println("(4) Registering block icons!");
         DomainRegistry.INSTANCE.registerResources(System.out::println);
     }
 
     protected void registerItemIcons(@NonNull TextureMap textureMap) {
-        System.out.println("(6) Registering item icons!");
+        System.out.println("(5) Registering item icons!");
         DomainRegistry.INSTANCE.registerResources(System.out::println);
     }
 
