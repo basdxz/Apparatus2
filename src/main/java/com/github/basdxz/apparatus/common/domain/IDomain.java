@@ -7,6 +7,7 @@ import com.github.basdxz.apparatus.common.resource.IResource;
 import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface IDomain {
@@ -25,8 +26,7 @@ public interface IDomain {
 
     IDomainLoader newLoader();
 
-    //TODO: Should this be iterable?
-    Iterable<IEntity> entities();
+    Collection<IEntity> entities();
 
     Optional<IEntity> entity(@NonNull String entityName);
 
@@ -34,10 +34,8 @@ public interface IDomain {
 
     IEntityID entityID(@NonNull String entityName);
 
-    //TODO: Should this be iterable?
-    Iterable<IRecipe> recipes();
+    Collection<IRecipe> recipes();
 
-    <RESOURCE_TYPE extends IResourceType, RESOURCE extends IResource<RESOURCE_TYPE>>
-    IResourceContainer<RESOURCE_TYPE, RESOURCE> resourceContainer(@NonNull String path,
-                                                                  @NonNull RESOURCE_TYPE resourceType);
+    <RESOURCE extends IResource> IResourceContainer<RESOURCE> resourceContainer(@NonNull String path,
+                                                                                @NonNull IResourceType<RESOURCE> resourceType);
 }

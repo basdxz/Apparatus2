@@ -9,6 +9,7 @@ import com.github.basdxz.apparatus.common.resource.IResource;
 import com.github.basdxz.apparatus.common.resource.IResourceType;
 import lombok.*;
 import lombok.experimental.*;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.*;
 
@@ -21,10 +22,12 @@ public class Domain implements IInternalDomain {
 
     //TODO: Some of these should be tree sets
     protected final List<String> loaderPackages = new ArrayList<>();
-    protected final Map<ILocation<?>, IResourceContainer<?, ?>> resourceContainers = new HashMap<>();
+    protected final Map<ILocation<?>, IResourceContainer<?>> resourceContainers = new HashMap<>();
     protected final Set<IRecipe> recipes = new HashSet<>();
     protected final Map<IEntityID, IEntity> entities = new HashMap<>();
     protected final Map<String, IEntityID> entityIDs = new HashMap<>();
+
+    protected final Map<ImmutablePair<String, IResourceType<?>>, ILocation<?>> locations = new HashMap<>();
 
     protected Domain(@NonNull String domainName, @NonNull IInternalDomainRegistry registry) {
         this.domainName = domainName.intern();
@@ -42,7 +45,7 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public Iterable<IEntity> entities() {
+    public Collection<IEntity> entities() {
         return entities.values();
     }
 
@@ -66,7 +69,7 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public Iterable<IRecipe> recipes() {
+    public Collection<IRecipe> recipes() {
         return Collections.unmodifiableSet(recipes);
     }
 
@@ -87,23 +90,30 @@ public class Domain implements IInternalDomain {
         resourceContainers.values().forEach(IResourceContainer::ensureNotEmpty);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public <RESOURCE_TYPE extends IResourceType, RESOURCE extends IResource<RESOURCE_TYPE>>
-    IResourceContainer<RESOURCE_TYPE, RESOURCE> resourceContainer(@NonNull String path,
-                                                                  @NonNull RESOURCE_TYPE resourceType) {
-        return (IResourceContainer<RESOURCE_TYPE, RESOURCE>) resourceContainers.computeIfAbsent(
-                newLocation(path, resourceType), this::newResourceContainer);
+    @Override
+    public <RESOURCE extends IResource> IResourceContainer<RESOURCE>
+    resourceContainer(@NonNull String path, @NonNull IResourceType<RESOURCE> resourceType) {
+        return (IResourceContainer<RESOURCE>) resourceContainers.computeIfAbsent(location(path, resourceType),
+                                                                                 this::newResourceContainer);
     }
 
-    protected <RESOURCE_TYPE extends IResourceType> ILocation<RESOURCE_TYPE>
-    newLocation(@NonNull String path, @NonNull RESOURCE_TYPE resourceType) {
-        return new Location<>(this, path, resourceType);
-    }
-
-    public <RESOURCE_TYPE extends IResourceType, RESOURCE extends IResource<RESOURCE_TYPE>>
-    IResourceContainer<RESOURCE_TYPE, RESOURCE> newResourceContainer(@NonNull ILocation<RESOURCE_TYPE> location) {
+    //TODO: Cache Resource Containers
+    protected IResourceContainer<?> newResourceContainer(@NonNull ILocation<?> location) {
         return new ResourceContainer<>(location);
+    }
+
+    protected ILocation<?> location(@NonNull String path, @NonNull IResourceType<?> resourceType) {
+        return locations.computeIfAbsent(newPathResourceTypePair(path, resourceType), this::newLocation);
+    }
+
+    protected ImmutablePair<String, IResourceType<?>> newPathResourceTypePair(@NonNull String path,
+                                                                              @NonNull IResourceType<?> resourceType) {
+        return new ImmutablePair<>(path, resourceType);
+    }
+
+    protected ILocation<?> newLocation(@NonNull ImmutablePair<String, IResourceType<?>> pathResourceTypePair) {
+        return new Location<>(this, pathResourceTypePair.getLeft(), pathResourceTypePair.getRight());
     }
 
     @Override

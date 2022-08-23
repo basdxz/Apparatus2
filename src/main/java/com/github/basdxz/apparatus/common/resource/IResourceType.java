@@ -1,11 +1,9 @@
 package com.github.basdxz.apparatus.common.resource;
 
 
-//TODO: Hash/Equals
-public interface IResourceType {
-    default String resourceTypeToString() {
-        return extension();
-    }
+//TODO: Hash/Equals/ToString
+public interface IResourceType<RESOURCE extends IResource> {
+    Class<RESOURCE> resourceBaseClass();
 
-    String extension();
+    String fileExtension();
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.*;
 
 @Getter
+@Deprecated
 @RequiredArgsConstructor
 @Accessors(fluent = true, chain = true)
 public enum ResourceType implements IResourceType {
@@ -12,5 +13,15 @@ public enum ResourceType implements IResourceType {
     TEXTURE("png"),
     MESH("obj");
 
-    private final String extension;
+    private final String fileExtension;
+
+    @Override
+    public Class resourceBaseClass() {
+        return null;
+    }
+
+    @Override
+    public String fileExtension() {
+        return null;
+    }
 }
