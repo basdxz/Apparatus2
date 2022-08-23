@@ -25,17 +25,17 @@ public class DomainRegistry implements IInternalDomainRegistry {
 
     @Override
     public void resetResources() {
-        domains.values().forEach(IResourceContainerRegistry::resetResources);
+        domains.values().forEach(IResourceContainerHandler::resetResources);
     }
 
     @Override
-    public void registerResources(@NonNull IResourceProvider provider) {
-        domains.values().forEach(domain -> domain.registerResources(provider));
+    public void loadResources(@NonNull IResourceProvider provider) {
+        domains.values().forEach(domain -> domain.loadResources(provider));
     }
 
     @Override
-    public void ensureAllResourcesRegistered() {
-        domains.values().forEach(IResourceContainerRegistry::ensureAllResourcesRegistered);
+    public void ensureAllResourcesLoaded() {
+        domains.values().forEach(IResourceContainerHandler::ensureAllResourcesLoaded);
     }
 
     @Override

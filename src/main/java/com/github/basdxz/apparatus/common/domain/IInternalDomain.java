@@ -3,7 +3,7 @@ package com.github.basdxz.apparatus.common.domain;
 
 import java.util.List;
 
-public interface IInternalDomain extends IDomain, IRegistry, IResourceContainerRegistry {
+public interface IInternalDomain extends IDomain, IRegistry, IResourceContainerHandler {
     @Override
     default String registryName() {
         return domainName();

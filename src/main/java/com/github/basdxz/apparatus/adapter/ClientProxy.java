@@ -1,9 +1,7 @@
 package com.github.basdxz.apparatus.adapter;
 
-import com.github.basdxz.apparatus.adapter.resource.impl.ResourceAdapter;
+import com.github.basdxz.apparatus.adapter.resource.impl.ResourceContainerHandlerAdapter;
 import cpw.mods.fml.common.event.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraftforge.common.MinecraftForge;
 
 
@@ -13,13 +11,14 @@ public class ClientProxy extends CommonProxy {
     // etc, and register them with the GameRegistry."
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(ResourceAdapter.INSTANCE);
-        MinecraftForge.EVENT_BUS.register(ResourceAdapter.INSTANCE);
+//        ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(ResourceContainerHandlerAdapter.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(ResourceContainerHandlerAdapter.INSTANCE);
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."
     public void init(FMLInitializationEvent event) {
         super.init(event);
+        ResourceContainerHandlerAdapter.INSTANCE.init();
     }
 
     // postInit "Handle interaction with other mods, complete your setup based on this."

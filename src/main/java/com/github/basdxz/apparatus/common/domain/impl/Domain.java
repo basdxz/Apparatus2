@@ -79,14 +79,14 @@ public class Domain implements IInternalDomain {
     }
 
     @Override
-    public void registerResources(@NonNull IResourceProvider provider) {
+    public void loadResources(@NonNull IResourceProvider provider) {
         resourceContainers.values().stream()
                           .filter(IResourceContainer::isEmpty)
                           .forEach(provider::tryProviding);
     }
 
     @Override
-    public void ensureAllResourcesRegistered() {
+    public void ensureAllResourcesLoaded() {
         resourceContainers.values().forEach(IResourceContainer::ensureNotEmpty);
     }
 
