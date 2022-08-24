@@ -9,7 +9,7 @@ import lombok.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ResourceProviderAdapter<RESOURCE extends IResource> implements IResourceProvider {
+public abstract class ResourceProvider<RESOURCE extends IResource> implements IResourceProvider {
     protected final Map<ILocation<RESOURCE>, RESOURCE> resources = new HashMap<>();
 
     @Override

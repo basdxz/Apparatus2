@@ -6,7 +6,7 @@ dependencies {
     compile("com.falsepattern:dynamicrendering-mc1.7.10:0.0.2:dev")
     compile("io.github.classgraph:classgraph:4.8.147")
     compile("org.apache.commons:commons-collections4:4.4")
-
+    compile("de.javagl:obj:0.3.0")
 
     compileOnly("org.projectlombok:lombok:1.18.22")
     annotationProcessor("org.projectlombok:lombok:1.18.22")

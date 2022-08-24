@@ -4,7 +4,7 @@ import com.github.basdxz.apparatus.common.domain.IResourceContainer;
 import com.github.basdxz.apparatus.common.render.IRenderBufferID;
 import com.github.basdxz.apparatus.common.render.IRenderContext;
 import com.github.basdxz.apparatus.common.render.IRenderer;
-import com.github.basdxz.apparatus.common.resource.ITextureResource;
+import com.github.basdxz.apparatus.common.resource.ITextureAtlasIcon;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static com.github.basdxz.apparatus.common.resource.impl.ResourceTypes.TEXTURE;
+import static com.github.basdxz.apparatus.common.resource.impl.ResourceTypes.TEXTURE_ATLAS_ICON;
 import static com.github.basdxz.apparatus.example.Externals.MINECRAFT_DOMAIN;
 
 @Accessors(fluent = true, chain = true)
@@ -22,8 +22,8 @@ public class TestRenderer implements IRenderer {
     public static IRenderer INSTANCE = new TestRenderer();
     protected final Random random = new Random();
 
-    protected final IResourceContainer<ITextureResource> textureContainer =
-            MINECRAFT_DOMAIN.resourceContainer("textures/items/apple", TEXTURE);
+    protected final IResourceContainer<ITextureAtlasIcon> textureContainer =
+            MINECRAFT_DOMAIN.resourceContainer("textures/items/apple", TEXTURE_ATLAS_ICON);
 
     @Getter
     protected final List<IRenderBufferID<?>> bufferIDs;

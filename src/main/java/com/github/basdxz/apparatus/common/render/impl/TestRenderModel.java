@@ -89,7 +89,6 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
             for (int j = 0; j < 3; j++) {
                 val vertex = face.verts().get(j);
                 val vertexIndex = vertexIndex(i, j);
-
                 val tempTexture = new Vector3f(vertex.texture().x(), vertex.texture().y(), 1F);
                 tempTexture.mul(instance.textureTransform);
                 val texture = new Vector2f(tempTexture.x(), tempTexture.y());

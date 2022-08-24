@@ -56,13 +56,13 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
     @Override
     public void loadBlockIcons(@NonNull TextureMap textureMap) {
         if (initialized)
-            DomainRegistry.INSTANCE.loadResources(newBlockIconResourceProvider(textureMap));
+            DomainRegistry.INSTANCE.loadResources(newAtlasTextureProvider(textureMap));
     }
 
     @Override
     public void loadItemIcons(@NonNull TextureMap textureMap) {
         if (initialized)
-            DomainRegistry.INSTANCE.loadResources(newItemIconResourceProvider(textureMap));
+            DomainRegistry.INSTANCE.loadResources(newAtlasTextureProvider(textureMap));
     }
 
     @Override
@@ -72,11 +72,7 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
         DomainRegistry.INSTANCE.ensureAllResourcesLoaded();
     }
 
-    protected IResourceProvider newBlockIconResourceProvider(@NonNull TextureMap textureMap) {
-        return new BlockIconResourceProvider(textureMap);
-    }
-
-    protected IResourceProvider newItemIconResourceProvider(@NonNull TextureMap textureMap) {
-        return new ItemIconResourceProvider(textureMap);
+    protected IResourceProvider newAtlasTextureProvider(@NonNull TextureMap textureMap) {
+        return new TextureAtlasIconProvider(textureMap);
     }
 }

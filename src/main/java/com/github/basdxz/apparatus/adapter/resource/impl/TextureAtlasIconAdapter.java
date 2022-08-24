@@ -1,8 +1,8 @@
 package com.github.basdxz.apparatus.adapter.resource.impl;
 
-import com.github.basdxz.apparatus.adapter.resource.IIconResourceAdapter;
+import com.github.basdxz.apparatus.adapter.resource.ITextureAtlasIconAdapter;
 import com.github.basdxz.apparatus.common.domain.ILocation;
-import com.github.basdxz.apparatus.common.resource.ITextureResource;
+import com.github.basdxz.apparatus.common.resource.ITextureAtlasIcon;
 import lombok.*;
 import lombok.experimental.*;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -12,14 +12,14 @@ import org.joml.Matrix3fc;
 
 @Getter
 @Accessors(fluent = true, chain = true)
-public class IconResourceAdapter implements IIconResourceAdapter {
-    protected final ILocation<ITextureResource> location;
+public class TextureAtlasIconAdapter implements ITextureAtlasIconAdapter {
+    protected final ILocation<ITextureAtlasIcon> location;
     protected final TextureMap textureMap;
     protected final IIcon icon;
     @Getter(AccessLevel.NONE)
     protected Matrix3fc textureTransform;
 
-    public IconResourceAdapter(@NonNull ILocation<ITextureResource> location, @NonNull TextureMap textureMap) {
+    public TextureAtlasIconAdapter(@NonNull ILocation<ITextureAtlasIcon> location, @NonNull TextureMap textureMap) {
         this.location = location;
         this.textureMap = textureMap;
         icon = icon();
@@ -27,7 +27,7 @@ public class IconResourceAdapter implements IIconResourceAdapter {
 
     protected IIcon icon() {
         return textureMap.registerIcon(location.domain() + ":" +
-                                       location.path().replace("textures/items/", ""));
+                                       TextureMapHelper.trimTextureMapPrefix(location.path(), textureMap));
     }
 
     @Override
