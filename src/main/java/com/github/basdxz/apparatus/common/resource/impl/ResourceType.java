@@ -16,7 +16,7 @@ public enum ResourceType implements IResourceType {
     private final String fileExtension;
 
     @Override
-    public Class resourceBaseClass() {
+    public Class resourceClass() {
         return null;
     }
 

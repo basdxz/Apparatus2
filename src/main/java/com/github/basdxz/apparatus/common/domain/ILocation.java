@@ -5,10 +5,6 @@ import com.github.basdxz.apparatus.common.resource.IResourceType;
 
 //TODO: hash/equals/tostring
 public interface ILocation<RESOURCE extends IResource> {
-    default Class<RESOURCE> resourceBaseClass() {
-        return resourceType().resourceBaseClass();
-    }
-
     IResourceType<RESOURCE> resourceType();
 
     IDomain domain();

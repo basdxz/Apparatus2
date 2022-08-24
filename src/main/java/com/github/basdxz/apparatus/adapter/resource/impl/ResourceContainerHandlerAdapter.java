@@ -1,6 +1,7 @@
 package com.github.basdxz.apparatus.adapter.resource.impl;
 
 import com.github.basdxz.apparatus.adapter.resource.IResourceContainerHandlerAdapter;
+import com.github.basdxz.apparatus.common.domain.IResourceProvider;
 import com.github.basdxz.apparatus.common.domain.impl.DomainRegistry;
 import com.github.basdxz.apparatus.common.render.impl.TestRenderer;
 import lombok.*;
@@ -28,7 +29,6 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
     public void resetResources() {
         if (!initialized)
             return;
-        System.out.println("(1) Reset resources!");
         DomainRegistry.INSTANCE.resetResources();
     }
 
@@ -36,7 +36,6 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
     public void loadProperties(@NonNull IResourceManager resourceManager) {
         if (!initialized)
             return;
-        System.out.println("(2) Register Properties!");
         DomainRegistry.INSTANCE.loadResources(System.out::println);
     }
 
@@ -44,7 +43,6 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
     public void loadMeshes(@NonNull IResourceManager resourceManager) {
         if (!initialized)
             return;
-        System.out.println("(3) Register Meshes!");
         DomainRegistry.INSTANCE.loadResources(System.out::println);
     }
 
@@ -52,31 +50,33 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
     public void loadTextures(@NonNull IResourceManager resourceManager) {
         if (!initialized)
             return;
-        System.out.println("(4) Register Textures!");
         DomainRegistry.INSTANCE.loadResources(System.out::println);
     }
 
     @Override
     public void loadBlockIcons(@NonNull IIconRegister iconRegister) {
-        if (!initialized)
-            return;
-        System.out.println("(5) Registering block icons!");
-        DomainRegistry.INSTANCE.loadResources(System.out::println);
+        if (initialized)
+            DomainRegistry.INSTANCE.loadResources(newBlockIconResourceProvider(iconRegister));
     }
 
     @Override
     public void loadItemIcons(@NonNull IIconRegister iconRegister) {
-        if (!initialized)
-            return;
-        System.out.println("(6) Registering item icons!");
-        DomainRegistry.INSTANCE.loadResources(System.out::println);
+        if (initialized)
+            DomainRegistry.INSTANCE.loadResources(newItemIconResourceProvider(iconRegister));
     }
 
     @Override
     public void ensureAllResourcesLoaded() {
         if (!initialized)
             return;
-        System.out.println("(7) Ensure all resources registered!");
         DomainRegistry.INSTANCE.ensureAllResourcesLoaded();
+    }
+
+    protected IResourceProvider newBlockIconResourceProvider(@NonNull IIconRegister iconRegister) {
+        return new BlockIconResourceProvider(iconRegister);
+    }
+
+    protected IResourceProvider newItemIconResourceProvider(@NonNull IIconRegister iconRegister) {
+        return new ItemIconResourceProvider(iconRegister);
     }
 }

@@ -4,6 +4,10 @@ import com.github.basdxz.apparatus.common.resource.IResource;
 import lombok.*;
 
 public interface IResourceContainer<RESOURCE extends IResource> {
+    default Class<RESOURCE> resourceClass() {
+        return location().resourceType().resourceClass();
+    }
+
     ILocation<RESOURCE> location();
 
     IResourceContainer<RESOURCE> resource(@NonNull RESOURCE resource);

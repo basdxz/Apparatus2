@@ -14,7 +14,7 @@ public class TextureResourceType implements IResourceType<ITextureResource> {
     protected static final String TEXTURE_EXTENSION = "png";
 
     @Override
-    public Class<ITextureResource> resourceBaseClass() {
+    public Class<ITextureResource> resourceClass() {
         return ITextureResource.class;
     }
 
