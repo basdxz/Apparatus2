@@ -1,7 +1,7 @@
 package com.github.basdxz.apparatus.adapter.resource;
 
 import lombok.*;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.IResourceManager;
 
 public interface IResourceContainerHandlerAdapter {
@@ -15,9 +15,9 @@ public interface IResourceContainerHandlerAdapter {
 
     void loadTextures(@NonNull IResourceManager resourceManager);
 
-    void loadBlockIcons(@NonNull IIconRegister iconRegister);
+    void loadBlockIcons(@NonNull TextureMap textureMap);
 
-    void loadItemIcons(@NonNull IIconRegister iconRegister);
+    void loadItemIcons(@NonNull TextureMap textureMap);
 
     void ensureAllResourcesLoaded();
 }

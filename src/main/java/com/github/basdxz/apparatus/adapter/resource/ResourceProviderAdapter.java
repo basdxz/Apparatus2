@@ -22,6 +22,8 @@ public abstract class ResourceProviderAdapter<RESOURCE extends IResource> implem
 
     protected abstract boolean isSupported(@NonNull IResourceContainer<?> container);
 
+    protected abstract Class<RESOURCE> resourceClass();
+
     @SuppressWarnings("unchecked")
     protected IResourceContainer<RESOURCE> castResourceContainer(@NonNull IResourceContainer<?> container) {
         return (IResourceContainer<RESOURCE>) container;
@@ -31,5 +33,5 @@ public abstract class ResourceProviderAdapter<RESOURCE extends IResource> implem
         return resources.computeIfAbsent(container.location(), this::newResource);
     }
 
-    protected abstract RESOURCE newResource(ILocation<RESOURCE> location);
+    protected abstract RESOURCE newResource(@NonNull ILocation<RESOURCE> location);
 }

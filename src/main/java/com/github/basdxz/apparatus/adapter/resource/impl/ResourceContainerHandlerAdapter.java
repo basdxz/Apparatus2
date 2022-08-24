@@ -5,7 +5,7 @@ import com.github.basdxz.apparatus.common.domain.IResourceProvider;
 import com.github.basdxz.apparatus.common.domain.impl.DomainRegistry;
 import com.github.basdxz.apparatus.common.render.impl.TestRenderer;
 import lombok.*;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.IResourceManager;
 
 //TODO: Replace all this with Mixin hooks
@@ -54,15 +54,15 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
     }
 
     @Override
-    public void loadBlockIcons(@NonNull IIconRegister iconRegister) {
+    public void loadBlockIcons(@NonNull TextureMap textureMap) {
         if (initialized)
-            DomainRegistry.INSTANCE.loadResources(newBlockIconResourceProvider(iconRegister));
+            DomainRegistry.INSTANCE.loadResources(newBlockIconResourceProvider(textureMap));
     }
 
     @Override
-    public void loadItemIcons(@NonNull IIconRegister iconRegister) {
+    public void loadItemIcons(@NonNull TextureMap textureMap) {
         if (initialized)
-            DomainRegistry.INSTANCE.loadResources(newItemIconResourceProvider(iconRegister));
+            DomainRegistry.INSTANCE.loadResources(newItemIconResourceProvider(textureMap));
     }
 
     @Override
@@ -72,11 +72,11 @@ public class ResourceContainerHandlerAdapter implements IResourceContainerHandle
         DomainRegistry.INSTANCE.ensureAllResourcesLoaded();
     }
 
-    protected IResourceProvider newBlockIconResourceProvider(@NonNull IIconRegister iconRegister) {
-        return new BlockIconResourceProvider(iconRegister);
+    protected IResourceProvider newBlockIconResourceProvider(@NonNull TextureMap textureMap) {
+        return new BlockIconResourceProvider(textureMap);
     }
 
-    protected IResourceProvider newItemIconResourceProvider(@NonNull IIconRegister iconRegister) {
-        return new ItemIconResourceProvider(iconRegister);
+    protected IResourceProvider newItemIconResourceProvider(@NonNull TextureMap textureMap) {
+        return new ItemIconResourceProvider(textureMap);
     }
 }

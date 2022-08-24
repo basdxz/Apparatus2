@@ -23,7 +23,7 @@ public abstract class TextureMapResourceContainerHandlerAdapterMixin
                                                 "(Lnet/minecraft/client/renderer/texture/IIconRegister;)V"),
             require = 1)
     private void loadBlockIcons(CallbackInfo ci) {
-        ResourceContainerHandlerAdapter.INSTANCE.loadBlockIcons(this);
+        ResourceContainerHandlerAdapter.INSTANCE.loadBlockIcons(thiz());
     }
 
     @Inject(method = "registerIcons()V",
@@ -31,10 +31,14 @@ public abstract class TextureMapResourceContainerHandlerAdapterMixin
             require = 1)
     private void loadItemIcons(CallbackInfo ci) {
         if (isItemAtlas())
-            ResourceContainerHandlerAdapter.INSTANCE.loadItemIcons(this);
+            ResourceContainerHandlerAdapter.INSTANCE.loadItemIcons(thiz());
     }
 
     private boolean isItemAtlas() {
         return textureType == ITEM_ATLAS_TEXTURE_TYPE;
+    }
+
+    private TextureMap thiz() {
+        return (TextureMap) ((Object) this);
     }
 }
