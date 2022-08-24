@@ -14,27 +14,44 @@ import org.joml.Matrix3fc;
 @Accessors(fluent = true, chain = true)
 public class IconResourceAdapter implements IIconResourceAdapter {
     protected final ILocation<ITextureResource> location;
-    protected final Matrix3fc textureTransform;
     protected final TextureMap textureMap;
+    protected final IIcon icon;
+    @Getter(AccessLevel.NONE)
+    protected Matrix3fc textureTransform;
 
     public IconResourceAdapter(@NonNull ILocation<ITextureResource> location, @NonNull TextureMap textureMap) {
         this.location = location;
         this.textureMap = textureMap;
-        textureTransform = newTextureTransform();
+        icon = icon();
+    }
+
+    protected IIcon icon() {
+        return textureMap.registerIcon(location.domain() + ":" +
+                                       location.path().replace("textures/items/", ""));
+    }
+
+    @Override
+    public Matrix3fc textureTransform() {
+        initTextureTransformIfNull();
+        return textureTransform;
+    }
+
+    protected void initTextureTransformIfNull() {
+        if (textureTransform == null)
+            textureTransform = newTextureTransform();
     }
 
     protected Matrix3fc newTextureTransform() {
-        val icon = icon();
         val minU = icon.getMinU();
         val minV = icon.getMinV();
         val sizeU = icon.getMaxU() - minU;
         val sizeV = icon.getMaxV() - minV;
-        return new Matrix3f(sizeU, 0F, minU,
-                            0F, sizeV, minV,
-                            0F, 0F, 1F);
+        return newScaleTranslationMatrix3f(sizeU, sizeV, minU, minV);
     }
 
-    protected IIcon icon() {
-        return textureMap.registerIcon(location.domain() + ":" + location.path().replace("textures/items/", ""));
+    protected Matrix3f newScaleTranslationMatrix3f(float scaleX, float scaleY, float translationX, float translationY) {
+        return new Matrix3f(scaleX, 0F, 0F,
+                            0F, scaleY, 0F,
+                            translationX, translationY, 1F);
     }
 }

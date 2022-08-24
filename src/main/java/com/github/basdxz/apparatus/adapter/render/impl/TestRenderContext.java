@@ -7,7 +7,9 @@ import com.github.basdxz.apparatus.common.render.IRenderContext;
 import com.github.basdxz.apparatus.common.render.impl.BasicRenderBufferLayout;
 import com.github.basdxz.apparatus.common.render.impl.RenderBuffer;
 import lombok.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.lwjgl.opengl.*;
@@ -52,11 +54,12 @@ public class TestRenderContext implements IRenderContext {
     }
 
     protected void renderBuffer(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationItemsTexture);
         Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
         addVertices(buffer);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//        GL11.glDisable(GL11.GL_TEXTURE_2D);
         Tessellator.instance.draw();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
     protected void addVertices(@NonNull IRenderBuffer<BasicRenderBufferLayout> buffer) {
@@ -68,11 +71,11 @@ public class TestRenderContext implements IRenderContext {
                     layout.getNormalX(buffer, i),
                     layout.getNormalY(buffer, i),
                     layout.getNormalZ(buffer, i));
-            Tessellator.instance.setColorRGBA_F(
-                    layout.getColorR(buffer, i),
-                    layout.getColorG(buffer, i),
-                    layout.getColorB(buffer, i),
-                    layout.getColorA(buffer, i));
+//            Tessellator.instance.setColorRGBA_F(
+//                    layout.getColorR(buffer, i),
+//                    layout.getColorG(buffer, i),
+//                    layout.getColorB(buffer, i),
+//                    layout.getColorA(buffer, i));
             Tessellator.instance.setTextureUV(
                     layout.getTextureU(buffer, i),
                     layout.getTextureV(buffer, i));

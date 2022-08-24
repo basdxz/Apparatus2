@@ -40,7 +40,8 @@ public class TestRenderer implements IRenderer {
         float exactSecond = (float) ((System.nanoTime() % 1E9) / 1E9F);
         val colArr = Color.getHSBColor(exactSecond, 1F, 1F).getComponents(new float[4]);
 
-        modelInstance.color().set(colArr[0], colArr[1], colArr[2], 1F);
+//        modelInstance.color().set(colArr[0], colArr[1], colArr[2], 1F);
+        modelInstance.textureTransform().set(textureContainer.resource().textureTransform());
         modelInstance.render(context);
     }
 }

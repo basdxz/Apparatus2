@@ -3,6 +3,7 @@ package com.github.basdxz.apparatus.common.render.impl;
 import com.github.basdxz.apparatus.common.render.*;
 import lombok.*;
 import lombok.experimental.*;
+import org.joml.Matrix3f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -25,24 +26,23 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
 
         val normal = new Vector3f(0F, 0F, 1F);
         val color = new Vector4f(1F, 0F, 0F, 1F);
-        val texture = new Vector2f();
 
         val vertA = new Vertex(new Vector3f(0F, 0F, 0F),
                                normal,
                                color,
-                               texture);
+                               new Vector2f(0F, 0F));
         val vertB = new Vertex(new Vector3f(1F, 0F, 0F),
                                normal,
                                color,
-                               texture);
+                               new Vector2f(1F, 0F));
         val vertC = new Vertex(new Vector3f(1F, 1F, 0F),
                                normal,
                                color,
-                               texture);
+                               new Vector2f(1F, 1F));
         val vertD = new Vertex(new Vector3f(0F, 1F, 0F),
                                normal,
                                color,
-                               texture);
+                               new Vector2f(0F, 1F));
 
         val faceA = new Face(vertA, vertB, vertC);
         val faceB = new Face(vertA, vertC, vertD);
@@ -67,6 +67,7 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
     protected class TestRenderModelInstance implements IRenderModelInstance {
         protected final IRenderBufferID<BasicRenderBufferLayout> bufferID = newRenderBufferID();
         protected final Vector4f color = new Vector4f();
+        protected final Matrix3f textureTransform = new Matrix3f();
 
         @Override
         public void render(@NonNull IRenderContext context) {
@@ -88,10 +89,14 @@ public class TestRenderModel implements IRenderModel<TestRenderModel.TestRenderM
             for (int j = 0; j < 3; j++) {
                 val vertex = face.verts().get(j);
                 val vertexIndex = vertexIndex(i, j);
+
+                val tempTexture = new Vector3f(vertex.texture().x(), vertex.texture().y(), 1F);
+                tempTexture.mul(instance.textureTransform);
+                val texture = new Vector2f(tempTexture.x(), tempTexture.y());
                 bufferLayout.putPosition(buffer, vertexIndex, vertex.position())
                             .putNormal(buffer, vertexIndex, vertex.normal())
                             .putColor(buffer, vertexIndex, instance.color())
-                            .putTexture(buffer, vertexIndex, vertex.texture());
+                            .putTexture(buffer, vertexIndex, texture);
             }
         }
     }
