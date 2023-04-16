@@ -1,5 +1,3 @@
-// Add any additional repositories for your dependencies here
-
 repositories {
     maven {
         name = "CodeChicken Maven"
@@ -9,5 +7,10 @@ repositories {
     maven {
         name = "Curseforge Maven"
         url = "https://cursemaven.com/"
+    }
+
+    maven {
+        name = "FalsePattern GTMEGA Maven"
+        url = "https://mvn.falsepattern.com/gtmega_releases/"
     }
 }

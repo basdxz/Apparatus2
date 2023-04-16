@@ -11,7 +11,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
-import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
+import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.List;
 

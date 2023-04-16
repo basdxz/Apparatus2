@@ -14,7 +14,7 @@ import team.chisel.api.carving.ICarvingVariation;
 import team.chisel.api.carving.IVariationInfo;
 import team.chisel.api.carving.VariationInfoBase;
 import team.chisel.api.rendering.TextureType;
-import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
+import team.chisel.ctmlib.ISubmapManager;
 
 import java.util.HashMap;
 import java.util.Map;

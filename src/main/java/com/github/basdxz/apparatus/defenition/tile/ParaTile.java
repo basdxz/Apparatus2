@@ -10,7 +10,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-import team.chisel.shadow.team.chisel.ctmlib.ISubmapManager;
+import team.chisel.ctmlib.ISubmapManager;
 
 @Setter
 @Getter

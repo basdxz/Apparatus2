@@ -1,11 +1,29 @@
-// Add your dependencies here
+static def curse(curseDep) {
+    return "curse.maven:" + curseDep
+}
+
+def deobfCurse(curseDep) {
+    try {
+        return deobfMaven("https://cursemaven.com/", curse(curseDep))
+    } catch (Exception ignored) {
+        println("Failed to get dep " + curseDep + " from cursemaven. Grabbing from mirror.")
+        return deobfMaven("https://mvn.falsepattern.com/cursemaven/", curse(curseDep))
+    }
+}
 
 dependencies {
-    // Java extensions
+    // Lombok
     compileOnly("org.projectlombok:lombok:1.18.22")
     annotationProcessor("org.projectlombok:lombok:1.18.22")
 
+    // Chisel
+    implementation("team.chisel:chisel-mc1.7.10:2.9.20-mega:dev")
+
+    // Reflections
     shadowImplementation("org.reflections:reflections:0.10.2")
+
+    // NEI API Requirement
+    compileOnly("codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev")
 
     // Optional libraries for testing
     runtimeOnly("mcp.mobius.waila:Waila:1.5.10_1.7.10") {
@@ -15,12 +33,9 @@ dependencies {
     runtimeOnly("codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev")
     runtimeOnly("codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev")
 
-    // Chisel stuff for renders
-    compile("com.github.GTMEGA:Chisel:2.9.16-GTMEGA:dev")
+    // JourneyMap
+    compileOnly(deobfCurse("journeymap-32274:4454943"))
 
-    // Journeymap compat
-    compile("curse.maven:journeymap-32274:2367915")
-
-    // Carpenters Blocks Compat
-    compile("curse.maven:carpenters-blocks-228932:2719376")
+    // Carpenters Blocks
+    compileOnly(deobfCurse("carpenters-blocks-228932:2719376"))
 }

@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import team.chisel.shadow.team.chisel.ctmlib.CTM;
+import team.chisel.ctmlib.CTM;
 
 import static net.minecraft.client.Minecraft.getMinecraft;
-import static team.chisel.shadow.team.chisel.ctmlib.CTM.disableObscuredFaceCheckConfig;
+import static team.chisel.ctmlib.CTM.disableObscuredFaceCheckConfig;
 
 // Client-Side
 @Mixin(CTM.class)

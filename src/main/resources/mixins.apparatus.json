@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.github.basdxz.apparatus.mixins",
+  "plugin": "com.github.basdxz.apparatus.mixinplugin.MixinPlugin",
+  "refmap": "mixins.apparatus.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8"
+}
+
